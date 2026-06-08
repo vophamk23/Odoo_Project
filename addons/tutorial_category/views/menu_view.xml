@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_tutorial_tag" model="ir.actions.act_window">
+        <field name="name">Tags</field>
+        <field name="res_model">tutorial.game.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="tutorial_menu_tag" name="Tags" parent="tutorial.tutorial_base_menu" action="action_tutorial_tag" sequence="2"/>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template Kế thừa: Can thiệp vào template gốc để thêm tính năng -->
+    <!-- inherit_id: Trỏ chính xác đến cái template gốc cần chỉnh sửa -->
+    <template id="game_list_extended" name="Extending Game List" inherit_id="tutorial.game_list_template">
+        
+        <!-- xpath: Dùng biểu thức xpath để tìm chính xác thẻ HTML có class là 'game-info' -->
+        <!-- position="before": Chèn đoạn code bên dưới vào TRƯỚC cái thẻ 'game-info' vừa tìm được -->
+        <xpath expr="//div[@class='game-info']" position="before">
+            <div class="mb-2">
+                <!-- VÒNG LẶP: Duyệt qua tất cả các Tags của game hiện tại -->
+                <t t-foreach="game.tag_ids" t-as="tag">
+                    <!-- Hiển thị tên Tag với màu nền (background-color) lấy từ Database -->
+                    <span class="badge" t-attf-style="background-color: #{tag.color or '#1abc9c'}; margin-right: 5px;">
+                        <span t-field="tag.name"/>
+                    </span>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

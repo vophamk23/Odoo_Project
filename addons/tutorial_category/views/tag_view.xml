@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutorial_view_tree_tag" model="ir.ui.view">
+        <field name="name">Tag List</field>
+        <field name="model">tutorial.game.tag</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutorial_view_form_tag" model="ir.ui.view">
+        <field name="name">Tag Form</field>
+        <field name="model">tutorial.game.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kế thừa view Form của tutorial.game để thêm trường tag_ids -->
+    <record id="tutorial_view_form_game_inherit_tag" model="ir.ui.view">
+        <field name="name">tutorial.game.form.inherit.tag</field>
+        <field name="model">tutorial.game</field>
+        <field name="inherit_id" ref="tutorial.tutorial_view_form_game"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_multiplayer']" position="after">
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kế thừa view Kanban của tutorial.game để hiển thị Tag -->
+    <record id="tutorial_view_kanban_game_inherit_tag" model="ir.ui.view">
+        <field name="name">tutorial.game.kanban.inherit.tag</field>
+        <field name="model">tutorial.game</field>
+        <field name="inherit_id" ref="tutorial.tutorial_view_kanban_game"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_kanban_details')]/strong" position="after">
+                <div class="o_kanban_tags_section">
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

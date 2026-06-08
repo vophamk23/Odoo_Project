@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="tutorial_base_menu" name="Games" sequence="10"/>
+
+    <record id="action_tutorial_game" model="ir.actions.act_window">
+        <field name="name">Games</field>
+        <field name="res_model">tutorial.game</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="tutorial_menu_game" name="Game List" parent="tutorial_base_menu" action="action_tutorial_game" sequence="1"/>
+</odoo>

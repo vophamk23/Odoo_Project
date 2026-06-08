@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sequence for Transaction -->
+    <data noupdate="1">
+        <record id="seq_bank_transaction" model="ir.sequence">
+            <field name="name">Bank Transaction Sequence</field>
+            <field name="code">bank.transaction</field>
+            <field name="prefix">TXN/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+    <!-- List View cho Transaction -->
+    <record id="view_bank_transaction_list" model="ir.ui.view">
+        <field name="name">bank.transaction.list</field>
+        <field name="model">bank.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Giao dịch" decoration-success="type=='deposit'" decoration-danger="type=='withdraw'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="account_id"/>
+                <field name="type"/>
+                <field name="amount" sum="Tổng Giao dịch"/>
+                <field name="state" widget="badge" decoration-success="state=='done'" decoration-info="state=='draft'" decoration-danger="state=='cancelled'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View cho Transaction (Statusbar) -->
+    <record id="view_bank_transaction_form" model="ir.ui.view">
+        <field name="name">bank.transaction.form</field>
+        <field name="model">bank.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Giao dịch">
+                <header>
+                    <button name="action_done" type="object" string="Duyệt Giao dịch" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Hủy bỏ" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="account_id" readonly="state != 'draft'"/>
+                            <field name="type" widget="radio" options="{'horizontal': true}" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="amount" style="font-size: 20px; font-weight: bold;" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Graph View cho Transaction -->
+    <record id="view_bank_transaction_graph" model="ir.ui.view">
+        <field name="name">bank.transaction.graph</field>
+        <field name="model">bank.transaction</field>
+        <field name="arch" type="xml">
+            <graph string="Thống kê Giao dịch" type="bar">
+                <field name="date" interval="month"/>
+                <field name="type"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Menu Giao dịch -->
+    <menuitem id="menu_bank_transaction" name="Giao dịch" parent="menu_bank_root" action="action_bank_transaction" sequence="20"/>
+</odoo>

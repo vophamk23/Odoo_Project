@@ -1,0 +1,55 @@
+<odoo>
+    <!-- Form view -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.form</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="active,graduated,suspended"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="student_id"/>
+                        <field name="email"/>
+                        <field name="birth_date"/>
+                        <field name="age" readonly="1"/>
+                        <field name="gpa"/>
+                    </group>
+                    <notebook>
+                        <page string="Khóa học">
+                            <field name="course_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List view -->
+    <record id="view_student_list" model="ir.ui.view">
+        <field name="name">student.list</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="gpa"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action + Menu -->
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Sinh viên</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_student_root" name="Sinh viên"/>
+    <menuitem id="menu_student_list" name="Danh sách"
+              parent="menu_student_root" action="action_student"/>
+</odoo>

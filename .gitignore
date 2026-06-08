@@ -1,0 +1,14 @@
+# Odoo specific
+*.pyc
+__pycache__/
+.DS_Store
+
+# Docker and data volumes
+postgresql/
+filestore/
+sessions/
+*.log
+
+# Ignore IDE files
+.vscode/
+.idea/

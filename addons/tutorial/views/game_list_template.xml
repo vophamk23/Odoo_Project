@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template vẽ giao diện Website hiển thị cho khách hàng -->
+    <template id="game_list_template" name="Game List">
+        <!-- Gọi layout mặc định của Odoo (có sẵn thanh menu trên cùng) -->
+        <t t-call="web.layout">
+            
+            <!-- Chèn CSS để trang trí giao diện -->
+            <t t-set="head">
+                <style>
+                    .game-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+                    .game-title { font-size: 1.5em; font-weight: bold; color: #333; }
+                    .game-info { color: #666; font-size: 0.9em; margin-top: 10px; }
+                    .game-price { color: #e74c3c; font-weight: bold; font-size: 1.2em; }
+                </style>
+            </t>
+            
+            <div class="container mt-5">
+                <h1 class="text-center mb-4">Cửa Hàng Game</h1>
+                <div class="row">
+                    <!-- VÒNG LẶP: Duyệt qua danh sách 'games' truyền từ Controller -->
+                    <t t-foreach="games" t-as="game">
+                        <div class="col-md-4">
+                            <div class="game-card text-center">
+                                <!-- Hiển thị Ảnh bìa nếu có -->
+                                <t t-if="game.image">
+                                    <img t-att-src="image_data_uri(game.image)" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: contain;"/>
+                                </t>
+                                
+                                <!-- Hiển thị Tên game -->
+                                <div class="game-title">
+                                    <span t-field="game.name"/>
+                                </div>
+                                
+                                <!-- Hiển thị Ngày phát hành -->
+                                <div class="game-info">
+                                    Ngày phát hành: 
+                                    <span t-field="game.release_date"/>
+                                </div>
+                                
+                                <!-- Hiển thị Giá tiền (có định dạng tiền tệ) -->
+                                <div class="game-price mt-2">
+                                    <span t-field="game.price" t-options="{'widget': 'monetary', 'display_currency': request.env.company.currency_id}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
