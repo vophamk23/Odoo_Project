@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu root -->
+    <menuitem
+        id="menu_course_root"
+        name="Học Viện Đào Tạo 🎓"
+        sequence="2"/>
+
+    <!-- Menu item -->
+    <menuitem id="menu_course_1"
+        name="Thư Viện Bài Giảng"
+        parent="menu_course_root"
+        action="action_lesson_item_form"
+        sequence="0"/>
+        
+        <!-- Menu item -->
+    <menuitem id="menu_course_2"
+        name="Lộ Trình Học Tập"
+        parent="menu_course_root" sequence="1"/>
+        
+    <menuitem id="menu_course_item_2"
+        name="Danh Sách Lộ Trình"
+        parent="menu_course_2"
+        action="action_course_item_2_form"
+        sequence="4"/>
+        
+</odoo>

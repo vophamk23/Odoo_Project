@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+training_management.access_hello_world_course_user,Course User,training_management.model_course_odoo,course_group_user,1,1,1,0
+training_management.access_hello_world_course_manager,Course Manager,training_management.model_course_odoo,course_group_manager,1,1,1,1
+training_management.access_hello_world_lesson_user,Course User,training_management.model_lesson_odoo,lesson_group_user,1,1,1,0
+training_management.access_hello_world_lesson_manager,Course Manager,training_management.model_lesson_odoo,lesson_group_manager,1,1,1,1

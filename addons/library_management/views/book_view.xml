@@ -1,0 +1,73 @@
+<odoo>
+    <!-- ============================================== -->
+    <!-- 1. GIAO DIỆN FORM CHI TIẾT SÁCH (FORM VIEW)    -->
+    <!-- ============================================== -->
+    <record id="tutorial_view_form_book" model="ir.ui.view">
+        <field name="name">Book Form</field>
+        <!-- Chỉ định Form này dành cho bảng tutorial.library.book -->
+        <field name="model">tutorial.library.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <!-- Phần Header: Nơi chứa các nút bấm (Button) hoặc trạng thái (Status bar) -->
+                <header>
+                    <!-- Nút bấm gọi hàm button_check_isbn trong model Python -->
+                    <button name="button_check_isbn" type="object" string="Check ISBN" />
+                </header>
+                <!-- Phần Sheet: Khung hiển thị nội dung chính giống tờ giấy A4 -->
+                <sheet>
+                    <!-- Chia cột (Group): group_left ở bên trái, group_right ở bên phải -->
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="name" />
+                            <!-- widget="many2many_tags": Hiển thị các tác giả dưới dạng các thẻ (Tags) -->
+                            <field name="author_ids" widget="many2many_tags"/>
+                            <field name="publisher_id"/>
+                            <field name="date_published"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="isbn"/>
+                            <field name="active"/>
+                            <!-- widget="image": Cho phép người dùng upload và hiển thị ảnh bìa -->
+                            <field name="image" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================== -->
+    <!-- 2. GIAO DIỆN DANH SÁCH SÁCH (TREE VIEW)        -->
+    <!-- ============================================== -->
+    <record id="tutorial_view_tree_book" model="ir.ui.view">
+        <field name="name">Book List</field>
+        <field name="model">tutorial.library.book</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!-- Khai báo các cột hiển thị trên bảng danh sách -->
+                <field name="name"/>
+                <field name="author_ids" widget="many2many_tags"/>
+                <field name="publisher_id"/>
+                <field name="date_published"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================== -->
+    <!-- 3. THANH TÌM KIẾM VÀ BỘ LỌC (SEARCH VIEW)      -->
+    <!-- ============================================== -->
+    <record id="tutorial_view_search_book" model="ir.ui.view">
+        <field name="name">Book List</field>
+        <field name="model">tutorial.library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Cho phép tìm kiếm Sách dựa trên Nhà xuất bản -->
+                <field name="publisher_id" />
+                <!-- Bộ lọc: Lọc ra các sách Đang Hoạt Động (active = True) -->
+                <filter name="filter_inactive" string="Inactive" domain="[('active','=',True)]"/>
+                <!-- Bộ lọc: Lọc ra các sách Đã Ẩn (active = False) -->
+                <filter name="filter_active" string="Active" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

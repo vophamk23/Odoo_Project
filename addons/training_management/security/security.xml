@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!-- res.groups: Khai báo một Nhóm quyền (Group) mới trong hệ thống -->
+        <record id="course_group_user" model="res.groups">
+            <!-- Tên nhóm hiển thị trên giao diện phân quyền -->
+            <field name="name">Course User (Nhân viên)</field>
+            <!-- Nằm trong danh mục "Tutorial (Hello World)" -->
+            <field name="category_id" ref="base.module_category_tutorial" />
+            <!-- implied_ids: Kế thừa quyền từ nhóm khác (Ở đây kế thừa nhóm Nhân sự cơ bản) -->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="course_group_manager" model="res.groups">
+            <field name="name">Course Manager (Quản lý)</field>
+            <field name="category_id" ref="base.module_category_tutorial" />
+            <!-- Quản lý thì được tự động kế thừa tất cả quyền của Nhân viên (course_group_user) -->
+            <field name="implied_ids" eval="[(4, ref('course_group_user'))]"/>
+            <!-- users: Tự động gán quyền Quản lý này cho tài khoản Admin khi cài đặt module -->
+            <field name="users" eval="[(4, ref('base.user_root')),(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- Tương tự cho Bài học -->
+        <record id="lesson_group_user" model="res.groups">
+            <field name="name">Lesson User (Nhân viên)</field>
+            <field name="category_id" ref="base.module_category_tutorial" />
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="lesson_group_manager" model="res.groups">
+            <field name="name">Lesson Manager (Quản lý)</field>
+            <field name="category_id" ref="base.module_category_tutorial" />
+            <field name="implied_ids" eval="[(4, ref('lesson_group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')),(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>
