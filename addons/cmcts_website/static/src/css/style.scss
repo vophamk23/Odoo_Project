@@ -39,6 +39,7 @@ body {
 .cmcts-logo-img {
     height: 28px;
     width: auto;
+    mix-blend-mode: multiply; /* Fix white background */
 }
 
 .cmcts-nav-btn {
@@ -292,4 +293,224 @@ body {
 
 .cmcts-form-group {
     margin-bottom: 24px;
+}
+
+/* --- NEW SECTIONS FOR FULL LANDING PAGE --- */
+
+/* Logo Cloud / Trusted By */
+.cmcts-logo-cloud {
+    padding: 60px 0;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.cmcts-logo-cloud::before,
+.cmcts-logo-cloud::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+}
+.cmcts-logo-cloud::before {
+    left: 0;
+    background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+}
+.cmcts-logo-cloud::after {
+    right: 0;
+    background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
+}
+
+.cmcts-marquee {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+}
+
+.cmcts-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 60px;
+    margin: 0 30px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #cbd5e1;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+
+.cmcts-marquee-item:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    color: var(--secondary);
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Feature Zigzag Section */
+.cmcts-features-section {
+    padding: 120px 0;
+    background-color: var(--background);
+}
+
+.cmcts-feature-row {
+    margin-bottom: 100px;
+    align-items: center;
+}
+
+.cmcts-feature-row:last-child {
+    margin-bottom: 0;
+}
+
+.cmcts-feature-text h3 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.cmcts-feature-text p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.cmcts-feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cmcts-feature-list li {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.cmcts-feature-list li i {
+    color: var(--secondary);
+    margin-top: 4px;
+    margin-right: 12px;
+}
+
+.cmcts-feature-img-wrapper {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.cmcts-feature-img-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
+}
+
+/* Testimonials */
+.cmcts-testimonials {
+    padding: 100px 0;
+    background-color: var(--primary);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.cmcts-review-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    height: 100%;
+}
+
+.cmcts-review-text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-style: italic;
+    color: #e2e8f0;
+}
+
+.cmcts-reviewer-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.cmcts-reviewer-title {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.cmcts-stars {
+    color: #facc15;
+    margin-bottom: 16px;
+}
+
+/* Mega Footer */
+.cmcts-footer {
+    background-color: #020617;
+    color: #94a3b8;
+    padding: 80px 0 40px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cmcts-footer-logo {
+    height: 32px;
+    margin-bottom: 24px;
+    mix-blend-mode: screen;
+}
+
+.cmcts-footer-heading {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.cmcts-footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.cmcts-footer-links li {
+    margin-bottom: 12px;
+}
+
+.cmcts-footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.cmcts-footer-links a:hover {
+    color: white;
+}
+
+.cmcts-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 60px;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
 }
