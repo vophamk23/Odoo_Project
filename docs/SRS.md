@@ -84,6 +84,7 @@ usecaseDiagram
     actor "Khách hàng" as KH
     actor "Nhân viên Kho" as NV_Kho
     actor "Nhân viên Sales" as NV_Sales
+    actor "Quản trị viên (Admin)" as Admin
 
     package "Website Module" {
         usecase "UC01: Xem & Tìm kiếm Sản phẩm" as UC01
@@ -96,11 +97,17 @@ usecaseDiagram
         usecase "UC05: Chuyển kho nội bộ" as UC05
         usecase "UC06: Traceability (Truy vết)" as UC06
         usecase "UC07: Báo cáo Tồn kho" as UC07
+        usecase "UC11: Quản lý danh mục Sản phẩm" as UC11
     }
 
-    package "CRM Module" {
+    package "CRM & Sales Module" {
         usecase "UC08: Quản lý Pipeline" as UC08
         usecase "UC09: Xử lý Lead & Activity" as UC09
+        usecase "UC10: Lập Báo giá & Đơn bán hàng" as UC10
+    }
+
+    package "System Admin" {
+        usecase "UC12: Quản lý Phân quyền Người dùng" as UC12
     }
 
     KH --> UC01
@@ -111,11 +118,18 @@ usecaseDiagram
     NV_Kho --> UC05
     NV_Kho --> UC06
     NV_Kho --> UC07
+    NV_Kho --> UC11
 
     NV_Sales --> UC08
     NV_Sales --> UC09
-    
+    NV_Sales --> UC10
+
+    Admin --> UC11
+    Admin --> UC12
+    Admin --> UC07
+
     UC02 ..> UC09 : <<include>> Tạo Lead tự động
+    UC10 ..> UC04 : <<trigger>> Kích hoạt Xuất kho
 ```
 
 ### 3.2 Đặc tả Use-Case chi tiết
@@ -265,3 +279,51 @@ Dưới đây là chi tiết đặc tả cho các Use Case theo đúng biểu m�
 | **Alternative flow** | Có thể bấm Gửi Email ngay trong khung chat (Log) của Lead để trao đổi trực tiếp với khách thay vì gọi điện. |
 | **Exception flow** | Nếu Activity quá hạn, hệ thống đổi màu lịch nhắc nhở sang Đỏ để cảnh báo. |
 | **Special Requirements** | Lịch sử Log phải không thể xóa để đảm bảo minh bạch trong việc chăm sóc khách hàng. |
+
+#### UC10: Lập Báo giá và Đơn bán hàng (Sales Order)
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC10 |
+| **Usecase Name** | Lập Báo giá và Đơn bán hàng |
+| **Description** | Nhân viên Sales tạo Báo giá (Quotation) từ một Lead/Opportunity thành công, gửi cho khách hàng và chốt thành Đơn bán hàng (Sales Order). |
+| **Actors** | Nhân viên Sales |
+| **Scope** | Phân hệ CRM & Sales |
+| **Preconditions** | Cơ hội kinh doanh (Opportunity) đã đến giai đoạn "Báo giá" hoặc "Chốt". |
+| **Normal flow** | 1. Nhân viên mở thẻ Khách hàng trong CRM, nhấn nút "New Quotation".<br>2. Thêm các sản phẩm, số lượng, điều chỉnh đơn giá/chiết khấu nếu cần.<br>3. Nhấn "Send by Email" để gửi file PDF Báo giá cho khách hàng.<br>4. Khi khách hàng xác nhận mua, nhân viên nhấn "Confirm" để chuyển Báo giá thành Đơn bán hàng (Sales Order). |
+| **Post conditions** | Đơn bán hàng được tạo thành công. Hệ thống tự động sinh ra một phiếu Xuất kho (Delivery) ở trạng thái "Chờ xử lý" (Waiting) cho bộ phận Kho. |
+| **Alternative flow** | Nhân viên có thể in Báo giá ra giấy (Print PDF) đưa trực tiếp cho khách thay vì gửi Email. |
+| **Exception flow** | Nếu thêm sản phẩm đang hết hàng (Out of Stock) vào báo giá, Odoo sẽ hiện cảnh báo màu đỏ bên cạnh tên sản phẩm. |
+| **Special Requirements** | Mẫu PDF Báo giá phải có logo và thông tin liên hệ của CMCTS. |
+
+#### UC11: Quản lý danh mục Sản phẩm
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC11 |
+| **Usecase Name** | Quản lý danh mục Sản phẩm |
+| **Description** | Tạo mới và cấu hình thông tin cho các sản phẩm thiết bị công nghệ chuẩn bị kinh doanh. |
+| **Actors** | Admin, Nhân viên Kho (có quyền Quản lý) |
+| **Scope** | Phân hệ Inventory |
+| **Preconditions** | Người dùng đăng nhập với quyền Admin hoặc Quản lý Kho. |
+| **Normal flow** | 1. Vào menu Products > Tạo mới (Create).<br>2. Điền Tên sản phẩm, tải ảnh đại diện lên, thiết lập Giá bán, Danh mục (Category).<br>3. Chuyển sang tab "Inventory", tích chọn phương thức Tracking là "By Unique Serial Number".<br>4. Nhấn Save. |
+| **Post conditions** | Sản phẩm mới xuất hiện trong hệ thống, sẵn sàng để Nhập kho và đăng bán lên Website. |
+| **Alternative flow** | Import hàng loạt sản phẩm bằng file Excel thay vì nhập tay từng cái. |
+| **Exception flow** | Nếu quên chọn "By Unique Serial Number" mà để mặc định là "No Tracking", nhân viên kho sau này sẽ không thể nhập Serial cho hàng hóa đó. |
+| **Special Requirements** | Bắt buộc phải đánh dấu các sản phẩm thiết bị là hàng hóa "Storable Product" (Hàng lưu kho). |
+
+#### UC12: Quản lý Phân quyền Người dùng (Access Rights)
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC12 |
+| **Usecase Name** | Quản lý Phân quyền Người dùng |
+| **Description** | Admin tạo tài khoản cho nhân viên và phân quyền truy cập nghiêm ngặt giữa các phòng ban. |
+| **Actors** | Admin |
+| **Scope** | Phân hệ Settings (Cài đặt hệ thống) |
+| **Preconditions** | Phải đăng nhập bằng tài khoản Administrator cao nhất. Kích hoạt chế độ Developer Mode nếu cần thiết lập sâu. |
+| **Normal flow** | 1. Vào Settings > Users & Companies > Users.<br>2. Nhấn Create để tạo tài khoản mới (Nhập tên, Email đăng nhập).<br>3. Ở phần Access Rights, thiết lập:<br> - Nhân viên A: CRM = User: All Documents, Inventory = Blank.<br> - Nhân viên B: Inventory = User, CRM = Blank.<br>4. Gửi email mời (Send Invitation) để nhân viên tự đặt mật khẩu. |
+| **Post conditions** | Nhân viên nhận được tài khoản. Khi đăng nhập, Nhân viên Kho sẽ không thấy icon app CRM, và ngược lại. |
+| **Alternative flow** | Admin tự thiết lập Mật khẩu trực tiếp (Change Password) thay vì gửi email mời. |
+| **Exception flow** | Nếu cấp quyền sai, nhân viên có thể xem được dữ liệu nhạy cảm của phòng ban khác. |
+| **Special Requirements** | Tài khoản Admin mặc định không bao giờ được phép xóa. |
