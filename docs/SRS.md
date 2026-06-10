@@ -117,49 +117,41 @@ VoPC-cmcts/
 
 #### Nhóm Website (FR-W)
 
-| Mã     | Mô tả yêu cầu                                                                   | Độ ưu tiên |
-| ------ | ------------------------------------------------------------------------------- | ---------- |
-| FR-W01 | Hiển thị trang chủ với Hero Banner, giới thiệu dịch vụ và sản phẩm nổi bật      | Cao        |
-| FR-W02 | Hiển thị danh sách sản phẩm E-commerce có phân chia danh mục, tìm kiếm và lọc   | Cao        |
-| FR-W03 | Cung cấp Form Đăng ký tư vấn với các trường bắt buộc: Tên, Email, Số điện thoại | Cao        |
-| FR-W04 | Hiển thị trang About Us, Blog tin tức công nghệ, Danh sách Sự kiện (Event)      | Trung bình |
-| FR-W05 | Trang Contact Us: form liên hệ, bản đồ và thông tin liên lạc                    | Trung bình |
-| FR-W06 | Giao diện responsive trên mobile, tablet và desktop                             | Trung bình |
+- **[FR-W01]** Hiển thị trang chủ với Hero Banner, giới thiệu dịch vụ và sản phẩm nổi bật *(Ưu tiên: Cao)*
+- **[FR-W02]** Hiển thị danh sách sản phẩm E-commerce có phân chia danh mục, tìm kiếm và lọc *(Ưu tiên: Cao)*
+- **[FR-W03]** Cung cấp Form Đăng ký tư vấn với các trường bắt buộc: Tên, Email, Số điện thoại *(Ưu tiên: Cao)*
+- **[FR-W04]** Hiển thị trang About Us, Blog tin tức công nghệ, Danh sách Sự kiện (Event) *(Ưu tiên: Trung bình)*
+- **[FR-W05]** Trang Contact Us: form liên hệ, bản đồ và thông tin liên lạc *(Ưu tiên: Trung bình)*
+- **[FR-W06]** Giao diện responsive trên mobile, tablet và desktop *(Ưu tiên: Trung bình)*
 
 #### Nhóm Quản lý Kho (FR-I) — Trọng tâm
 
-| Mã     | Mô tả yêu cầu                                                               | Độ ưu tiên |
-| ------ | --------------------------------------------------------------------------- | ---------- |
-| FR-I01 | Cấu hình danh mục sản phẩm với tracking theo Unique Serial Number           | Cao        |
-| FR-I02 | Tạo phiếu Nhập kho (Receipt) yêu cầu nhập Serial Number cho từng sản phẩm   | Cao        |
-| FR-I03 | Tạo phiếu Xuất kho (Delivery) bắt buộc chọn Serial Number đang có trong kho | Cao        |
-| FR-I04 | Tạo phiếu Chuyển kho nội bộ (Internal Transfer) giữa các vị trí             | Trung bình |
-| FR-I05 | Truy xuất nguồn gốc Serial Number (Traceability) từ nhập đến xuất           | Cao        |
-| FR-I06 | Kiểm kê kho (Inventory Adjustment) đối chiếu số liệu thực tế vs hệ thống    | Trung bình |
-| FR-I07 | Báo cáo tồn kho thời gian thực, lọc theo kho/danh mục, xuất Excel           | Trung bình |
-| FR-I08 | Cảnh báo khi nhập trùng Serial Number đã tồn tại trong hệ thống             | Cao        |
-| FR-I09 | Dashboard kho: biểu đồ nhập/xuất theo tháng, widget tổng tồn kho            | Thấp       |
+- **[FR-I01]** Cấu hình danh mục sản phẩm với tracking theo Unique Serial Number *(Ưu tiên: Cao)*
+- **[FR-I02]** Tạo phiếu Nhập kho (Receipt) yêu cầu nhập Serial Number cho từng sản phẩm *(Ưu tiên: Cao)*
+- **[FR-I03]** Tạo phiếu Xuất kho (Delivery) bắt buộc chọn Serial Number đang có trong kho *(Ưu tiên: Cao)*
+- **[FR-I04]** Tạo phiếu Chuyển kho nội bộ (Internal Transfer) giữa các vị trí *(Ưu tiên: Trung bình)*
+- **[FR-I05]** Truy xuất nguồn gốc Serial Number (Traceability) từ nhập đến xuất *(Ưu tiên: Cao)*
+- **[FR-I06]** Kiểm kê kho (Inventory Adjustment) đối chiếu số liệu thực tế vs hệ thống *(Ưu tiên: Trung bình)*
+- **[FR-I07]** Báo cáo tồn kho thời gian thực, lọc theo kho/danh mục, xuất Excel *(Ưu tiên: Trung bình)*
+- **[FR-I08]** Cảnh báo khi nhập trùng Serial Number đã tồn tại trong hệ thống *(Ưu tiên: Cao)*
+- **[FR-I09]** Dashboard kho: biểu đồ nhập/xuất theo tháng, widget tổng tồn kho *(Ưu tiên: Thấp)*
 
 #### Nhóm CRM (FR-C)
 
-| Mã     | Mô tả yêu cầu                                                                                 | Độ ưu tiên |
-| ------ | --------------------------------------------------------------------------------------------- | ---------- |
-| FR-C01 | Cấu hình Pipeline tối thiểu 6 bước: Tiếp nhận → Tư vấn → Báo giá → Đàm phán → Chốt → Thất bại | Cao        |
-| FR-C02 | Tự động tạo Lead (Auto Lead Generation) từ Web Form gửi về hệ thống CRM                       | Cao        |
-| FR-C03 | Phân loại khách hàng bằng Tags (VIP, Thân thiết, Tiềm năng, Mới)                              | Trung bình |
-| FR-C04 | Tự động tạo Activity nhắc nhở nhân viên theo từng bước pipeline                               | Trung bình |
-| FR-C05 | Gửi email template tự động theo từng bước chuyển stage                                        | Trung bình |
+- **[FR-C01]** Cấu hình Pipeline tối thiểu 6 bước: Tiếp nhận → Tư vấn → Báo giá → Đàm phán → Chốt → Thất bại *(Ưu tiên: Cao)*
+- **[FR-C02]** Tự động tạo Lead (Auto Lead Generation) từ Web Form gửi về hệ thống CRM *(Ưu tiên: Cao)*
+- **[FR-C03]** Phân loại khách hàng bằng Tags (VIP, Thân thiết, Tiềm năng, Mới) *(Ưu tiên: Trung bình)*
+- **[FR-C04]** Tự động tạo Activity nhắc nhở nhân viên theo từng bước pipeline *(Ưu tiên: Trung bình)*
+- **[FR-C05]** Gửi email template tự động theo từng bước chuyển stage *(Ưu tiên: Trung bình)*
 
 ### 3.2 Yêu cầu phi chức năng (Non-Functional Requirements)
 
-| Loại                 | Yêu cầu cụ thể                                                                                           |
-| -------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Hiệu suất**        | Trang website tải dưới 3 giây. Xử lý phiếu nhập/xuất kho dưới 2 giây                                     |
-| **Khả dụng**         | Giao diện website responsive từ 375px trở lên (mobile, tablet, desktop)                                  |
-| **Bảo mật**          | Phân quyền nghiêm ngặt: Nhân viên Kho không xem được CRM và ngược lại. Khách vãng lai chỉ xem Public web |
-| **Sao lưu**          | Database PostgreSQL được backup tự động, có thể restore khi mất dữ liệu                                  |
-| **Dữ liệu**          | Serial Number phải là duy nhất trên toàn hệ thống, không cho phép trùng lặp                              |
-| **Khả năng mở rộng** | Cấu trúc module Odoo cho phép bổ sung phân hệ Kế toán, HR ở Phase 2 mà không ảnh hưởng dữ liệu hiện tại  |
+- **[NFR-01] Hiệu suất:** Trang website tải dưới 3 giây. Xử lý phiếu nhập/xuất kho dưới 2 giây.
+- **[NFR-02] Tính khả dụng:** Giao diện website responsive từ 375px trở lên (mobile, tablet, desktop).
+- **[NFR-03] Bảo mật:** Phân quyền nghiêm ngặt: Nhân viên Kho không xem được CRM và ngược lại. Khách vãng lai chỉ xem Public web.
+- **[NFR-04] Sao lưu:** Database PostgreSQL được backup tự động, có thể restore khi mất dữ liệu.
+- **[NFR-05] Ràng buộc dữ liệu:** Serial Number phải là duy nhất trên toàn hệ thống, không cho phép trùng lặp.
+- **[NFR-06] Khả năng mở rộng:** Cấu trúc module Odoo cho phép bổ sung phân hệ Kế toán, HR ở Phase 2 mà không ảnh hưởng dữ liệu hiện tại.
 
 ---
 
