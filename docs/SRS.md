@@ -117,41 +117,41 @@ VoPC-cmcts/
 
 #### Nhóm Website (FR-W)
 
-- **[FR-W01]** Hiển thị trang chủ với Hero Banner, giới thiệu dịch vụ và sản phẩm nổi bật *(Ưu tiên: Cao)*
-- **[FR-W02]** Hiển thị danh sách sản phẩm E-commerce có phân chia danh mục, tìm kiếm và lọc *(Ưu tiên: Cao)*
-- **[FR-W03]** Cung cấp Form Đăng ký tư vấn với các trường bắt buộc: Tên, Email, Số điện thoại *(Ưu tiên: Cao)*
-- **[FR-W04]** Hiển thị trang About Us, Blog tin tức công nghệ, Danh sách Sự kiện (Event) *(Ưu tiên: Trung bình)*
-- **[FR-W05]** Trang Contact Us: form liên hệ, bản đồ và thông tin liên lạc *(Ưu tiên: Trung bình)*
-- **[FR-W06]** Giao diện responsive trên mobile, tablet và desktop *(Ưu tiên: Trung bình)*
+- **[FR-W01] Tối ưu hóa giao diện Trang chủ (Home Page):** Hệ thống cần cung cấp một trang chủ bắt mắt với khu vực Hero Banner động, trình bày rõ ràng các dịch vụ kinh doanh cốt lõi và làm nổi bật các dòng sản phẩm chiến lược để thu hút sự chú ý của khách hàng ngay khi truy cập. *(Ưu tiên: Cao)*
+- **[FR-W02] Quản lý danh mục và tìm kiếm sản phẩm (E-commerce):** Cho phép hiển thị danh sách thiết bị khoa học công nghệ dưới dạng lưới hoặc danh sách. Tích hợp thanh tìm kiếm thông minh, bộ lọc chi tiết theo mức giá, thương hiệu, và cấu trúc phân nhánh danh mục đa tầng giúp người dùng dễ dàng định vị sản phẩm. *(Ưu tiên: Cao)*
+- **[FR-W03] Biểu mẫu thu thập khách hàng tiềm năng (Contact Form):** Cung cấp biểu mẫu "Đăng ký tư vấn" trực quan với các trường thông tin bắt buộc (Họ tên, Số điện thoại, Địa chỉ Email). Form cần có cơ chế kiểm tra tính hợp lệ của dữ liệu đầu vào trước khi cho phép gửi. *(Ưu tiên: Cao)*
+- **[FR-W04] Phân hệ Thông tin và Truyền thông (Blog/Events):** Xây dựng các chuyên trang phụ trợ bao gồm "Về chúng tôi" (About Us) để khẳng định uy tín thương hiệu, trang "Blog" để cập nhật tin tức định kỳ và trang "Sự kiện" (Events) để quảng bá các hội thảo chuyên ngành. *(Ưu tiên: Trung bình)*
+- **[FR-W05] Tích hợp thông tin liên hệ và Bản đồ trực tuyến:** Trang "Contact Us" cung cấp đầy đủ thông tin pháp nhân của doanh nghiệp, tích hợp bản đồ Google Maps chỉ dẫn đường đi và cung cấp đa dạng các kênh liên lạc. *(Ưu tiên: Trung bình)*
+- **[FR-W06] Tương thích đa thiết bị (Responsive Design):** Giao diện Front-end phải được thiết kế theo chuẩn Responsive, tự động căn chỉnh và tối ưu hóa trải nghiệm hiển thị mượt mà trên nhiều kích thước màn hình khác nhau (Điện thoại, Máy tính bảng, Desktop). *(Ưu tiên: Trung bình)*
 
 #### Nhóm Quản lý Kho (FR-I) — Trọng tâm
 
-- **[FR-I01]** Cấu hình danh mục sản phẩm với tracking theo Unique Serial Number *(Ưu tiên: Cao)*
-- **[FR-I02]** Tạo phiếu Nhập kho (Receipt) yêu cầu nhập Serial Number cho từng sản phẩm *(Ưu tiên: Cao)*
-- **[FR-I03]** Tạo phiếu Xuất kho (Delivery) bắt buộc chọn Serial Number đang có trong kho *(Ưu tiên: Cao)*
-- **[FR-I04]** Tạo phiếu Chuyển kho nội bộ (Internal Transfer) giữa các vị trí *(Ưu tiên: Trung bình)*
-- **[FR-I05]** Truy xuất nguồn gốc Serial Number (Traceability) từ nhập đến xuất *(Ưu tiên: Cao)*
-- **[FR-I06]** Kiểm kê kho (Inventory Adjustment) đối chiếu số liệu thực tế vs hệ thống *(Ưu tiên: Trung bình)*
-- **[FR-I07]** Báo cáo tồn kho thời gian thực, lọc theo kho/danh mục, xuất Excel *(Ưu tiên: Trung bình)*
-- **[FR-I08]** Cảnh báo khi nhập trùng Serial Number đã tồn tại trong hệ thống *(Ưu tiên: Cao)*
-- **[FR-I09]** Dashboard kho: biểu đồ nhập/xuất theo tháng, widget tổng tồn kho *(Ưu tiên: Thấp)*
+- **[FR-I01] Cấu hình phương thức theo dõi đặc thù (Serial Tracking):** Hệ thống bắt buộc phải hỗ trợ cấu hình ở cấp độ sản phẩm, cho phép bật tính năng "Tracking by Unique Serial Number". Điều này đảm bảo mỗi thiết bị vật lý nhập/xuất đều được gắn một mã định danh duy nhất. *(Ưu tiên: Cao)*
+- **[FR-I02] Quản lý nghiệp vụ Nhập kho (Inbound Receipts):** Khi tiến hành tiếp nhận hàng hóa từ nhà cung cấp, nhân viên kho phải tạo Phiếu nhập và hệ thống yêu cầu bắt buộc phải quét mã vạch hoặc nhập thủ công chính xác từng mã Serial Number cho mỗi đơn vị sản phẩm trước khi xác nhận. *(Ưu tiên: Cao)*
+- **[FR-I03] Quản lý nghiệp vụ Xuất kho (Outbound Deliveries):** Tương tự quy trình nhập, mọi thao tác xuất kho giao hàng đều yêu cầu nhân viên chỉ định chính xác mã Serial Number của thiết bị đang nằm trong kho (On Hand). Hệ thống sẽ trừ tồn kho đúng sản phẩm vật lý đó. *(Ưu tiên: Cao)*
+- **[FR-I04] Điều chuyển luân phiên nội bộ (Internal Transfers):** Hỗ trợ lập phiếu điều chuyển thiết bị giữa các kho hoặc các vị trí (Locations) trong cùng một công ty. Quá trình này cũng yêu cầu kiểm soát chặt chẽ bằng việc scan mã Serial. *(Ưu tiên: Trung bình)*
+- **[FR-I05] Hệ thống Truy vết toàn diện (Traceability System):** Cung cấp công cụ theo dõi vòng đời của một mã Serial Number. Người dùng có thể tra cứu và xem được sơ đồ cây (Tree view) thể hiện chi tiết từ ngày nhập hàng, luân chuyển qua các kho nào, cho đến ngày xuất bán. *(Ưu tiên: Cao)*
+- **[FR-I06] Kiểm kê và đối soát kho định kỳ (Inventory Adjustments):** Cung cấp tính năng kiểm kê để so sánh giữa số lượng hàng thực tế trên kệ và số liệu đang ghi nhận trong phần mềm. Hệ thống tự động tạo các bút toán điều chỉnh sau khi quản lý phê duyệt. *(Ưu tiên: Trung bình)*
+- **[FR-I07] Hệ thống Báo cáo và Phân tích tồn kho (Reporting):** Trích xuất báo cáo tồn kho tại thời gian thực. Hỗ trợ các công cụ phân tích (Pivot, Graph) cho phép nhóm dữ liệu theo tên thiết bị, nhóm hàng hoặc kho bãi, đồng thời kết xuất dữ liệu ra file Excel. *(Ưu tiên: Trung bình)*
+- **[FR-I08] Kiểm soát tính toàn vẹn của dữ liệu (Duplicate Prevention):** Hệ thống tự động kiểm tra chéo mỗi khi người dùng nhập mã Serial. Nếu phát hiện một Serial Number đã được ghi nhận trước đó, hệ thống lập tức hiển thị cảnh báo lỗi và ngăn chặn hành vi lưu trữ để tránh trùng lặp. *(Ưu tiên: Cao)*
+- **[FR-I09] Bảng điều khiển Quản trị kho (Inventory Dashboard):** Cung cấp giao diện tổng quan cho Quản lý, hiển thị các biểu đồ thể hiện biến động nhập/xuất trong tháng, số lượng hàng chờ xử lý và các widget thống kê tổng giá trị tồn kho. *(Ưu tiên: Thấp)*
 
 #### Nhóm CRM (FR-C)
 
-- **[FR-C01]** Cấu hình Pipeline tối thiểu 6 bước: Tiếp nhận → Tư vấn → Báo giá → Đàm phán → Chốt → Thất bại *(Ưu tiên: Cao)*
-- **[FR-C02]** Tự động tạo Lead (Auto Lead Generation) từ Web Form gửi về hệ thống CRM *(Ưu tiên: Cao)*
-- **[FR-C03]** Phân loại khách hàng bằng Tags (VIP, Thân thiết, Tiềm năng, Mới) *(Ưu tiên: Trung bình)*
-- **[FR-C04]** Tự động tạo Activity nhắc nhở nhân viên theo từng bước pipeline *(Ưu tiên: Trung bình)*
-- **[FR-C05]** Gửi email template tự động theo từng bước chuyển stage *(Ưu tiên: Trung bình)*
+- **[FR-C01] Cấu hình quy trình bán hàng chuẩn hóa (Sales Pipeline):** Thiết lập một chu trình chuyển đổi khách hàng rõ ràng dưới dạng bảng Kanban. Hệ thống sẽ có tối thiểu 6 giai đoạn (Stages): Tiếp nhận thông tin → Tư vấn sơ bộ → Gửi báo giá → Đàm phán thương lượng → Chốt hợp đồng (Won) → Khách từ chối (Lost). *(Ưu tiên: Cao)*
+- **[FR-C02] Khởi tạo Cơ hội kinh doanh tự động (Auto Lead Generation):** Hệ thống CRM được tích hợp luồng dữ liệu hai chiều với Website. Khi khách hàng điền form "Liên hệ tư vấn" trên Web, hệ thống tự động khởi tạo một thẻ Lead mới trong cột "Tiếp nhận" mà không cần nhập tay. *(Ưu tiên: Cao)*
+- **[FR-C03] Phân lớp và gắn thẻ khách hàng (Tagging System):** Cung cấp công cụ gắn nhãn (Tags) đa dạng để phân loại mức độ tiềm năng hoặc hạng khách hàng (Ví dụ: Khách VIP, Khách sỉ, Khách mới), giúp nhân viên kinh doanh dễ dàng lọc và lên chiến lược tiếp cận phù hợp. *(Ưu tiên: Trung bình)*
+- **[FR-C04] Lập lịch tác vụ và Nhắc việc tự động (Automated Activities):** Dựa trên cấu hình tự động, hệ thống sẽ tự động giao việc (Tạo Activity) cho nhân viên Sales như "Cần gọi điện lại", "Cần gửi email báo giá" mỗi khi một Lead bị di chuyển sang Stage mới. *(Ưu tiên: Trung bình)*
+- **[FR-C05] Kịch bản Chăm sóc qua Email tự động (Email Templates):** Hỗ trợ thiết kế sẵn các mẫu Email chuyên nghiệp. Khi Opportunity chuyển qua một bước nhất định, hệ thống cho phép kích hoạt luồng gửi email tự động kèm thông báo xác nhận đến khách hàng. *(Ưu tiên: Trung bình)*
 
 ### 3.2 Yêu cầu phi chức năng (Non-Functional Requirements)
 
-- **[NFR-01] Hiệu suất:** Trang website tải dưới 3 giây. Xử lý phiếu nhập/xuất kho dưới 2 giây.
-- **[NFR-02] Tính khả dụng:** Giao diện website responsive từ 375px trở lên (mobile, tablet, desktop).
-- **[NFR-03] Bảo mật:** Phân quyền nghiêm ngặt: Nhân viên Kho không xem được CRM và ngược lại. Khách vãng lai chỉ xem Public web.
-- **[NFR-04] Sao lưu:** Database PostgreSQL được backup tự động, có thể restore khi mất dữ liệu.
-- **[NFR-05] Ràng buộc dữ liệu:** Serial Number phải là duy nhất trên toàn hệ thống, không cho phép trùng lặp.
-- **[NFR-06] Khả năng mở rộng:** Cấu trúc module Odoo cho phép bổ sung phân hệ Kế toán, HR ở Phase 2 mà không ảnh hưởng dữ liệu hiện tại.
+- **[NFR-01] Hiệu suất và Thời gian phản hồi (Performance):** Tối ưu hóa cơ sở dữ liệu và truy vấn để đảm bảo trang Website (Front-end) tải toàn bộ nội dung trong vòng dưới 3 giây. Đối với backend, các thao tác nặng như xác nhận (Validate) phiếu nhập/xuất kho phải phản hồi dưới 2 giây để không làm gián đoạn công việc.
+- **[NFR-02] Tính khả dụng và Trải nghiệm người dùng (Usability):** Giao diện của cả Website và màn hình quản trị Odoo phải mang tính trực quan cao. Thiết kế tuân thủ nguyên tắc Mobile-first, hiển thị trơn tru, không vỡ layout trên các thiết bị có độ phân giải từ 375px trở lên (Smartphone, Tablet, Desktop).
+- **[NFR-03] Bảo mật và Kiểm soát truy cập (Security & Access Rights):** Thiết lập cơ chế phân quyền (Role-based Access Control) chặt chẽ đến từng Menu. Nhân viên thuộc phân hệ Kho tuyệt đối không có quyền truy cập vào dữ liệu khách hàng (CRM) và ngược lại. Khách truy cập ẩn danh (Public User) chỉ xem được dữ liệu công khai trên Website.
+- **[NFR-04] Cơ chế Sao lưu và Phục hồi (Backup & Recovery):** Cấu hình tự động sao lưu toàn bộ cơ sở dữ liệu PostgreSQL theo chu kỳ hàng ngày. Đảm bảo hệ thống có khả năng khôi phục (Restore) nguyên trạng dữ liệu một cách nhanh chóng trong trường hợp xảy ra sự cố dữ liệu.
+- **[NFR-05] Ràng buộc tính nhất quán dữ liệu (Data Integrity):** Xây dựng các lớp ràng buộc dữ liệu nghiêm ngặt ở tầng Database và ORM. Đối tượng Serial Number được thiết lập thuộc tính Unique Index, bảo đảm tuyệt đối không xảy ra tình trạng một mã Serial xuất hiện hai lần trên toàn hệ thống.
+- **[NFR-06] Khả năng mở rộng và Tích hợp trong tương lai (Scalability):** Hệ thống phải được thiết kế theo kiến trúc Module đặc trưng của Odoo. Các phân hệ hiện tại (CRM, Inventory, Website) hoạt động độc lập tương đối, cho phép dễ dàng cài đặt thêm các ứng dụng Kế toán, Nhân sự trong Phase 2 mà không phá vỡ cấu trúc đang có.
 
 ---
 
