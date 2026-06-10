@@ -597,7 +597,26 @@ Quy tắc tự động tạo Activity khi lead chuyển sang stage "Đang tư v�
 
 Phần này mô tả chi tiết cách từng Model được triển khai thực tế trong Odoo 18 — bao gồm loại field, ràng buộc, và hành vi đặc biệt.
 
-### 6.1 Model `stock.picking` (Phiếu kho)
+### 6.1 Bảng ánh xạ và Thống kê các Model lõi tái sử dụng
+
+Nhằm tuân thủ triết lý "Không phát minh lại bánh xe" (DRY - Don't Repeat Yourself), toàn bộ dự án dựa trên việc tái sử dụng bộ lõi khổng lồ của Odoo. Dưới đây là bảng thống kê và ánh xạ các Model nguyên bản được gọi ra sử dụng:
+
+| Module lõi Odoo | Model nguyên bản | Tên gọi thực tế | Cách dự án sử dụng | Module dự án can thiệp |
+| --- | --- | --- | --- | --- |
+| `stock` | `stock.picking` | Phiếu Nhập/Xuất kho | **Kế thừa**: Chặn nút Validate nếu thiếu Serial | `cmcts_inventory` |
+| `stock` | `stock.lot` | Số Serial / Lô | **Nguyên bản**: Odoo tự sinh dữ liệu khi nhập Serial | Không |
+| `stock` | `stock.quant` | Tồn kho thực tế | **Nguyên bản**: Odoo tự trừ tồn kho khi Validate | Không |
+| `crm` | `crm.lead` | Cơ hội / Khách hàng tiềm năng | **Kế thừa**: Bắt sự kiện tạo mới để gán Nguồn từ Website | `cmcts_crm`, `cmcts_website` |
+| `crm` | `crm.stage` | Trạng thái Pipeline | **Dữ liệu**: Khởi tạo 5 trạng thái tư vấn đặc thù | `cmcts_crm` |
+| `product` | `product.template`| Danh mục Sản phẩm | **Kế thừa**: Ép mặc định theo dõi bằng Serial | `cmcts_inventory` |
+| `sale` | `sale.order` | Đơn Bán Hàng | **Nguyên bản**: Sinh tự động từ báo giá của CRM | Không |
+| `base` | `res.partner` | Khách hàng | **Nguyên bản**: Lưu trữ thông tin liên hệ | Không |
+| `mail` | `mail.activity` | Lịch nhắc việc | **Tự động**: Tự sinh khi chuyển stage | `cmcts_crm` |
+
+---
+
+
+### 6.2 Model `stock.picking` (Phiếu kho)
 
 **Loại:** Kế thừa (inherit) từ module `stock`  
 **File:** `cmcts_inventory/models/stock_picking.py`
@@ -623,7 +642,7 @@ Hàm `button_validate()` được override để thêm bước kiểm tra:
 
 ---
 
-### 6.2 Model `stock.lot` (Serial Number)
+### 6.3 Model `stock.lot` (Serial Number)
 
 **Loại:** Sử dụng nguyên (không kế thừa thêm) từ module `stock`  
 **Bảng DB:** `stock_lot`
@@ -647,7 +666,7 @@ Nghĩa là: cùng 1 công ty, cùng 1 sản phẩm thì không được có 2 se
 
 ---
 
-### 6.3 Model `stock.quant` (Tồn kho thực tế)
+### 6.4 Model `stock.quant` (Tồn kho thực tế)
 
 **Loại:** Sử dụng nguyên từ module `stock`  
 **Bảng DB:** `stock_quant`
@@ -665,7 +684,7 @@ Số lượng khả dụng = `quantity - reserved_quantity`.
 
 ---
 
-### 6.4 Model `crm.lead` (Lead / Opportunity)
+### 6.5 Model `crm.lead` (Lead / Opportunity)
 
 **Loại:** Kế thừa (inherit) từ module `crm`  
 **File:** `cmcts_crm/models/crm_lead.py`
@@ -693,7 +712,7 @@ Hàm `create()` được override để:
 
 ---
 
-### 6.5 Model `product.template` (Template sản phẩm)
+### 6.6 Model `product.template` (Template sản phẩm)
 
 **Loại:** Kế thừa (inherit) từ module `product`  
 **File:** `cmcts_inventory/models/product_template.py`
@@ -712,7 +731,7 @@ Field `tracking` được ghi đè default value thành `'serial'` để khi nh�
 
 ---
 
-### 6.6 Model `res.partner` (Khách hàng / Nhà cung cấp)
+### 6.7 Model `res.partner` (Khách hàng / Nhà cung cấp)
 
 **Loại:** Sử dụng nguyên từ module `base`  
 **Bảng DB:** `res_partner`
@@ -729,7 +748,7 @@ Field `tracking` được ghi đè default value thành `'serial'` để khi nh�
 
 ---
 
-### 6.7 Model `sale.order` (Đơn bán hàng)
+### 6.8 Model `sale.order` (Đơn bán hàng)
 
 **Loại:** Sử dụng nguyên từ module `sale`  
 **Bảng DB:** `sale_order`
