@@ -1,4 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
+    <template id="cmcts_homepage" inherit_id="website.homepage" name="CMCTS Homepage">
+        <xpath expr="//div[@id='wrap']" position="inside">
+            
+            <!-- Hero Section -->
+            <section class="cmcts-hero text-center">
+                <div class="container">
+                    <h1 class="display-3">Tối Ưu Hóa Vận Hành<br/>Bứt Phá Doanh Thu</h1>
+                    <p class="lead w-75 mx-auto">
+                        CMCTS cung cấp giải pháp chuyển đổi số toàn diện với hệ thống quản lý Kho thông minh và CRM tự động, giúp doanh nghiệp của bạn hoạt động hiệu quả hơn bao giờ hết.
+                    </p>
+                    <a href="#consulting-form" class="btn cmcts-btn-primary btn-lg mt-3">Đăng Ký Tư Vấn Ngay</a>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="py-5 bg-white">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold" style="color: var(--primary);">Giải Pháp Của Chúng Tôi</h2>
+                        <p class="text-muted">Được thiết kế riêng cho các doanh nghiệp quy mô vừa và lớn</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="cmcts-service-card text-center">
+                                <div class="cmcts-service-icon mx-auto">
+                                    <i class="fa fa-cubes"></i>
+                                </div>
+                                <h4 class="fw-bold mb-3">Quản Lý Kho Thông Minh</h4>
+                                <p class="text-muted">Kiểm soát chặt chẽ từng serial number, chống thất thoát và tự động hoá quy trình xuất nhập.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="cmcts-service-card text-center">
+                                <div class="cmcts-service-icon mx-auto" style="color: var(--accent); background: rgba(16, 185, 129, 0.1);">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <h4 class="fw-bold mb-3">CRM Tự Động Hóa</h4>
+                                <p class="text-muted">Quản lý phễu khách hàng 360 độ, tự động nhắc việc và gửi email báo giá chuyên nghiệp.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="cmcts-service-card text-center">
+                                <div class="cmcts-service-icon mx-auto" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <h4 class="fw-bold mb-3">Tích Hợp Liền Mạch</h4>
+                                <p class="text-muted">Mọi phòng ban từ Kinh doanh đến Kho bãi làm việc trên một nền tảng duy nhất (Odoo ERP).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Consulting Form Section -->
+            <section id="consulting-form" class="cmcts-form-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="cmcts-form-wrapper">
+                                <div class="text-center mb-4">
+                                    <h2 class="fw-bold" style="color: var(--primary);">Liên Hệ Tư Vấn</h2>
+                                    <p class="text-muted">Để lại thông tin, chuyên viên của chúng tôi sẽ liên hệ với bạn trong vòng 24h.</p>
+                                </div>
+                                
+                                <form action="/tu-van" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control cmcts-form-control" id="name" name="name" placeholder="Họ và Tên" required="required"/>
+                                                <label for="name">Họ và Tên (*)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control cmcts-form-control" id="phone" name="phone" placeholder="Số điện thoại" required="required"/>
+                                                <label for="phone">Số điện thoại (*)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control cmcts-form-control" id="email" name="email" placeholder="Email" required="required"/>
+                                                <label for="email">Địa chỉ Email (*)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control cmcts-form-control" id="description" name="description" placeholder="Mô tả nhu cầu" style="height: 120px"></textarea>
+                                                <label for="description">Chi tiết nhu cầu (Lĩnh vực, Khó khăn hiện tại...)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center mt-4">
+                                            <button type="submit" class="btn cmcts-btn-primary btn-lg w-100">
+                                                <i class="fa fa-paper-plane me-2"></i>Gửi Yêu Cầu Tư Vấn
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </xpath>
+    </template>
 </odoo>

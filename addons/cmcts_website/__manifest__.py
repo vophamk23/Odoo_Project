@@ -8,6 +8,11 @@
         'views/homepage_templates.xml',
         'views/contact_form_templates.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'cmcts_website/static/src/css/style.css',
+        ],
+    },
     'installable': True,
     'application': True,
 }

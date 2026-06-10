@@ -1,0 +1,138 @@
+/* cmcts_website/static/src/css/style.css */
+
+:root {
+    --primary: #0f172a; /* Slate 900 */
+    --secondary: #3b82f6; /* Blue 500 */
+    --accent: #10b981; /* Emerald 500 */
+    --surface: #ffffff;
+    --background: #f8fafc; /* Slate 50 */
+    --text-main: #334155; /* Slate 700 */
+}
+
+/* Base Adjustments */
+body {
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Banner */
+.cmcts-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+    color: white;
+    padding: 100px 0;
+}
+
+.cmcts-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.cmcts-hero > .container {
+    position: relative;
+    z-index: 2;
+}
+
+.cmcts-hero h1 {
+    font-weight: 800;
+    letter-spacing: -1px;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.cmcts-hero p.lead {
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+}
+
+/* Service Cards */
+.cmcts-service-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    border: 1px solid #f1f5f9;
+}
+
+.cmcts-service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--secondary);
+}
+
+.cmcts-service-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form Consulting */
+.cmcts-form-section {
+    background: linear-gradient(to bottom, var(--background), #e2e8f0);
+    padding: 80px 0;
+}
+
+.cmcts-form-wrapper {
+    background: var(--surface);
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cmcts-form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--secondary), var(--accent));
+}
+
+.cmcts-form-control {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 12px 16px;
+    transition: all 0.2s;
+}
+
+.cmcts-form-control:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.cmcts-btn-primary {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.cmcts-btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+}
