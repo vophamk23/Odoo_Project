@@ -22,49 +22,49 @@
 
 ### 1.1 Giới thiệu đề tài
 
-Trong thời đại chuyển đổi số, việc quản lý rời rạc giữa các khâu bán hàng, tiếp thị và kho bãi gây ra nhiều khó khăn cho các doanh nghiệp, đặc biệt là các doanh nghiệp phân phối thiết bị công nghệ cao có giá trị lớn và cần theo dõi bảo hành theo Serial Number.
+Trong bối cảnh nền kinh tế số đang phát triển mạnh mẽ, việc duy trì hệ thống quản lý rời rạc và thủ công giữa các bộ phận bán hàng, tiếp thị và kho bãi đang tạo ra những rào cản lớn đối với năng lực cạnh tranh của doanh nghiệp. Vấn đề này đặc biệt nhức nhối đối với các doanh nghiệp hoạt động trong lĩnh vực phân phối thiết bị khoa học công nghệ cao, nơi các sản phẩm có giá trị tài sản lớn và đòi hỏi sự giám sát chặt chẽ về chế độ bảo hành thông qua các chuỗi mã định danh duy nhất (Serial Number). 
 
-Dự án **VoPC-CMCTS Phase 1** triển khai hệ thống quản trị doanh nghiệp toàn diện dựa trên nền tảng **Odoo 18**, lấy cảm hứng từ mô hình kinh doanh của công ty công nghệ thực tế [cmcts.com.vn](https://cmcts.com.vn). Dự án tích hợp chặt chẽ quy trình từ khi khách hàng tiếp cận website, để lại thông tin tư vấn, cho đến khi nhân viên chốt sale và xuất kho giao hàng.
+Để giải quyết bài toán trên, dự án **VoPC-CMCTS Phase 1** được khởi tạo nhằm mục đích nghiên cứu, mô phỏng và triển khai một giải pháp quản trị doanh nghiệp (ERP) toàn diện. Dựa trên sức mạnh của nền tảng mã nguồn mở **Odoo 18** và lấy cảm hứng từ mô hình kinh doanh thực tiễn của Công ty TNHH Thương Mại C.M.C (cmcts.com.vn), dự án hướng tới việc thiết lập một quy trình số hóa liền mạch. Quy trình này kết nối chặt chẽ từ điểm chạm đầu tiên khi khách hàng tiếp cận website (Front-end) và để lại thông tin tư vấn, đi qua phễu bán hàng CRM, cho đến khâu cuối cùng là nhân viên quản lý kho xác nhận xuất hàng theo đúng số Serial Number quy định.
 
 ### 1.2 Mục tiêu, phạm vi và giới hạn
 
-**Mục tiêu:**
+**Mục tiêu cốt lõi:**
 
-- Xây dựng hệ thống ERP vận hành trơn tru các luồng dữ liệu cốt lõi của doanh nghiệp
-- Tự động hóa quy trình chăm sóc khách hàng (CRM) và quản lý hàng hóa chính xác đến từng đơn vị sản phẩm (Inventory by Serial Number)
+- Thiết kế và triển khai một hệ thống ERP tiêu chuẩn, đảm bảo vận hành trơn tru các luồng dữ liệu cốt lõi giúp số hóa hoàn toàn quy trình kinh doanh.
+- Tự động hóa ở mức tối đa quy trình tiếp nhận, phân bổ và chăm sóc khách hàng tiềm năng (CRM), đồng thời nâng cao tính minh bạch trong quản lý hàng hóa vật lý chính xác đến từng đơn vị sản phẩm (Inventory Tracking by Serial Number).
 
-**Phạm vi:**
+**Phạm vi hệ thống:**
 
-- **Website E-commerce:** Giới thiệu công ty, sản phẩm, đăng ký tư vấn, Blog, Sự kiện
-- **Quản lý Kho (Inventory — Trọng tâm chính):** Theo dõi hàng hóa nhập, xuất, luân chuyển nội bộ bằng Unique Serial Number, kiểm kê kho
-- **CRM:** Quản lý pipeline cơ hội kinh doanh, tự động tạo Lead từ Website form, quản lý khách hàng thân thiết
+- **Website (E-commerce & Portal):** Xây dựng cổng thông tin giới thiệu pháp nhân doanh nghiệp, trưng bày danh mục sản phẩm trực tuyến, tích hợp biểu mẫu thu thập dữ liệu khách hàng (Web Form) cùng các trang nội dung hỗ trợ như Blog và Sự kiện.
+- **Quản lý Kho (Inventory — Trọng tâm chính):** Thiết lập quy trình vận hành kho bãi bao gồm theo dõi luồng hàng hóa nhập (Inbound), xuất (Outbound) và luân chuyển nội bộ (Internal Transfer) dựa trên công nghệ quản lý bằng Unique Serial Number. Cung cấp công cụ kiểm kê kho và truy xuất nguồn gốc sản phẩm chi tiết.
+- **Quản lý quan hệ khách hàng (CRM):** Xây dựng cấu trúc đường ống bán hàng (Pipeline) thông minh để quản lý cơ hội kinh doanh. Tích hợp tự động hóa quy trình tạo Lead từ Website form và cung cấp công cụ nhắc việc giúp nhân viên kinh doanh duy trì tương tác tốt với khách hàng.
 
-**Giới hạn (Phase 1):**
+**Giới hạn dự án (Giai đoạn Phase 1):**
 
-- Không tích hợp cổng thanh toán trực tuyến (Payment Gateways)
-- Không triển khai phân hệ Kế toán (Accounting), Hóa đơn điện tử hay Nhân sự (HR)
-- Hệ thống triển khai trên môi trường Localhost với dữ liệu giả lập (Demo data)
+- Tạm thời chưa tích hợp hệ thống với các cổng thanh toán trực tuyến (Payment Gateways) hay ngân hàng số.
+- Không triển khai các phân hệ nghiệp vụ độc lập khác như Kế toán (Accounting), Phát hành Hóa đơn điện tử (E-invoicing) hay Quản trị Nguồn nhân lực (HR).
+- Hệ thống được triển khai, kiểm thử trên môi trường nội bộ (Localhost) bằng nền tảng Container (Docker) và sử dụng dữ liệu giả lập (Demo data) thay vì dữ liệu doanh nghiệp thực tế.
 
-### 1.3 Stakeholders và vai trò
+### 1.3 Stakeholders (Các bên liên quan) và Vai trò
 
-| Stakeholder               | Vai trò                    | Quyền hạn & Trách nhiệm                                                                 |
-| ------------------------- | -------------------------- | --------------------------------------------------------------------------------------- |
-| **Quản trị viên (Admin)** | Quản trị hệ thống          | Toàn quyền cài đặt, cấu hình Odoo, phân quyền người dùng và duyệt báo cáo cấp cao       |
-| **Khách hàng (Customer)** | Người dùng cuối (End-user) | Truy cập Website (Public), xem sản phẩm, đọc tin tức, gửi yêu cầu tư vấn qua form       |
-| **Nhân viên Kho**         | Quản lý vật tư, hàng hóa   | Tạo phiếu nhập/xuất/chuyển kho, ghi nhận Serial Number, kiểm kê và xuất báo cáo tồn kho |
-| **Nhân viên Sales**       | Chăm sóc khách hàng        | Quản lý Leads/Opportunities trong CRM, kéo thả pipeline, cập nhật trạng thái tư vấn     |
+Hệ thống được thiết kế để phục vụ 4 nhóm đối tượng chính, mỗi nhóm sẽ được phân quyền và giao trách nhiệm rõ ràng nhằm đảm bảo an toàn thông tin:
 
-### 1.4 User Stories
+- **Quản trị viên hệ thống (Admin):** Đóng vai trò là người điều phối kỹ thuật cao nhất. Nắm giữ toàn quyền trong việc thiết lập cấu hình tổng thể, quản lý phân quyền (Access Rights) cho các nhóm người dùng khác và phê duyệt các báo cáo thay đổi hệ thống.
+- **Khách hàng (Customer / End-user):** Đóng vai trò là người dùng công cộng (Public User). Thực hiện các thao tác tìm kiếm thông tin thiết bị, đọc tin tức chuyên ngành và tương tác gửi yêu cầu tư vấn thông qua các biểu mẫu (Web Forms) mà không cần tạo tài khoản đăng nhập.
+- **Nhân viên Quản lý Kho (Inventory Staff):** Chịu trách nhiệm trực tiếp đối với luồng di chuyển vật lý của hàng hóa. Thực hiện việc ghi nhận số lượng, tạo phiếu nhập/xuất/điều chuyển kho, và đặc biệt là kiểm soát tính chính xác của các mã Serial Number. Được quyền trích xuất các báo cáo tồn kho định kỳ.
+- **Nhân viên Kinh doanh (Sales Executive):** Đại diện cho bộ phận tiếp thị và bán hàng. Sử dụng hệ thống để theo dõi, quản lý vòng đời của các khách hàng tiềm năng (Leads/Opportunities) trên giao diện CRM. Phụ trách việc cập nhật trạng thái đàm phán, gọi điện, gửi báo giá và trực tiếp chốt đơn hàng.
 
-| ID    | Vai trò         | Mong muốn                                                | Mục đích                                                      |
-| ----- | --------------- | -------------------------------------------------------- | ------------------------------------------------------------- |
-| US-01 | Khách hàng      | Xem danh sách thiết bị theo danh mục                     | Tìm kiếm sản phẩm phù hợp dễ dàng                             |
-| US-02 | Khách hàng      | Điền form đăng ký tư vấn trực tuyến                      | Nhận hỗ trợ từ nhân viên kinh doanh                           |
-| US-03 | Nhân viên Kho   | Gán Serial Number duy nhất cho từng thiết bị nhập kho    | Quản lý chính xác từng sản phẩm, phục vụ truy vết và bảo hành |
-| US-04 | Nhân viên Kho   | Hệ thống cảnh báo khi nhập trùng Serial                  | Tránh sai sót dữ liệu                                         |
-| US-05 | Nhân viên Kho   | Xem báo cáo truy vết (Traceability) của một Serial       | Biết sản phẩm đã đi từ phiếu nhập nào đến phiếu xuất nào      |
-| US-06 | Nhân viên Sales | Hệ thống tự động tạo Lead khi khách submit form          | Không bỏ lỡ khách hàng tiềm năng nào                          |
-| US-07 | Nhân viên Sales | Hệ thống tự động tạo Activity nhắc việc khi chuyển stage | Không quên liên hệ lại với khách đúng hạn                     |
+### 1.4 Câu chuyện Người dùng (User Stories)
+
+Danh sách dưới đây mô tả các nhu cầu tương tác cốt lõi của các bên liên quan dưới góc nhìn thực tế (User Stories):
+
+- **[US-01] Nhu cầu tra cứu sản phẩm (Khách hàng):** "Là một Khách hàng, tôi muốn có thể xem và lọc danh sách các thiết bị công nghệ theo từng danh mục cụ thể, *để* tôi có thể nhanh chóng định vị và tìm ra sản phẩm phù hợp nhất với nhu cầu của mình."
+- **[US-02] Nhu cầu liên hệ tư vấn (Khách hàng):** "Là một Khách hàng, tôi muốn được cung cấp một biểu mẫu đăng ký thông tin trực tuyến rõ ràng, *để* tôi có thể gửi yêu cầu hỗ trợ đến bộ phận kinh doanh một cách nhanh chóng."
+- **[US-03] Nhu cầu định danh thiết bị (Nhân viên Kho):** "Là một Nhân viên Kho, tôi muốn hệ thống yêu cầu tôi gán một mã Serial Number duy nhất cho từng thiết bị vật lý khi nhập kho, *để* tôi có thể quản lý chính xác tồn kho của từng sản phẩm cụ thể và phục vụ công tác đối soát bảo hành sau này."
+- **[US-04] Nhu cầu kiểm soát dữ liệu (Nhân viên Kho):** "Là một Nhân viên Kho, tôi muốn hệ thống tự động phát ra cảnh báo lỗi nếu tôi vô tình nhập trùng lặp một mã Serial đã tồn tại, *để* tôi tránh được các sai sót về nhập liệu và đảm bảo tính nhất quán của cơ sở dữ liệu."
+- **[US-05] Nhu cầu truy vết nguồn gốc (Nhân viên Kho):** "Là một Nhân viên Kho, tôi muốn có một công cụ truy vết (Traceability) để kiểm tra lịch sử luân chuyển của bất kỳ mã Serial nào, *để* tôi biết chính xác thiết bị đó đã được nhập về từ phiếu nào, nằm ở kho nào và xuất bán cho ai."
+- **[US-06] Nhu cầu số hóa khách hàng (Nhân viên Sales):** "Là một Nhân viên Sales, tôi muốn hệ thống tự động khởi tạo một thẻ Cơ hội kinh doanh (Lead) mới trên CRM ngay khi có khách hàng gửi form từ website, *để* tôi không bị bỏ sót bất kỳ một tệp khách hàng tiềm năng nào."
+- **[US-07] Nhu cầu tự động hóa nhắc việc (Nhân viên Sales):** "Là một Nhân viên Sales, tôi muốn hệ thống tự động thiết lập các tác vụ nhắc việc (Activity) mỗi khi tôi kéo thả Lead sang một giai đoạn mới, *để* tôi luôn nhớ lịch hẹn gọi điện hoặc gửi email chăm sóc đúng hạn."
 
 ---
 
