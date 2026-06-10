@@ -72,26 +72,32 @@ Danh sách dưới đây mô tả các nhu cầu tương tác cốt lõi của c
 
 ### 2.1 Tech Stack
 
-- **Nền tảng ERP:** Odoo (Phiên bản 18.0) - Cung cấp bộ khung quản trị doanh nghiệp toàn diện.
-- **Ngôn ngữ Backend:** Python (Phiên bản 3.10+) - Ngôn ngữ lập trình chính xử lý logic nghiệp vụ.
-- **Cơ sở dữ liệu (Database):** PostgreSQL (Phiên bản 14+) - Quản trị cơ sở dữ liệu quan hệ mạnh mẽ, đảm bảo tính toàn vẹn dữ liệu.
-- **Frontend:** Odoo Website Builder kết hợp với Custom CSS - Hỗ trợ thiết kế giao diện linh hoạt, đáp ứng.
-- **Môi trường triển khai:** Docker hoặc Ubuntu bare metal - Đảm bảo tính nhất quán giữa môi trường phát triển và vận hành.
-- **Quản lý mã nguồn (Source Control):** Git kết hợp GitHub - Quản lý phiên bản và cộng tác nhóm.
-- **Công cụ thiết kế tài liệu:** draw.io, dbdiagram.io - Xây dựng sơ đồ Use Case, ERD và luồng quy trình.
+| Thành phần | Công nghệ / Phiên bản | Mô tả |
+| --- | --- | --- |
+| **Nền tảng ERP** | Odoo (Phiên bản 18.0) | Cung cấp bộ khung quản trị doanh nghiệp toàn diện. |
+| **Ngôn ngữ Backend** | Python (Phiên bản 3.10+) | Ngôn ngữ lập trình chính xử lý logic nghiệp vụ. |
+| **Cơ sở dữ liệu (Database)** | PostgreSQL (Phiên bản 14+) | Quản trị cơ sở dữ liệu quan hệ mạnh mẽ, đảm bảo tính toàn vẹn dữ liệu. |
+| **Frontend** | Odoo Website Builder + Custom CSS | Hỗ trợ thiết kế giao diện linh hoạt, đáp ứng. |
+| **Môi trường triển khai** | Docker hoặc Ubuntu bare metal | Đảm bảo tính nhất quán giữa môi trường phát triển và vận hành. |
+| **Quản lý mã nguồn (Source Control)** | Git + GitHub | Quản lý phiên bản và cộng tác nhóm. |
+| **Công cụ thiết kế tài liệu** | draw.io, dbdiagram.io | Xây dựng sơ đồ Use Case, ERD và luồng quy trình. |
 
 ### 2.2 Môi trường triển khai
 
-- **Môi trường Development (Local):** Triển khai trực tiếp trên máy tính cá nhân của từng lập trình viên thông qua Docker. Truy cập tại địa chỉ cục bộ: `http://localhost:8069`.
-- **Môi trường Demo (Shared):** Triển khai trên máy chủ đám mây dùng chung cho cả nhóm để phục vụ công tác kiểm thử tích hợp và trình diễn sản phẩm (URL sẽ được cấu hình sau).
+| Môi trường | Mô tả | URL |
+| --- | --- | --- |
+| **Development (Local)** | Triển khai trực tiếp trên máy tính cá nhân của từng lập trình viên thông qua Docker. | `http://localhost:8069` |
+| **Demo (Shared)** | Triển khai trên máy chủ đám mây dùng chung cho cả nhóm để phục vụ công tác kiểm thử tích hợp và trình diễn sản phẩm. | *(Cấu hình sau)* |
 
 ### 2.3 Tài khoản hệ thống
 
 Để phục vụ việc kiểm thử trên môi trường phát triển/demo, hệ thống thiết lập sẵn các tài khoản với phân quyền cụ thể:
 
-- **Quản trị viên (Admin):** Username `admin` / Password `admin`. Cung cấp quyền Administrator (toàn quyền thiết lập).
-- **Nhân viên Kho:** Username `kho_staff` / Password `(Cấu hình sau)`. Giới hạn quyền truy cập riêng cho phân hệ Inventory.
-- **Nhân viên Sales:** Username `sales_staff` / Password `(Cấu hình sau)`. Giới hạn quyền truy cập riêng cho phân hệ CRM.
+| Loại tài khoản | Username | Password | Phân quyền (Role) |
+| --- | --- | --- | --- |
+| **Quản trị viên (Admin)** | `admin` | `admin` | Cung cấp quyền Administrator (toàn quyền thiết lập). |
+| **Nhân viên Kho** | `kho_staff` | *(Cấu hình sau)* | Giới hạn quyền truy cập riêng cho phân hệ Inventory. |
+| **Nhân viên Sales** | `sales_staff` | *(Cấu hình sau)* | Giới hạn quyền truy cập riêng cho phân hệ CRM. |
 
 > ⚠️ **Lưu ý:** Tài khoản `admin/admin` với mật khẩu mặc định chỉ được phép sử dụng cho môi trường dev/demo cục bộ. Tuyệt đối không sử dụng cấu hình này khi triển khai hệ thống lên môi trường Production thực tế.
 
