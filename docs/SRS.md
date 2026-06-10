@@ -1,329 +1,450 @@
-# Tài liệu phân tích yêu cầu (SRS)
+# Tài liệu Phân tích Yêu cầu Hệ thống (SRS)
+
+**Dự án:** VoPC-CMCTS Phase 1  
+**Phiên bản:** 1.0  
+**Ngày lập:** 09/06/2026  
+**Nhóm thực hiện:** Phase1-team  
+**GitHub:** https://github.com/Phase1-team/VoPC-cmcts
+
+---
+
+## Mục lục
+
+1. [Bối cảnh dự án](#1-bối-cảnh-dự-án)
+2. [Công nghệ & Môi trường](#2-công-nghệ--môi-trường)
+3. [Yêu cầu hệ thống](#3-yêu-cầu-hệ-thống)
+4. [Sơ đồ Use Case & Đặc tả chi tiết](#4-sơ-đồ-use-case--đặc-tả-chi-tiết)
+5. [Bảng tổng hợp yêu cầu chức năng](#5-bảng-tổng-hợp-yêu-cầu-chức-năng)
+
+---
 
 ## 1. Bối cảnh dự án
 
-### 1.1 Giới thiệu về đề tài
-Trong thời đại chuyển đổi số, việc quản lý rời rạc giữa các khâu bán hàng, tiếp thị và kho bãi gây ra nhiều khó khăn cho các doanh nghiệp, đặc biệt là các doanh nghiệp phân phối thiết bị công nghệ cao (có giá trị lớn và cần theo dõi bảo hành theo Serial Number). 
-Dự án **VoPC-CMCTS Phase 1** ra đời với mục đích mô phỏng và triển khai hệ thống quản trị doanh nghiệp toàn diện dựa trên nền tảng **Odoo 18**, lấy cảm hứng từ mô hình kinh doanh của công ty công nghệ thực tế (cmcts.com.vn). Dự án giúp tích hợp chặt chẽ quy trình từ khi khách hàng tiếp cận website, để lại thông tin tư vấn, cho đến quy trình nhân viên chốt sale và xuất kho giao hàng.
+### 1.1 Giới thiệu đề tài
 
-### 1.2 Mục tiêu, phạm vi và giới hạn dự án
+Trong thời đại chuyển đổi số, việc quản lý rời rạc giữa các khâu bán hàng, tiếp thị và kho bãi gây ra nhiều khó khăn cho các doanh nghiệp, đặc biệt là các doanh nghiệp phân phối thiết bị công nghệ cao có giá trị lớn và cần theo dõi bảo hành theo Serial Number.
+
+Dự án **VoPC-CMCTS Phase 1** triển khai hệ thống quản trị doanh nghiệp toàn diện dựa trên nền tảng **Odoo 18**, lấy cảm hứng từ mô hình kinh doanh của công ty công nghệ thực tế [cmcts.com.vn](https://cmcts.com.vn). Dự án tích hợp chặt chẽ quy trình từ khi khách hàng tiếp cận website, để lại thông tin tư vấn, cho đến khi nhân viên chốt sale và xuất kho giao hàng.
+
+### 1.2 Mục tiêu, phạm vi và giới hạn
+
 **Mục tiêu:**
-- Xây dựng một hệ thống ERP thu nhỏ nhưng vận hành trơn tru các luồng dữ liệu cốt lõi.
-- Tự động hóa quy trình chăm sóc khách hàng (CRM) và quản lý hàng hóa chính xác đến từng đơn vị sản phẩm (Inventory by Serial Number).
+
+- Xây dựng hệ thống ERP vận hành trơn tru các luồng dữ liệu cốt lõi của doanh nghiệp
+- Tự động hóa quy trình chăm sóc khách hàng (CRM) và quản lý hàng hóa chính xác đến từng đơn vị sản phẩm (Inventory by Serial Number)
 
 **Phạm vi:**
-- **Website E-commerce:** Giới thiệu công ty, sản phẩm, đăng ký tư vấn, Blog, Sự kiện.
-- **Quản lý Kho (Inventory - Trọng tâm chính):** Theo dõi hàng hóa nhập, xuất, luân chuyển nội bộ bằng Unique Serial Number, kiểm kê kho.
-- **CRM:** Quản lý cơ hội kinh doanh (Pipeline), tự động tạo Lead từ Website form, quản lý khách hàng thân thiết.
 
-**Giới hạn dự án (Phase 1):**
-- Không tích hợp các cổng thanh toán trực tuyến (Payment Gateways).
-- Không triển khai các phân hệ Kế toán (Accounting), Hóa đơn điện tử hay Nhân sự (HR).
-- Hệ thống được triển khai trên môi trường Localhost (Docker) với dữ liệu giả lập (Demo data).
+- **Website E-commerce:** Giới thiệu công ty, sản phẩm, đăng ký tư vấn, Blog, Sự kiện
+- **Quản lý Kho (Inventory — Trọng tâm chính):** Theo dõi hàng hóa nhập, xuất, luân chuyển nội bộ bằng Unique Serial Number, kiểm kê kho
+- **CRM:** Quản lý pipeline cơ hội kinh doanh, tự động tạo Lead từ Website form, quản lý khách hàng thân thiết
 
-### 1.3 Stakeholders và Vai trò
-| Stakeholder | Vai trò trong hệ thống | Quyền hạn & Trách nhiệm |
-| --- | --- | --- |
-| **Quản trị viên (Admin)** | Trưởng dự án / Quản trị hệ thống | Có toàn quyền cài đặt, cấu hình Odoo, phân quyền người dùng và duyệt các báo cáo cấp cao. |
-| **Khách hàng (Customer)** | Người dùng cuối (End-user) | Truy cập Website (Public), xem sản phẩm, đọc tin tức, và gửi yêu cầu tư vấn qua form. |
-| **Nhân viên Kho (Inventory Staff)** | Quản lý vật tư và hàng hóa | Tạo phiếu nhập/xuất/chuyển kho, ghi nhận Serial Number, kiểm kê và xuất báo cáo tồn kho. |
-| **Nhân viên Sales (Sales Rep)** | Chăm sóc khách hàng | Quản lý Leads/Opportunities trong CRM, kéo thả pipeline, cập nhật trạng thái tư vấn. |
+**Giới hạn (Phase 1):**
+
+- Không tích hợp cổng thanh toán trực tuyến (Payment Gateways)
+- Không triển khai phân hệ Kế toán (Accounting), Hóa đơn điện tử hay Nhân sự (HR)
+- Hệ thống triển khai trên môi trường Localhost với dữ liệu giả lập (Demo data)
+
+### 1.3 Stakeholders và vai trò
+
+| Stakeholder               | Vai trò                    | Quyền hạn & Trách nhiệm                                                                 |
+| ------------------------- | -------------------------- | --------------------------------------------------------------------------------------- |
+| **Quản trị viên (Admin)** | Quản trị hệ thống          | Toàn quyền cài đặt, cấu hình Odoo, phân quyền người dùng và duyệt báo cáo cấp cao       |
+| **Khách hàng (Customer)** | Người dùng cuối (End-user) | Truy cập Website (Public), xem sản phẩm, đọc tin tức, gửi yêu cầu tư vấn qua form       |
+| **Nhân viên Kho**         | Quản lý vật tư, hàng hóa   | Tạo phiếu nhập/xuất/chuyển kho, ghi nhận Serial Number, kiểm kê và xuất báo cáo tồn kho |
+| **Nhân viên Sales**       | Chăm sóc khách hàng        | Quản lý Leads/Opportunities trong CRM, kéo thả pipeline, cập nhật trạng thái tư vấn     |
 
 ### 1.4 User Stories
-- **Là Khách hàng**, tôi muốn xem danh sách các thiết bị công nghệ theo danh mục để dễ dàng tìm kiếm sản phẩm phù hợp.
-- **Là Khách hàng**, tôi muốn điền form Đăng ký tư vấn trực tuyến để nhận được sự hỗ trợ từ nhân viên kinh doanh.
-- **Là Nhân viên Kho**, tôi muốn gán mã Serial Number duy nhất cho mỗi thiết bị nhập vào để quản lý chính xác từng sản phẩm (phục vụ truy vết và bảo hành sau này).
-- **Là Nhân viên Kho**, tôi muốn hệ thống cảnh báo nếu tôi vô tình nhập trùng một mã Serial đã tồn tại trong kho để tránh sai sót dữ liệu.
-- **Là Nhân viên Kho**, tôi muốn xem báo cáo truy vết (Traceability) của một Serial Number để biết nó đã đi từ phiếu nhập nào đến phiếu xuất nào.
-- **Là Nhân viên Sales**, tôi muốn hệ thống CRM tự động tạo một Lead mới ngay khi khách hàng submit form trên Website để tôi không bỏ lỡ bất kỳ khách hàng tiềm năng nào.
-- **Là Nhân viên Sales**, tôi muốn hệ thống tự động sinh ra tác vụ (Activity) "Gọi điện tư vấn" khi tôi chuyển một khách hàng sang giai đoạn mới để nhắc nhở tôi làm việc.
+
+| ID    | Vai trò         | Mong muốn                                                | Mục đích                                                      |
+| ----- | --------------- | -------------------------------------------------------- | ------------------------------------------------------------- |
+| US-01 | Khách hàng      | Xem danh sách thiết bị theo danh mục                     | Tìm kiếm sản phẩm phù hợp dễ dàng                             |
+| US-02 | Khách hàng      | Điền form đăng ký tư vấn trực tuyến                      | Nhận hỗ trợ từ nhân viên kinh doanh                           |
+| US-03 | Nhân viên Kho   | Gán Serial Number duy nhất cho từng thiết bị nhập kho    | Quản lý chính xác từng sản phẩm, phục vụ truy vết và bảo hành |
+| US-04 | Nhân viên Kho   | Hệ thống cảnh báo khi nhập trùng Serial                  | Tránh sai sót dữ liệu                                         |
+| US-05 | Nhân viên Kho   | Xem báo cáo truy vết (Traceability) của một Serial       | Biết sản phẩm đã đi từ phiếu nhập nào đến phiếu xuất nào      |
+| US-06 | Nhân viên Sales | Hệ thống tự động tạo Lead khi khách submit form          | Không bỏ lỡ khách hàng tiềm năng nào                          |
+| US-07 | Nhân viên Sales | Hệ thống tự động tạo Activity nhắc việc khi chuyển stage | Không quên liên hệ lại với khách đúng hạn                     |
 
 ---
 
-## 2. Yêu cầu hệ thống
+## 2. Công nghệ & Môi trường
 
-### 2.1 Yêu cầu chức năng (Functional Requirements)
+### 2.1 Tech Stack
 
-**Nhóm chức năng Website:**
-- **FR-W01:** Hiển thị Trang chủ chuyên nghiệp với Hero Banner và danh sách dịch vụ nổi bật.
-- **FR-W02:** Hiển thị danh sách sản phẩm E-commerce có phân chia danh mục (Thiết bị mạng, Phụ kiện, Máy tính...).
-- **FR-W03:** Hệ thống cung cấp Form Đăng ký tư vấn (Contact Form) yêu cầu bắt buộc nhập Tên và Email.
-- **FR-W04:** Hiển thị các trang thông tin tĩnh: About Us, Blog tin tức công nghệ, Danh sách Sự kiện (Event).
+| Thành phần                | Công nghệ                         | Phiên bản |
+| ------------------------- | --------------------------------- | --------- |
+| Nền tảng ERP              | Odoo                              | 18.0      |
+| Ngôn ngữ backend          | Python                            | 3.10+     |
+| Database                  | PostgreSQL                        | 14+       |
+| Frontend                  | Odoo Website Builder + Custom CSS | —         |
+| Triển khai                | Docker hoặc Ubuntu bare metal     | —         |
+| Quản lý source            | Git + GitHub                      | —         |
+| Công cụ thiết kế tài liệu | draw.io, dbdiagram.io             | —         |
 
-**Nhóm chức năng Quản lý Kho (Inventory) - Trọng tâm:**
-- **FR-I01:** Quản lý danh mục Sản phẩm và Cấu hình theo dõi bằng Serial Number duy nhất (Tracking by Unique Serial Number).
-- **FR-I02:** Chức năng Tạo phiếu Nhập kho (Receipt) yêu cầu quét/nhập Serial Number.
-- **FR-I03:** Chức năng Tạo phiếu Xuất kho (Delivery) bắt buộc chọn Serial Number đang có sẵn (On Hand).
-- **FR-I04:** Chức năng Chuyển kho nội bộ (Internal Transfer) luân chuyển Serial giữa các Vị trí (Locations).
-- **FR-I05:** Truy xuất nguồn gốc Serial Number (Traceability) từ đầu đến cuối.
-- **FR-I06:** Cập nhật số lượng tồn kho qua Kiểm kê kho (Inventory Adjustments) và xem báo cáo tồn kho thời gian thực.
+### 2.2 Môi trường triển khai
 
-**Nhóm chức năng CRM:**
-- **FR-C01:** Cấu hình Pipeline tối thiểu 6 bước (Mới, Tiếp nhận yêu cầu, Đang tư vấn, Báo giá, Chốt hợp đồng, Thất bại).
-- **FR-C02:** Tự động bắt Lead (Auto Lead Generation) từ Web Form đổ về hệ thống CRM.
-- **FR-C03:** Phân loại khách hàng bằng Tags (Ví dụ: VIP, Thân thiết, Tiềm năng) và bộ lọc tìm kiếm.
-- **FR-C04:** Tính năng Activities tự động nhắc nhở nhân viên (gọi điện, email) theo từng quy trình chốt sale.
+| Môi trường              | Mô tả                            | URL                   |
+| ----------------------- | -------------------------------- | --------------------- |
+| **Development (Local)** | Máy tính cá nhân từng thành viên | http://localhost:8069 |
+| **Demo (Shared)**       | Máy chủ chung cho cả nhóm demo   | Cấu hình sau          |
 
-### 2.2 Yêu cầu phi chức năng (Non-functional requirements)
+### 2.3 Tài khoản hệ thống
 
-| Loại yêu cầu | Chi tiết |
-| --- | --- |
-| **Hiệu suất (Performance)** | Thời gian tải các trang giao diện người dùng trên Website không vượt quá 3 giây. Thời gian xử lý phiếu xuất/nhập kho dưới 2 giây. |
-| **Tính khả dụng (Usability)** | Giao diện Website phải tương thích (Responsive) với đa nền tảng: PC, Tablet, Mobile (từ 375px trở lên). Giao diện backend Odoo trực quan, dễ học cho nhân viên mới. |
-| **Bảo mật (Security)** | Dữ liệu CRM và Kho được phân quyền theo chức vụ. Nhân viên Kho không được phép xem các báo giá kinh doanh của CRM và ngược lại. Khách vãng lai chỉ xem được thông tin Public trên Web. |
-| **Tính dự phòng (Reliability/Backup)** | Hệ thống Database PostgreSQL cần có cơ chế sao lưu (Backup) tự động và có khả năng phục hồi (Restore) khi phát sinh sự cố mất dữ liệu. |
+| Loại tài khoản  | Username      | Password     | Quyền                      |
+| --------------- | ------------- | ------------ | -------------------------- |
+| Quản trị viên   | `admin`       | `admin`      | Administrator (toàn quyền) |
+| Nhân viên Kho   | `kho_staff`   | Cấu hình sau | Inventory User             |
+| Nhân viên Sales | `sales_staff` | Cấu hình sau | CRM User                   |
 
----
+> ⚠️ **Lưu ý:** Tài khoản `admin/admin` chỉ dùng cho môi trường dev/demo, không dùng cho production.
 
-## 3. Sơ đồ Use-Case và Đặc tả chi tiết
+### 2.4 Cấu trúc GitHub repo
 
-### 3.1 Sơ đồ Use-Case Tổng quan
-
-```mermaid
-usecaseDiagram
-    actor "Khách hàng" as KH
-    actor "Nhân viên Kho" as NV_Kho
-    actor "Nhân viên Sales" as NV_Sales
-    actor "Quản trị viên (Admin)" as Admin
-
-    package "Website Module" {
-        usecase "UC01: Xem & Tìm kiếm Sản phẩm" as UC01
-        usecase "UC02: Đăng ký tư vấn qua form" as UC02
-    }
-
-    package "Inventory Module" {
-        usecase "UC03: Nhập kho theo Serial" as UC03
-        usecase "UC04: Xuất kho theo Serial" as UC04
-        usecase "UC05: Chuyển kho nội bộ" as UC05
-        usecase "UC06: Traceability (Truy vết)" as UC06
-        usecase "UC07: Báo cáo Tồn kho" as UC07
-        usecase "UC11: Quản lý danh mục Sản phẩm" as UC11
-    }
-
-    package "CRM & Sales Module" {
-        usecase "UC08: Quản lý Pipeline" as UC08
-        usecase "UC09: Xử lý Lead & Activity" as UC09
-        usecase "UC10: Lập Báo giá & Đơn bán hàng" as UC10
-    }
-
-    package "System Admin" {
-        usecase "UC12: Quản lý Phân quyền Người dùng" as UC12
-    }
-
-    KH --> UC01
-    KH --> UC02
-
-    NV_Kho --> UC03
-    NV_Kho --> UC04
-    NV_Kho --> UC05
-    NV_Kho --> UC06
-    NV_Kho --> UC07
-    NV_Kho --> UC11
-
-    NV_Sales --> UC08
-    NV_Sales --> UC09
-    NV_Sales --> UC10
-
-    Admin --> UC11
-    Admin --> UC12
-    Admin --> UC07
-
-    UC02 ..> UC09 : <<include>> Tạo Lead tự động
-    UC10 ..> UC04 : <<trigger>> Kích hoạt Xuất kho
+```
+VoPC-cmcts/
+├── main/           ← code ổn định, đã test
+├── develop/        ← tổng hợp code từ các thành viên
+├── feature/*       ← mỗi thành viên làm 1 nhánh riêng
+└── backup/         ← chứa file backup database (.sql.gz)
 ```
 
-### 3.2 Đặc tả Use-Case chi tiết
+---
 
-Dưới đây là chi tiết đặc tả cho các Use Case theo đúng biểu mẫu chuẩn.
+## 3. Yêu cầu hệ thống
 
-#### UC01: Xem & Tìm kiếm Sản phẩm
+### 3.1 Yêu cầu chức năng (Functional Requirements)
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC01 |
-| **Usecase Name** | Xem & Tìm kiếm Sản phẩm |
-| **Description** | Khách hàng duyệt danh mục, tìm kiếm và xem chi tiết thông số kỹ thuật của sản phẩm trên Website. |
-| **Actors** | Khách hàng |
-| **Scope** | Phân hệ Website (E-commerce) |
-| **Preconditions** | Hệ thống website đang hoạt động. Các sản phẩm đã được nhân viên cấu hình hiển thị (Published) với đầy đủ hình ảnh, giá cả. |
-| **Normal flow** | 1. Khách truy cập vào trang `/shop`.<br>2. Chọn danh mục sản phẩm mong muốn ở thanh điều hướng bên trái.<br>3. Hệ thống trả về danh sách các mặt hàng tương ứng.<br>4. Khách click vào một sản phẩm để xem cấu hình chi tiết, giá và tồn kho. |
-| **Post conditions** | Khách hàng nắm được thông tin sản phẩm và có thể tiến hành bước tiếp theo (Đăng ký tư vấn). |
-| **Alternative flow** | Ở bước 2, thay vì chọn danh mục, Khách hàng gõ từ khóa trực tiếp vào thanh Tìm kiếm (Search bar) để tìm đích danh sản phẩm. |
-| **Exception flow** | Nếu Khách hàng tìm kiếm sản phẩm không tồn tại, hệ thống hiển thị thông báo "Không tìm thấy sản phẩm nào phù hợp". |
-| **Special Requirements** | Giao diện phải tải trang dưới 3 giây và responsive tốt trên điện thoại di động. |
+#### Nhóm Website (FR-W)
 
-#### UC02: Đăng ký tư vấn qua form
+| Mã     | Mô tả yêu cầu                                                                   | Độ ưu tiên |
+| ------ | ------------------------------------------------------------------------------- | ---------- |
+| FR-W01 | Hiển thị trang chủ với Hero Banner, giới thiệu dịch vụ và sản phẩm nổi bật      | Cao        |
+| FR-W02 | Hiển thị danh sách sản phẩm E-commerce có phân chia danh mục, tìm kiếm và lọc   | Cao        |
+| FR-W03 | Cung cấp Form Đăng ký tư vấn với các trường bắt buộc: Tên, Email, Số điện thoại | Cao        |
+| FR-W04 | Hiển thị trang About Us, Blog tin tức công nghệ, Danh sách Sự kiện (Event)      | Trung bình |
+| FR-W05 | Trang Contact Us: form liên hệ, bản đồ và thông tin liên lạc                    | Trung bình |
+| FR-W06 | Giao diện responsive trên mobile, tablet và desktop                             | Trung bình |
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC02 |
-| **Usecase Name** | Đăng ký tư vấn qua form |
-| **Description** | Khách hàng để lại thông tin (Tên, Số điện thoại, Email) và nội dung cần tư vấn trên trang Website để nhân viên Sales liên hệ lại. |
-| **Actors** | Khách hàng |
-| **Scope** | Phân hệ Website và tích hợp CRM |
-| **Preconditions** | Hệ thống Website hoạt động bình thường. Mẫu form liên hệ đã được cấu hình trỏ về CRM. |
-| **Normal flow** | 1. Khách hàng truy cập trang `/tu-van`.<br>2. Khách hàng điền đầy đủ các thông tin: Họ Tên, Số điện thoại, Email và Nội dung cần hỗ trợ.<br>3. Khách hàng nhấn nút "Gửi thông tin".<br>4. Hệ thống ghi nhận dữ liệu, hiển thị màn hình Cảm ơn. |
-| **Post conditions** | Dữ liệu form được lưu trữ thành công và hệ thống CRM tự động khởi tạo một Lead mới. |
-| **Alternative flow** | Không có |
-| **Exception flow** | Nếu khách hàng để trống trường bắt buộc (VD: Email), hệ thống hiển thị cảnh báo đỏ và không cho phép submit form. |
-| **Special Requirements** | Form phải có chức năng chống spam (CAPTCHA cơ bản). |
+#### Nhóm Quản lý Kho (FR-I) — Trọng tâm
 
-#### UC03: Nhập kho theo Serial Number
+| Mã     | Mô tả yêu cầu                                                               | Độ ưu tiên |
+| ------ | --------------------------------------------------------------------------- | ---------- |
+| FR-I01 | Cấu hình danh mục sản phẩm với tracking theo Unique Serial Number           | Cao        |
+| FR-I02 | Tạo phiếu Nhập kho (Receipt) yêu cầu nhập Serial Number cho từng sản phẩm   | Cao        |
+| FR-I03 | Tạo phiếu Xuất kho (Delivery) bắt buộc chọn Serial Number đang có trong kho | Cao        |
+| FR-I04 | Tạo phiếu Chuyển kho nội bộ (Internal Transfer) giữa các vị trí             | Trung bình |
+| FR-I05 | Truy xuất nguồn gốc Serial Number (Traceability) từ nhập đến xuất           | Cao        |
+| FR-I06 | Kiểm kê kho (Inventory Adjustment) đối chiếu số liệu thực tế vs hệ thống    | Trung bình |
+| FR-I07 | Báo cáo tồn kho thời gian thực, lọc theo kho/danh mục, xuất Excel           | Trung bình |
+| FR-I08 | Cảnh báo khi nhập trùng Serial Number đã tồn tại trong hệ thống             | Cao        |
+| FR-I09 | Dashboard kho: biểu đồ nhập/xuất theo tháng, widget tổng tồn kho            | Thấp       |
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC03 |
-| **Usecase Name** | Nhập kho theo Serial Number |
-| **Description** | Nhân viên kho thực hiện quy trình nhận hàng từ nhà cung cấp và gán mã định danh Serial duy nhất cho từng thiết bị nhập kho. |
-| **Actors** | Nhân viên Kho |
-| **Scope** | Phân hệ Quản lý Kho (Inventory) |
-| **Preconditions** | Sản phẩm đã được khởi tạo trong hệ thống và đánh dấu thuộc tính "Tracking by Unique Serial Number". |
-| **Normal flow** | 1. Nhân viên Kho đăng nhập hệ thống và tạo một phiếu Nhập kho (Receipt).<br>2. Chọn tên Nhà cung cấp và thêm dòng Sản phẩm cần nhập.<br>3. Mở popup Detailed Operations, nhập/quét mã Serial Number cho từng sản phẩm tương ứng với số lượng nhập.<br>4. Nhân viên bấm nút "Validate" để hoàn tất phiếu. |
-| **Post conditions** | Số lượng tồn kho (On Hand) của sản phẩm tăng lên. Các Serial Number vừa nhập được kích hoạt và nằm ở kho đích. |
-| **Alternative flow** | Thay vì nhập thủ công, nhân viên có thể sử dụng tính năng Import Excel để đưa hàng loạt mã Serial vào phiếu nhập. |
-| **Exception flow** | Nếu nhân viên gán một Serial Number đã có sẵn trong kho, hệ thống lập tức báo lỗi Duplicate và ngăn chặn bước Validate. |
-| **Special Requirements** | Phải đảm bảo quy tắc mỗi mã Serial là duy nhất trên toàn hệ thống. |
+#### Nhóm CRM (FR-C)
 
-#### UC04: Xuất kho theo Serial Number
+| Mã     | Mô tả yêu cầu                                                                                 | Độ ưu tiên |
+| ------ | --------------------------------------------------------------------------------------------- | ---------- |
+| FR-C01 | Cấu hình Pipeline tối thiểu 6 bước: Tiếp nhận → Tư vấn → Báo giá → Đàm phán → Chốt → Thất bại | Cao        |
+| FR-C02 | Tự động tạo Lead (Auto Lead Generation) từ Web Form gửi về hệ thống CRM                       | Cao        |
+| FR-C03 | Phân loại khách hàng bằng Tags (VIP, Thân thiết, Tiềm năng, Mới)                              | Trung bình |
+| FR-C04 | Tự động tạo Activity nhắc nhở nhân viên theo từng bước pipeline                               | Trung bình |
+| FR-C05 | Gửi email template tự động theo từng bước chuyển stage                                        | Trung bình |
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC04 |
-| **Usecase Name** | Xuất kho theo Serial Number |
-| **Description** | Nhân viên kho tạo phiếu xuất kho để giao sản phẩm cho khách hàng, chọn đúng Serial Number thực tế sẽ giao. |
-| **Actors** | Nhân viên Kho |
-| **Scope** | Phân hệ Quản lý Kho (Inventory) |
-| **Preconditions** | Tồn kho của sản phẩm phải > 0 và Serial Number cần xuất phải đang nằm trong kho (On Hand). |
-| **Normal flow** | 1. Nhân viên Kho tạo phiếu Xuất kho (Delivery Order).<br>2. Chọn Đối tác nhận hàng và Sản phẩm cần xuất.<br>3. Hệ thống gợi ý số lượng xuất (Check Availability).<br>4. Nhân viên chọn đích danh Serial Number đang có mặt ở kho.<br>5. Bấm nút "Validate" để chốt phiếu. |
-| **Post conditions** | Tồn kho của sản phẩm giảm đi. Serial Number đó được đánh dấu là đã giao cho Khách hàng. |
-| **Alternative flow** | Nhân viên có thể bấm "Auto Assign" để Odoo tự động bắt Serial Number cũ nhất (FIFO) ra xuất thay vì tự chọn. |
-| **Exception flow** | Nếu cố tình điền một mã Serial không có trong kho, Odoo sẽ hiện cảnh báo và chặn luồng xuất kho. |
-| **Special Requirements** | Không có |
+### 3.2 Yêu cầu phi chức năng (Non-Functional Requirements)
 
-#### UC05: Chuyển kho nội bộ (Internal Transfer)
+| Loại                 | Yêu cầu cụ thể                                                                                           |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Hiệu suất**        | Trang website tải dưới 3 giây. Xử lý phiếu nhập/xuất kho dưới 2 giây                                     |
+| **Khả dụng**         | Giao diện website responsive từ 375px trở lên (mobile, tablet, desktop)                                  |
+| **Bảo mật**          | Phân quyền nghiêm ngặt: Nhân viên Kho không xem được CRM và ngược lại. Khách vãng lai chỉ xem Public web |
+| **Sao lưu**          | Database PostgreSQL được backup tự động, có thể restore khi mất dữ liệu                                  |
+| **Dữ liệu**          | Serial Number phải là duy nhất trên toàn hệ thống, không cho phép trùng lặp                              |
+| **Khả năng mở rộng** | Cấu trúc module Odoo cho phép bổ sung phân hệ Kế toán, HR ở Phase 2 mà không ảnh hưởng dữ liệu hiện tại  |
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC05 |
-| **Usecase Name** | Chuyển kho nội bộ (Internal Transfer) |
-| **Description** | Luân chuyển sản phẩm cùng mã Serial từ vị trí này (VD: Kho tổng) sang vị trí khác (VD: Kho trưng bày) trong nội bộ công ty. |
-| **Actors** | Nhân viên Kho |
-| **Scope** | Phân hệ Quản lý Kho (Inventory) |
-| **Preconditions** | Hàng hóa muốn chuyển phải có sẵn tồn kho tại Vị trí nguồn (Source Location). |
-| **Normal flow** | 1. Tạo phiếu Internal Transfer.<br>2. Chọn Vị trí nguồn (Source Location) và Vị trí đích (Destination Location).<br>3. Chọn sản phẩm và đích danh mã Serial muốn di chuyển.<br>4. Bấm Validate để hoàn tất. |
-| **Post conditions** | Hàng hóa (cùng mã Serial) sẽ biến mất ở Vị trí nguồn và xuất hiện tại Vị trí đích. Tổng tồn kho công ty không đổi. |
-| **Alternative flow** | Không có |
-| **Exception flow** | Lỗi nếu Vị trí đích bị khóa hoặc không đủ quyền truy cập. |
-| **Special Requirements** | Không có |
+---
 
-#### UC06: Traceability (Truy vết Serial)
+## 4. Sơ đồ Use Case & Đặc tả chi tiết
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC06 |
-| **Usecase Name** | Traceability (Truy vết Serial) |
-| **Description** | Khả năng truy xuất lại toàn bộ hành trình (đường đi) của một Serial Number từ khi nhập kho đến khi xuất bán. Rất quan trọng khi làm bảo hành. |
-| **Actors** | Nhân viên Kho, Admin |
-| **Scope** | Phân hệ Quản lý Kho (Inventory) |
-| **Preconditions** | Mã Serial Number phải tồn tại trong hệ thống. |
-| **Normal flow** | 1. Truy cập menu Lots/Serial Numbers trong Inventory.<br>2. Nhập mã Serial vào ô tìm kiếm.<br>3. Mở bản ghi Serial đó ra và nhấn vào nút "Traceability" (hoặc "Truy vết") trên góc phải giao diện.<br>4. Hệ thống hiển thị biểu đồ cây liệt kê tất cả các phiếu nhập, chuyển, xuất liên quan. |
-| **Post conditions** | Người dùng xem được lịch sử và lấy được mã phiếu xuất gốc để kiểm tra bảo hành. |
-| **Alternative flow** | Không có |
-| **Exception flow** | Nếu gõ sai mã Serial, hệ thống hiển thị danh sách rỗng. |
-| **Special Requirements** | Cây truy vết phải chỉ rõ ngày giờ thực hiện của từng lần dịch chuyển. |
+### 4.1 Sơ đồ Use Case tổng quan
 
-#### UC07: Báo cáo Tồn kho
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        HỆ THỐNG VoPC-CMCTS                      │
+│                                                                   │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────────┐  │
+│  │  WEBSITE MODULE  │  │ INVENTORY MODULE  │  │  CRM MODULE   │  │
+│  │                  │  │                   │  │               │  │
+│  │ UC01 Xem SP      │  │ UC03 Nhập kho     │  │ UC08 Pipeline │  │
+│  │ UC02 Đăng ký TV  │  │ UC04 Xuất kho     │  │ UC09 Lead &   │  │
+│  │                  │  │ UC05 Chuyển kho   │  │      Activity │  │
+│  │                  │  │ UC06 Traceability │  │ UC10 Báo giá  │  │
+│  │                  │  │ UC07 Báo cáo kho  │  │               │  │
+│  │                  │  │ UC11 Quản lý SP   │  │               │  │
+│  └──────────────────┘  └──────────────────┘  └───────────────┘  │
+│                                                                   │
+│  ┌───────────────────────────────────────────────────────────┐   │
+│  │                     SYSTEM ADMIN                           │   │
+│  │                  UC12 Phân quyền User                      │   │
+│  └───────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC07 |
-| **Usecase Name** | Báo cáo Tồn kho |
-| **Description** | Xuất báo cáo tổng hợp hoặc chi tiết về lượng hàng, giá trị tồn kho tại các Location cụ thể. |
-| **Actors** | Nhân viên Kho, Admin |
-| **Scope** | Phân hệ Quản lý Kho (Inventory) |
-| **Preconditions** | User phải được cấp quyền xem Báo cáo (Inventory Report). |
-| **Normal flow** | 1. Vào menu Reporting > Inventory Report.<br>2. Sử dụng thanh filter để nhóm (Group By) theo Sản phẩm hoặc theo Vị trí (Location).<br>3. Xem số lượng tồn kho hiển thị trực quan.<br>4. Bấm nút Export để tải báo cáo Excel về máy tính. |
-| **Post conditions** | Có được file dữ liệu Excel tồn kho chính xác để báo cáo ban giám đốc. |
-| **Alternative flow** | Chuyển chế độ xem từ List sang Pivot/Graph để phân tích trực quan. |
-| **Exception flow** | Không có |
-| **Special Requirements** | Dữ liệu phải là thời gian thực (Real-time). |
+Actor → Use Case:
+👤 Khách hàng    → UC01, UC02
+👷 NV Kho        → UC03, UC04, UC05, UC06, UC07, UC11
+💼 NV Sales      → UC08, UC09, UC10
+🔧 Admin         → UC11, UC12, UC07
 
-#### UC08: Quản lý Pipeline (Cơ hội kinh doanh)
+Liên kết đặc biệt:
+UC02 ──[include]──▶ UC09  (Form website tự động tạo Lead)
+UC10 ──[trigger]──▶ UC04  (Xác nhận đơn hàng kích hoạt xuất kho)
+```
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC08 |
-| **Usecase Name** | Quản lý Pipeline |
-| **Description** | Nhân viên kinh doanh theo dõi và kéo thả các Lead/Opportunity qua các chặng trong quy trình bán hàng bằng giao diện Kanban. |
-| **Actors** | Nhân viên Sales |
-| **Scope** | Phân hệ CRM |
-| **Preconditions** | Đã cấu hình các cột Stage (Mới, Đang tư vấn, Báo giá, Chốt...). |
-| **Normal flow** | 1. Nhân viên Sales vào ứng dụng CRM, mở giao diện Pipeline.<br>2. Giao diện Kanban hiện ra với các Lead.<br>3. Nhân viên nắm giữ thẻ Lead của một Khách hàng và Kéo - Thả (Drag & Drop) sang cột tiếp theo (Ví dụ: Từ "Mới" sang "Báo giá").<br>4. Hệ thống cập nhật trạng thái mới. |
-| **Post conditions** | Lead thay đổi Stage. Hệ thống tự động cập nhật xác suất thành công (Probability). |
-| **Alternative flow** | Đánh dấu Lead là "Won" (Thắng) hoặc "Lost" (Thua) trực tiếp mà không cần qua hết các bước trung gian. |
-| **Exception flow** | Không có |
-| **Special Requirements** | Giao diện phải mượt mà khi Drag & Drop lượng dữ liệu lớn. |
+### 4.2 Đặc tả Use Case chi tiết
 
-#### UC09: Xử lý Lead & Activity tự động
+---
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC09 |
-| **Usecase Name** | Xử lý Lead & Activity tự động |
-| **Description** | Nhận Lead từ website và thực hiện các tác vụ chăm sóc (gọi điện, email) theo lịch nhắc nhở. |
-| **Actors** | Nhân viên Sales |
-| **Scope** | Phân hệ CRM |
-| **Preconditions** | Website Form đã kết nối tới CRM. Các luật tự động (Automated Actions) tạo Activity đã được kích hoạt. |
-| **Normal flow** | 1. Lead tự động xuất hiện ở cột "Mới" khi Khách hàng gửi Form.<br>2. Nhân viên vào chi tiết Lead, hệ thống hiển thị lịch nhắc việc (Activity) "Cần gọi điện tư vấn" màu xanh (chưa quá hạn).<br>3. Nhân viên thực hiện cuộc gọi, ấn "Mark as Done" và ghi chú nội dung cuộc gọi.<br>4. Chọn "Schedule Next Activity" nếu cần gọi lại lần 2. |
-| **Post conditions** | Lead được chăm sóc kịp thời. Lịch sử làm việc được ghi nhận đầy đủ trong phần Log của Lead. |
-| **Alternative flow** | Có thể bấm Gửi Email ngay trong khung chat (Log) của Lead để trao đổi trực tiếp với khách thay vì gọi điện. |
-| **Exception flow** | Nếu Activity quá hạn, hệ thống đổi màu lịch nhắc nhở sang Đỏ để cảnh báo. |
-| **Special Requirements** | Lịch sử Log phải không thể xóa để đảm bảo minh bạch trong việc chăm sóc khách hàng. |
+#### UC01 — Xem & Tìm kiếm Sản phẩm
 
-#### UC10: Lập Báo giá và Đơn bán hàng (Sales Order)
+| Thành phần           | Chi tiết                                                                                                                                       |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC01                                                                                                                                           |
+| **Tên**              | Xem & Tìm kiếm Sản phẩm                                                                                                                        |
+| **Mô tả**            | Khách hàng duyệt danh mục, tìm kiếm và xem chi tiết thông số kỹ thuật sản phẩm trên Website                                                    |
+| **Actor**            | Khách hàng                                                                                                                                     |
+| **Phạm vi**          | Website (E-commerce)                                                                                                                           |
+| **Điều kiện trước**  | Website đang hoạt động. Sản phẩm đã được cấu hình hiển thị (Published) với đầy đủ ảnh, giá                                                     |
+| **Luồng chính**      | 1. Khách hàng truy cập vào trang danh sách sản phẩm tại đường dẫn `/shop`.<br>2. Ở thanh điều hướng bên trái, khách hàng nhấn chọn danh mục sản phẩm mong muốn.<br>3. Hệ thống tự động xử lý và hiển thị danh sách các thiết bị tương ứng.<br>4. Khách hàng nhấp chuột vào một sản phẩm cụ thể để xem cấu hình chi tiết, mức giá và trạng thái tồn kho. |
+| **Luồng thay thế**   | Bước 2: Khách gõ từ khóa vào thanh Search thay vì chọn danh mục                                                                                |
+| **Luồng ngoại lệ**   | Không tìm thấy sản phẩm → Hiển thị thông báo "Không tìm thấy sản phẩm nào phù hợp"                                                             |
+| **Điều kiện sau**    | Khách nắm được thông tin sản phẩm, có thể tiến hành đăng ký tư vấn                                                                             |
+| **Yêu cầu đặc biệt** | Trang tải dưới 3 giây, responsive tốt trên điện thoại                                                                                          |
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC10 |
-| **Usecase Name** | Lập Báo giá và Đơn bán hàng |
-| **Description** | Nhân viên Sales tạo Báo giá (Quotation) từ một Lead/Opportunity thành công, gửi cho khách hàng và chốt thành Đơn bán hàng (Sales Order). |
-| **Actors** | Nhân viên Sales |
-| **Scope** | Phân hệ CRM & Sales |
-| **Preconditions** | Cơ hội kinh doanh (Opportunity) đã đến giai đoạn "Báo giá" hoặc "Chốt". |
-| **Normal flow** | 1. Nhân viên mở thẻ Khách hàng trong CRM, nhấn nút "New Quotation".<br>2. Thêm các sản phẩm, số lượng, điều chỉnh đơn giá/chiết khấu nếu cần.<br>3. Nhấn "Send by Email" để gửi file PDF Báo giá cho khách hàng.<br>4. Khi khách hàng xác nhận mua, nhân viên nhấn "Confirm" để chuyển Báo giá thành Đơn bán hàng (Sales Order). |
-| **Post conditions** | Đơn bán hàng được tạo thành công. Hệ thống tự động sinh ra một phiếu Xuất kho (Delivery) ở trạng thái "Chờ xử lý" (Waiting) cho bộ phận Kho. |
-| **Alternative flow** | Nhân viên có thể in Báo giá ra giấy (Print PDF) đưa trực tiếp cho khách thay vì gửi Email. |
-| **Exception flow** | Nếu thêm sản phẩm đang hết hàng (Out of Stock) vào báo giá, Odoo sẽ hiện cảnh báo màu đỏ bên cạnh tên sản phẩm. |
-| **Special Requirements** | Mẫu PDF Báo giá phải có logo và thông tin liên hệ của CMCTS. |
+---
 
-#### UC11: Quản lý danh mục Sản phẩm
+#### UC02 — Đăng ký tư vấn qua form
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC11 |
-| **Usecase Name** | Quản lý danh mục Sản phẩm |
-| **Description** | Tạo mới và cấu hình thông tin cho các sản phẩm thiết bị công nghệ chuẩn bị kinh doanh. |
-| **Actors** | Admin, Nhân viên Kho (có quyền Quản lý) |
-| **Scope** | Phân hệ Inventory |
-| **Preconditions** | Người dùng đăng nhập với quyền Admin hoặc Quản lý Kho. |
-| **Normal flow** | 1. Vào menu Products > Tạo mới (Create).<br>2. Điền Tên sản phẩm, tải ảnh đại diện lên, thiết lập Giá bán, Danh mục (Category).<br>3. Chuyển sang tab "Inventory", tích chọn phương thức Tracking là "By Unique Serial Number".<br>4. Nhấn Save. |
-| **Post conditions** | Sản phẩm mới xuất hiện trong hệ thống, sẵn sàng để Nhập kho và đăng bán lên Website. |
-| **Alternative flow** | Import hàng loạt sản phẩm bằng file Excel thay vì nhập tay từng cái. |
-| **Exception flow** | Nếu quên chọn "By Unique Serial Number" mà để mặc định là "No Tracking", nhân viên kho sau này sẽ không thể nhập Serial cho hàng hóa đó. |
-| **Special Requirements** | Bắt buộc phải đánh dấu các sản phẩm thiết bị là hàng hóa "Storable Product" (Hàng lưu kho). |
+| Thành phần           | Chi tiết                                                                                                                                                         |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC02                                                                                                                                                             |
+| **Tên**              | Đăng ký tư vấn qua form                                                                                                                                          |
+| **Mô tả**            | Khách hàng để lại thông tin (Tên, SĐT, Email, Nhu cầu) để nhân viên Sales liên hệ tư vấn                                                                         |
+| **Actor**            | Khách hàng                                                                                                                                                       |
+| **Phạm vi**          | Website + CRM (tích hợp)                                                                                                                                         |
+| **Điều kiện trước**  | Website hoạt động bình thường. Form đã được cấu hình kết nối CRM                                                                                                 |
+| **Luồng chính**      | 1. Khách hàng truy cập vào trang liên hệ tại đường dẫn `/tu-van`.<br>2. Khách hàng điền đầy đủ thông tin vào form (Họ tên, Số điện thoại, Email, Nội dung cần hỗ trợ).<br>3. Khách hàng nhấn nút "Gửi thông tin".<br>4. Hệ thống ghi nhận yêu cầu và hiển thị màn hình Cảm ơn.<br>5. Hệ thống CRM tự động khởi tạo một Lead mới chứa thông tin vừa nhập. |
+| **Luồng thay thế**   | Không có                                                                                                                                                         |
+| **Luồng ngoại lệ**   | Bỏ trống trường bắt buộc (Email) → Hiển thị cảnh báo đỏ, không cho submit                                                                                        |
+| **Điều kiện sau**    | Lead mới xuất hiện ở stage "Tiếp nhận yêu cầu" trong CRM. Email xác nhận gửi cho khách                                                                           |
+| **Yêu cầu đặc biệt** | Form có chống spam cơ bản. Email xác nhận gửi trong vòng 1 phút                                                                                                  |
 
-#### UC12: Quản lý Phân quyền Người dùng (Access Rights)
+---
 
-| Thành phần | Chi tiết |
-| --- | --- |
-| **Usecase ID** | UC12 |
-| **Usecase Name** | Quản lý Phân quyền Người dùng |
-| **Description** | Admin tạo tài khoản cho nhân viên và phân quyền truy cập nghiêm ngặt giữa các phòng ban. |
-| **Actors** | Admin |
-| **Scope** | Phân hệ Settings (Cài đặt hệ thống) |
-| **Preconditions** | Phải đăng nhập bằng tài khoản Administrator cao nhất. Kích hoạt chế độ Developer Mode nếu cần thiết lập sâu. |
-| **Normal flow** | 1. Vào Settings > Users & Companies > Users.<br>2. Nhấn Create để tạo tài khoản mới (Nhập tên, Email đăng nhập).<br>3. Ở phần Access Rights, thiết lập:<br> - Nhân viên A: CRM = User: All Documents, Inventory = Blank.<br> - Nhân viên B: Inventory = User, CRM = Blank.<br>4. Gửi email mời (Send Invitation) để nhân viên tự đặt mật khẩu. |
-| **Post conditions** | Nhân viên nhận được tài khoản. Khi đăng nhập, Nhân viên Kho sẽ không thấy icon app CRM, và ngược lại. |
-| **Alternative flow** | Admin tự thiết lập Mật khẩu trực tiếp (Change Password) thay vì gửi email mời. |
-| **Exception flow** | Nếu cấp quyền sai, nhân viên có thể xem được dữ liệu nhạy cảm của phòng ban khác. |
-| **Special Requirements** | Tài khoản Admin mặc định không bao giờ được phép xóa. |
+#### UC03 — Nhập kho theo Serial Number
+
+| Thành phần           | Chi tiết                                                                                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC03                                                                                                                                                 |
+| **Tên**              | Nhập kho theo Serial Number                                                                                                                          |
+| **Mô tả**            | Nhân viên kho nhận hàng từ nhà cung cấp và gán mã Serial duy nhất cho từng thiết bị                                                                  |
+| **Actor**            | Nhân viên Kho                                                                                                                                        |
+| **Phạm vi**          | Inventory                                                                                                                                            |
+| **Điều kiện trước**  | Sản phẩm đã được cấu hình "Tracking by Unique Serial Number"                                                                                         |
+| **Luồng chính**      | 1. Nhân viên Kho đăng nhập và tạo một phiếu Nhập kho (Receipt) mới trên hệ thống.<br>2. Chọn tên Nhà cung cấp và thêm các dòng sản phẩm cần nhập vào phiếu.<br>3. Mở chi tiết hoạt động (Detailed Operations) để nhập hoặc quét mã Serial Number duy nhất cho từng sản phẩm.<br>4. Nhân viên kiểm tra lại thông tin và bấm nút "Validate" để hoàn tất.<br>5. Số lượng tồn kho tự động tăng lên và các mã Serial vừa nhập chính thức được kích hoạt tại kho đích. |
+| **Luồng thay thế**   | Import hàng loạt Serial bằng file Excel thay vì nhập tay                                                                                             |
+| **Luồng ngoại lệ**   | Nhập Serial đã tồn tại → Hệ thống báo lỗi Duplicate, chặn Validate                                                                                   |
+| **Điều kiện sau**    | Tồn kho tăng đúng số lượng. Serial được kích hoạt và nằm ở kho đích                                                                                  |
+| **Yêu cầu đặc biệt** | Mỗi Serial phải là duy nhất trên toàn hệ thống                                                                                                       |
+
+---
+
+#### UC04 — Xuất kho theo Serial Number
+
+| Thành phần           | Chi tiết                                                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC04                                                                                                                                         |
+| **Tên**              | Xuất kho theo Serial Number                                                                                                                  |
+| **Mô tả**            | Nhân viên kho tạo phiếu xuất kho giao sản phẩm cho khách, chọn đúng Serial thực tế sẽ giao                                                   |
+| **Actor**            | Nhân viên Kho                                                                                                                                |
+| **Phạm vi**          | Inventory                                                                                                                                    |
+| **Điều kiện trước**  | Tồn kho sản phẩm > 0, Serial cần xuất đang có trong kho (On Hand)                                                                            |
+| **Luồng chính**      | 1. Nhân viên Kho khởi tạo một phiếu Xuất kho (Delivery Order) trên hệ thống.<br>2. Điền thông tin đối tác nhận hàng và chọn các sản phẩm cần xuất.<br>3. Trong danh sách hàng có sẵn (On Hand), nhân viên chọn đích danh các Serial Number thực tế sẽ được giao.<br>4. Nhân viên bấm "Validate" để xác nhận xuất kho.<br>5. Tồn kho sản phẩm giảm xuống và các mã Serial tương ứng được đánh dấu là đã xuất. |
+| **Luồng thay thế**   | Nhấn "Auto Assign" để Odoo tự chọn Serial cũ nhất (FIFO)                                                                                     |
+| **Luồng ngoại lệ**   | Serial không có trong kho → Odoo cảnh báo và chặn xuất kho                                                                                   |
+| **Điều kiện sau**    | Tồn kho giảm đúng số lượng. Serial được đánh dấu đã giao cho khách hàng                                                                      |
+| **Yêu cầu đặc biệt** | Không có                                                                                                                                     |
+
+---
+
+#### UC05 — Chuyển kho nội bộ
+
+| Thành phần           | Chi tiết                                                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC05                                                                                                                                                          |
+| **Tên**              | Chuyển kho nội bộ (Internal Transfer)                                                                                                                         |
+| **Mô tả**            | Di chuyển sản phẩm cùng Serial từ vị trí này sang vị trí khác trong cùng công ty                                                                              |
+| **Actor**            | Nhân viên Kho                                                                                                                                                 |
+| **Phạm vi**          | Inventory                                                                                                                                                     |
+| **Điều kiện trước**  | Hàng hóa có sẵn tại vị trí nguồn (Source Location)                                                                                                            |
+| **Luồng chính**      | 1. Nhân viên Kho khởi tạo phiếu Chuyển kho nội bộ (Internal Transfer).<br>2. Chỉ định rõ Vị trí nguồn (Source Location) và Vị trí đích (Destination Location).<br>3. Thêm sản phẩm cần chuyển và lựa chọn đích danh các mã Serial Number.<br>4. Kiểm tra số lượng và nhấn "Validate" để hoàn tất điều chuyển.<br>5. Các mã Serial được chọn sẽ biến mất ở vị trí nguồn và cập nhật trạng thái có mặt tại vị trí đích. |
+| **Luồng thay thế**   | Không có                                                                                                                                                      |
+| **Luồng ngoại lệ**   | Vị trí đích bị khóa hoặc không đủ quyền → Hệ thống báo lỗi, không cho thực hiện                                                                               |
+| **Điều kiện sau**    | Serial biến mất ở vị trí nguồn, xuất hiện tại vị trí đích. Tổng tồn kho toàn công ty không đổi                                                                |
+| **Yêu cầu đặc biệt** | Không có                                                                                                                                                      |
+
+---
+
+#### UC06 — Truy vết Serial Number (Traceability)
+
+| Thành phần           | Chi tiết                                                                                                                                                                    |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC06                                                                                                                                                                        |
+| **Tên**              | Truy vết Serial Number (Traceability)                                                                                                                                       |
+| **Mô tả**            | Xem toàn bộ hành trình của một Serial từ khi nhập kho đến khi xuất bán — rất quan trọng khi làm bảo hành                                                                    |
+| **Actor**            | Nhân viên Kho, Admin                                                                                                                                                        |
+| **Phạm vi**          | Inventory                                                                                                                                                                   |
+| **Điều kiện trước**  | Serial Number đã tồn tại trong hệ thống                                                                                                                                     |
+| **Luồng chính**      | 1. Người dùng truy cập vào menu Lots/Serial Numbers trong phân hệ Quản lý Kho.<br>2. Điền mã Serial Number cần kiểm tra vào ô tìm kiếm.<br>3. Mở bản ghi chi tiết của Serial đó và nhấn vào nút "Traceability" (Truy vết).<br>4. Hệ thống ngay lập tức hiển thị biểu đồ cây liệt kê toàn bộ lịch sử các phiếu nhập, xuất, chuyển kho liên quan đến Serial này. |
+| **Luồng thay thế**   | Không có                                                                                                                                                                    |
+| **Luồng ngoại lệ**   | Nhập sai mã Serial → Danh sách trống                                                                                                                                        |
+| **Điều kiện sau**    | Người dùng xem được đầy đủ lịch sử và lấy được mã phiếu xuất để kiểm tra bảo hành                                                                                           |
+| **Yêu cầu đặc biệt** | Cây truy vết phải ghi rõ ngày giờ của từng lần dịch chuyển                                                                                                                  |
+
+---
+
+#### UC07 — Báo cáo tồn kho
+
+| Thành phần           | Chi tiết                                                                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC07                                                                                                                                |
+| **Tên**              | Báo cáo tồn kho                                                                                                                     |
+| **Mô tả**            | Xuất báo cáo tổng hợp về lượng hàng và giá trị tồn kho tại các vị trí cụ thể                                                        |
+| **Actor**            | Nhân viên Kho, Admin                                                                                                                |
+| **Phạm vi**          | Inventory                                                                                                                           |
+| **Điều kiện trước**  | User được cấp quyền xem Báo cáo (Inventory Report)                                                                                  |
+| **Luồng chính**      | 1. Người dùng truy cập vào tính năng Inventory Report trong phần Báo cáo của Odoo.<br>2. Sử dụng bộ lọc (Filter) và nhóm (Group By) để thu hẹp phạm vi theo sản phẩm, danh mục hoặc vị trí kho cụ thể.<br>3. Màn hình hiển thị số lượng tồn kho và giá trị hàng hóa theo thời gian thực.<br>4. Nhấn nút Export để kết xuất dữ liệu ra file Excel phục vụ cho việc báo cáo bên ngoài. |
+| **Luồng thay thế**   | Chuyển chế độ xem sang Pivot hoặc Graph để phân tích trực quan                                                                      |
+| **Luồng ngoại lệ**   | Không có                                                                                                                            |
+| **Điều kiện sau**    | Có file Excel dữ liệu tồn kho chính xác để báo cáo                                                                                  |
+| **Yêu cầu đặc biệt** | Dữ liệu phải là thời gian thực (Real-time)                                                                                          |
+
+---
+
+#### UC08 — Quản lý Pipeline CRM
+
+| Thành phần           | Chi tiết                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC08                                                                                                                                                                         |
+| **Tên**              | Quản lý Pipeline CRM                                                                                                                                                         |
+| **Mô tả**            | Nhân viên Sales theo dõi và kéo thả Lead/Opportunity qua các bước trong quy trình bán hàng                                                                                   |
+| **Actor**            | Nhân viên Sales                                                                                                                                                              |
+| **Phạm vi**          | CRM                                                                                                                                                                          |
+| **Điều kiện trước**  | Đã cấu hình các Stage: Tiếp nhận → Tư vấn → Báo giá → Đàm phán → Chốt / Thất bại                                                                                             |
+| **Luồng chính**      | 1. Nhân viên Sales truy cập ứng dụng CRM và mở giao diện Pipeline dưới dạng bảng Kanban.<br>2. Hệ thống hiển thị danh sách các Cơ hội kinh doanh (Lead) đang được phân loại theo từng giai đoạn (Stage).<br>3. Nhân viên nắm giữ thẻ của một Lead và thực hiện thao tác Kéo - Thả (Drag & Drop) sang giai đoạn tiếp theo.<br>4. Hệ thống ghi nhận trạng thái mới và tự động tính toán lại tỷ lệ chốt thành công (Probability). |
+| **Luồng thay thế**   | Đánh dấu Lead là "Won" hoặc "Lost" trực tiếp mà không cần qua hết các bước                                                                                                   |
+| **Luồng ngoại lệ**   | Không có                                                                                                                                                                     |
+| **Điều kiện sau**    | Lead thay đổi Stage. Xác suất thành công (Probability) tự động cập nhật. Activity nhắc việc tự tạo                                                                           |
+| **Yêu cầu đặc biệt** | Giao diện Drag & Drop mượt mà                                                                                                                                                |
+
+---
+
+#### UC09 — Xử lý Lead & Activity tự động
+
+| Thành phần           | Chi tiết                                                                                                                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC09                                                                                                                                                                                                                    |
+| **Tên**              | Xử lý Lead & Activity tự động                                                                                                                                                                                           |
+| **Mô tả**            | Nhận Lead từ website và thực hiện các tác vụ chăm sóc theo lịch nhắc nhở tự động                                                                                                                                        |
+| **Actor**            | Nhân viên Sales                                                                                                                                                                                                         |
+| **Phạm vi**          | CRM                                                                                                                                                                                                                     |
+| **Điều kiện trước**  | Website Form đã kết nối CRM. Automated Actions tạo Activity đã được kích hoạt                                                                                                                                           |
+| **Luồng chính**      | 1. Lead mới được hệ thống tự động đẩy vào cột "Tiếp nhận" ngay sau khi khách hàng điền form trên website.<br>2. Nhân viên mở chi tiết Lead và nhận được tác vụ (Activity) tự động nhắc nhở "Cần gọi điện tư vấn".<br>3. Nhân viên thực hiện cuộc gọi hỗ trợ, sau đó nhấn "Mark as Done" và nhập ghi chú nội dung đã trao đổi.<br>4. Nếu cần chăm sóc thêm, nhân viên tiếp tục chọn "Schedule Next Activity" để lên lịch hẹn lần sau. |
+| **Luồng thay thế**   | Gửi email trực tiếp trong khung Log của Lead thay vì gọi điện                                                                                                                                                           |
+| **Luồng ngoại lệ**   | Activity quá hạn → Hệ thống đổi màu cảnh báo sang Đỏ                                                                                                                                                                    |
+| **Điều kiện sau**    | Lead được chăm sóc kịp thời. Lịch sử làm việc ghi nhận đầy đủ trong Log                                                                                                                                                 |
+| **Yêu cầu đặc biệt** | Lịch sử Log không thể xóa để đảm bảo minh bạch                                                                                                                                                                          |
+
+---
+
+#### UC10 — Lập Báo giá và Đơn bán hàng
+
+| Thành phần           | Chi tiết                                                                                                                                                                                |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC10                                                                                                                                                                                    |
+| **Tên**              | Lập Báo giá và Đơn bán hàng                                                                                                                                                             |
+| **Mô tả**            | Nhân viên Sales tạo Báo giá từ Lead thành công, gửi khách và chốt thành Sales Order                                                                                                     |
+| **Actor**            | Nhân viên Sales                                                                                                                                                                         |
+| **Phạm vi**          | CRM & Sales                                                                                                                                                                             |
+| **Điều kiện trước**  | Opportunity đã đến giai đoạn "Báo giá" hoặc "Chốt"                                                                                                                                      |
+| **Luồng chính**      | 1. Nhân viên Sales mở chi tiết một Cơ hội kinh doanh (Opportunity) đã đến giai đoạn chốt.<br>2. Nhấn nút "New Quotation" để khởi tạo một Báo giá mới gắn liền với khách hàng này.<br>3. Thêm các sản phẩm, tùy chỉnh số lượng, đơn giá và áp dụng chiết khấu (nếu có).<br>4. Nhấn "Send by Email" để gửi ngay bản PDF Báo giá cho khách hàng tham khảo.<br>5. Sau khi khách đồng ý mua, nhấn "Confirm" để chính thức chuyển Báo giá thành Đơn bán hàng (Sales Order). |
+| **Luồng thay thế**   | In Báo giá ra PDF đưa trực tiếp cho khách thay vì gửi email                                                                                                                             |
+| **Luồng ngoại lệ**   | Thêm sản phẩm hết hàng vào báo giá → Odoo hiện cảnh báo màu đỏ                                                                                                                          |
+| **Điều kiện sau**    | Sales Order được tạo. Hệ thống tự động sinh phiếu Xuất kho (Delivery) ở trạng thái "Chờ xử lý"                                                                                          |
+| **Yêu cầu đặc biệt** | Mẫu PDF Báo giá có logo và thông tin liên hệ của công ty                                                                                                                                |
+
+---
+
+#### UC11 — Quản lý danh mục Sản phẩm
+
+| Thành phần           | Chi tiết                                                                                                                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Usecase ID**       | UC11                                                                                                                                                                           |
+| **Tên**              | Quản lý danh mục Sản phẩm                                                                                                                                                      |
+| **Mô tả**            | Tạo mới và cấu hình thông tin cho các sản phẩm thiết bị công nghệ chuẩn bị kinh doanh                                                                                          |
+| **Actor**            | Admin, Nhân viên Kho (có quyền Quản lý)                                                                                                                                        |
+| **Phạm vi**          | Inventory                                                                                                                                                                      |
+| **Điều kiện trước**  | Đăng nhập với quyền Admin hoặc Quản lý Kho                                                                                                                                     |
+| **Luồng chính**      | 1. Người quản lý truy cập danh mục Products và chọn nút "Create" để khởi tạo sản phẩm mới.<br>2. Điền đầy đủ thông tin cơ bản: Tên sản phẩm, tải ảnh minh họa, mức giá và danh mục (Category).<br>3. Chuyển sang tab Inventory, tích chọn phương thức Tracking là "By Unique Serial Number" để kích hoạt tính năng truy vết.<br>4. Đảm bảo thuộc tính Product Type được đặt là "Storable Product" (Hàng lưu kho).<br>5. Nhấn "Save" để lưu lại cấu hình sản phẩm. |
+| **Luồng thay thế**   | Import hàng loạt sản phẩm bằng file Excel                                                                                                                                      |
+| **Luồng ngoại lệ**   | Quên chọn Serial Tracking → Nhân viên kho sau này không thể nhập Serial cho hàng hóa đó                                                                                        |
+| **Điều kiện sau**    | Sản phẩm sẵn sàng để nhập kho và đăng bán trên Website                                                                                                                         |
+| **Yêu cầu đặc biệt** | Bắt buộc đặt loại "Storable Product" cho tất cả thiết bị cần lưu kho                                                                                                           |
+
+---
+
+#### UC12 — Quản lý Phân quyền Người dùng
+
+| Thành phần           | Chi tiết                                                                                                                                                                                                             |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usecase ID**       | UC12                                                                                                                                                                                                                 |
+| **Tên**              | Quản lý Phân quyền Người dùng                                                                                                                                                                                        |
+| **Mô tả**            | Admin tạo tài khoản cho nhân viên và phân quyền truy cập nghiêm ngặt giữa các phòng ban                                                                                                                              |
+| **Actor**            | Admin                                                                                                                                                                                                                |
+| **Phạm vi**          | Settings                                                                                                                                                                                                             |
+| **Điều kiện trước**  | Đăng nhập bằng tài khoản Administrator cao nhất                                                                                                                                                                      |
+| **Luồng chính**      | 1. Quản trị viên (Admin) truy cập vào đường dẫn Settings > Users & Companies > Users và nhấn "Create".<br>2. Khai báo các thông tin bắt buộc gồm Tên nhân viên và Email dùng để đăng nhập.<br>3. Tại phần Access Rights, thiết lập phân quyền nghiêm ngặt: Nhân viên Kho chỉ được quyền thao tác Inventory, Nhân viên Sales chỉ được thao tác CRM.<br>4. Nhấn "Send Invitation" để gửi email chứa đường dẫn cho phép nhân viên tự kích hoạt và đặt mật khẩu cá nhân. |
+| **Luồng thay thế**   | Admin tự đặt mật khẩu trực tiếp (Change Password) thay vì gửi email mời                                                                                                                                              |
+| **Luồng ngoại lệ**   | Cấp quyền sai → Nhân viên có thể xem dữ liệu nhạy cảm của phòng ban khác                                                                                                                                             |
+| **Điều kiện sau**    | Nhân viên đăng nhập được và chỉ thấy các app được phân quyền                                                                                                                                                         |
+| **Yêu cầu đặc biệt** | Tài khoản Admin mặc định không bao giờ được phép xóa                                                                                                                                                                 |
+
+---
+
+## 5. Bảng tổng hợp yêu cầu chức năng
+
+| Mã FR  | Mô tả                                            | Module    | UC liên quan | Ưu tiên |
+| ------ | ------------------------------------------------ | --------- | ------------ | ------- |
+| FR-W01 | Trang chủ Hero Banner, dịch vụ, sản phẩm nổi bật | Website   | UC01         | Cao     |
+| FR-W02 | Danh sách sản phẩm, lọc danh mục, tìm kiếm       | Website   | UC01         | Cao     |
+| FR-W03 | Form Đăng ký tư vấn (Tên, Email, SĐT bắt buộc)   | Website   | UC02         | Cao     |
+| FR-W04 | Trang About Us, Blog, Event                      | Website   | —            | TB      |
+| FR-W05 | Trang Contact Us: form, bản đồ, thông tin        | Website   | —            | TB      |
+| FR-W06 | Responsive mobile/tablet/desktop                 | Website   | —            | TB      |
+| FR-I01 | Cấu hình sản phẩm Tracking by Unique Serial      | Inventory | UC11         | Cao     |
+| FR-I02 | Phiếu Nhập kho với Serial Number                 | Inventory | UC03         | Cao     |
+| FR-I03 | Phiếu Xuất kho chọn Serial On Hand               | Inventory | UC04         | Cao     |
+| FR-I04 | Phiếu Chuyển kho nội bộ                          | Inventory | UC05         | TB      |
+| FR-I05 | Traceability toàn bộ vòng đời Serial             | Inventory | UC06         | Cao     |
+| FR-I06 | Kiểm kê kho, điều chỉnh chênh lệch               | Inventory | —            | TB      |
+| FR-I07 | Báo cáo tồn kho thời gian thực, xuất Excel       | Inventory | UC07         | TB      |
+| FR-I08 | Cảnh báo nhập trùng Serial Number                | Inventory | UC03         | Cao     |
+| FR-I09 | Dashboard kho: biểu đồ nhập/xuất                 | Inventory | —            | Thấp    |
+| FR-C01 | Pipeline CRM 6 bước tư vấn thiết kế              | CRM       | UC08         | Cao     |
+| FR-C02 | Auto Lead từ Web Form → CRM                      | CRM       | UC02, UC09   | Cao     |
+| FR-C03 | Tag khách hàng: VIP, Thân thiết, Tiềm năng, Mới  | CRM       | —            | TB      |
+| FR-C04 | Activity tự động nhắc việc theo stage            | CRM       | UC09         | TB      |
+| FR-C05 | Email template tự động theo stage                | CRM       | UC09         | TB      |
+
+---
+
+_Tài liệu này được lưu tại: `/docs/SRS_VoPC_cmcts.md` trên GitHub repo_  
+_Cập nhật lần cuối: 09/06/2026_
