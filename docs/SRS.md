@@ -120,86 +120,148 @@ usecaseDiagram
 
 ### 3.2 Đặc tả Use-Case chi tiết
 
-**UC01: Xem & Tìm kiếm Sản phẩm**
-- **Actor:** Khách hàng
-- **Mô tả:** Khách hàng duyệt danh mục, tìm kiếm và xem chi tiết cấu hình sản phẩm trên Website.
-- **Luồng sự kiện chính:**
-  1. Khách truy cập vào trang `/shop`.
-  2. Chọn danh mục sản phẩm ở thanh điều hướng bên trái.
-  3. Hệ thống trả về danh sách các mặt hàng tương ứng.
-  4. Khách click vào một sản phẩm để xem giá, hình ảnh và thông số kỹ thuật.
-- **Tiền điều kiện:** Sản phẩm đã được nhân viên cập nhật thông tin và đánh dấu "Published".
+Dưới đây là chi tiết đặc tả cho các Use Case theo đúng biểu mẫu chuẩn.
 
-**UC02: Đăng ký tư vấn qua form**
-- **Actor:** Khách hàng
-- **Mô tả:** Gửi yêu cầu liên hệ hoặc đăng ký nhận báo giá cho dự án/thiết bị.
-- **Luồng sự kiện chính:**
-  1. Khách hàng vào trang `/tu-van`.
-  2. Điền Họ Tên, Số điện thoại, Email và Nội dung cần tư vấn.
-  3. Bấm "Gửi thông tin".
-  4. Hệ thống hiển thị thông báo gửi thành công và ghi nhận dữ liệu vào backend.
-- **Luồng ngoại lệ:** Nếu để trống trường Email, hệ thống báo lỗi không cho gửi form.
+#### UC01: Xem & Tìm kiếm Sản phẩm
 
-**UC03: Nhập kho theo Serial Number**
-- **Actor:** Nhân viên Kho
-- **Mô tả:** Nhập thiết bị công nghệ từ Nhà cung cấp vào kho lưu trữ và gán mã Serial.
-- **Luồng sự kiện chính:**
-  1. Nhân viên Kho tạo một phiếu Receipt mới.
-  2. Chọn Nhà cung cấp và thêm dòng Sản phẩm cần nhập.
-  3. Nhập/Quét mã Serial cho từng đơn vị sản phẩm tương ứng với số lượng nhập.
-  4. Bấm Validate để hoàn tất.
-- **Hậu điều kiện:** Sản phẩm với mã Serial tương ứng chính thức có trạng thái "On Hand" trong kho.
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC01 |
+| **Usecase Name** | Xem & Tìm kiếm Sản phẩm |
+| **Description** | Khách hàng duyệt danh mục, tìm kiếm và xem chi tiết thông số kỹ thuật của sản phẩm trên Website. |
+| **Actors** | Khách hàng |
+| **Scope** | Phân hệ Website (E-commerce) |
+| **Preconditions** | Hệ thống website đang hoạt động. Các sản phẩm đã được nhân viên cấu hình hiển thị (Published) với đầy đủ hình ảnh, giá cả. |
+| **Normal flow** | 1. Khách truy cập vào trang `/shop`.<br>2. Chọn danh mục sản phẩm mong muốn ở thanh điều hướng bên trái.<br>3. Hệ thống trả về danh sách các mặt hàng tương ứng.<br>4. Khách click vào một sản phẩm để xem cấu hình chi tiết, giá và tồn kho. |
+| **Post conditions** | Khách hàng nắm được thông tin sản phẩm và có thể tiến hành bước tiếp theo (Đăng ký tư vấn). |
+| **Alternative flow** | Ở bước 2, thay vì chọn danh mục, Khách hàng gõ từ khóa trực tiếp vào thanh Tìm kiếm (Search bar) để tìm đích danh sản phẩm. |
+| **Exception flow** | Nếu Khách hàng tìm kiếm sản phẩm không tồn tại, hệ thống hiển thị thông báo "Không tìm thấy sản phẩm nào phù hợp". |
+| **Special Requirements** | Giao diện phải tải trang dưới 3 giây và responsive tốt trên điện thoại di động. |
 
-**UC04: Xuất kho theo Serial Number**
-- **Actor:** Nhân viên Kho
-- **Mô tả:** Xuất hàng hóa giao cho Khách hàng dựa trên Serial Number cụ thể.
-- **Luồng sự kiện chính:**
-  1. Nhân viên Kho tạo phiếu Delivery.
-  2. Chọn Sản phẩm cần xuất.
-  3. Bấm vào icon chi tiết (Detailed Operations) để chọn đích danh Serial Number đang có trong kho.
-  4. Bấm Validate.
-- **Luồng ngoại lệ:** Nếu chọn một Serial đang không nằm trong kho, hệ thống cảnh báo và từ chối xuất.
+#### UC02: Đăng ký tư vấn qua form
 
-**UC05: Chuyển kho nội bộ (Internal Transfer)**
-- **Actor:** Nhân viên Kho
-- **Mô tả:** Di chuyển hàng hóa từ Kệ/Kho này sang Kệ/Kho khác trong công ty.
-- **Luồng sự kiện chính:**
-  1. Tạo phiếu Internal Transfer.
-  2. Chọn Vị trí nguồn (Source Location) và Vị trí đích (Destination Location).
-  3. Chọn sản phẩm và mã Serial muốn di chuyển.
-  4. Bấm Validate.
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC02 |
+| **Usecase Name** | Đăng ký tư vấn qua form |
+| **Description** | Khách hàng để lại thông tin (Tên, Số điện thoại, Email) và nội dung cần tư vấn trên trang Website để nhân viên Sales liên hệ lại. |
+| **Actors** | Khách hàng |
+| **Scope** | Phân hệ Website và tích hợp CRM |
+| **Preconditions** | Hệ thống Website hoạt động bình thường. Mẫu form liên hệ đã được cấu hình trỏ về CRM. |
+| **Normal flow** | 1. Khách hàng truy cập trang `/tu-van`.<br>2. Khách hàng điền đầy đủ các thông tin: Họ Tên, Số điện thoại, Email và Nội dung cần hỗ trợ.<br>3. Khách hàng nhấn nút "Gửi thông tin".<br>4. Hệ thống ghi nhận dữ liệu, hiển thị màn hình Cảm ơn. |
+| **Post conditions** | Dữ liệu form được lưu trữ thành công và hệ thống CRM tự động khởi tạo một Lead mới. |
+| **Alternative flow** | Không có |
+| **Exception flow** | Nếu khách hàng để trống trường bắt buộc (VD: Email), hệ thống hiển thị cảnh báo đỏ và không cho phép submit form. |
+| **Special Requirements** | Form phải có chức năng chống spam (CAPTCHA cơ bản). |
 
-**UC06: Traceability (Truy vết Serial)**
-- **Actor:** Nhân viên Kho
-- **Mô tả:** Truy xuất toàn bộ lịch sử di chuyển của một mã Serial để phục vụ bảo hành, khiếu nại.
-- **Luồng sự kiện chính:**
-  1. Vào menu Lots/Serial Numbers.
-  2. Gõ tìm mã Serial cần tra cứu.
-  3. Nhấn vào nút Traceability trên giao diện.
-  4. Hệ thống hiển thị sơ đồ cây từ lúc Nhập (Vendor) -> Kho nội bộ -> Xuất (Customer).
+#### UC03: Nhập kho theo Serial Number
 
-**UC07: Xem Báo cáo tồn kho**
-- **Actor:** Nhân viên Kho, Admin
-- **Mô tả:** Kiểm tra tổng số lượng hàng hóa và giá trị hàng hóa đang nằm trong các kho.
-- **Luồng sự kiện chính:**
-  1. Vào menu Reporting > Inventory Report.
-  2. Sử dụng bộ lọc theo Location hoặc Danh mục sản phẩm.
-  3. Export file Excel nếu cần thiết.
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC03 |
+| **Usecase Name** | Nhập kho theo Serial Number |
+| **Description** | Nhân viên kho thực hiện quy trình nhận hàng từ nhà cung cấp và gán mã định danh Serial duy nhất cho từng thiết bị nhập kho. |
+| **Actors** | Nhân viên Kho |
+| **Scope** | Phân hệ Quản lý Kho (Inventory) |
+| **Preconditions** | Sản phẩm đã được khởi tạo trong hệ thống và đánh dấu thuộc tính "Tracking by Unique Serial Number". |
+| **Normal flow** | 1. Nhân viên Kho đăng nhập hệ thống và tạo một phiếu Nhập kho (Receipt).<br>2. Chọn tên Nhà cung cấp và thêm dòng Sản phẩm cần nhập.<br>3. Mở popup Detailed Operations, nhập/quét mã Serial Number cho từng sản phẩm tương ứng với số lượng nhập.<br>4. Nhân viên bấm nút "Validate" để hoàn tất phiếu. |
+| **Post conditions** | Số lượng tồn kho (On Hand) của sản phẩm tăng lên. Các Serial Number vừa nhập được kích hoạt và nằm ở kho đích. |
+| **Alternative flow** | Thay vì nhập thủ công, nhân viên có thể sử dụng tính năng Import Excel để đưa hàng loạt mã Serial vào phiếu nhập. |
+| **Exception flow** | Nếu nhân viên gán một Serial Number đã có sẵn trong kho, hệ thống lập tức báo lỗi Duplicate và ngăn chặn bước Validate. |
+| **Special Requirements** | Phải đảm bảo quy tắc mỗi mã Serial là duy nhất trên toàn hệ thống. |
 
-**UC08: Quản lý Pipeline (Cơ hội kinh doanh)**
-- **Actor:** Nhân viên Sales
-- **Mô tả:** Theo dõi và cập nhật trạng thái của các Leads/Opportunities trên giao diện Kanban.
-- **Luồng sự kiện chính:**
-  1. Vào ứng dụng CRM.
-  2. Giao diện hiển thị các cột trạng thái (New, Đang tư vấn, Báo giá...).
-  3. Nhân viên nắm giữ thẻ Khách hàng và Kéo - Thả (Drag & Drop) sang cột tiếp theo.
-  4. Hệ thống cập nhật xác suất chốt (Probability) tự động.
+#### UC04: Xuất kho theo Serial Number
 
-**UC09: Xử lý Lead & Activity tự động**
-- **Actor:** Nhân viên Sales
-- **Mô tả:** Nhận Lead từ website và thực hiện các tác vụ theo quy trình đã thiết lập.
-- **Luồng sự kiện chính:**
-  1. Ngay khi Khách hàng gửi Form (UC02), Lead mới xuất hiện trong cột "New".
-  2. Nhân viên vào chi tiết Lead, hệ thống có sẵn lịch "Call to Action" nhắc nhở gọi điện tư vấn.
-  3. Nhân viên gọi xong, đánh dấu "Mark as Done" và ghi chú kết quả tư vấn vào log.
-  4. Gửi email template (Báo giá) trực tiếp từ giao diện Odoo cho khách.
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC04 |
+| **Usecase Name** | Xuất kho theo Serial Number |
+| **Description** | Nhân viên kho tạo phiếu xuất kho để giao sản phẩm cho khách hàng, chọn đúng Serial Number thực tế sẽ giao. |
+| **Actors** | Nhân viên Kho |
+| **Scope** | Phân hệ Quản lý Kho (Inventory) |
+| **Preconditions** | Tồn kho của sản phẩm phải > 0 và Serial Number cần xuất phải đang nằm trong kho (On Hand). |
+| **Normal flow** | 1. Nhân viên Kho tạo phiếu Xuất kho (Delivery Order).<br>2. Chọn Đối tác nhận hàng và Sản phẩm cần xuất.<br>3. Hệ thống gợi ý số lượng xuất (Check Availability).<br>4. Nhân viên chọn đích danh Serial Number đang có mặt ở kho.<br>5. Bấm nút "Validate" để chốt phiếu. |
+| **Post conditions** | Tồn kho của sản phẩm giảm đi. Serial Number đó được đánh dấu là đã giao cho Khách hàng. |
+| **Alternative flow** | Nhân viên có thể bấm "Auto Assign" để Odoo tự động bắt Serial Number cũ nhất (FIFO) ra xuất thay vì tự chọn. |
+| **Exception flow** | Nếu cố tình điền một mã Serial không có trong kho, Odoo sẽ hiện cảnh báo và chặn luồng xuất kho. |
+| **Special Requirements** | Không có |
+
+#### UC05: Chuyển kho nội bộ (Internal Transfer)
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC05 |
+| **Usecase Name** | Chuyển kho nội bộ (Internal Transfer) |
+| **Description** | Luân chuyển sản phẩm cùng mã Serial từ vị trí này (VD: Kho tổng) sang vị trí khác (VD: Kho trưng bày) trong nội bộ công ty. |
+| **Actors** | Nhân viên Kho |
+| **Scope** | Phân hệ Quản lý Kho (Inventory) |
+| **Preconditions** | Hàng hóa muốn chuyển phải có sẵn tồn kho tại Vị trí nguồn (Source Location). |
+| **Normal flow** | 1. Tạo phiếu Internal Transfer.<br>2. Chọn Vị trí nguồn (Source Location) và Vị trí đích (Destination Location).<br>3. Chọn sản phẩm và đích danh mã Serial muốn di chuyển.<br>4. Bấm Validate để hoàn tất. |
+| **Post conditions** | Hàng hóa (cùng mã Serial) sẽ biến mất ở Vị trí nguồn và xuất hiện tại Vị trí đích. Tổng tồn kho công ty không đổi. |
+| **Alternative flow** | Không có |
+| **Exception flow** | Lỗi nếu Vị trí đích bị khóa hoặc không đủ quyền truy cập. |
+| **Special Requirements** | Không có |
+
+#### UC06: Traceability (Truy vết Serial)
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC06 |
+| **Usecase Name** | Traceability (Truy vết Serial) |
+| **Description** | Khả năng truy xuất lại toàn bộ hành trình (đường đi) của một Serial Number từ khi nhập kho đến khi xuất bán. Rất quan trọng khi làm bảo hành. |
+| **Actors** | Nhân viên Kho, Admin |
+| **Scope** | Phân hệ Quản lý Kho (Inventory) |
+| **Preconditions** | Mã Serial Number phải tồn tại trong hệ thống. |
+| **Normal flow** | 1. Truy cập menu Lots/Serial Numbers trong Inventory.<br>2. Nhập mã Serial vào ô tìm kiếm.<br>3. Mở bản ghi Serial đó ra và nhấn vào nút "Traceability" (hoặc "Truy vết") trên góc phải giao diện.<br>4. Hệ thống hiển thị biểu đồ cây liệt kê tất cả các phiếu nhập, chuyển, xuất liên quan. |
+| **Post conditions** | Người dùng xem được lịch sử và lấy được mã phiếu xuất gốc để kiểm tra bảo hành. |
+| **Alternative flow** | Không có |
+| **Exception flow** | Nếu gõ sai mã Serial, hệ thống hiển thị danh sách rỗng. |
+| **Special Requirements** | Cây truy vết phải chỉ rõ ngày giờ thực hiện của từng lần dịch chuyển. |
+
+#### UC07: Báo cáo Tồn kho
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC07 |
+| **Usecase Name** | Báo cáo Tồn kho |
+| **Description** | Xuất báo cáo tổng hợp hoặc chi tiết về lượng hàng, giá trị tồn kho tại các Location cụ thể. |
+| **Actors** | Nhân viên Kho, Admin |
+| **Scope** | Phân hệ Quản lý Kho (Inventory) |
+| **Preconditions** | User phải được cấp quyền xem Báo cáo (Inventory Report). |
+| **Normal flow** | 1. Vào menu Reporting > Inventory Report.<br>2. Sử dụng thanh filter để nhóm (Group By) theo Sản phẩm hoặc theo Vị trí (Location).<br>3. Xem số lượng tồn kho hiển thị trực quan.<br>4. Bấm nút Export để tải báo cáo Excel về máy tính. |
+| **Post conditions** | Có được file dữ liệu Excel tồn kho chính xác để báo cáo ban giám đốc. |
+| **Alternative flow** | Chuyển chế độ xem từ List sang Pivot/Graph để phân tích trực quan. |
+| **Exception flow** | Không có |
+| **Special Requirements** | Dữ liệu phải là thời gian thực (Real-time). |
+
+#### UC08: Quản lý Pipeline (Cơ hội kinh doanh)
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC08 |
+| **Usecase Name** | Quản lý Pipeline |
+| **Description** | Nhân viên kinh doanh theo dõi và kéo thả các Lead/Opportunity qua các chặng trong quy trình bán hàng bằng giao diện Kanban. |
+| **Actors** | Nhân viên Sales |
+| **Scope** | Phân hệ CRM |
+| **Preconditions** | Đã cấu hình các cột Stage (Mới, Đang tư vấn, Báo giá, Chốt...). |
+| **Normal flow** | 1. Nhân viên Sales vào ứng dụng CRM, mở giao diện Pipeline.<br>2. Giao diện Kanban hiện ra với các Lead.<br>3. Nhân viên nắm giữ thẻ Lead của một Khách hàng và Kéo - Thả (Drag & Drop) sang cột tiếp theo (Ví dụ: Từ "Mới" sang "Báo giá").<br>4. Hệ thống cập nhật trạng thái mới. |
+| **Post conditions** | Lead thay đổi Stage. Hệ thống tự động cập nhật xác suất thành công (Probability). |
+| **Alternative flow** | Đánh dấu Lead là "Won" (Thắng) hoặc "Lost" (Thua) trực tiếp mà không cần qua hết các bước trung gian. |
+| **Exception flow** | Không có |
+| **Special Requirements** | Giao diện phải mượt mà khi Drag & Drop lượng dữ liệu lớn. |
+
+#### UC09: Xử lý Lead & Activity tự động
+
+| Thành phần | Chi tiết |
+| --- | --- |
+| **Usecase ID** | UC09 |
+| **Usecase Name** | Xử lý Lead & Activity tự động |
+| **Description** | Nhận Lead từ website và thực hiện các tác vụ chăm sóc (gọi điện, email) theo lịch nhắc nhở. |
+| **Actors** | Nhân viên Sales |
+| **Scope** | Phân hệ CRM |
+| **Preconditions** | Website Form đã kết nối tới CRM. Các luật tự động (Automated Actions) tạo Activity đã được kích hoạt. |
+| **Normal flow** | 1. Lead tự động xuất hiện ở cột "Mới" khi Khách hàng gửi Form.<br>2. Nhân viên vào chi tiết Lead, hệ thống hiển thị lịch nhắc việc (Activity) "Cần gọi điện tư vấn" màu xanh (chưa quá hạn).<br>3. Nhân viên thực hiện cuộc gọi, ấn "Mark as Done" và ghi chú nội dung cuộc gọi.<br>4. Chọn "Schedule Next Activity" nếu cần gọi lại lần 2. |
+| **Post conditions** | Lead được chăm sóc kịp thời. Lịch sử làm việc được ghi nhận đầy đủ trong phần Log của Lead. |
+| **Alternative flow** | Có thể bấm Gửi Email ngay trong khung chat (Log) của Lead để trao đổi trực tiếp với khách thay vì gọi điện. |
+| **Exception flow** | Nếu Activity quá hạn, hệ thống đổi màu lịch nhắc nhở sang Đỏ để cảnh báo. |
+| **Special Requirements** | Lịch sử Log phải không thể xóa để đảm bảo minh bạch trong việc chăm sóc khách hàng. |
