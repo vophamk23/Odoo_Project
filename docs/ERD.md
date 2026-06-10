@@ -2,19 +2,24 @@
 
 ## 1. Sơ đồ thực thể kết hợp (Entity-Relationship Diagram)
 
-Sơ đồ ERD thể hiện mối liên kết giữa các bảng chính trong các phân hệ Inventory và CRM.
+Sơ đồ ERD thể hiện mối liên kết giữa các bảng chính trong các phân hệ Inventory, CRM và Sales.
 
 ```mermaid
 erDiagram
     product_template ||--o{ product_product : "1-n"
     product_product ||--o{ stock_lot : "1-n"
     product_product ||--o{ stock_quant : "1-n"
+    product_product ||--o{ sale_order_line : "1-n"
     stock_lot ||--o{ stock_move_line : "1-n"
     stock_picking ||--o{ stock_move : "1-n"
     stock_move ||--o{ stock_move_line : "1-n"
     stock_location ||--o{ stock_quant : "1-n"
     res_partner ||--o{ crm_lead : "1-n"
     res_partner ||--o{ stock_picking : "1-n"
+    res_partner ||--o{ sale_order : "1-n"
+    crm_lead ||--o{ sale_order : "1-n"
+    sale_order ||--o{ sale_order_line : "1-n"
+    sale_order ||--o{ stock_picking : "1-n"
 
     product_template {
         Integer id PK
@@ -38,6 +43,7 @@ erDiagram
         Integer id PK
         Char name
         Integer partner_id FK
+        Integer sale_id FK
     }
     stock_move {
         Integer id PK
@@ -61,6 +67,17 @@ erDiagram
         Char name
         Integer partner_id FK
     }
+    sale_order {
+        Integer id PK
+        Char name
+        Integer partner_id FK
+        Integer opportunity_id FK
+    }
+    sale_order_line {
+        Integer id PK
+        Integer order_id FK
+        Integer product_id FK
+    }
 ```
 
 ## 2. Chi tiết các bảng dữ liệu
@@ -74,7 +91,7 @@ erDiagram
 | list_price  | Float    | Giá bán mặc định                        |
 
 ### 2.2 Bảng `product.product` (Sản phẩm / Variant)
-**Mô tả:** Chứa thông tin biến thể cụ thể của sản phẩm. Trong hệ thống này, các sản phẩm không có cấu hình biến thể (size, color) nên bảng này ánh xạ 1-1 với `product.template` trong hầu hết các trường hợp.
+**Mô tả:** Chứa thông tin biến thể cụ thể của sản phẩm.
 | Field           | Kiểu     | Mô tả                                   |
 | --------------- | -------- | --------------------------------------- |
 | id              | Integer  | Khóa chính                              |
@@ -108,6 +125,7 @@ erDiagram
 | name          | Char     | Số phiếu (WH/OUT/0001)                  |
 | picking_type_id | Many2one | Loại phiếu (Nhập, Xuất, Nội bộ)       |
 | partner_id    | Many2one | Khách hàng/Nhà cung cấp                 |
+| sale_id       | Many2one | Nguồn gốc từ Đơn bán hàng (nếu có)      |
 
 ### 2.6 Bảng `stock.move` (Lệnh di chuyển)
 **Mô tả:** Mỗi dòng sản phẩm cần di chuyển trong phiếu kho.
@@ -150,19 +168,41 @@ erDiagram
 | partner_id  | Many2one | Khách hàng (`res.partner`)              |
 | stage_id    | Many2one | Trạng thái (New, Qualified, Won...)     |
 
+### 2.11 Bảng `sale.order` (Đơn bán hàng)
+**Mô tả:** Đơn bán hàng được chốt từ cơ hội kinh doanh.
+| Field          | Kiểu     | Mô tả                                   |
+| -------------- | -------- | --------------------------------------- |
+| id             | Integer  | Khóa chính                              |
+| name           | Char     | Mã đơn hàng (VD: S0001)                 |
+| partner_id     | Many2one | Khách hàng (`res.partner`)              |
+| opportunity_id | Many2one | Liên kết về CRM (`crm.lead`)            |
+| state          | Char     | Trạng thái (Draft, Sale, Done)          |
+
+### 2.12 Bảng `sale.order.line` (Chi tiết Đơn hàng)
+**Mô tả:** Chi tiết các sản phẩm được bán trong đơn hàng.
+| Field       | Kiểu     | Mô tả                                   |
+| ----------- | -------- | --------------------------------------- |
+| id          | Integer  | Khóa chính                              |
+| order_id    | Many2one | Liên kết đến đơn hàng (`sale.order`)    |
+| product_id  | Many2one | Sản phẩm được bán (`product.product`)   |
+| product_uom_qty | Float | Số lượng đặt mua                       |
+
 ## 3. Sơ đồ Luồng dữ liệu (Data Flow)
 
 ```mermaid
 flowchart TD
+    subgraph CRM_Sales [Luồng Website -> CRM -> Sales]
+        F[Web Form Submit] --> G[Tạo Lead - crm.lead]
+        G --> H[Khách hàng - res.partner]
+        G --> I[Lập Đơn bán hàng - sale.order]
+        I --> J[Xác nhận Đơn]
+    end
+
     subgraph Kho [Luồng xử lý Kho]
-        A[Phiếu kho - stock.picking] --> B[Lệnh di chuyển - stock.move]
+        J -. Tự động sinh .-> A[Phiếu xuất kho - stock.picking]
+        A --> B[Lệnh di chuyển - stock.move]
         B --> C[Chi tiết di chuyển - stock.move.line]
         C --> D[Gắn Serial - stock.lot]
         D --> E[Cập nhật tồn - stock.quant]
-    end
-
-    subgraph CRM [Luồng Website -> CRM]
-        F[Web Form Submit] --> G[Tạo Lead - crm.lead]
-        G --> H[Khách hàng - res.partner]
     end
 ```
