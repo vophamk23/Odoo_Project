@@ -101,16 +101,27 @@ Danh sách dưới đây mô tả các nhu cầu tương tác cốt lõi của c
 
 > ⚠️ **Lưu ý:** Tài khoản `admin/admin` với mật khẩu mặc định chỉ được phép sử dụng cho môi trường dev/demo cục bộ. Tuyệt đối không sử dụng cấu hình này khi triển khai hệ thống lên môi trường Production thực tế.
 
-### 2.4 Cấu trúc GitHub repo
+### 2.4 Cấu trúc thư mục & Quản lý mã nguồn
 
-Dự án áp dụng mô hình quản lý nhánh Git và thư mục chuyên nghiệp để đảm bảo luồng công việc:
+**Chiến lược quản lý nhánh (Git Branches):**
+
+Dự án áp dụng mô hình quản lý nhánh Git chuyên nghiệp để phân tách luồng công việc:
+
+- **Nhánh `main`:** Lưu trữ bộ mã nguồn gốc đã được kiểm thử (Stable Code), sẵn sàng để triển khai.
+- **Nhánh `develop`:** Nhánh hội tụ, tổng hợp mã nguồn định kỳ từ các thành viên để phục vụ kiểm thử chung.
+- **Nhánh `feature/*`:** Nhánh khởi tạo từ `develop` để mỗi thành viên phát triển tính năng riêng biệt.
+
+**Cấu trúc thư mục dự án (Directory Structure):**
 
 ```text
 VoPC-cmcts/
-├── main/           ← Nhánh lưu trữ bộ mã nguồn gốc đã kiểm thử (Stable Code), sẵn sàng triển khai.
-├── develop/        ← Nhánh hội tụ, tổng hợp mã nguồn định kỳ từ các thành viên phục vụ kiểm thử.
-├── feature/*       ← Nhánh riêng tư từ develop để thành viên phát triển tính năng cụ thể.
-└── backup/         ← Thư mục chứa các file nén phục hồi cơ sở dữ liệu (.sql.gz) dự phòng.
+├── addons/                 ← Chứa các custom module của dự án (Inventory, CRM customization...)
+├── config/                 ← Chứa file cấu hình hệ thống (odoo.conf)
+├── data/                   ← Thư mục map volume lưu trữ dữ liệu PostgreSQL (được cấu hình gitignore)
+├── docs/                   ← Chứa bộ tài liệu phân tích hệ thống (SRS, ERD, Test Cases)
+├── backup/                 ← Chứa các file nén phục hồi cơ sở dữ liệu (.sql.gz) dự phòng
+├── docker-compose.yml      ← File cấu hình môi trường Docker (Odoo, PostgreSQL)
+└── README.md               ← Tài liệu hướng dẫn cài đặt và khởi chạy dự án
 ```
 
 ---
