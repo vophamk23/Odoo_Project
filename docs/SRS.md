@@ -97,12 +97,15 @@ Danh sách dưới đây mô tả các nhu cầu tương tác cốt lõi của c
 
 ### 2.4 Cấu trúc GitHub repo
 
-Dự án áp dụng mô hình quản lý nhánh Git chuyên nghiệp để đảm bảo luồng công việc:
+Dự án áp dụng mô hình quản lý nhánh Git và thư mục chuyên nghiệp để đảm bảo luồng công việc:
 
-- **Nhánh `main/`:** Lưu trữ bộ mã nguồn gốc đã được kiểm thử kỹ lưỡng (Stable Code), sẵn sàng để triển khai.
-- **Nhánh `develop/`:** Nhánh hội tụ, dùng để tổng hợp mã nguồn định kỳ từ các thành viên trong nhóm phục vụ kiểm thử chung.
-- **Nhánh `feature/*`:** Mỗi thành viên sẽ tạo một nhánh riêng tư từ nhánh `develop` để phát triển một tính năng cụ thể.
-- **Thư mục `backup/`:** Chứa các file nén phục hồi cơ sở dữ liệu (`.sql.gz`) dự phòng trong quá trình phát triển.
+```text
+VoPC-cmcts/
+├── main/           ← Nhánh lưu trữ bộ mã nguồn gốc đã kiểm thử (Stable Code), sẵn sàng triển khai.
+├── develop/        ← Nhánh hội tụ, tổng hợp mã nguồn định kỳ từ các thành viên phục vụ kiểm thử.
+├── feature/*       ← Nhánh riêng tư từ develop để thành viên phát triển tính năng cụ thể.
+└── backup/         ← Thư mục chứa các file nén phục hồi cơ sở dữ liệu (.sql.gz) dự phòng.
+```
 
 ---
 
