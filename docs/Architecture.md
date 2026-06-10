@@ -204,9 +204,15 @@ addons/
     ├── controllers/
     │   ├── __init__.py
     │   └── main.py                 # Xử lý form submit → CRM Lead
-    └── views/
-        ├── homepage_templates.xml  # Hero Banner, dịch vụ, footer
-        └── contact_form_templates.xml  # Form đăng ký tư vấn
+    ├── views/
+    │   ├── homepage_templates.xml  # Hero Banner, dịch vụ, footer
+    │   └── contact_form_templates.xml  # Form đăng ký tư vấn
+    └── static/                     # Chứa tài nguyên tĩnh (Assets)
+        └── src/
+            ├── css/
+            │   └── style.css       # File CSS tuỳ chỉnh giao diện
+            └── img/
+                └── hero_banner.jpg # Ảnh minh họa trang chủ
 ```
 
 ---
