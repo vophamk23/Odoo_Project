@@ -68,26 +68,28 @@ Hệ thống tuân thủ kiến trúc 3 lớp (3-tier architecture) tiêu chuẩ
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Mô tả từng lớp
+### Mô tả chi tiết từng lớp
 
-**Lớp Dữ liệu (Data Tier)**
+**1. Lớp Dữ liệu (Data Tier)**
 
-Toàn bộ dữ liệu được quản lý bởi PostgreSQL 14+. Odoo ORM chịu trách nhiệm dịch các thao tác Python sang câu lệnh SQL tương ứng, đảm bảo tính toàn vẹn dữ liệu và phân quyền truy cập ở tầng thấp nhất.
+- Chịu trách nhiệm lưu trữ và truy xuất dữ liệu vật lý thông qua hệ quản trị cơ sở dữ liệu **PostgreSQL 14+**.
+- Giao tiếp hoàn toàn thông qua **Odoo ORM** (Object-Relational Mapping), giúp ngăn chặn triệt để lỗ hổng SQL Injection và đảm bảo phân quyền truy cập (Record Rules) ở tầng thấp nhất.
+- Thực thi các ràng buộc cấp cơ sở dữ liệu (Database Constraints), điển hình như ràng buộc tính duy nhất của Serial Number (`UNIQUE`) để đảm bảo không thất thoát hay trùng lặp kho.
 
-**Lớp Logic Nghiệp vụ (Logic Tier)**
+**2. Lớp Logic Nghiệp vụ (Logic Tier / Business Rules)**
 
-Được viết bằng Python 3.10+, sử dụng Odoo Framework. Đây là nơi chứa toàn bộ quy tắc nghiệp vụ như:
+Được viết bằng **Python 3.10+** trên lõi Odoo Framework, đóng vai trò là "bộ não" điều phối toàn bộ dự án:
 
-- Ràng buộc bắt buộc nhập Serial Number khi làm phiếu kho
-- Tự động tạo Lead CRM khi form website được submit
-- Tự động tạo Activity nhắc việc khi chuyển stage pipeline
+- **Phân hệ Kho (`cmcts_inventory`):** Chứa các logic kiểm duyệt (Validation) nghiêm ngặt, chặn việc xác nhận phiếu kho nếu phát hiện nhân viên chưa gán mã Serial, đồng thời tự động tính toán tồn kho khả dụng.
+- **Phân hệ CRM (`cmcts_crm`):** Thực thi các luồng tự động hóa (Automated Actions), tự động phân công tác vụ (Activities) và kích hoạt kịch bản gửi Email mỗi khi một Cơ hội (Lead) thay đổi trạng thái (Stage).
+- **Bộ điều khiển (Controllers):** Cung cấp các Endpoint nhận dữ liệu an toàn (POST request) từ Website Form và đẩy trực tiếp vào Pipeline của CRM mà không cần thao tác tay.
 
-**Lớp Hiển thị (Presentation Tier)**
+**3. Lớp Hiển thị (Presentation Tier / UI)**
 
-Gồm 2 phần riêng biệt:
+Cung cấp trải nghiệm tương tác trực quan, phân tách rạch ròi 2 môi trường phục vụ 2 nhóm đối tượng khác nhau:
 
-- Backend: Giao diện quản trị dùng Owl Framework (JavaScript) kết hợp file XML định nghĩa Views
-- Frontend (Website): Dùng QWeb Template Engine kết hợp Bootstrap 5, HTML5 và CSS3
+- **Môi trường Backend (Cho Nhân viên/Admin):** Xây dựng trên nền tảng **Owl Framework (JavaScript)** kết hợp các file XML định nghĩa Views. Cung cấp giao diện tương tác động như bảng Kanban kéo-thả (cho CRM) và List/Form nhập liệu siêu tốc (cho Kho).
+- **Môi trường Frontend (Cho Khách hàng):** Cấu trúc bởi **QWeb Template Engine** kết hợp Bootstrap 5, HTML5 và CSS3. Đảm bảo giao diện Website và Form đăng ký hoàn toàn Responsive, hiển thị mượt mà trên cả Mobile, Tablet và Desktop.
 
 ---
 
