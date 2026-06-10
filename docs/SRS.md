@@ -115,7 +115,10 @@ Dự án áp dụng mô hình quản lý nhánh Git chuyên nghiệp để phân
 
 ```text
 VoPC-cmcts/
-├── addons/                 ← Chứa các custom module của dự án (Inventory, CRM customization...)
+├── addons/                 ← Chứa các custom module phát triển riêng cho dự án
+│   ├── cmcts_website/      ← Module tuỳ chỉnh giao diện trang chủ, e-commerce và web form
+│   ├── cmcts_inventory/    ← Module tuỳ chỉnh nghiệp vụ kho, ràng buộc nhập/xuất theo Serial
+│   └── cmcts_crm/          ← Module tuỳ chỉnh pipeline bán hàng và tự động hóa tạo Lead
 ├── config/                 ← Chứa file cấu hình hệ thống (odoo.conf)
 ├── data/                   ← Thư mục map volume lưu trữ dữ liệu PostgreSQL (được cấu hình gitignore)
 ├── docs/                   ← Chứa bộ tài liệu phân tích hệ thống (SRS, ERD, Test Cases)
