@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="cmcts_homepage_layout" inherit_id="website.layout" name="CMCTS Layout Assets">
+        <xpath expr="//head" position="inside">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+        </xpath>
+    </template>
+
     <template id="cmcts_homepage" inherit_id="website.homepage" name="CMCTS Homepage SaaS">
         <xpath expr="//div[@id='wrap']" position="replace">
             

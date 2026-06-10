@@ -10,7 +10,7 @@
     ],
     'assets': {
         'web.assets_frontend': [
-            'cmcts_website/static/src/css/style.css',
+            'cmcts_website/static/src/css/style.scss',
         ],
     },
     'installable': True,
