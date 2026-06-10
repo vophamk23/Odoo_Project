@@ -32,8 +32,9 @@ Tài liệu này (System Design Document - SDD) đóng vai trò là bản vẽ k
 
 Tài liệu này cần được đọc kết hợp với:
 
-- `SRS_VoPC_cmcts.md` — Tài liệu phân tích yêu cầu
-- `ERD_VoPC_cmcts.md` — Tài liệu thiết kế dữ liệu
+- [`SRS.md`](file:///c:/Users/ASUS/Desktop/VoPC-cmcts/docs/SRS.md) — Tài liệu phân tích yêu cầu (System Requirement Specification)
+- [`ERD.md`](file:///c:/Users/ASUS/Desktop/VoPC-cmcts/docs/ERD.md) — Tài liệu thiết kế dữ liệu (Entity-Relationship Diagram)
+- [`test-cases.md`](file:///c:/Users/ASUS/Desktop/VoPC-cmcts/docs/test-cases.md) — Kịch bản kiểm thử hệ thống
 
 ---
 
