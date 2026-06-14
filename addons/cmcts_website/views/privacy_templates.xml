@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_privacy" name="CMCTS Privacy">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="flex-grow pt-[160px] pb-space-xl px-margin_mobile md:px-margin_desktop">
+<div class="max-w-[1100px] mx-auto py-[80px] flex flex-col lg:flex-row gap-space-xl relative">
+<!-- Sidebar Table trên Contents -->
+<aside class="hidden lg:block w-[280px] flex-shrink-0">
+<div class="sticky top-[100px]">
+<h3 class="font-label-sm text-label-sm text-on-surface mb-space-md uppercase tracking-wider font-semibold">Table trên Contents</h3>
+<nav class="flex flex-col">
+<a class="toc-link active" href="#introduction" id="link-introduction">1. Introduction</a>
+<a class="toc-link" href="#information-collection" id="link-information-collection">2. Information Collection</a>
+<a class="toc-link" href="#data-usage" id="link-data-usage">3. Data Usage &amp; Processing</a>
+<a class="toc-link" href="#data-security" id="link-data-security">4. Data Bảo mật</a>
+<a class="toc-link" href="#third-party" id="link-third-party">5. Third-Party Sharing</a>
+<a class="toc-link" href="#user-rights" id="link-user-rights">6. Your Rights</a>
+<a class="toc-link" href="#contact" id="link-contact">7. Contact Information</a>
+</nav>
+</div>
+</aside>
+<!-- Main Document Content -->
+<article class="flex-1 max-w-[768px]">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex items-center text-sm mb-space-lg">
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm flex items-center" href="#">
+                        Home
+                    </a>
+<span class="material-symbols-outlined text-outline mx-2 text-[16px]">chevron_right</span>
+<span class="text-on-surface font-label-sm text-label-sm font-semibold">Chính sách bảo mật</span>
+</nav>
+<div class="mb-space-xl border-b border-outline-variant pb-space-lg">
+<h1 class="font-h1 text-h1 text-on-surface mb-space-sm">Chính sách bảo mật</h1>
+<p class="font-body-reg text-body-reg text-on-surface-variant">Last Updated: October 24, 2024</p>
+</div>
+<section class="scroll-mt-[120px]" id="introduction">
+<h2 class="content-heading mt-0">1. Introduction</h2>
+<p class="content-text">
+                        Welcome đến the Enterprise Phần cứng Platform. We are committed đến protecting your personal information and your right đến privacy. If you have any questions or concerns about this privacy notice or our practices with regard đến your personal information, please contact us.
+                    </p>
+<p class="content-text">
+                        When you visit our website and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we seek đến explain đến you in the clearest way possible what information we collect, how we use it, and what rights you have in relation đến it.
+                    </p>
+</section>
+<section class="scroll-mt-[120px]" id="information-collection">
+<h2 class="content-heading">2. Information Collection</h2>
+<p class="content-text">
+                        We collect personal information that you voluntarily provide đến us when you register on the website, express an interest in obtaining information about us or our products and services, when you participate in activities on the website, or otherwise when you contact us.
+                    </p>
+<div class="bg-surface-container p-space-lg rounded-lg border border-outline-variant my-space-md">
+<ul class="list-disc pl-space-md content-text mb-0">
+<li><strong>Personal Information Provided by You:</strong> Họ và têns, phone numbers, email addresses, mailing addresses, job titles, and contact preferences.</li>
+<li><strong>Payment Data:</strong> We may collect data necessary đến process your payment if you make purchases, such as your payment instrument number and the security code associated with your payment</li></ul></div></section></article></div></main>
+            </div>
+        </t>
+    </template>
+</odoo>

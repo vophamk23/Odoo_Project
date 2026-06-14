@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_homepage" inherit_id="website.homepage" name="CMCTS Homepage">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure oe_empty">
+                <!-- Main Content từ Stitch Home_Page.html -->
+                <main class="w-full">
+                    <!-- Hero Section -->
+                    <section class="relative hero-gradient text-on-primary overflow-hidden min-h-[620px] flex items-center">
+                        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCVbMXNiba0nCwgHec4tPSMGoS7oEdY06rtHeVIAH5q7EePW6IfREu0v5st0tN2N3cUq5E6voVRT2RAufejITRrxAgl_dqPAOwsBcbQikMvv6JAN2eb8ukh_1NXUZr1dRq_yq2_qkm7lrvdZ0NLCQ9rYeCL7F4RdPY_2JyVld_WfYrLo1EYHLkZApyB8RHeS_rbDhqDfdXimWCtDvUkyTOlSy1V5T_W_-xVg5VakgB4RXgsNFtfPkq0_OtRbohO1YhWREpubYD2GuiQ');"></div>
+                        <div class="relative z-10 w-full px-margin_desktop max-w-grid_max_width mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter">
+                            <div class="col-span-1 md:col-span-8 lg:col-span-7 flex flex-col gap-space-lg">
+                                <span class="w-max px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/95 text-xs font-semibold tracking-wider uppercase">Kiến tạo hạ tầng số tương lai</span>
+                                <h1 class="font-h1-mobile md:font-h1 text-h1-mobile md:text-h1 leading-tight">Hạ Tầng CNTT Cấp Doanh Nghiệp</h1>
+                                <p class="font-body-lg text-body-lg text-on-primary/85 leading-relaxed">Nâng tầm doanh nghiệp của bạn với các thiết bị phần cứng được chế tác chính xác, mang lại độ tin cậy tối đa và hiệu suất đỉnh cao. Phù hợp với những yêu cầu khắt khe nhất của trung tâm dữ liệu hiện đại, tối ưu hóa quy trình vận hành toàn diện.</p>
+                                <div class="flex flex-wrap gap-space-md pt-space-sm">
+                                    <a href="/tu-van" class="font-label-sm text-label-sm bg-secondary text-on-secondary px-6 py-3.5 rounded shadow-lg hover:bg-secondary/90 transition-all font-semibold" style="text-decoration: none;">Đăng ký tư vấn</a>
+                                    <a href="/shop" class="font-label-sm text-label-sm border border-outline text-on-primary px-6 py-3.5 rounded hover:bg-white/10 transition-all font-medium" style="text-decoration: none;">Khám Phá Sản Phẩm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Statistics Section -->
+                    <section class="py-10 bg-[#0A192F] text-white border-y border-white/5">
+                        <div class="px-margin_desktop max-w-grid_max_width mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                            <div class="flex flex-col">
+                                <span class="text-3xl md:text-4xl font-extrabold text-secondary">10+</span>
+                                <span class="text-white/60 text-xs md:text-sm mt-1">Năm Kinh Nghiệm</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-3xl md:text-4xl font-extrabold text-secondary">500+</span>
+                                <span class="text-white/60 text-xs md:text-sm mt-1">Dự Án Doanh Nghiệp</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-3xl md:text-4xl font-extrabold text-secondary">99.99%</span>
+                                <span class="text-white/60 text-xs md:text-sm mt-1">Cam Kết Uptime</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-3xl md:text-4xl font-extrabold text-secondary">24/7/365</span>
+                                <span class="text-white/60 text-xs md:text-sm mt-1">Hỗ Trợ Kỹ Thuật</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Core Solutions Section -->
+                    <section class="py-space-xl bg-surface">
+                        <div class="px-margin_desktop max-w-grid_max_width mx-auto">
+                            <div class="text-center mb-space-xl">
+                                <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Hệ sinh thái giải pháp</span>
+                                <h2 class="font-h2-mobile md:font-h2 text-h2-mobile md:text-h2 text-primary">Giải Pháp Công Nghệ Tiêu Biểu</h2>
+                                <p class="text-on-surface-variant max-w-2xl mx-auto mt-3">Chúng tôi cung cấp các gói giải pháp hạ tầng đồng bộ được thiết kế may đo cho từng mô hình doanh nghiệp B2B.</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                                <!-- Solution 1: Quản lý Kho -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[28px]">warehouse</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-primary">Quản lý Kho</h3>
+                                    <p class="text-sm text-on-surface-variant leading-relaxed">Theo dõi chi tiết từng sản phẩm và thiết bị theo mã Serial Number riêng biệt, kiểm soát xuất nhập tồn thông minh.</p>
+                                </div>
+                                <!-- Solution 2: CRM -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[28px]">handshake</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-primary">CRM &amp; Bán Hàng</h3>
+                                    <p class="text-sm text-on-surface-variant leading-relaxed">Chăm sóc khách hàng tự động theo quy trình, ghi nhận cơ hội kinh doanh và tối ưu tỷ lệ chuyển đổi sales.</p>
+                                </div>
+                                <!-- Solution 3: Website -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[28px]">public</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-primary">Website &amp; E-commerce</h3>
+                                    <p class="text-sm text-on-surface-variant leading-relaxed">Nền tảng giới thiệu giải pháp doanh nghiệp và bán hàng trực tuyến tích hợp cổng thanh toán an toàn.</p>
+                                </div>
+                                <!-- Solution 4: Báo cáo -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[28px]">analytics</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-primary">Báo Cáo Phân Tích</h3>
+                                    <p class="text-sm text-on-surface-variant leading-relaxed">Hệ thống thống kê trực quan đa chiều, theo dõi hiệu năng doanh nghiệp và xuất báo cáo Excel chỉ với một click.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Value Prop Grid -->
+                    <section class="py-space-xl px-margin_desktop max-w-grid_max_width mx-auto border-t border-outline-variant/30">
+                        <div class="text-center mb-space-xl">
+                            <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Thế mạnh vượt trội</span>
+                            <h2 class="font-h2-mobile md:font-h2 text-h2-mobile md:text-h2 text-primary">Tại Sao Chọn Chúng Tôi</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                            <!-- Card 1 -->
+                            <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.08)] transition-all border border-outline-variant/30 flex flex-col items-center text-center gap-space-md">
+                                <div class="w-12 h-12 rounded-full bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-3xl" data-icon="public">public</span>
+                                </div>
+                                <h3 class="font-h3 text-h3 text-primary">Vận Chuyển Toàn Cầu</h3>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Triển khai thần tốc và giao hàng an toàn chuẩn doanh nghiệp đến các trung tâm dữ liệu toàn quốc và quốc tế.</p>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.08)] transition-all border border-outline-variant/30 flex flex-col items-center text-center gap-space-md">
+                                <div class="w-12 h-12 rounded-full bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-3xl" data-icon="support_agent">support_agent</span>
+                                </div>
+                                <h3 class="font-h3 text-h3 text-primary">Hỗ Trợ Kỹ Thuật 24/7</h3>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Đội ngũ kỹ sư CNTT chuyên trách có chứng chỉ quốc tế luôn túc trực hỗ trợ, xử lý sự cố khẩn cấp 24/7.</p>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.08)] transition-all border border-outline-variant/30 flex flex-col items-center text-center gap-space-md">
+                                <div class="w-12 h-12 rounded-full bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-3xl" data-icon="security">security</span>
+                                </div>
+                                <h3 class="font-h3 text-h3 text-primary">Bảo Mật Hàng Đầu</h3>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Thiết lập kiến trúc an toàn Zero-Trust kết hợp các giải pháp mã hóa cấp phần cứng an toàn tuyệt đối.</p>
+                            </div>
+                            <!-- Card 4 -->
+                            <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.08)] transition-all border border-outline-variant/30 flex flex-col items-center text-center gap-space-md">
+                                <div class="w-12 h-12 rounded-full bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-3xl" data-icon="verified">verified</span>
+                                </div>
+                                <h3 class="font-h3 text-h3 text-primary">Chất Lượng Đạt Chuẩn</h3>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Tất cả linh kiện phần cứng đều vượt qua các bài test tải khắt khe trong phòng Lab trước khi nhập kho.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Featured Products -->
+                    <section class="bg-surface-container-low py-space-xl">
+                        <div class="px-margin_desktop max-w-grid_max_width mx-auto">
+                            <div class="flex justify-between items-end mb-space-lg">
+                                <h2 class="font-h2-mobile md:font-h2 text-h2-mobile md:text-h2 text-primary">Thiết Bị Nổi Bật</h2>
+                                <a class="font-label-sm text-label-sm text-secondary hover:text-secondary/80 flex items-center gap-1" href="/shop" style="text-decoration: none;">Xem Tất Cả Sản Phẩm <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></a>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                                <t t-set="featured_products" t-value="request.env['product.template'].search([('website_published', '=', True)], limit=4)"/>
+                                <t t-if="not featured_products">
+                                    <t t-set="featured_products" t-value="request.env['product.template'].search([], limit=4)"/>
+                                </t>
+                                
+                                <t t-foreach="featured_products" t-as="prod">
+                                    <t t-set="in_stock" t-value="prod.sudo().qty_available &gt; 0 if 'qty_available' in prod._fields else True"/>
+                                    
+                                    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex flex-col group">
+                                        <div class="h-48 bg-surface-container flex items-center justify-center p-4 relative overflow-hidden">
+                                            <t t-if="in_stock">
+                                                <div class="absolute top-2 right-2 bg-secondary text-on-secondary font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider">Còn hàng</div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="absolute top-2 right-2 bg-outline text-surface-container-lowest font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider">Sắp hết</div>
+                                            </t>
+                                            <a t-attf-href="/shop/detail/#{prod.id}" class="w-full h-full flex items-center justify-center">
+                                                <img t-att-alt="prod.name" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" t-att-src="website.image_url(prod, 'image_512')"/>
+                                            </a>
+                                        </div>
+                                        <div class="p-space-md flex flex-col flex-grow gap-space-sm">
+                                            <span class="font-label-sm text-[12px] text-secondary font-bold uppercase tracking-wide" t-esc="prod.public_categ_ids[0].name if prod.public_categ_ids else 'Thiết bị'"/>
+                                            <h3 class="font-body-lg text-body-lg text-primary font-semibold leading-tight h-12 overflow-hidden line-clamp-2">
+                                                <a t-attf-href="/shop/detail/#{prod.id}" class="text-primary hover:text-secondary hover:no-underline transition-colors" t-esc="prod.name"/>
+                                            </h3>
+                                            <div class="mt-auto pt-space-sm flex justify-between items-center">
+                                                <span class="font-h3 text-h3 text-on-surface">
+                                                    <t t-if="prod.list_price &gt; 0">
+                                                        <t t-esc="&quot;{:,.0f}&quot;.format(prod.list_price).replace(',', '.')"/> VNĐ
+                                                    </t>
+                                                    <t t-else="">
+                                                        Liên hệ
+                                                    </t>
+                                                </span>
+                                                <a t-attf-href="/shop/detail/#{prod.id}" class="font-label-sm text-label-sm bg-primary text-on-primary px-3 py-1.5 rounded hover:bg-primary/90 transition-colors" style="text-decoration: none;">Xem Thông Số</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </xpath>
+    </template>
+</odoo>

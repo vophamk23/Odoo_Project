@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_event_list" name="CMCTS Event List">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main id="ajax-content-container" class="pt-[120px] pb-space-xl px-margin_desktop max-w-grid_max_width mx-auto min-h-screen">
+<!-- Event Custom Banner -->
+<section class="mb-space-xl">
+    <div class="w-full bg-[#222D32] rounded-3xl shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center border border-outline-variant/30">
+        <!-- Left Side: Content -->
+        <div class="w-full md:w-3/5 p-10 md:p-16 relative z-10 flex flex-col items-start justify-center">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary border border-secondary/30 text-sm font-bold tracking-widest mb-6 uppercase">
+                <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                Sự kiện sắp diễn ra
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 text-white leading-tight">Kết Nối. <br/><span class="text-secondary">Hợp Tác.</span> <br/>Phát Triển.</h1>
+            <p class="text-base md:text-lg text-white/70 font-medium max-w-lg leading-relaxed mb-8">Tham gia cộng đồng chuyên gia công nghệ tại các hội thảo và chuỗi sự kiện được tổ chức bởi CMCTS.</p>
+        </div>
+        <!-- Right Side: Graphic/Pattern -->
+        <div class="w-full md:w-2/5 h-64 md:h-full min-h-[400px] relative bg-primary-container">
+            <div class="absolute inset-0 bg-[url('/cmcts_website/static/src/img/event_banner.png')] bg-cover bg-center"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#222D32] via-[#222D32]/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#222D32] md:bg-none"></div>
+            <!-- Diagonal slash decoration -->
+            <div class="absolute -left-32 top-0 bottom-0 w-64 bg-[#222D32] transform -skew-x-12 hidden md:block"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-lg mb-space-xl">
+<div class="hidden">
+<h1 class="font-h1 text-h1 text-primary mb-space-xs">Sự Kiện Toàn Cầu</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Khám phá các hội nghị phần cứng doanh nghiệp, hội nghị kỹ thuật và sự kiện sắp tới.</p>
+</div>
+<!-- Custom Search Bar -->
+<form action="/events" method="GET" class="ajax-form relative w-full md:w-[400px] h-[52px]">
+<t t-if="current_category">
+    <input type="hidden" name="category" t-att-value="current_category"/>
+</t>
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant" data-icon="search">search</span>
+</div>
+<input name="search" t-att-value="search" class="block w-full h-full pl-12 pr-32 bg-surface-container-lowest border border-outline-variant rounded-full font-body-reg text-body-reg text-on-surface focus:ring-2 focus:ring-primary focus:border-primary shadow-sm placeholder:text-outline-variant" placeholder="Tìm kiếm sự kiện theo tên hoặc địa điểm..." type="text"/>
+<div class="absolute inset-y-0 right-1 flex items-center">
+<button type="submit" class="bg-secondary text-on-secondary font-label-sm text-label-sm px-6 h-[44px] rounded-full hover:bg-secondary-container transition-colors shadow-sm">
+                        Search
+                    </button>
+</div>
+</form>
+</div>
+<!-- Filters (Optional but good for UX) -->
+<div class="flex flex-wrap gap-space-sm mb-space-xl border-b border-outline-variant pb-space-md">
+<a href="/events" t-attf-class="ajax-filter px-4 py-2 font-label-sm text-label-sm rounded-full shadow-sm transition-colors border #{'bg-secondary text-on-secondary border-secondary' if not current_category else 'bg-surface-container text-on-surface hover:bg-surface-variant border-outline-variant'}">Tất cả Sự kiện</a>
+<a href="/events?category=conference" t-attf-class="ajax-filter px-4 py-2 font-label-sm text-label-sm rounded-full shadow-sm transition-colors border #{'bg-secondary text-on-secondary border-secondary' if current_category == 'conference' else 'bg-surface-container text-on-surface hover:bg-surface-variant border-outline-variant'}">Hội nghị</a>
+<a href="/events?category=webinar" t-attf-class="ajax-filter px-4 py-2 font-label-sm text-label-sm rounded-full shadow-sm transition-colors border #{'bg-secondary text-on-secondary border-secondary' if current_category == 'webinar' else 'bg-surface-container text-on-surface hover:bg-surface-variant border-outline-variant'}">Hội thảo trực tuyến</a>
+<a href="/events?category=expo" t-attf-class="ajax-filter px-4 py-2 font-label-sm text-label-sm rounded-full shadow-sm transition-colors border #{'bg-secondary text-on-secondary border-secondary' if current_category == 'expo' else 'bg-surface-container text-on-surface hover:bg-surface-variant border-outline-variant'}">Triển lãm</a>
+</div>
+<!-- Event Cards List -->
+<div class="flex flex-col gap-space-lg">
+    <t t-if="events">
+        <t t-foreach="events" t-as="event">
+            <div class="flex flex-col md:flex-row bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                <a t-attf-href="/events/detail/#{event.id}" style="text-decoration: none;" class="block w-full md:w-[120px] h-[120px] bg-background border border-outline-variant rounded-lg flex flex-col items-center justify-center shrink-0 mb-space-md md:mb-0 md:mr-space-lg">
+                    <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mb-1" t-esc="event.date_begin and event.date_begin.strftime('%b') or 'TBD'"/>
+                    <span class="font-h2 text-h2 text-primary" t-esc="event.date_begin and event.date_begin.strftime('%d') or '-'"/>
+                </a>
+                <div class="flex-grow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-space-xs">
+                            <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm rounded-full text-xs">Sự kiện</span>
+                        </div>
+                        <a t-attf-href="/events/detail/#{event.id}" style="text-decoration: none;" class="block mb-2">
+                            <h2 class="font-h3 text-h3 text-primary m-0 hover:text-secondary transition-colors" t-esc="event.name"/>
+                        </a>
+                        <p class="font-body-reg text-body-reg text-on-surface-variant mb-space-md max-w-3xl" t-esc="event.subtitle or 'Tham gia cùng các chuyên gia hàng đầu.'"/>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md mt-auto pt-space-md border-t border-outline-variant">
+                        <div class="flex items-center gap-space-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                            <span class="font-label-sm text-label-sm" t-esc="event.sudo().address_id and event.sudo().address_id.name or 'Trực tuyến / Chưa cập nhật địa điểm'"/>
+                        </div>
+                        <a t-attf-href="/events/detail/#{event.id}" style="text-decoration: none;" class="inline-block bg-secondary text-on-secondary font-label-sm text-label-sm px-6 py-2.5 rounded hover:bg-secondary-container transition-colors shadow-sm whitespace-nowrap text-center">
+                            Xem Chi Tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </t>
+    <t t-else="">
+        <div class="text-center py-10">
+            <p class="text-on-surface-variant font-body-reg">Hiện tại chưa có sự kiện nào sắp diễn ra.</p>
+        </div>
+    </t>
+</div>
+
+<!-- Dynamic Pagination -->
+<t t-if="total_pages and total_pages > 1">
+    <div class="flex justify-center items-center gap-2 mt-space-xl pb-space-lg border-t border-outline-variant pt-space-md w-full">
+        <!-- Previous Button -->
+        <a t-if="page > 1" t-attf-href="/events/page/#{page - 1}?#{'category=' + current_category if current_category else ''}#{'&amp;search=' + search if search else ''}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface hover:bg-surface-variant transition-colors shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+        </a>
+        
+        <!-- Page Numbers -->
+        <t t-foreach="range(1, total_pages + 1)" t-as="p">
+            <a t-attf-href="/events/page/#{p}?#{'category=' + current_category if current_category else ''}#{'&amp;search=' + search if search else ''}" t-attf-class="w-10 h-10 flex items-center justify-center rounded-full font-label-sm text-label-sm transition-colors shadow-sm #{'bg-primary text-on-primary' if p == page else 'bg-surface-container-lowest text-on-surface hover:bg-surface-variant border border-outline-variant'}">
+                <t t-esc="p"/>
+            </a>
+        </t>
+
+        <!-- Next Button -->
+        <a t-if="page &lt; total_pages" t-attf-href="/events/page/#{page + 1}?#{'category=' + current_category if current_category else ''}#{'&amp;search=' + search if search else ''}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface hover:bg-surface-variant transition-colors shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+        </a>
+    </div>
+    <div class="text-center text-outline-variant font-body-sm text-body-sm mt-2 mb-space-lg">
+        Hiển thị trang <t t-esc="page"/> / <t t-esc="total_pages"/>
+    </div>
+</t>
+
+</main>
+            </div>
+        </t>
+    </template>
+</odoo>

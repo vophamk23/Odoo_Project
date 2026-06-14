@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_quote_cart" name="CMCTS Quote Cart">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="flex-grow pt-[120px] pb-space-xl px-margin_mobile md:px-margin_desktop max-w-grid_max_width mx-auto w-full">
+<div class="mb-space-lg">
+<h1 class="font-h2-mobile md:font-h2 text-h2-mobile md:text-h2 text-primary">Request for Quotation</h1>
+<p class="font-body-reg text-body-reg text-on-surface-variant mt-2">Review your hardware selections and provide details đến receive a customized quote.</p>
+</div>
+<div id="cart-main-wrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left: Items Table -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-ambient p-space-md md:p-space-lg">
+<div class="flex justify-between items-center border-b border-outline-variant pb-space-md mb-space-md">
+<h2 class="font-h3 text-h3 text-primary">Giỏ Báo Giá (<t t-esc="len(cart_items) if cart_items else 0"/>)</h2>
+<button id="js_clear_cart_btn" class="text-error font-label-sm text-label-sm flex items-center gap-1 hover:text-on-error-container transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Làm trống
+                    </button>
+</div>
+<!-- Table Header (Hidden on Mobile) -->
+<div class="hidden md:grid grid-cols-12 gap-4 pb-space-sm border-b border-outline-variant text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<div class="col-span-6">Product</div>
+<div class="col-span-2 text-center">SKU</div>
+<div class="col-span-3 text-center">Số lượng</div>
+<div class="col-span-1 text-right">Action</div>
+</div>
+<!-- Cart Items -->
+<div id="cart-items-container" class="flex flex-col gap-space-md mt-space-md">
+    <t t-if="not cart_items">
+        <div class="p-space-lg text-center text-on-surface-variant bg-surface-variant rounded-lg mt-4 mb-4">
+            <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">shopping_cart</span>
+            <p>Giỏ báo giá của bạn đang trống.</p>
+        </div>
+    </t>
+    <t t-foreach="cart_items" t-as="item">
+        <div t-attf-id="cart-item-{{ item['product'].id }}" class="js_cart_item_row grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-space-sm rounded-lg hover:bg-surface transition-colors border border-outline-variant group">
+            <div class="md:col-span-6 flex items-center gap-space-md">
+                <img t-att-src="image_data_uri(item['product'].image_1920) if item['product'].image_1920 else '/web/static/img/placeholder.png'" class="w-16 h-16 object-cover rounded bg-surface-variant"/>
+                <div>
+                    <h3 class="font-body-lg text-body-lg font-semibold text-primary" t-esc="item['product'].name"/>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant mt-1" t-esc="item['product'].description_sale or 'Báo giá theo dự án'"/>
+                </div>
+            </div>
+            <div class="md:col-span-2 text-center md:text-left flex justify-between md:block text-on-surface-variant font-body-reg text-body-reg">
+                <span class="md:hidden font-semibold">SKU:</span> <t t-esc="item['product'].default_code or 'N/A'"/>
+            </div>
+            <div class="md:col-span-3 flex justify-center items-center gap-2">
+                <span class="md:hidden font-semibold text-on-surface-variant font-body-reg text-body-reg mr-2">SL:</span>
+                <form action="/shop/cart/update" method="POST" class="flex items-center border border-outline-variant rounded bg-surface-container-lowest focus-within:border-primary transition-colors">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="product_id" t-att-value="item['product'].id"/>
+                    
+                    <button type="button" class="px-2 py-1 text-on-surface-variant hover:text-primary transition-colors js_qty_btn_minus" t-att-data-product-id="item['product'].id">
+                        <span class="material-symbols-outlined text-[16px]">remove</span>
+                    </button>
+                    <input class="js_qty_input w-10 text-center border-none focus:ring-0 font-body-reg text-[14px] bg-transparent p-0" name="qty" min="1" type="number" t-att-value="item['qty']" t-att-data-product-id="item['product'].id"/>
+                    <button type="button" class="px-2 py-1 text-on-surface-variant hover:text-primary transition-colors js_qty_btn_plus" t-att-data-product-id="item['product'].id">
+                        <span class="material-symbols-outlined text-[16px]">add</span>
+                    </button>
+                </form>
+            </div>
+            <div class="md:col-span-1 flex justify-end">
+                <a href="#" t-att-data-product-id="item['product'].id" class="js_remove_cart_item text-error hover:text-error/80 transition-colors inline-flex p-2 rounded hover:bg-error/10" title="Xóa sản phẩm">
+                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                </a>
+            </div>
+        </div>
+    </t>
+</div>
+<div class="mt-space-xl flex justify-start">
+<a class="font-label-sm text-label-sm text-secondary hover:text-secondary-fixed flex items-center gap-1 transition-colors" href="/shop">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_back">arrow_back</span> Tiếp tục chọn sản phẩm
+                    </a>
+</div>
+</div>
+<!-- Right: Sticky Summary Card -->
+<div class="lg:col-span-4 sticky top-[100px]">
+<div class="bg-surface-container-lowest rounded-xl shadow-ambient p-space-lg">
+<h2 class="font-h3 text-h3 text-primary mb-space-md">Quote Summary</h2>
+<div class="flex justify-between items-center mb-space-sm font-body-reg text-body-reg text-on-surface-variant">
+<span>Tổng thiết bị</span>
+<span id="cart-summary-total-qty" class="font-semibold text-primary" t-esc="sum([item['qty'] for item in cart_items]) if cart_items else 0"/>
+</div>
+<div class="flex justify-between items-center mb-space-lg font-body-reg text-body-reg text-on-surface-variant pb-space-sm border-b border-outline-variant">
+<span>Tạm tính</span>
+<span id="cart-summary-total-price" class="font-semibold text-primary">
+    <t t-if="total_price"><t t-esc="'{:,.0f}'.format(total_price)"/> đ</t>
+    <t t-else="">Liên hệ Sales</t>
+</span>
+</div>
+<t t-if="cart_items">
+<form action="/quote/submit" method="post" class="flex flex-col gap-space-md">
+<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+<h3 class="font-label-sm text-label-sm font-semibold text-primary">Thông tin liên hệ</h3>
+<div>
+<label class="sr-only" for="company_name">Company Họ và tên</label>
+<input class="w-full bg-surface border border-outline-variant rounded p-3 font-body-reg text-body-reg text-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="company_name" name="company_name" placeholder="Tên Công Ty *" required="" type="text"/>
+</div>
+<div>
+<label class="sr-only" for="contact_email">Work Địa chỉ Email</label>
+<input class="w-full bg-surface border border-outline-variant rounded p-3 font-body-reg text-body-reg text-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="contact_email" name="contact_email" placeholder="Email công ty *" required="" type="email"/>
+</div>
+<div>
+<label class="sr-only" for="phone">Số Điện Thoại</label>
+<input class="w-full bg-surface border border-outline-variant rounded p-3 font-body-reg text-body-reg text-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="phone" name="phone" placeholder="Số Điện Thoại" type="tel"/>
+</div>
+<div>
+<label class="sr-only" for="notes">Project Notes / Requirements</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded p-3 font-body-reg text-body-reg text-primary focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline resize-none" id="notes" name="notes" placeholder="Ghi chú yêu cầu thêm (Tùy chọn)" rows="3"></textarea>
+</div>
+<div class="mt-space-sm flex items-start gap-2">
+<input class="mt-1 rounded border-outline-variant text-primary focus:ring-primary" id="urgent" name="urgent" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="urgent">Cần triển khai gấp (Trong 30 ngày tới)</label>
+</div>
+<button class="w-full bg-secondary hover:bg-secondary-container text-on-secondary font-label-sm text-label-sm font-bold py-4 rounded mt-space-sm shadow-sm hover:shadow-ambient-hover transition-all flex items-center justify-center gap-2" type="submit">
+                            Gửi Yêu Cầu Báo Giá <span class="material-symbols-outlined text-[18px]" data-icon="send">send</span>
+</button>
+</form>
+</t>
+<p class="font-label-sm text-label-sm text-outline text-center mt-space-md">A sales representative will contact you within 24 hours.</p>
+</div>
+</div>
+<script type="text/javascript">
+<![CDATA[
+document.addEventListener('DOMContentLoaded', function() {
+    const wrapper = document.getElementById('cart-main-wrapper');
+    if (!wrapper) return;
+
+    function postCartData(url, params) {
+        const csrfInput = document.querySelector('input[name="csrf_token"]');
+        const csrfToken = csrfInput ? csrfInput.value : '';
+        const formData = new FormData();
+        formData.append('csrf_token', csrfToken);
+        for (const [key, value] of Object.entries(params)) {
+            formData.append(key, value);
+        }
+        return fetch(url, {
+            method: 'POST',
+            body: formData
+        }).then(r => r.json());
+    }
+
+    function updateTotals(data) {
+        const totalQtyEl = document.getElementById('cart-summary-total-qty');
+        const totalPriceEl = document.getElementById('cart-summary-total-price');
+        const topbarBadgeEl = document.getElementById('cart-badge');
+        const cartTitleEl = document.querySelector('.lg\\:col-span-8 h2');
+
+        if (totalQtyEl) totalQtyEl.innerText = data.total_qty;
+        if (totalPriceEl) {
+            totalPriceEl.innerText = data.total_price_formatted;
+        }
+        
+        if (topbarBadgeEl) {
+            if (data.total_qty > 0) {
+                topbarBadgeEl.innerText = data.total_qty;
+                topbarBadgeEl.classList.remove('hidden');
+            } else {
+                topbarBadgeEl.classList.add('hidden');
+            }
+        }
+
+        if (cartTitleEl) {
+            const count = document.querySelectorAll('.js_cart_item_row').length;
+            cartTitleEl.innerText = 'Giỏ Báo Giá (' + count + ')';
+        }
+
+        if (data.cart_empty) {
+            showEmptyCartState();
+        }
+    }
+
+    function showEmptyCartState() {
+        const itemsList = document.getElementById('cart-items-container');
+        if (itemsList) {
+            itemsList.innerHTML = `
+                <div class="p-space-lg text-center text-on-surface-variant bg-surface-variant rounded-lg mt-4 mb-4">
+                    <span class="material-symbols-outlined text-[48px] mb-2 opacity-50">shopping_cart</span>
+                    <p>Giỏ báo giá của bạn đang trống.</p>
+                </div>
+            `;
+        }
+        const rightCard = document.querySelector('.lg\\:col-span-4');
+        if (rightCard) {
+            const form = rightCard.querySelector('form');
+            if (form) form.remove();
+            
+            const priceEl = document.getElementById('cart-summary-total-price');
+            if (priceEl) priceEl.innerText = 'Liên hệ Sales';
+            const qtyEl = document.getElementById('cart-summary-total-qty');
+            if (qtyEl) qtyEl.innerText = '0';
+        }
+    }
+
+    wrapper.addEventListener('click', function(e) {
+        const removeBtn = e.target.closest('.js_remove_cart_item');
+        if (removeBtn) {
+            e.preventDefault();
+            const productId = removeBtn.getAttribute('data-product-id');
+            const row = document.getElementById('cart-item-' + productId);
+            if (row) {
+                row.style.opacity = '0.5';
+                row.style.pointerEvents = 'none';
+            }
+
+            postCartData('/shop/cart/remove_json', { product_id: productId })
+                .then(data => {
+                    if (data.success) {
+                        if (row) row.remove();
+                        updateTotals(data);
+                    } else {
+                        if (row) {
+                            row.style.opacity = '1';
+                            row.style.pointerEvents = 'auto';
+                        }
+                        alert('Lỗi: ' + (data.error || 'Không thể xóa sản phẩm'));
+                    }
+                })
+                .catch(err => {
+                    if (row) {
+                        row.style.opacity = '1';
+                        row.style.pointerEvents = 'auto';
+                    }
+                    console.error(err);
+                });
+        }
+
+        const minusBtn = e.target.closest('.js_qty_btn_minus');
+        if (minusBtn) {
+            e.preventDefault();
+            const productId = minusBtn.getAttribute('data-product-id');
+            const input = minusBtn.nextElementSibling;
+            let val = parseInt(input.value);
+            if (val > 1) {
+                input.value = val - 1;
+                triggerQtyUpdate(productId, val - 1, input);
+            }
+        }
+
+        const plusBtn = e.target.closest('.js_qty_btn_plus');
+        if (plusBtn) {
+            e.preventDefault();
+            const productId = plusBtn.getAttribute('data-product-id');
+            const input = plusBtn.previousElementSibling;
+            let val = parseInt(input.value);
+            input.value = val + 1;
+            triggerQtyUpdate(productId, val + 1, input);
+        }
+    });
+
+    const clearBtn = document.getElementById('js_clear_cart_btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Bạn có chắc chắn muốn làm trống giỏ hàng?')) {
+                postCartData('/shop/cart/clear_json', {})
+                    .then(data => {
+                        if (data.success) {
+                            const rows = document.querySelectorAll('.js_cart_item_row');
+                            rows.forEach(r => r.remove());
+                            updateTotals(data);
+                        }
+                    })
+                    .catch(console.error);
+            }
+        });
+    }
+
+    wrapper.addEventListener('change', function(e) {
+        const input = e.target.closest('.js_qty_input');
+        if (input) {
+            const productId = input.getAttribute('data-product-id');
+            let val = parseInt(input.value);
+            if (isNaN(val) || val < 1) {
+                val = 1;
+                input.value = 1;
+            }
+            triggerQtyUpdate(productId, val, input);
+        }
+    });
+
+    function triggerQtyUpdate(productId, qty, inputEl) {
+        const form = inputEl.closest('form');
+        if (form) form.style.opacity = '0.7';
+
+        postCartData('/shop/cart/update_json', { product_id: productId, qty: qty })
+            .then(data => {
+                if (form) form.style.opacity = '1';
+                if (data.success) {
+                    updateTotals(data);
+                } else {
+                    alert('Lỗi: ' + (data.error || 'Không thể cập nhật số lượng'));
+                }
+            })
+            .catch(err => {
+                if (form) form.style.opacity = '1';
+                console.error(err);
+            });
+    }
+});
+]]>
+</script>
+</div>
+</main>
+            </div>
+        </t>
+    </template>
+</odoo>

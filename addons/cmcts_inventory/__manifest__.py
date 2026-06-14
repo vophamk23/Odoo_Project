@@ -1,13 +1,12 @@
 {
-    'name': 'CMCTS Inventory Customization',
-    'version': '1.0',
-    'summary': 'Quản lý kho bắt buộc nhập Serial Number',
-    'author': 'Phase1-team',
+    'name': 'CMCTS Inventory',
+    'version': '18.0.1.0.0',
+    'summary': 'Ràng buộc Serial Number trong quy trình kho',
     'depends': ['stock'],
     'data': [
         'security/ir.model.access.csv',
-        'views/stock_picking_views.xml',
     ],
     'installable': True,
+    'auto_install': False,
     'application': False,
 }

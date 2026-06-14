@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
+    <record id="view_picking_form_cmcts" model="ir.ui.view">
+        <field name="name">stock.picking.form.cmcts</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Tạm ẩn phần UI highlight vì cấu trúc Odoo 18 đã thay đổi (bỏ move_line_ids_without_package) -->
+            <!-- Sẽ cần inspect cấu trúc thực tế của Odoo 18 nếu muốn thêm lại -->
+        </field>
+    </record>
 </odoo>

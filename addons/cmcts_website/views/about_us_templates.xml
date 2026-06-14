@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_about_us" name="CMCTS About Us">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="flex-grow pt-[80px]">
+                    <!-- Hero Section -->
+                    <section class="bg-[#0A192F] text-white py-space-xl md:py-[120px] relative overflow-hidden border-b border-white/5">
+                        <!-- Abstract background element -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none">
+                            <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40">
+                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path>
+                                    </pattern>
+                                </defs>
+                                <rect fill="url(#grid)" height="100%" width="100%"></rect>
+                            </svg>
+                        </div>
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop relative z-10 text-center flex flex-col items-center">
+                            <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-wider mb-4">Về chúng tôi</span>
+                            <h1 class="font-h1-mobile text-h1-mobile md:font-h1 md:text-h1 text-white font-extrabold mb-space-md">Kiến Tạo Nền Tảng Số Vững Chắc</h1>
+                            <p class="font-body-lg text-body-lg text-white/80 max-w-3xl mx-auto leading-relaxed">CMCTS tự hào là đối tác công nghệ chiến lược cung cấp các thiết bị phần cứng và giải pháp hạ tầng doanh nghiệp hàng đầu Việt Nam. Thiết kế tối giản, chất lượng bền bỉ, hiệu suất tối đa.</p>
+                        </div>
+                    </section>
+
+                    <!-- Lịch sử hình thành / Timeline -->
+                    <section class="py-space-xl bg-surface">
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop">
+                            <div class="text-center mb-space-xl">
+                                <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Lịch sử phát triển</span>
+                                <h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-on-background font-bold">Chặng Đường Phát Triển</h2>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant max-w-xl mx-auto mt-2">Hơn một thập kỷ nỗ lực định hình và mở rộng các giải pháp phần cứng phục vụ hạ tầng doanh nghiệp.</p>
+                            </div>
+                            <div class="relative max-w-4xl mx-auto">
+                                <!-- Vertical Line -->
+                                <div class="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[2px] bg-outline-variant md:-translate-x-1/2"></div>
+                                
+                                <!-- Timeline Item 1 -->
+                                <div class="relative flex flex-col md:flex-row items-start md:items-center justify-between mb-space-xl group">
+                                    <div class="md:w-[45%] md:text-right pr-space-md order-2 md:order-1 ml-[50px] md:ml-0 mt-space-sm md:mt-0">
+                                        <h3 class="font-h3 text-h3 text-on-background mb-space-xs font-bold text-lg">Khởi Đầu Khát Vọng</h3>
+                                        <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Thành lập với tầm nhìn định hình và ổn định hóa môi trường máy chủ tại thị trường nội địa bằng thiết bị tủ rack chuyên dụng đầu tiên.</p>
+                                    </div>
+                                    <div class="absolute left-[13px] md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-secondary ring-4 ring-surface shadow-sm z-10 flex-shrink-0 group-hover:scale-125 transition-transform duration-300"></div>
+                                    <div class="md:w-[45%] pl-space-md order-1 md:order-2 ml-[50px] md:ml-0 text-secondary font-bold font-h3 text-xl">2014</div>
+                                </div>
+                                
+                                <!-- Timeline Item 2 -->
+                                <div class="relative flex flex-col md:flex-row items-start md:items-center justify-between mb-space-xl group">
+                                    <div class="md:w-[45%] md:text-right pr-space-md order-1 md:order-1 ml-[50px] md:ml-0 text-secondary font-bold font-h3 text-xl">2018</div>
+                                    <div class="absolute left-[13px] md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-secondary ring-4 ring-surface shadow-sm z-10 flex-shrink-0 group-hover:scale-125 transition-transform duration-300"></div>
+                                    <div class="md:w-[45%] pl-space-md order-2 md:order-2 ml-[50px] md:ml-0 mt-space-sm md:mt-0">
+                                        <h3 class="font-h3 text-h3 text-on-background mb-space-xs font-bold text-lg">Hợp Tác Toàn Cầu</h3>
+                                        <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Hợp tác chiến lược với các nhà cung cấp chip và linh kiện hàng đầu tại Châu Âu và Châu Á, đưa chất lượng sản phẩm đạt chuẩn quốc tế.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Timeline Item 3 -->
+                                <div class="relative flex flex-col md:flex-row items-start md:items-center justify-between group">
+                                    <div class="md:w-[45%] md:text-right pr-space-md order-2 md:order-1 ml-[50px] md:ml-0 mt-space-sm md:mt-0">
+                                        <h3 class="font-h3 text-h3 text-on-background mb-space-xs font-bold text-lg">Tiên Phong Kỷ Nguyên AI</h3>
+                                        <p class="font-body-reg text-body-reg text-on-surface-variant text-sm">Ra mắt thế hệ máy chủ chuyên dụng tính toán hiệu năng cao xử lý các thuật toán Trí tuệ nhân tạo (AI-Vision Inference Server) và thiết bị mạng biên thông minh.</p>
+                                    </div>
+                                    <div class="absolute left-[13px] md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-secondary ring-4 ring-surface shadow-sm z-10 flex-shrink-0 group-hover:scale-125 transition-transform duration-300">
+                                        <div class="absolute inset-0 bg-secondary rounded-full animate-ping opacity-75"></div>
+                                    </div>
+                                    <div class="md:w-[45%] pl-space-md order-1 md:order-2 ml-[50px] md:ml-0 text-secondary font-bold font-h3 text-xl">Hiện tại</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 2 — Con số nổi bật -->
+                    <section class="py-12 bg-[#0A192F] text-white border-y border-white/5">
+                        <div class="px-margin_desktop max-w-grid_max_width mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                            <div class="flex flex-col">
+                                <span class="text-4xl md:text-5xl font-extrabold text-secondary">10+</span>
+                                <span class="text-white/70 text-sm md:text-base mt-2">Năm Kinh Nghiệm</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-4xl md:text-5xl font-extrabold text-secondary">200+</span>
+                                <span class="text-white/70 text-sm md:text-base mt-2">Khách Hàng Tin Dùng</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-4xl md:text-5xl font-extrabold text-secondary">500+</span>
+                                <span class="text-white/70 text-sm md:text-base mt-2">Dự Án Triển Khai</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-4xl md:text-5xl font-extrabold text-secondary">50+</span>
+                                <span class="text-white/70 text-sm md:text-base mt-2">Chuyên Gia &amp; Kỹ Sư</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Core Values Section -->
+                    <section class="py-space-xl bg-surface-container-lowest border-t border-outline-variant">
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop">
+                            <div class="text-center mb-space-xl">
+                                <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Cam kết của chúng tôi</span>
+                                <h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-on-background font-bold">Nguyên Tắc Cốt Lõi</h2>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant max-w-xl mx-auto mt-2">Các giá trị cốt lõi định hướng mọi quyết định thiết kế sản xuất và hỗ trợ kỹ thuật tại CMCTS.</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                                <!-- Value Card 1 -->
+                                <div class="bg-surface p-space-lg rounded-xl border border-outline-variant hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">security</span>
+                                    </div>
+                                    <h3 class="font-bold text-lg text-primary">Bảo Mật Tuyệt Đối</h3>
+                                    <p class="font-body-reg text-body-reg text-on-surface-variant text-sm leading-relaxed">Mã hóa mức phần cứng (Hardware-level encryption) và thiết kế hệ thống theo kiến trúc an toàn Zero-Trust. Bảo mật là ưu tiên số một của chúng tôi.</p>
+                                </div>
+                                <!-- Value Card 2 -->
+                                <div class="bg-surface p-space-lg rounded-xl border border-outline-variant hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">speed</span>
+                                    </div>
+                                    <h3 class="font-bold text-lg text-primary">Hiệu Năng Vượt Trội</h3>
+                                    <p class="font-body-reg text-body-reg text-on-surface-variant text-sm leading-relaxed">Không ngừng cải tiến cơ chế tản nhiệt và băng thông xử lý dữ liệu lớn, đảm bảo hệ thống luôn đạt mức hiệu năng tối ưu nhất khi vận hành.</p>
+                                </div>
+                                <!-- Value Card 3 -->
+                                <div class="bg-surface p-space-lg rounded-xl border border-outline-variant hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+                                    </div>
+                                    <h3 class="font-bold text-lg text-primary">Kỹ Thuật Chuẩn Xác</h3>
+                                    <p class="font-body-reg text-body-reg text-on-surface-variant text-sm leading-relaxed">Quy trình sản xuất được kiểm định chất lượng khép kín. Mọi thiết bị đều vượt qua kiểm tra tải nặng nghiêm ngặt để đạt tính bền bỉ tối đa.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Đội ngũ lãnh đạo -->
+                    <section class="py-space-xl bg-surface border-t border-outline-variant">
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop">
+                            <div class="text-center mb-space-xl">
+                                <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Đội ngũ của chúng tôi</span>
+                                <h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-on-background font-bold">Ban Lãnh Đạo &amp; Chuyên Gia</h2>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant max-w-xl mx-auto mt-2">Đội ngũ nhân sự nòng cốt với hàng chục năm kinh nghiệm thực chiến trong lĩnh vực hạ tầng số doanh nghiệp.</p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                                <!-- Member 1 -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/60 shadow-sm flex flex-col items-center text-center group hover:shadow-md transition-all duration-300">
+                                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-secondary/20 mb-4 relative">
+                                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;q=80&amp;w=256&amp;h=256" alt="Nguyễn Văn Trung" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                                    </div>
+                                    <h3 class="font-bold text-primary text-lg leading-tight mb-1">Nguyễn Văn Trung</h3>
+                                    <p class="text-secondary font-medium text-sm mb-3">CEO &amp; Co-Founder</p>
+                                    <p class="text-xs text-on-surface-variant leading-relaxed">Cựu chuyên gia hạ tầng mạng cấp cao, người định hình tầm nhìn và sứ mệnh chuyển đổi số tại CMCTS.</p>
+                                </div>
+                                <!-- Member 2 -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/60 shadow-sm flex flex-col items-center text-center group hover:shadow-md transition-all duration-300">
+                                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-secondary/20 mb-4 relative">
+                                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;q=80&amp;w=256&amp;h=256" alt="Trần Thị Lan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                                    </div>
+                                    <h3 class="font-bold text-primary text-lg leading-tight mb-1">Trần Thị Lan</h3>
+                                    <p class="text-secondary font-medium text-sm mb-3">CTO</p>
+                                    <p class="text-xs text-on-surface-variant leading-relaxed">Tiến sĩ Khoa học Máy tính, chuyên gia kiến trúc lưu trữ và giải pháp điện toán đám mây lai (Hybrid Cloud).</p>
+                                </div>
+                                <!-- Member 3 -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/60 shadow-sm flex flex-col items-center text-center group hover:shadow-md transition-all duration-300">
+                                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-secondary/20 mb-4 relative">
+                                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&amp;fit=crop&amp;q=80&amp;w=256&amp;h=256" alt="Lê Minh Khoa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                                    </div>
+                                    <h3 class="font-bold text-primary text-lg leading-tight mb-1">Lê Minh Khoa</h3>
+                                    <p class="text-secondary font-medium text-sm mb-3">Head of Sales</p>
+                                    <p class="text-xs text-on-surface-variant leading-relaxed">Dẫn dắt các thương vụ tư vấn giải pháp B2B thành công cho hơn 500 tập đoàn và doanh nghiệp lớn trong nước.</p>
+                                </div>
+                                <!-- Member 4 -->
+                                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/60 shadow-sm flex flex-col items-center text-center group hover:shadow-md transition-all duration-300">
+                                    <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-secondary/20 mb-4 relative">
+                                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&amp;fit=crop&amp;q=80&amp;w=256&amp;h=256" alt="Phạm Thu Hằng" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                                    </div>
+                                    <h3 class="font-bold text-primary text-lg leading-tight mb-1">Phạm Thu Hằng</h3>
+                                    <p class="text-secondary font-medium text-sm mb-3">Project Manager</p>
+                                    <p class="text-xs text-on-surface-variant leading-relaxed">Đảm bảo tiến độ bàn giao thần tốc và quy trình vận hành kiểm thử hệ thống phần cứng không sai sót.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Đối tác chiến lược -->
+                    <section class="py-space-xl bg-surface-container-lowest border-t border-outline-variant">
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop">
+                            <div class="text-center mb-space-lg">
+                                <span class="text-secondary font-bold text-xs uppercase tracking-widest block mb-2">Hệ sinh thái kết nối</span>
+                                <h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-on-background font-bold">Đối Tác Chiến Lược</h2>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 items-center justify-items-center">
+                                <!-- Partner 1 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">dns</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">Intel Gold Partner</span>
+                                </div>
+                                <!-- Partner 2 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">router</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">Cisco Premier</span>
+                                </div>
+                                <!-- Partner 3 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">memory</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">Dell OEM Partner</span>
+                                </div>
+                                <!-- Partner 4 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">cloud</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">VMware Principal</span>
+                                </div>
+                                <!-- Partner 5 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">settings_input_component</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">NVIDIA Preferred</span>
+                                </div>
+                                <!-- Partner 6 -->
+                                <div class="bg-surface p-4 rounded-xl border border-outline-variant/40 w-full text-center flex flex-col items-center justify-center gap-1 group hover:border-secondary/35 transition-all duration-300 shadow-sm">
+                                    <span class="material-symbols-outlined text-3xl text-primary/70 group-hover:text-secondary transition-colors">developer_board</span>
+                                    <span class="font-bold text-xs text-on-surface-variant uppercase tracking-wider">HPE Enterprise</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Bottom CTA -->
+                    <section class="py-space-xl bg-surface-container-low">
+                        <div class="max-w-grid_max_width mx-auto px-margin_desktop">
+                            <div class="bg-secondary/10 border border-secondary/20 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between text-center md:text-left shadow-sm gap-6">
+                                <div class="md:max-w-xl">
+                                    <h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-primary font-bold mb-2">Bạn Đã Sẵn Sàng Nâng Cấp Hệ Thống?</h2>
+                                    <p class="font-body-lg text-body-lg text-on-surface-variant text-sm">Kết nối với các chuyên gia kỹ sư hạ tầng của chúng tôi để cùng lên kế hoạch và thiết kế giải pháp phần cứng tối ưu nhất cho doanh nghiệp của bạn.</p>
+                                </div>
+                                <a href="/tu-van" class="bg-secondary text-on-secondary font-label-sm text-label-sm px-8 py-4 rounded hover:bg-secondary/90 transition-all font-semibold whitespace-nowrap" style="text-decoration: none;">
+                                    Liên Hệ Tư Vấn Ngay
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </t>
+    </template>
+</odoo>

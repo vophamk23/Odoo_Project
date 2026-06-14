@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_event_detail" name="CMCTS Event Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="pt-[120px] pb-space-xl px-margin_mobile md:px-margin_desktop max-w-grid_max_width mx-auto w-full">
+                    <!-- Hero Section -->
+                    <section class="mb-space-xl">
+                        <div class="flex items-center gap-2 mb-space-sm">
+                            <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm rounded-full text-xs">Hội nghị</span>
+                            <span class="px-2 py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-full text-xs">Trực tiếp</span>
+                        </div>
+                        <h1 class="font-h1-mobile text-h1-mobile md:font-h1 md:text-h1 mb-space-md text-primary" t-esc="event.name"/>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mb-space-lg" t-esc="event.subtitle or 'Tham gia cùng các chuyên gia hàng đầu trong ngành.'"/>
+                        <div class="flex flex-col sm:flex-row gap-space-lg mb-space-xl bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary" data-icon="calendar_today">calendar_today</span>
+                                <div>
+                                    <div class="font-label-sm text-label-sm text-on-surface">Ngày &amp; Thời gian</div>
+                                    <div class="font-body-reg text-body-reg text-on-surface-variant">
+                                        <t t-esc="event.date_begin and event.date_begin.strftime('%b %d, %Y') or 'TBD'"/> - 
+                                        <t t-esc="event.date_end and event.date_end.strftime('%b %d, %Y') or 'TBD'"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hidden sm:block w-px bg-outline-variant"></div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+                                <div>
+                                    <div class="font-label-sm text-label-sm text-on-surface">Địa điểm</div>
+                                    <div class="font-body-reg text-body-reg text-on-surface-variant" t-esc="event.sudo().address_id and event.sudo().address_id.name or 'Trực tuyến / Chưa cập nhật'"/>
+                                </div>
+                            </div>
+                            <div class="hidden sm:block w-px bg-outline-variant"></div>
+                            <div class="flex items-center justify-end flex-grow">
+                                <t t-if="request.env.user._is_public()">
+                                    <a t-attf-href="/web/login?redirect=/events/detail/#{event.id}" class="inline-block bg-primary text-on-primary font-label-sm text-label-sm px-8 py-3 rounded hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm w-full sm:w-auto text-center" style="text-decoration: none;">
+                                        Đăng nhập để đăng ký
+                                    </a>
+                                </t>
+                                <t t-else="">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#eventRegisterModal" class="inline-block bg-primary text-on-primary font-label-sm text-label-sm px-8 py-3 rounded hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm w-full sm:w-auto text-center" style="text-decoration: none; border: none; cursor: pointer;">
+                                        Đăng Ký Ngay
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Main Content -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-xl">
+                        <!-- Left Content -->
+                        <div class="lg:col-span-2">
+                            <div class="h-64 md:h-96 w-full rounded-xl overflow-hidden mb-space-xl border border-outline-variant bg-surface-variant flex items-center justify-center relative">
+                                <t t-call="website.record_cover">
+                                    <t t-set="_record" t-value="event"/>
+                                    <t t-set="additionnal_classes" t-value="'w-full h-full'"/>
+                                </t>
+                            </div>
+<h3 class="font-h3 text-h3 text-on-background mb-space-md border-b border-outline-variant pb-2">Về Sự Kiện</h3>
+<div class="font-body-reg text-body-reg text-on-surface-variant space-y-4 mb-space-xl" t-out="event.description or '&lt;p&gt;Chi tiết sự kiện đang được cập nhật...&lt;/p&gt;'"/>
+                        </div>
+                        
+                        <!-- Right Sidebar -->
+                        <div>
+                            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm sticky top-[120px]">
+                                <h3 class="font-h3 text-h3 text-on-background mb-space-md">Event Diễn giả</h3>
+                                <div class="space-y-space-md">
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-h3">SJ</div>
+                                        <div>
+                                            <div class="font-label-sm text-label-sm text-on-surface">Sarah Johnson</div>
+                                            <div class="text-[12px] text-on-surface-variant">Chief Systems Architect, TechCore</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-h3">MR</div>
+                                        <div>
+                                            <div class="font-label-sm text-label-sm text-on-surface">Michael Rodriguez</div>
+                                            <div class="text-[12px] text-on-surface-variant">VP trên Infrastructure, NetScale</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-h3">EL</div>
+                                        <div>
+                                            <div class="font-label-sm text-label-sm text-on-surface">Elena Lin</div>
+                                            <div class="text-[12px] text-on-surface-variant">Director trên Mạng Ops, Đám mâyWay</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- Event Registration Modal -->
+            <div class="modal fade" id="eventRegisterModal" tabindex="-1" aria-labelledby="eventRegisterModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                        <div class="modal-header bg-surface-container-lowest border-b border-outline-variant px-6 py-4">
+                            <h5 class="modal-title font-h3 text-h3 text-primary" id="eventRegisterModalLabel">Đăng ký tham dự</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-6 bg-surface">
+                            <form action="/events/register/submit" method="post" class="space-y-4">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="event_id" t-att-value="event.id"/>
+                                
+                                <div class="mb-4">
+                                    <label for="name" class="block font-label-md text-label-md text-on-surface mb-2">Họ và Tên <span class="text-error">*</span></label>
+                                    <input type="text" class="w-full px-4 py-3 rounded border border-outline bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="name" name="name" />
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="block font-label-md text-label-md text-on-surface mb-2">Email công việc <span class="text-error">*</span></label>
+                                    <input type="email" class="w-full px-4 py-3 rounded border border-outline bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="email" name="email" />
+                                </div>
+                                <div class="mb-4">
+                                    <label for="phone" class="block font-label-md text-label-md text-on-surface mb-2">Số điện thoại</label>
+                                    <input type="tel" class="w-full px-4 py-3 rounded border border-outline bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="phone" name="phone"/>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+                                    Xác nhận đăng ký
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+    </template>
+</odoo>

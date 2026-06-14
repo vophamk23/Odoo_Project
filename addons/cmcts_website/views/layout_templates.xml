@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_homepage_layout" inherit_id="website.layout" name="CMCTS Layout">
+        
+        <!-- Inject Tailwind & Fonts into Head -->
+        <xpath expr="//head" position="inside">
+            <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+            <script id="tailwind-config">
+              tailwind.config = {
+                darkMode: "class",
+                important: true,
+                theme: {
+                  extend: {
+                    "colors": {
+                            "on-background": "#1b1c1e",
+                            "on-secondary-fixed-variant": "#7a3000",
+                            "inverse-surface": "#2f3033",
+                            "primary-fixed": "#d2e4ff",
+                            "on-secondary": "#ffffff",
+                            "tertiary-container": "#381d00",
+                            "primary": "#000f22",
+                            "on-secondary-fixed": "#351000",
+                            "on-primary": "#ffffff",
+                            "secondary": "#a04100",
+                            "surface-container-low": "#f5f3f6",
+                            "secondary-fixed-dim": "#ffb693",
+                            "on-tertiary-fixed-variant": "#613f1c",
+                            "on-error-container": "#93000a",
+                            "surface-container-highest": "#e3e2e5",
+                            "primary-container": "#0a2540",
+                            "error": "#ba1a1a",
+                            "outline-variant": "#c4c6ce",
+                            "on-tertiary": "#ffffff",
+                            "on-primary-fixed-variant": "#314865",
+                            "surface": "#faf9fb",
+                            "error-container": "#ffdad6",
+                            "surface-tint": "#49607e",
+                            "on-secondary-container": "#572000",
+                            "on-primary-container": "#768dad",
+                            "tertiary": "#1a0b00",
+                            "tertiary-fixed": "#ffdcbe",
+                            "surface-variant": "#e3e2e5",
+                            "surface-container": "#efedf0",
+                            "surface-container-lowest": "#ffffff",
+                            "surface-bright": "#faf9fb",
+                            "on-error": "#ffffff",
+                            "inverse-on-surface": "#f2f0f3",
+                            "on-surface": "#1b1c1e",
+                            "surface-dim": "#dbd9dc",
+                            "on-surface-variant": "#43474d",
+                            "primary-fixed-dim": "#b0c8eb",
+                            "outline": "#74777e",
+                            "secondary-container": "#fe6b00",
+                            "on-primary-fixed": "#001c37",
+                            "secondary-fixed": "#ffdbcc",
+                            "tertiary-fixed-dim": "#eebd90",
+                            "on-tertiary-container": "#ae835a",
+                            "on-tertiary-fixed": "#2d1600",
+                            "background": "#faf9fb",
+                            "surface-container-high": "#e9e8ea",
+                            "inverse-primary": "#b0c8eb"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "space-md": "16px",
+                            "base": "8px",
+                            "space-xl": "48px",
+                            "margin_desktop": "40px",
+                            "space-lg": "24px",
+                            "gutter": "24px",
+                            "columns": "12",
+                            "grid_max_width": "1280px",
+                            "space-sm": "8px",
+                            "space-xs": "4px",
+                            "margin_mobile": "16px"
+                    },
+                    "fontFamily": {
+                            "h1-mobile": ["Inter"],
+                            "body-reg": ["Inter"],
+                            "h2-mobile": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "h2": ["Inter"],
+                            "h1": ["Inter"],
+                            "h3": ["Inter"],
+                            "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                            "h1-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                            "body-reg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "h2-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                            "h2": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                            "h1": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                            "h3": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                  }
+                }
+              }
+            </script>
+            <style>
+                .hero-gradient {
+                    background: linear-gradient(135deg, #0a2540 0%, #111827 100%);
+                }
+            </style>
+            <style t-if="not no_header and request.httprequest.path not in ['/web/login', '/web/signup', '/web/reset_password']">
+                /* Sidebar Layout CSS */
+                main {
+                    padding-top: 64px !important;
+                    min-height: calc(100vh - 64px) !important;
+                }
+                
+                /* Desktop Sidebar Open (Default) */
+                @media (min-width: 1024px) {
+                    body:not(.sidebar-collapsed) #wrapwrap {
+                        padding-left: 240px !important;
+                        transition: padding-left 0.3s ease;
+                    }
+                    footer.w-full {
+                        width: 100% !important;
+                    }
+                }
+                
+                /* Desktop Sidebar Collapsed (Mini Sidebar) */
+                @media (min-width: 1024px) {
+                    body.sidebar-collapsed #cmcts-sidebar {
+                        width: 80px !important;
+                    }
+                    body.sidebar-collapsed #cmcts-topbar {
+                        left: 80px !important;
+                    }
+                    body.sidebar-collapsed #wrapwrap {
+                        padding-left: 80px !important;
+                        transition: padding-left 0.3s ease;
+                    }
+                    
+                    /* Hide text elements */
+                    body.sidebar-collapsed #cmcts-sidebar .uppercase,
+                    body.sidebar-collapsed #cmcts-sidebar .p-4 .flex-col,
+                    body.sidebar-collapsed #cmcts-sidebar a[title="Đăng xuất"] {
+                        display: none !important;
+                    }
+                    
+                    /* Tooltip for navigation icons */
+                    body.sidebar-collapsed #cmcts-sidebar nav {
+                        overflow: visible !important;
+                    }
+                    body.sidebar-collapsed #cmcts-sidebar a {
+                        position: relative;
+                        overflow: visible !important;
+                    }
+                    body.sidebar-collapsed #cmcts-sidebar a .font-medium {
+                        position: absolute;
+                        left: 100%;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background-color: #222D32;
+                        color: white;
+                        padding: 8px 16px;
+                        border-radius: 8px;
+                        margin-left: 16px;
+                        white-space: nowrap;
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: all 0.2s;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+                        z-index: 1000;
+                        border: 1px solid rgba(255,255,255,0.1);
+                    }
+                    body.sidebar-collapsed #cmcts-sidebar a:hover .font-medium {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                    /* Add a small arrow to the tooltip */
+                    body.sidebar-collapsed #cmcts-sidebar a .font-medium::before {
+                        content: '';
+                        position: absolute;
+                        right: 100%;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        border-width: 6px;
+                        border-style: solid;
+                        border-color: transparent #222D32 transparent transparent;
+                    }
+                    
+                    /* Center icons */
+                    body.sidebar-collapsed #cmcts-sidebar a,
+                    body.sidebar-collapsed #cmcts-sidebar .justify-between,
+                    body.sidebar-collapsed #cmcts-sidebar .px-6 {
+                        justify-content: center !important;
+                        padding-left: 0 !important;
+                        padding-right: 0 !important;
+                    }
+                }
+
+                /* Mobile Sidebar Open Overlay */
+                .mobile-overlay-open {
+                    display: block !important;
+                    opacity: 1 !important;
+                }
+            </style>
+        </xpath>
+
+        <!-- Thay thế Header toàn cục -->
+        <!-- Thay thế Header toàn cục -->
+        <!-- Thay thế Header toàn cục -->
+        <xpath expr="//header" position="replace">
+            <t t-if="not no_header and request.httprequest.path not in ['/web/login', '/web/signup', '/web/reset_password']">
+                <script>
+                    if(localStorage.getItem('cmcts-sidebar-collapsed') === 'true') {
+                        document.documentElement.classList.add('sidebar-collapsed');
+                        document.addEventListener("DOMContentLoaded", function() {
+                            document.body.classList.add('sidebar-collapsed');
+                        });
+                    }
+                </script>
+                <!-- Mobile Overlay -->
+                <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-[55] hidden lg:hidden opacity-0 transition-opacity duration-300"></div>
+                
+                <!-- Sidebar -->
+                <aside id="cmcts-sidebar" class="fixed left-0 top-0 bottom-0 w-[240px] bg-[#222D32] z-[60] flex flex-col border-r border-white/10 transition-transform duration-300 -translate-x-full lg:translate-x-0">
+                    <!-- Logo -->
+                    <div class="h-[64px] flex items-center justify-between px-6 border-b border-white/10 shrink-0">
+                        <a class="flex items-center gap-2 hover:scale-105 transition-all duration-300" href="/" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[32px] text-white leading-none -mt-1">memory</span>
+                            <span class="text-white font-black text-[22px] tracking-widest uppercase leading-none">CMCTS</span>
+                        </a>
+                        <button id="mobile-sidebar-close" class="lg:hidden text-white/50 hover:text-white p-1 rounded">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                    <!-- Navigation -->
+                    <nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+                        <a href="/" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[24px]">grid_view</span>
+                            <span class="text-[16px] font-medium">Trang Chủ</span>
+                        </a>
+                        <a href="/aboutus" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[24px]">info</span>
+                            <span class="text-[16px] font-medium">Giới Thiệu</span>
+                        </a>
+                        <a href="/shop" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[24px]">inventory_2</span>
+                            <span class="text-[16px] font-medium">Sản Phẩm</span>
+                        </a>
+                        <a href="/events" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[24px]">event</span>
+                            <span class="text-[16px] font-medium">Sự Kiện</span>
+                        </a>
+                        <a href="/blog" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[24px]">article</span>
+                            <span class="text-[16px] font-medium">Tin Tức</span>
+                        </a>
+
+                        <!-- Personal Section (Visible only when logged in) -->
+                        <t t-if="not request.env.user._is_public()">
+                            <div class="mt-4 mb-1 px-4 text-[12px] font-bold text-white/40 uppercase tracking-widest">Cá Nhân</div>
+                            <a href="/my/quotes" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-[24px]">request_quote</span>
+                                <span class="text-[16px] font-medium">Báo Giá Của Tôi</span>
+                            </a>
+                            <a href="/my/home" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-[24px]">manage_accounts</span>
+                                <span class="text-[16px] font-medium">Tài Khoản</span>
+                            </a>
+                        </t>
+                    </nav>
+                    <!-- User Profile Bottom -->
+                    <div class="p-4 border-t border-white/10 shrink-0">
+                        <t t-if="request.env.user._is_public()">
+                            <a href="/web/login" class="flex items-center gap-3 px-3 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-300" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-[24px]">login</span>
+                                <span class="text-[16px] font-medium">Đăng nhập</span>
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-[36px] text-white">account_circle</span>
+                                    <div class="flex flex-col">
+                                        <span class="text-[14px] text-white font-bold truncate max-w-[120px]"><t t-esc="request.env.user.name"/></span>
+                                        <t t-if="request.env.user.login == 'admin'">
+                                            <span class="text-[12px] text-secondary">Quản trị viên</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="text-[12px] text-secondary">Khách hàng</span>
+                                        </t>
+                                    </div>
+                                </div>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal" class="text-white/50 hover:text-red-400 transition-colors" title="Đăng xuất" style="background:none; border:none; padding:0; cursor:pointer;">
+                                    <span class="material-symbols-outlined text-[22px]">logout</span>
+                                </button>
+                            </div>
+                        </t>
+                    </div>
+                </aside>
+
+                <!-- Topbar (Mobile: full width, Desktop: beside sidebar) -->
+                <header id="cmcts-topbar" class="fixed top-0 right-0 left-0 lg:left-[240px] h-[64px] bg-[#0A192F] lg:bg-primary-container/95 lg:backdrop-blur-md z-50 border-b border-white/10 flex items-center justify-between px-4 lg:px-6 transition-all duration-300">
+                    <!-- Mobile Logo -->
+                    <div class="lg:hidden flex items-center gap-2">
+                        <button id="mobile-sidebar-toggle" class="text-white p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                        <a class="flex items-center gap-2" href="/" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-[28px] text-white leading-none">memory</span>
+                            <span class="text-white font-black text-[20px] tracking-widest uppercase leading-none">CMCTS</span>
+                        </a>
+                    </div>
+
+                    <!-- Desktop Left Topbar (Search & Page Title) -->
+                    <div class="hidden lg:flex flex-1 items-center gap-6">
+                        <div class="flex items-center gap-2 text-white font-semibold text-[18px]">
+                            <button id="desktop-sidebar-toggle" class="p-1 hover:bg-white/10 rounded-lg transition-colors flex items-center justify-center cursor-pointer" title="Thu gọn/Mở rộng menu">
+                                <span class="material-symbols-outlined text-secondary">sort</span>
+                            </button>
+                            <span>Trang Chủ</span>
+                        </div>
+                        <form action="/search" method="GET" class="flex items-center relative w-[300px] xl:w-[400px]">
+                            <span class="material-symbols-outlined text-[20px] text-white/50 absolute left-3">search</span>
+                            <input type="text" name="q" placeholder="Tìm kiếm thông tin, thiết bị..." class="w-full bg-white/5 border border-white/10 text-white placeholder-white/50 rounded-full py-2 pl-10 pr-4 text-[14px] focus:outline-none focus:bg-white/10 focus:border-white/30 transition-all duration-300"/>
+                        </form>
+                    </div>
+
+                    <!-- Right Topbar -->
+                    <div class="flex items-center gap-2 sm:gap-4 shrink-0">
+                        <div class="hidden xl:flex flex-col items-end justify-center mr-2 text-white/80">
+                            <span class="text-[14px] font-bold leading-tight" id="topbar-clock">00:00:00</span>
+                            <span class="text-[12px] leading-tight" id="topbar-date">01/01/2026</span>
+                        </div>
+                        
+                        <a href="/tu-van" class="hidden md:flex items-center justify-center text-[14px] font-semibold bg-secondary text-on-secondary px-5 py-2 rounded-full shadow-md transition-all duration-300 hover:bg-secondary/90 hover:-translate-y-0.5 hover:shadow-lg whitespace-nowrap" style="color: white; text-decoration: none;">Tư Vấn Ngay</a>
+                        
+                        <!-- Language Selector -->
+                        <t t-call="website.language_selector"/>
+                        
+                        <a href="/shop/cart" id="cart-icon-btn" t-att-data-cart="request.session.get('cmcts_cart_json', '{}')" aria-label="shopping_cart" class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center relative" style="text-decoration: none;">
+                            <span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                            <span id="cart-badge" class="hidden absolute top-0.5 right-0.5 bg-[#fe6b00] text-white text-[10px] font-black rounded-full h-[18px] w-[18px] flex items-center justify-center border-2 border-[#0A192F] shadow-sm">0</span>
+                        </a>
+                        
+                        <button class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center relative">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        
+                        <button class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center hidden sm:flex">
+                            <span class="material-symbols-outlined">help</span>
+                        </button>
+                        
+                        <!-- Mobile Search Toggle -->
+                        <button id="mobile-search-toggle" class="lg:hidden p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center">
+                            <span class="material-symbols-outlined">search</span>
+                        </button>
+
+                        <!-- User Avatar (Mobile) -->
+                        <t t-if="not request.env.user._is_public()">
+                            <div class="lg:hidden p-1">
+                                <span class="material-symbols-outlined text-[32px] text-white">account_circle</span>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <a href="/web/login" class="lg:hidden p-2 text-white/80 hover:text-white">
+                                <span class="material-symbols-outlined">login</span>
+                            </a>
+                        </t>
+                    </div>
+                    
+                    <!-- Mobile Search Dropdown -->
+                    <div id="mobile-search-dropdown" class="hidden absolute top-[64px] left-0 right-0 bg-[#0A192F] p-4 border-b border-white/10 lg:hidden shadow-lg">
+                        <form action="/search" method="GET" class="flex items-center relative w-full">
+                            <span class="material-symbols-outlined text-[20px] text-white/50 absolute left-3">search</span>
+                            <input type="text" name="q" placeholder="Tìm kiếm..." class="w-full bg-white/5 border border-white/10 text-white placeholder-white/50 rounded-full py-2 pl-10 pr-4 text-[14px] focus:outline-none focus:bg-white/10 focus:border-white/30"/>
+                        </form>
+                    </div>
+                </header>
+                
+                <!-- Scripts -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function updateClock() {
+                            const now = new Date();
+                            const clock = document.getElementById('topbar-clock');
+                            const dateObj = document.getElementById('topbar-date');
+                            if(clock &amp;&amp; dateObj) {
+                                clock.innerText = now.toLocaleTimeString('vi-VN');
+                                dateObj.innerText = now.toLocaleDateString('vi-VN');
+                            }
+                        }
+                        setInterval(updateClock, 1000);
+                        updateClock();
+                        
+                        // Sidebar Toggle Logic
+                        const desktopBtn = document.getElementById('desktop-sidebar-toggle');
+                        const mobileBtn = document.getElementById('mobile-sidebar-toggle');
+                        const mobileCloseBtn = document.getElementById('mobile-sidebar-close');
+                        const sidebar = document.getElementById('cmcts-sidebar');
+                        const overlay = document.getElementById('mobile-overlay');
+                        
+                        if(desktopBtn) {
+                            desktopBtn.addEventListener('click', function() {
+                                document.body.classList.toggle('sidebar-collapsed');
+                                localStorage.setItem('cmcts-sidebar-collapsed', document.body.classList.contains('sidebar-collapsed'));
+                            });
+                        }
+                        
+                        function toggleMobileSidebar() {
+                            const isOpen = sidebar.classList.contains('translate-x-0');
+                            if (isOpen) {
+                                sidebar.classList.remove('translate-x-0');
+                                sidebar.classList.add('-translate-x-full');
+                                overlay.classList.add('hidden');
+                                setTimeout(() => overlay.classList.remove('opacity-100'), 10);
+                            } else {
+                                sidebar.classList.remove('-translate-x-full');
+                                sidebar.classList.add('translate-x-0');
+                                overlay.classList.remove('hidden');
+                                setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                            }
+                        }
+
+                        if(mobileBtn) mobileBtn.addEventListener('click', toggleMobileSidebar);
+                        if(mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMobileSidebar);
+                        if(overlay) overlay.addEventListener('click', toggleMobileSidebar);
+
+                        // Mobile Search Logic
+                        const mobileSearchBtn = document.getElementById('mobile-search-toggle');
+                        const mobileSearchDropdown = document.getElementById('mobile-search-dropdown');
+                        if(mobileSearchBtn &amp;&amp; mobileSearchDropdown) {
+                            mobileSearchBtn.addEventListener('click', function() {
+                                mobileSearchDropdown.classList.toggle('hidden');
+                            });
+                        }
+
+                        // Cart Badge Update Logic
+                        const cartBtn = document.getElementById('cart-icon-btn');
+                        if (cartBtn) {
+                            const cartDataStr = cartBtn.getAttribute('data-cart') || '{}';
+                            try {
+                                const cartData = JSON.parse(cartDataStr);
+                                let totalQty = 0;
+                                for (const key in cartData) {
+                                    if (cartData.hasOwnProperty(key)) {
+                                        totalQty += parseInt(cartData[key]) || 0;
+                                    }
+                                }
+                                const badge = document.getElementById('cart-badge');
+                                if (badge &amp;&amp; totalQty > 0) {
+                                    badge.innerText = totalQty;
+                                    badge.classList.remove('hidden');
+                                }
+                            } catch (e) {
+                                console.error('Error parsing cart data:', e);
+                            }
+                        }
+                    });
+                </script>
+            </t>
+        </xpath>
+
+        <!-- Thay thế Footer toàn cục -->
+        <xpath expr="//footer" position="replace">
+            <t t-if="not no_footer and request.httprequest.path not in ['/web/login', '/web/signup', '/web/reset_password']">
+                <footer class="bg-primary-container text-white w-full py-16 mt-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 px-6 lg:px-margin_desktop max-w-grid_max_width mx-auto">
+                        <!-- Cột 1: Branding -->
+                        <div class="flex flex-col gap-4">
+                            <a class="flex items-center gap-2 hover:scale-105 transition-all duration-300 w-max" href="/" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-[36px] text-white leading-none">memory</span>
+                                <span class="text-white font-black text-[24px] tracking-widest uppercase leading-none">CMCTS</span>
+                            </a>
+                            <p class="text-white/70 text-[14px] leading-relaxed mt-2 pr-4">
+                                Đối tác tin cậy cung cấp giải pháp phần cứng doanh nghiệp toàn diện. Đẩy mạnh hạ tầng số toàn cầu với độ chính xác và bảo mật tuyệt đối.
+                            </p>
+                        </div>
+
+                        <!-- Cột 2: Đường dẫn nhanh -->
+                        <div class="flex flex-col gap-4">
+                            <h4 class="font-bold text-[18px] text-white mb-1 uppercase tracking-wider">Về CMCTS</h4>
+                            <a href="/aboutus" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Giới Thiệu</a>
+                            <a href="/shop" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Sản Phẩm</a>
+                            <a href="/events" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Sự Kiện</a>
+                            <a href="/blog" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Tin Tức</a>
+                        </div>
+
+                        <!-- Cột 3: Hỗ trợ -->
+                        <div class="flex flex-col gap-4">
+                            <h4 class="font-bold text-[18px] text-white mb-1 uppercase tracking-wider">Hỗ Trợ</h4>
+                            <a href="/tu-van" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Liên Hệ Kỹ Thuật</a>
+                            <a href="/privacy" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Chính Sách Bảo Mật</a>
+                            <a href="/terms" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Điều Khoản Sử Dụng</a>
+                            <a href="#" class="text-white/70 hover:text-secondary hover:translate-x-1 transition-all duration-300 text-[15px] w-max" style="text-decoration: none;">Trung Tâm Trợ Giúp</a>
+                        </div>
+
+                        <!-- Cột 4: Thông tin liên hệ -->
+                        <div class="flex flex-col gap-4">
+                            <h4 class="font-bold text-[18px] text-white mb-1 uppercase tracking-wider">Kết Nối</h4>
+                            <div class="flex items-start gap-3 text-white/70 group hover:text-white transition-colors duration-300">
+                                <span class="material-symbols-outlined text-[20px] text-secondary">location_on</span>
+                                <span class="text-[14px] leading-snug">Tòa nhà CMC, 11 Duy Tân, Cầu Giấy, Hà Nội</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-white/70 group hover:text-white transition-colors duration-300">
+                                <span class="material-symbols-outlined text-[20px] text-secondary">mail</span>
+                                <a href="mailto:contact@cmcts.vn" class="text-[14px] text-white/70 group-hover:text-white transition-colors" style="text-decoration: none;">contact@cmcts.vn</a>
+                            </div>
+                            <div class="flex items-center gap-3 text-white/70 group hover:text-white transition-colors duration-300">
+                                <span class="material-symbols-outlined text-[20px] text-secondary">phone</span>
+                                <a href="tel:19002468" class="text-[14px] text-white/70 group-hover:text-white transition-colors font-medium" style="text-decoration: none;">1900 2468</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer bottom -->
+                    <div class="mt-16 pt-6 border-t border-white/10 px-6 lg:px-margin_desktop max-w-grid_max_width mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p class="text-white/50 text-[13px]">© 2026 CMC Technology &amp; Solution. Đã đăng ký bản quyền.</p>
+                        <div class="flex gap-5">
+                            <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" title="Facebook"><span class="material-symbols-outlined text-[22px]">public</span></a>
+                            <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" title="LinkedIn"><span class="material-symbols-outlined text-[22px]">work</span></a>
+                            <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" title="Youtube"><span class="material-symbols-outlined text-[22px]">play_circle</span></a>
+                        </div>
+                    </div>
+                </footer>
+            </t>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    function fetchAndReplace(url, method="GET", body=null) {
+                        let container = document.querySelector("#ajax-content-container");
+                        if(container) {
+                            container.style.opacity = '0.5';
+                            container.style.pointerEvents = 'none';
+                        }
+                        fetch(url, {method: method, body: body})
+                            .then(response => response.text())
+                            .then(html => {
+                                let parser = new DOMParser();
+                                let doc = parser.parseFromString(html, "text/html");
+                                let newContainer = doc.querySelector("#ajax-content-container");
+                                if (container &amp;&amp; newContainer) {
+                                    container.innerHTML = newContainer.innerHTML;
+                                    container.style.opacity = '1';
+                                    container.style.pointerEvents = 'auto';
+                                    window.history.pushState({path: url}, '', url);
+                                    // Re-initialize any necessary scripts here if needed
+                                } else {
+                                    window.location.href = url;
+                                }
+                            })
+                            .catch(err => {
+                                window.location.href = url;
+                            });
+                    }
+
+                    document.body.addEventListener("click", function(e) {
+                        let link = e.target.closest("a.ajax-filter");
+                        if (link) {
+                            e.preventDefault();
+                            let url = link.href;
+                            if (!url || url.includes('#') || url.startsWith('javascript:')) return;
+                            fetchAndReplace(url);
+                        }
+                    });
+
+                    document.body.addEventListener("submit", function(e) {
+                        let form = e.target.closest("form.ajax-form");
+                        if (form) {
+                            e.preventDefault();
+                            let url = new URL(form.action);
+                            let formData = new FormData(form);
+                            if (form.method.toUpperCase() === "GET") {
+                                for (let [key, value] of formData.entries()) {
+                                    if(value) url.searchParams.set(key, value);
+                                }
+                                fetchAndReplace(url.toString());
+                            } else {
+                                fetchAndReplace(url.toString(), "POST", formData);
+                            }
+                        }
+                    });
+
+                    window.addEventListener("popstate", function() {
+                        window.location.reload();
+                    });
+                });
+            </script>
+
+            <t t-set="added_pid" t-value="request.params.get('added')"/>
+            <t t-set="added_qty" t-value="request.params.get('qty', 1)"/>
+            <t t-if="added_pid">
+                <t t-set="added_product" t-value="request.env['product.template'].sudo().browse(int(added_pid))"/>
+                <t t-if="added_product.exists()">
+                    <!-- Toast Animation Styles -->
+                    <style type="text/css">
+                        @keyframes toastLife {
+                            0% {
+                                transform: translateX(120%);
+                            }
+                            5% {
+                                transform: translateX(0);
+                            }
+                            95% {
+                                transform: translateX(0);
+                            }
+                            100% {
+                                transform: translateX(120%);
+                            }
+                        }
+                        .animate-cart-toast {
+                            animation: toastLife 8s ease-in-out forwards;
+                        }
+                    </style>
+
+                    <!-- Toast Notification -->
+                    <div id="cart-toast" class="fixed top-24 right-4 z-[99999] w-full max-w-[400px] bg-white rounded shadow-lg border border-gray-200 overflow-hidden animate-cart-toast" style="font-family: Inter, sans-serif;">
+                        <!-- Header -->
+                        <div class="flex items-start justify-between px-4 py-3 border-b border-gray-200">
+                            <h3 class="text-[#4b5563] font-semibold text-[15px] leading-snug pr-4">Mặt hàng đã được thêm vào giỏ hàng của bạn</h3>
+                            <button onclick="document.getElementById('cart-toast').style.display='none'" class="text-gray-400 hover:text-gray-600 transition-colors mt-0.5 shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Body -->
+                        <div class="p-4">
+                            <div class="flex items-start gap-4 mb-5">
+                                <!-- Image -->
+                                <div class="w-16 h-16 bg-[#f9fafb] rounded border border-gray-100 flex items-center justify-center shrink-0">
+                                    <t t-if="added_product.image_1920">
+                                        <img t-attf-src="/web/image/product.template/#{added_product.id}/image_1920" class="w-full h-full object-contain mix-blend-multiply" alt="Product Image"/>
+                                    </t>
+                                    <t t-else="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </t>
+                                </div>
+                                
+                                <!-- Product Info -->
+                                <div class="flex-1 min-w-0 pt-0.5">
+                                    <div class="flex justify-between items-start gap-3">
+                                        <p class="text-[#374151] text-[15px] leading-snug">
+                                            <t t-esc="added_qty"/> x <t t-esc="added_product.name"/>
+                                        </p>
+                                        <p class="text-[#111827] text-[15px] whitespace-nowrap">
+                                            <t t-esc="&quot;{:,.0f}&quot;.format(added_product.list_price).replace(',', '.')"/> đ
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Button -->
+                            <a href="/shop/cart" class="block w-full py-2.5 bg-[#a04100] hover:bg-[#853600] text-white text-[15px] font-medium text-center rounded transition-colors shadow-sm" style="text-decoration: none;">
+                                Xem giỏ hàng
+                            </a>
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+                <!-- Logout Confirmation Modal -->
+                <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true" style="z-index: 9999;">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content border-0 shadow-lg rounded-xl overflow-hidden">
+                            <div class="modal-body p-6 text-center bg-surface">
+                                <div class="w-16 h-16 rounded-full bg-error-container text-on-error-container flex items-center justify-center mx-auto mb-4">
+                                    <span class="material-symbols-outlined text-[32px]">logout</span>
+                                </div>
+                                <h3 class="font-h3 text-h3 text-on-surface mb-2">Đăng xuất</h3>
+                                <p class="font-body-reg text-body-reg text-on-surface-variant mb-6">Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?</p>
+                                <div class="flex gap-3">
+                                    <button type="button" class="flex-1 py-2.5 rounded border border-outline-variant text-on-surface-variant font-label-sm hover:bg-surface-variant transition-colors" data-bs-dismiss="modal">Hủy</button>
+                                    <a href="/web/session/logout?redirect=/" class="flex-1 py-2.5 rounded bg-error text-on-error font-label-sm hover:bg-[#ba1a1a] transition-colors" style="text-decoration: none;">Đăng xuất</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </xpath>
+    </template>
+</odoo>

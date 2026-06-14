@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_event_hero" inherit_id="website_event.index" name="CMCTS Event Hero">
+        <xpath expr="//div[hasclass('o_wevent_index')]" position="before">
+            <section class="cmcts-event-hero text-center text-white py-5">
+                <div class="container py-5">
+                    <h1 class="fw-bold mb-3">Sự Kiện &amp; Hội Thảo</h1>
+                    <p class="text-light opacity-75 mx-auto" style="max-width: 700px;">
+                        Cập nhật các sự kiện, hội thảo chuyên đề về Công nghệ Thông tin và Chuyển đổi số mới nhất do CMC TS tổ chức và đồng hành.
+                    </p>
+                </div>
+            </section>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_contactus" name="CMCTS Contact Us">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <!-- Main Content từ Stitch Lead_Capture_Form.html -->
+                <main class="flex-grow pt-[80px] flex items-center bg-surface-container-low min-h-[calc(100vh-200px)]">
+                    <div class="max-w-grid_max_width mx-auto px-margin_desktop md:px-margin_desktop w-full grid grid-cols-1 md:grid-cols-12 gap-gutter py-space-xl">
+                        <!-- Left Column: Trust & Map -->
+                        <div class="md:col-span-5 flex flex-col justify-center space-y-space-lg">
+                            <div class="space-y-space-md">
+                                <h1 class="font-h1-mobile text-h1-mobile md:font-h1 md:text-h1 text-primary">
+                                    Đăng Ký Tư Vấn Giải Pháp
+                                </h1>
+                                <p class="font-body-lg text-body-lg text-on-surface-variant">
+                                    Đội ngũ chuyên gia của CMCTS sẵn sàng tư vấn các giải pháp hạ tầng phần cứng và phần mềm tối ưu nhất cho doanh nghiệp của bạn.
+                                </p>
+                            </div>
+                            <div class="space-y-space-md pt-space-md">
+                                <div class="flex items-center space-x-space-md group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary-fixed transition-colors duration-300">
+                                        <span class="material-symbols-outlined">call</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-label-sm text-label-sm text-on-surface-variant">Hotline Tư Vấn</p>
+                                        <p class="font-h3 text-h3 text-primary">1900 2468</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-space-md group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary-fixed transition-colors duration-300">
+                                        <span class="material-symbols-outlined">mail</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-label-sm text-label-sm text-on-surface-variant">Hỗ Trợ Doanh Nghiệp</p>
+                                        <p class="font-h3 text-h3 text-primary">contact@cmcts.vn</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-space-md group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary-fixed transition-colors duration-300">
+                                        <span class="material-symbols-outlined">location_on</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-label-sm text-label-sm text-on-surface-variant">Trụ Sở Chính</p>
+                                        <p class="font-body-reg text-body-reg text-primary">Tòa nhà CMC, 11 Duy Tân<br/>Cầu Giấy, Hà Nội</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-space-md group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary-fixed transition-colors duration-300">
+                                        <span class="material-symbols-outlined">schedule</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-label-sm text-label-sm text-on-surface-variant">Giờ Làm Việc</p>
+                                        <p class="font-body-reg text-body-reg text-primary">Thứ 2 - Thứ 6: 8:00 - 17:30<br/>Thứ 7: 8:00 - 12:00</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-space-md pt-2">
+                                    <span class="font-label-sm text-label-sm text-on-surface-variant mr-2">Kết nối:</span>
+                                    <a href="https://facebook.com" class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary hover:text-white flex items-center justify-center text-on-surface transition-all duration-300" style="text-decoration: none;"><span class="material-symbols-outlined text-[18px]">public</span></a>
+                                    <a href="https://linkedin.com" class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary hover:text-white flex items-center justify-center text-on-surface transition-all duration-300" style="text-decoration: none;"><span class="material-symbols-outlined text-[18px]">work</span></a>
+                                    <a href="https://youtube.com" class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary hover:text-white flex items-center justify-center text-on-surface transition-all duration-300" style="text-decoration: none;"><span class="material-symbols-outlined text-[18px]">play_circle</span></a>
+                                </div>
+                            </div>
+                            
+                            <!-- Google Maps Embed -->
+                            <div class="w-full h-64 rounded-xl overflow-hidden border border-outline-variant/60 shadow-sm mt-6">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.0976527581977!2d105.78010377596769!3d21.028779687780338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab4ca4640103%3A0x8dfb0b925b42d54a!2zVMOyYSBuaMOgIENCQywgMTEgRHV5IFTDom4sIEThu4tjaCBW4buNbmcsIEPhuqd1IEdp4bqleSwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0m3!2v4!5m2!1svi!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                        <!-- Right Column: Form -->
+                        <div class="md:col-span-7 flex justify-end items-center mt-space-xl md:mt-0 relative">
+                            <!-- Decorative background elements -->
+                            <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30" style="animation: blob 7s infinite;"></div>
+                            <div class="absolute -left-10 -bottom-10 w-72 h-72 bg-secondary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30" style="animation: blob 7s infinite; animation-delay: 2s;"></div>
+                            
+                            <div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] border border-outline-variant p-space-lg md:p-[32px] relative z-10">
+                                <form class="space-y-space-md" action="/tu-van/submit" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="space-y-space-xs">
+                                        <label class="block font-label-sm text-label-sm text-on-surface" for="name">Họ và Tên Đầy Đủ (*)</label>
+                                        <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-space-md py-3 font-body-reg text-body-reg text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all duration-200" id="name" name="name" placeholder="Vd: Nguyễn Văn A" type="text" required="required"/>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                                        <div class="space-y-space-xs">
+                                            <label class="block font-label-sm text-label-sm text-on-surface" for="email">Email (*)</label>
+                                            <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-space-md py-3 font-body-reg text-body-reg text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all duration-200" id="email" name="email" placeholder="example@company.com" type="email" required="required"/>
+                                        </div>
+                                        <div class="space-y-space-xs">
+                                            <label class="block font-label-sm text-label-sm text-on-surface" for="phone">Số Điện Thoại (*)</label>
+                                            <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-space-md py-3 font-body-reg text-body-reg text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all duration-200" id="phone" name="phone" placeholder="Vd: 0901234567" type="tel" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-space-xs">
+                                        <label class="block font-label-sm text-label-sm text-on-surface" for="solution">Nhu Cầu Tư Vấn</label>
+                                        <select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-space-md py-3 font-body-reg text-body-reg text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all duration-200 appearance-none pr-10" id="solution" name="solution">
+                                            <option value="" disabled="disabled" t-att-selected="not product and 'selected' or None">Chọn một nhu cầu...</option>
+                                            <option value="servers" t-att-selected="product and 'server' in product.name.lower() and 'selected' or None">Hạ Tầng Server &amp; Máy Chủ</option>
+                                            <option value="storage" t-att-selected="product and ('storage' in product.name.lower() or 'flash' in product.name.lower() or 'vellox' in product.name.lower()) and 'selected' or None">Hạ Tầng Lưu Trữ (Storage)</option>
+                                            <option value="networking" t-att-selected="product and ('switch' in product.name.lower() or 'module' in product.name.lower() or 'hyperswitch' in product.name.lower() or 'transceiver' in product.name.lower()) and 'selected' or None">Thiết Bị Mạng &amp; Truyền Dẫn</option>
+                                            <option value="edge" t-att-selected="product and 'edge' in product.name.lower() and 'selected' or None">Nút Mạng Biên &amp; IoT Edge</option>
+                                        </select>
+                                    </div>
+                                    <div class="space-y-space-xs">
+                                        <label class="block font-label-sm text-label-sm text-on-surface" for="requirements">Ghi Chú Chi Tiết Nhu Cầu</label>
+                                        <textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-space-md py-3 font-body-reg text-body-reg text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed transition-all duration-200 resize-none" id="requirements" name="requirements" placeholder="Mô tả chi tiết nhu cầu hệ thống, thời gian dự kiến và yêu cầu kỹ thuật của bạn..." rows="4" required="required"><t t-if="product">Tôi quan tâm và muốn nhận tư vấn chi tiết về thiết bị: <t t-esc="product.name"/> (Mã: <t t-esc="product.default_code or 'N/A'"/>, Giá: <t t-esc="&quot;{:,.0f}&quot;.format(product.list_price).replace(',', '.')"/> VNĐ).</t></textarea>
+                                    </div>
+                                    <div class="pt-space-sm">
+                                        <button class="w-full bg-secondary hover:bg-secondary-container text-on-secondary hover:text-on-secondary-container transition-colors duration-200 px-space-md py-4 rounded-lg font-label-sm text-label-sm shadow-[0_10px_25px_-5px_rgba(0,0,0,0.10)] flex items-center justify-center space-x-2 cursor-pointer" type="submit">
+                                            <span>Gửi Yêu Cầu</span>
+                                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                    <p class="font-body-reg text-body-reg text-[12px] text-on-surface-variant text-center pt-space-xs">
+                                        Bằng việc gửi thông tin, bạn đồng ý với <a class="text-primary underline hover:text-secondary transition-colors" href="/privacy">Chính sách bảo mật</a> của chúng tôi.
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <style>
+                    @keyframes blob {
+                        0% { transform: translate(0px, 0px) scale(1); }
+                        33% { transform: translate(30px, -50px) scale(1.1); }
+                        66% { transform: translate(-20px, 20px) scale(0.9); }
+                        100% { transform: translate(0px, 0px) scale(1); }
+                    }
+                </style>
+            </div>
+        </t>
+    </template>
+</odoo>

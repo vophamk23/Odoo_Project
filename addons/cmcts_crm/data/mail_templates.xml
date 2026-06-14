@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
+        <!-- Email Template: Thank you for Consultation Request -->
+        <record id="email_template_thank_you_consultation" model="mail.template">
+            <field name="name">CMCTS: Xác nhận yêu cầu tư vấn</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="subject">Xác nhận yêu cầu tư vấn giải pháp từ CMCTS</field>
+            <field name="email_from">{{ object.user_id.email_formatted or 'noreply@cmcts.vn' }}</field>
+            <field name="email_to">{{ object.email_from }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: 'Inter', Arial, sans-serif; color: #334155; line-height: 1.6;">
+    <p>Kính gửi anh/chị <strong><t t-out="object.contact_name or 'Quý khách'"/></strong>,</p>
     
+    <p>Cảm ơn anh/chị đã quan tâm và để lại yêu cầu tư vấn trên website của <strong>CMC TS</strong>. Hệ thống của chúng tôi đã ghi nhận thông tin yêu cầu của anh/chị với nội dung như sau:</p>
+    
+    <blockquote style="border-left: 4px solid #008fd5; margin: 10px 0; padding-left: 15px; background: #f8fafc;">
+        <p style="margin: 0;"><em><t t-out="object.description"/></em></p>
+    </blockquote>
+    
+    <p>Chuyên viên tư vấn giải pháp của CMC TS sẽ liên hệ lại với anh/chị qua số điện thoại <strong><t t-out="object.phone or 'đã đăng ký'"/></strong> trong thời gian sớm nhất để trao đổi chi tiết và đề xuất phương án tối ưu.</p>
+    
+    <p>Trân trọng,</p>
+    <p><strong>CMCTS Security Operation &amp; Transformation Center</strong><br/>
+    Hotline: 1900 8888<br/>
+    Email: hello@cmcts.vn</p>
+</div>
+            </field>
+        </record>
+    </data>
 </odoo>

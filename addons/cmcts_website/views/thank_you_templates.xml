@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_thank_you" name="CMCTS Thank You">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <!-- Main Content Canvas -->
+                <main class="w-full flex-grow flex items-center justify-center px-margin_mobile md:px-margin_desktop pt-[120px] pb-space-xl min-h-[calc(100vh-300px)]">
+                    <div class="max-w-[600px] w-full mx-auto text-center">
+                        <!-- Icon Container -->
+                        <div class="mb-space-lg flex justify-center">
+                            <div class="relative w-24 h-24 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center" style="animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; transform: scale(0); opacity: 0;">
+                                <svg class="w-12 h-12 text-secondary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw 0.8s cubic-bezier(0.65, 0, 0.45, 1) forwards; animation-delay: 0.3s;"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- Typography -->
+                        <h1 class="font-h1-mobile md:font-h1 text-h1-mobile md:text-h1 text-primary mb-space-md">
+                            <t t-if="is_event">Đăng Ký Sự Kiện Thành Công</t>
+                            <t t-else="">Gửi Yêu Cầu Thành Công</t>
+                        </h1>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant mb-space-xl max-w-md mx-auto">
+                            Cảm ơn bạn, <t t-esc="customer_name"/>! <t t-if="is_event">Vé mời điện tử và thư xác nhận đã được gửi vào email của bạn.</t><t t-else="">Các chuyên gia của chúng tôi sẽ xem xét yêu cầu và liên hệ với bạn trong thời gian sớm nhất.</t> Chúng tôi rất trân trọng sự quan tâm của bạn.
+                        </p>
+                        <!-- Actions -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-space-md">
+                            <a class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-DEFAULT bg-secondary hover:bg-on-secondary-container transition-colors duration-200 text-on-secondary font-label-sm text-label-sm shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.10)]" href="/" style="text-decoration: none;">
+                                Về Trang Chủ
+                            </a>
+                        </div>
+                        <!-- Additional Support info -->
+                        <div class="mt-space-xl pt-space-md border-t border-outline-variant">
+                            <p class="font-body-reg text-body-reg text-outline text-sm">
+                                Cần hỗ trợ ngay? Liên hệ với bộ phận <a class="text-primary hover:text-secondary underline decoration-secondary/30 hover:decoration-secondary transition-all" href="mailto:solutions@enterprise.hw">Hỗ trợ</a>.
+                            </p>
+                        </div>
+                    </div>
+                </main>
+                <style>
+                    @keyframes draw {
+                        to {
+                            stroke-dashoffset: 0;
+                        }
+                    }
+                    @keyframes scaleIn {
+                        to {
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+                </style>
+            </div>
+        </t>
+    </template>
+</odoo>
