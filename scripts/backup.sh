@@ -1,38 +1,35 @@
 #!/bin/bash
 set -e  # Dừng script nếu có lỗi
+export MSYS_NO_PATHCONV=1  # Ngăn Git Bash tự động đổi đường dẫn trên Windows
 
 # === CẤU HÌNH ===
 DB_NAME="vopc_cmcts"
 DB_USER="odoo"
-CONTAINER="vopc_db"
+DB_CONTAINER="vopc_db"
+ODOO_CONTAINER="vopc_odoo"
 BACKUP_DIR="./backup"
 DATE=$(date +%Y%m%d_%H%M)
-FILENAME="backup_${DATE}.sql.gz"
-FILEPATH="${BACKUP_DIR}/${FILENAME}"
+DB_FILENAME="db_${DB_NAME}_${DATE}.sql.gz"
+FILESTORE_FILENAME="filestore_${DB_NAME}_${DATE}.tar.gz"
 
 # === THỰC HIỆN ===
-echo "🔄 Đang backup database ${DB_NAME}..."
-
-# Tạo thư mục backup nếu chưa có
+echo "Dang tao thu muc backup..."
 mkdir -p "$BACKUP_DIR"
 
-# Dump database và nén
-docker exec "$CONTAINER" pg_dump -U "$DB_USER" "$DB_NAME" | gzip > "$FILEPATH"
+echo "1. Dang backup database ${DB_NAME}..."
+docker exec -T "$DB_CONTAINER" pg_dump -U "$DB_USER" "$DB_NAME" | gzip > "${BACKUP_DIR}/${DB_FILENAME}"
+
+echo "2. Dang backup Filestore (Hinh anh, tai lieu)..."
+docker exec -T "$ODOO_CONTAINER" tar -czf - -C /var/lib/odoo/.local/share/Odoo/filestore "$DB_NAME" > "${BACKUP_DIR}/${FILESTORE_FILENAME}" || true
 
 # Kiểm tra file tạo thành công
-if [ -f "$FILEPATH" ]; then
-    SIZE=$(du -sh "$FILEPATH" | cut -f1)
-    echo "✅ Đã tạo file backup: $FILEPATH (${SIZE})"
+if [ -f "${BACKUP_DIR}/${DB_FILENAME}" ] && [ -f "${BACKUP_DIR}/${FILESTORE_FILENAME}" ]; then
+    DB_SIZE=$(du -sh "${BACKUP_DIR}/${DB_FILENAME}" | cut -f1)
+    FS_SIZE=$(du -sh "${BACKUP_DIR}/${FILESTORE_FILENAME}" | cut -f1)
+    echo "Hoan tat backup!"
+    echo "- Database: ${DB_FILENAME} (${DB_SIZE})"
+    echo "- Filestore: ${FILESTORE_FILENAME} (${FS_SIZE})"
 else
-    echo "❌ Lỗi: Không tạo được file backup!"
+    echo "Loi: Khong tao duoc file backup!"
     exit 1
 fi
-
-# === PUSH LÊN GITHUB ===
-# echo "🚀 Đang push lên GitHub..."
-# git add "$FILEPATH"
-# git commit -m "backup: ${FILENAME}"
-# git push origin develop
-
-echo "✅ Backup hoàn tất (Tạm thời không push tự động lên GitHub)!"
-echo "📁 File: $FILEPATH"
