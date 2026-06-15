@@ -163,16 +163,16 @@
                                             <h3 class="font-body-lg text-body-lg text-primary font-semibold leading-tight h-12 overflow-hidden line-clamp-2">
                                                 <a t-attf-href="/shop/detail/#{prod.id}" class="text-primary hover:text-secondary hover:no-underline transition-colors" t-esc="prod.name"/>
                                             </h3>
-                                            <div class="mt-auto pt-space-sm flex justify-between items-center">
-                                                <span class="font-h3 text-h3 text-on-surface">
+                                            <div class="mt-auto pt-space-sm">
+                                                <div class="font-h3 text-[18px] md:text-[20px] font-bold text-primary mb-3">
                                                     <t t-if="prod.list_price &gt; 0">
                                                         <t t-esc="&quot;{:,.0f}&quot;.format(prod.list_price).replace(',', '.')"/> VNĐ
                                                     </t>
                                                     <t t-else="">
                                                         Liên hệ
                                                     </t>
-                                                </span>
-                                                <a t-attf-href="/shop/detail/#{prod.id}" class="font-label-sm text-label-sm bg-primary text-on-primary px-3 py-1.5 rounded hover:bg-primary/90 transition-colors" style="text-decoration: none;">Xem Thông Số</a>
+                                                </div>
+                                                <a t-attf-href="/shop/detail/#{prod.id}" class="w-full block text-center font-label-sm text-label-sm bg-primary text-on-primary px-3 py-2.5 rounded shadow-sm hover:bg-primary/90 transition-colors" style="text-decoration: none;">Xem Thông Số</a>
                                             </div>
                                         </div>
                                     </div>

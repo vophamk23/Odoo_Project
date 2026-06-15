@@ -144,7 +144,7 @@
                     /* Hide text elements */
                     body.sidebar-collapsed #cmcts-sidebar .uppercase,
                     body.sidebar-collapsed #cmcts-sidebar .p-4 .flex-col,
-                    body.sidebar-collapsed #cmcts-sidebar a[title="Đăng xuất"] {
+                    body.sidebar-collapsed #cmcts-sidebar [title="Đăng xuất"] {
                         display: none !important;
                     }
                     
@@ -225,7 +225,11 @@
                 <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-[55] hidden lg:hidden opacity-0 transition-opacity duration-300"></div>
                 
                 <!-- Sidebar -->
-                <aside id="cmcts-sidebar" class="fixed left-0 top-0 bottom-0 w-[240px] bg-[#222D32] z-[60] flex flex-col border-r border-white/10 transition-transform duration-300 -translate-x-full lg:translate-x-0">
+                <aside id="cmcts-sidebar" t-cache="False" class="fixed left-0 top-0 bottom-0 w-[240px] bg-[#222D32] z-[60] flex flex-col border-r border-white/10 transition-transform duration-300 -translate-x-full lg:translate-x-0">
+                    <t t-set="real_user_id" t-value="request.session.uid"/>
+                    <t t-set="is_logged_in" t-value="bool(real_user_id)"/>
+                    <t t-set="real_user" t-value="request.env['res.users'].sudo().browse(real_user_id) if real_user_id else request.env.user"/>
+                    
                     <!-- Logo -->
                     <div class="h-[64px] flex items-center justify-between px-6 border-b border-white/10 shrink-0">
                         <a class="flex items-center gap-2 hover:scale-105 transition-all duration-300" href="/" style="text-decoration: none;">
@@ -260,11 +264,15 @@
                         </a>
 
                         <!-- Personal Section (Visible only when logged in) -->
-                        <t t-if="not request.env.user._is_public()">
+                        <t t-if="is_logged_in">
                             <div class="mt-4 mb-1 px-4 text-[12px] font-bold text-white/40 uppercase tracking-widest">Cá Nhân</div>
                             <a href="/my/quotes" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
                                 <span class="material-symbols-outlined text-[24px]">request_quote</span>
                                 <span class="text-[16px] font-medium">Báo Giá Của Tôi</span>
+                            </a>
+                            <a href="/my/orders" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+                                <span class="text-[16px] font-medium">Đơn Hàng Của Tôi</span>
                             </a>
                             <a href="/my/home" class="flex items-center gap-3 px-3 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300" style="text-decoration: none;">
                                 <span class="material-symbols-outlined text-[24px]">manage_accounts</span>
@@ -274,7 +282,7 @@
                     </nav>
                     <!-- User Profile Bottom -->
                     <div class="p-4 border-t border-white/10 shrink-0">
-                        <t t-if="request.env.user._is_public()">
+                        <t t-if="not is_logged_in">
                             <a href="/web/login" class="flex items-center gap-3 px-3 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-300" style="text-decoration: none;">
                                 <span class="material-symbols-outlined text-[24px]">login</span>
                                 <span class="text-[16px] font-medium">Đăng nhập</span>
@@ -283,11 +291,14 @@
                         <t t-else="">
                             <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5">
                                 <div class="flex items-center gap-3">
-                                    <span class="material-symbols-outlined text-[36px] text-white">account_circle</span>
+                                    <img t-attf-src="/web/image/res.users/#{real_user.id}/avatar_128" class="w-9 h-9 rounded-full object-cover border border-white/20 shrink-0 bg-white/10" alt="User Avatar"/>
                                     <div class="flex flex-col">
-                                        <span class="text-[14px] text-white font-bold truncate max-w-[120px]"><t t-esc="request.env.user.name"/></span>
-                                        <t t-if="request.env.user.login == 'admin'">
+                                        <span class="text-[14px] text-white font-bold truncate max-w-[120px]"><t t-esc="real_user.name"/></span>
+                                        <t t-if="real_user.login == 'admin'">
                                             <span class="text-[12px] text-secondary">Quản trị viên</span>
+                                        </t>
+                                        <t t-elif="real_user.has_group('base.group_user')">
+                                            <span class="text-[12px] text-secondary">Nhân viên</span>
                                         </t>
                                         <t t-else="">
                                             <span class="text-[12px] text-secondary">Khách hàng</span>
@@ -303,7 +314,11 @@
                 </aside>
 
                 <!-- Topbar (Mobile: full width, Desktop: beside sidebar) -->
-                <header id="cmcts-topbar" class="fixed top-0 right-0 left-0 lg:left-[240px] h-[64px] bg-[#0A192F] lg:bg-primary-container/95 lg:backdrop-blur-md z-50 border-b border-white/10 flex items-center justify-between px-4 lg:px-6 transition-all duration-300">
+                <header id="cmcts-topbar" t-cache="False" class="fixed top-0 right-0 left-0 lg:left-[240px] h-[64px] bg-[#0A192F] lg:bg-primary-container/95 lg:backdrop-blur-md z-50 border-b border-white/10 flex items-center justify-between px-4 lg:px-6 transition-all duration-300">
+                    <t t-set="real_user_id" t-value="request.session.uid"/>
+                    <t t-set="is_logged_in" t-value="bool(real_user_id)"/>
+                    <t t-set="real_user" t-value="request.env['res.users'].sudo().browse(real_user_id) if real_user_id else request.env.user"/>
+
                     <!-- Mobile Logo -->
                     <div class="lg:hidden flex items-center gap-2">
                         <button id="mobile-sidebar-toggle" class="text-white p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer">
@@ -346,14 +361,124 @@
                             <span id="cart-badge" class="hidden absolute top-0.5 right-0.5 bg-[#fe6b00] text-white text-[10px] font-black rounded-full h-[18px] w-[18px] flex items-center justify-center border-2 border-[#0A192F] shadow-sm">0</span>
                         </a>
                         
-                        <button class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center relative">
-                            <span class="material-symbols-outlined">notifications</span>
-                            <span class="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
+                        <!-- Notification Dropdown -->
+                        <div class="relative group">
+                            <button class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center relative cursor-pointer">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <t t-if="is_logged_in">
+                                    <t t-set="my_notifs" t-value="request.env['sale.order'].sudo().search_count([('partner_id', '=', real_user.partner_id.id), ('state', 'in', ('draft', 'sent', 'sale'))]) + request.env['account.move'].sudo().search_count([('partner_id', '=', real_user.partner_id.id), ('state', '=', 'posted'), ('move_type', '=', 'out_invoice')])"/>
+                                    <t t-if="my_notifs > 0">
+                                        <span class="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-1 border-2 border-[#0A192F]"><t t-esc="my_notifs"/></span>
+                                    </t>
+                                </t>
+                            </button>
+                            <!-- Dropdown -->
+                            <div class="absolute right-0 top-full mt-2 w-[320px] bg-surface-container-lowest rounded-xl shadow-xl border border-outline-variant/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-50 overflow-hidden">
+                                <div class="px-4 py-3 border-b border-outline-variant/40 bg-surface-container flex justify-between items-center">
+                                    <h3 class="text-[16px] font-bold text-on-surface m-0">Thông báo</h3>
+                                </div>
+                                <div class="max-h-[350px] overflow-y-auto custom-scrollbar">
+                                    <t t-if="is_logged_in">
+                                        <t t-set="my_quotes" t-value="request.env['sale.order'].sudo().search([('partner_id', '=', real_user.partner_id.id), ('state', 'in', ('draft', 'sent'))], limit=3, order='create_date desc')"/>
+                                        <t t-set="my_confirmed_orders" t-value="request.env['sale.order'].sudo().search([('partner_id', '=', real_user.partner_id.id), ('state', '=', 'sale')], limit=3, order='date_order desc')"/>
+                                        <t t-set="my_invoices" t-value="request.env['account.move'].sudo().search([('partner_id', '=', real_user.partner_id.id), ('state', '=', 'posted'), ('move_type', '=', 'out_invoice')], limit=3, order='date desc')"/>
+                                        
+                                        <t t-if="not my_quotes and not my_confirmed_orders and not my_invoices">
+                                            <div class="p-6 text-center text-on-surface-variant text-[13px]">
+                                                Không có thông báo nào
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <!-- Quotes -->
+                                            <t t-foreach="my_quotes" t-as="quote">
+                                                <a t-attf-href="/my/orders/#{quote.id}" class="flex gap-3 p-3 hover:bg-surface-container-high transition-colors border-b border-outline-variant/20 block" style="text-decoration: none;">
+                                                    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                                        <span class="material-symbols-outlined text-[20px]">request_quote</span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[14px] text-on-surface font-medium mb-0.5 line-clamp-2">Bạn có một báo giá mới: <t t-esc="quote.name"/></p>
+                                                        <p class="text-[12px] text-primary font-bold"><t t-esc="&quot;{:,.0f}&quot;.format(quote.amount_total).replace(',', '.')"/> VNĐ</p>
+                                                        <p class="text-[11px] text-on-surface-variant mt-1"><t t-esc="quote.create_date.strftime('%d/%m/%Y %H:%M')"/></p>
+                                                    </div>
+                                                </a>
+                                            </t>
+                                            <!-- Confirmed Orders -->
+                                            <t t-foreach="my_confirmed_orders" t-as="order">
+                                                <a t-attf-href="/my/orders/#{order.id}" class="flex gap-3 p-3 hover:bg-surface-container-high transition-colors border-b border-outline-variant/20 block" style="text-decoration: none;">
+                                                    <div class="w-10 h-10 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center shrink-0">
+                                                        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[14px] text-on-surface font-medium mb-0.5 line-clamp-2">Đơn hàng <t t-esc="order.name"/> đã được xác nhận</p>
+                                                        <p class="text-[12px] text-green-600 font-bold"><t t-esc="&quot;{:,.0f}&quot;.format(order.amount_total).replace(',', '.')"/> VNĐ</p>
+                                                        <p class="text-[11px] text-on-surface-variant mt-1"><t t-esc="order.date_order.strftime('%d/%m/%Y %H:%M')"/></p>
+                                                    </div>
+                                                </a>
+                                            </t>
+                                            <!-- Invoices -->
+                                            <t t-foreach="my_invoices" t-as="invoice">
+                                                <a t-attf-href="/my/invoices/#{invoice.id}" class="flex gap-3 p-3 hover:bg-surface-container-high transition-colors border-b border-outline-variant/20 block" style="text-decoration: none;">
+                                                    <div class="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+                                                        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-[14px] text-on-surface font-medium mb-0.5 line-clamp-2">Hóa đơn <t t-esc="invoice.name"/> đã được xác nhận</p>
+                                                        <p class="text-[12px] text-secondary font-bold"><t t-esc="&quot;{:,.0f}&quot;.format(invoice.amount_total).replace(',', '.')"/> VNĐ</p>
+                                                        <p class="text-[11px] text-on-surface-variant mt-1"><t t-esc="invoice.date.strftime('%d/%m/%Y')"/></p>
+                                                    </div>
+                                                </a>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="p-6 text-center">
+                                            <p class="text-on-surface-variant text-[13px] mb-3">Vui lòng đăng nhập để xem thông báo</p>
+                                            <a href="/web/login" class="inline-block text-[13px] text-white bg-primary px-4 py-2 rounded" style="text-decoration: none;">Đăng nhập</a>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
                         
-                        <button class="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center hidden sm:flex">
-                            <span class="material-symbols-outlined">help</span>
-                        </button>
+                        <!-- User Profile Dropdown (Desktop) -->
+                        <div class="relative hidden sm:block group">
+                            <t t-if="is_logged_in">
+                                <button class="flex items-center gap-2 p-1.5 rounded-full hover:bg-white/10 transition-all duration-300 cursor-pointer">
+                                    <img t-attf-src="/web/image/res.users/#{real_user.id}/avatar_128" class="w-8 h-8 rounded-full object-cover border border-white/20 bg-white/10" alt="User Avatar"/>
+                                    <span class="text-white text-[14px] font-medium hidden md:block max-w-[100px] truncate"><t t-esc="real_user.name"/></span>
+                                    <span class="material-symbols-outlined text-white/70 text-[18px]">expand_more</span>
+                                </button>
+                                <!-- Dropdown Menu -->
+                                <div class="absolute right-0 top-full mt-2 w-56 bg-surface-container-lowest rounded-xl shadow-xl border border-outline-variant/40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-50 overflow-hidden">
+                                    <div class="px-4 py-3 border-b border-outline-variant/40 bg-surface-container">
+                                        <p class="text-[14px] font-bold text-on-surface truncate"><t t-esc="real_user.name"/></p>
+                                        <p class="text-[12px] text-on-surface-variant truncate"><t t-esc="real_user.email or real_user.login"/></p>
+                                    </div>
+                                    <div class="p-2">
+                                        <a href="/my/home" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors text-[14px]" style="text-decoration: none;">
+                                            <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+                                            Tài khoản của tôi
+                                        </a>
+                                        <a href="/my/orders" class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors text-[14px]" style="text-decoration: none;">
+                                            <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                                            Đơn hàng của tôi
+                                        </a>
+                                    </div>
+                                    <div class="p-2 border-t border-outline-variant/40">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-error hover:bg-error/10 transition-colors text-[14px] cursor-pointer" style="background:none; border:none;">
+                                            <span class="material-symbols-outlined text-[20px]">logout</span>
+                                            Đăng xuất
+                                        </button>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <a href="/web/login" class="flex items-center gap-2 p-1.5 rounded-full hover:bg-white/10 transition-all duration-300 text-white" style="text-decoration: none;">
+                                    <span class="material-symbols-outlined text-[28px]">account_circle</span>
+                                    <span class="text-[14px] font-medium hidden md:block">Đăng nhập</span>
+                                </a>
+                            </t>
+                        </div>
                         
                         <!-- Mobile Search Toggle -->
                         <button id="mobile-search-toggle" class="lg:hidden p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 flex items-center">
@@ -361,9 +486,9 @@
                         </button>
 
                         <!-- User Avatar (Mobile) -->
-                        <t t-if="not request.env.user._is_public()">
-                            <div class="lg:hidden p-1">
-                                <span class="material-symbols-outlined text-[32px] text-white">account_circle</span>
+                        <t t-if="is_logged_in">
+                            <div class="lg:hidden p-1 flex items-center justify-center">
+                                <img t-attf-src="/web/image/res.users/#{real_user.id}/avatar_128" class="w-8 h-8 rounded-full object-cover border border-white/20 bg-white/10" alt="User Avatar"/>
                             </div>
                         </t>
                         <t t-else="">

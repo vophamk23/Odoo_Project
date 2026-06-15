@@ -97,6 +97,8 @@
                                             <option value="storage" t-att-selected="product and ('storage' in product.name.lower() or 'flash' in product.name.lower() or 'vellox' in product.name.lower()) and 'selected' or None">Hạ Tầng Lưu Trữ (Storage)</option>
                                             <option value="networking" t-att-selected="product and ('switch' in product.name.lower() or 'module' in product.name.lower() or 'hyperswitch' in product.name.lower() or 'transceiver' in product.name.lower()) and 'selected' or None">Thiết Bị Mạng &amp; Truyền Dẫn</option>
                                             <option value="edge" t-att-selected="product and 'edge' in product.name.lower() and 'selected' or None">Nút Mạng Biên &amp; IoT Edge</option>
+                                            <option value="laptop" t-att-selected="product and 'laptop' in product.name.lower() and 'selected' or None">Laptop &amp; Máy tính cá nhân</option>
+                                            <option value="phone" t-att-selected="product and ('điện thoại' in product.name.lower() or 'phone' in product.name.lower()) and 'selected' or None">Điện thoại &amp; Thiết bị di động</option>
                                         </select>
                                     </div>
                                     <div class="space-y-space-xs">

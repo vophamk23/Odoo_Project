@@ -60,9 +60,9 @@ Phần này trình diễn khả năng quản lý kho chính xác đến từng t
    - **Sản phẩm:** Chọn `Máy chủ Dell PowerEdge R750`
    - **Nhu cầu (Demand):** Điền số `2` (Nhập 2 cái).
 4. Khai báo Serial Number:
-   - Bấm vào biểu tượng **Tùy chọn chi tiết (Detail Operations)** ở ngay cuối dòng sản phẩm (Biểu tượng danh sách 3 gạch).
-   - Thêm 2 dòng và gõ tay 2 số Serial: `DELL-R750-001` và `DELL-R750-002`.
-5. Bấm **Xác nhận (Validate)**. Hai chiếc máy chủ với mã Serial cụ thể đã nằm gọn trong Kho tổng (`WH/Stock`).
+   - Thay vì phải gõ tay từng mã Serial mất thời gian, bạn trực tiếp bấm luôn vào nút **Xác nhận (Validate)**.
+   - Bùm! 💥 Hệ thống sẽ cảnh báo không đủ số lượng, nhưng tự động sinh ra 2 dòng mã Serial `May-chu-0001` và `May-chu-0002` (không dấu) cực kỳ thông minh. Bạn bấm **Xác nhận** lần 2 để hoàn tất.
+5. Hai chiếc máy chủ với mã Serial vừa được tự động sinh ra đã nằm gọn trong Kho tổng (`WH/Stock`).
 
 ### Bước 3: Dịch chuyển nội bộ (Chuyển kho)
 1. Quay ra Bảng điều khiển. Thẻ **Dịch chuyển nội bộ (Internal Transfers)** -> Bấm tạo **Mới**.

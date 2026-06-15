@@ -381,4 +381,166 @@
             </t>
         </xpath>
     </template>
+
+    <!-- ═══ Portal Quotations ═══ -->
+    <template id="cmcts_portal_my_quotations" inherit_id="sale.portal_my_quotations">
+        <xpath expr="//t[@t-call='portal.portal_searchbar']" position="replace">
+            <!-- Hide default searchbar -->
+        </xpath>
+        <xpath expr="//div[@t-if='not quotations']" position="replace">
+            <t t-if="not quotations">
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/40 text-center">
+                    <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4">description</span>
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Chưa có báo giá nào</h3>
+                    <p class="text-on-surface-variant">Bạn chưa có yêu cầu báo giá nào trong hệ thống.</p>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-if='quotations']" position="replace">
+            <t t-if="quotations">
+                <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden mb-8">
+                    <!-- Header -->
+                    <div class="px-6 py-4 border-b border-outline-variant/40 bg-surface-container/50 flex justify-between items-center">
+                        <h3 class="text-[18px] font-bold text-on-surface m-0 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">request_quote</span>
+                            Danh sách báo giá
+                        </h3>
+                    </div>
+                    
+                    <!-- List -->
+                    <div class="divide-y divide-outline-variant/20">
+                        <t t-foreach="quotations" t-as="quotation">
+                            <a t-attf-href="#{quotation.get_portal_url()}" class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-decoration-none group">
+                                <div class="flex items-start gap-4">
+                                    <t t-set="is_new_quote" t-value="not quotation.is_read_by_customer and quotation.state in ['draft', 'sent']"/>
+                                    <div t-attf-class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 #{'bg-primary/10 text-primary' if is_new_quote else 'bg-surface-variant text-on-surface-variant'}">
+                                        <span class="material-symbols-outlined text-[24px]">receipt</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_quote else 'font-medium text-on-surface'}">
+                                                <t t-esc="quotation.name"/>
+                                            </span>
+                                            <t t-if="is_new_quote">
+                                                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                                    Mới
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="text-[13px] text-on-surface-variant flex items-center gap-3">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                                <t t-esc="quotation.create_date.strftime('%d/%m/%Y')"/>
+                                            </span>
+                                            <t t-if="quotation.validity_date">
+                                                <span class="flex items-center gap-1 text-secondary">
+                                                    <span class="material-symbols-outlined text-[14px]">timer</span>
+                                                    Hiệu lực đến: <t t-esc="quotation.validity_date.strftime('%d/%m/%Y')"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 md:mt-0 flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2">
+                                    <div t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_quote else 'font-medium text-on-surface'}">
+                                        <span t-field="quotation.amount_total" t-options='{"widget": "monetary", "display_currency": quotation.pricelist_id.currency_id}'/>
+                                    </div>
+                                    <div>
+                                        <span t-if="quotation.state == 'cancel'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">cancel</span> Đã hủy
+                                        </span>
+                                        <span t-if="quotation.is_expired" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">timer_off</span> Hết hạn
+                                        </span>
+                                        <span t-if="quotation.state in ['draft', 'sent'] and not quotation.is_expired" t-attf-class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] #{'font-bold bg-primary-container/20 text-primary' if is_new_quote else 'font-medium bg-surface-variant text-on-surface-variant'}">
+                                            <span class="material-symbols-outlined text-[14px]">pending_actions</span> Đang chờ
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ═══ Portal Orders ═══ -->
+    <template id="cmcts_portal_my_orders" inherit_id="sale.portal_my_orders">
+        <xpath expr="//t[@t-call='portal.portal_searchbar']" position="replace">
+            <!-- Hide default searchbar -->
+        </xpath>
+        <xpath expr="//div[@t-if='not orders']" position="replace">
+            <t t-if="not orders">
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/40 text-center">
+                    <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4">shopping_bag</span>
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Chưa có đơn hàng nào</h3>
+                    <p class="text-on-surface-variant">Bạn chưa có đơn hàng nào trong hệ thống.</p>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-if='orders']" position="replace">
+            <t t-if="orders">
+                <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden mb-8">
+                    <!-- Header -->
+                    <div class="px-6 py-4 border-b border-outline-variant/40 bg-surface-container/50 flex justify-between items-center">
+                        <h3 class="text-[18px] font-bold text-on-surface m-0 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">shopping_bag</span>
+                            Danh sách đơn hàng
+                        </h3>
+                    </div>
+                    
+                    <!-- List -->
+                    <div class="divide-y divide-outline-variant/20">
+                        <t t-foreach="orders" t-as="order">
+                            <a t-attf-href="#{order.get_portal_url()}" class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-decoration-none group">
+                                <div class="flex items-start gap-4">
+                                    <t t-set="is_new_order" t-value="not order.is_read_by_customer and order.state in ['draft', 'sent']"/>
+                                    <div t-attf-class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 #{'bg-primary/10 text-primary' if is_new_order else 'bg-surface-variant text-on-surface-variant'}">
+                                        <span class="material-symbols-outlined text-[24px]">inventory_2</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_order else 'font-medium text-on-surface'}">
+                                                <t t-esc="order.name"/>
+                                            </span>
+                                            <t t-if="is_new_order">
+                                                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                                    Mới
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="text-[13px] text-on-surface-variant flex items-center gap-3">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                                <t t-esc="order.date_order.strftime('%d/%m/%Y')"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 md:mt-0 flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2">
+                                    <div t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_order else 'font-medium text-on-surface'}">
+                                        <span t-field="order.amount_total" t-options='{"widget": "monetary", "display_currency": order.pricelist_id.currency_id}'/>
+                                    </div>
+                                    <div>
+                                        <span t-if="order.state == 'sale'" t-attf-class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] #{'font-bold bg-primary/10 text-primary' if is_new_order else 'font-medium bg-surface-variant text-on-surface-variant'}">
+                                            <span class="material-symbols-outlined text-[14px]">check_circle</span> Đã xác nhận
+                                        </span>
+                                        <span t-if="order.state == 'done'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">verified</span> Đã hoàn thành
+                                        </span>
+                                        <span t-if="order.state == 'cancel'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">cancel</span> Đã hủy
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
 </odoo>
