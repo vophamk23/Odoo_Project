@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Blog -->
+        <record id="demo_cmcts_blog" model="blog.blog">
+            <field name="name">Góc Nhìn &amp; Kiến Thức</field>
+            <field name="subtitle">Những bài viết chuyên sâu về Cloud, Hạ tầng và Bảo mật.</field>
+        </record>
+
+        <record id="demo_blog_post_1" model="blog.post">
+            <field name="name">Tương Lai của Mạng Lưới Software-Defined Networking (SDN)</field>
+            <field name="subtitle">Làm thế nào SDN đang định hình lại cấu trúc trung tâm dữ liệu hiện đại và giải quyết các bài toán về băng thông mạng.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Kiến Trúc Mạng Truyền Thống Đã Lỗi Thời&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong nhiều thập kỷ, hệ thống mạng doanh nghiệp được xây dựng trên một cấu trúc cứng nhắc, nơi mỗi bộ định tuyến (router) hay bộ chuyển mạch (switch) đều có bộ não riêng để đưa ra quyết định chuyển tiếp gói tin. Khi quy mô của trung tâm dữ liệu tăng lên hàng ngàn thiết bị, việc cấu hình thủ công từng thiết bị trở thành cơn ác mộng đối với bất kỳ quản trị viên IT nào. Sự chậm chạp trong việc thay đổi cấu hình mạng thường xuyên là nguyên nhân chính gây ra hiện tượng &quot;nút thắt cổ chai&quot;, làm giảm hiệu suất của toàn bộ hệ thống bất kể tốc độ xử lý của máy chủ có mạnh đến đâu.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Software-Defined Networking (SDN) ra đời như một cuộc cách mạng tất yếu, định hình lại hoàn toàn cách chúng ta hiểu về luồng lưu lượng mạng. Thay vì phân tán quyền quyết định, SDN tập trung trí thông minh của toàn bộ mạng lưới vào một trung tâm điều khiển (Controller). Các thiết bị mạng phần cứng giờ đây chỉ đơn thuần là các công nhân làm nhiệm vụ chuyển tiếp dữ liệu (Data Plane) theo sự chỉ đạo tuyệt đối từ Controller (Control Plane). Cấu trúc tập trung này cho phép mạng lưới trở nên cực kỳ linh hoạt và dễ dàng kiểm soát.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Bước ngoặt về sự linh hoạt&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;SDN biến một mớ hỗn độn cáp vật lý và cấu hình phân tán thành một môi trường có thể được lập trình, quản lý và cấp phát tài nguyên chỉ bằng vài dòng mã (Code).&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;API Hóa Và Hạ Tầng Nền Tảng Code (IaC)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Điểm cốt lõi khiến SDN tỏa sáng chính là khả năng lập trình hóa. Thông qua các giao diện lập trình ứng dụng (API), các phần mềm và ứng dụng ở lớp trên cùng có thể &quot;trò chuyện&quot; trực tiếp với Controller để yêu cầu cấp phát băng thông, tạo VPN, hoặc thiết lập các chính sách bảo mật một cách linh động (On-demand). Các kỹ sư giờ đây áp dụng mô hình Infrastructure as Code (IaC), sử dụng các công cụ như Ansible hay Terraform để triển khai hàng loạt thay đổi cấu hình trong vài giây, điều mà trước đây mất hàng tuần đàm phán và cấu hình thủ công.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tuy nhiên, đi kèm với sự tiện lợi là những rủi ro bảo mật đáng kể. Controller lúc này trở thành &quot;gót chân Achilles&quot; của toàn bộ hệ thống mạng. Nếu tin tặc giành quyền kiểm soát Controller, chúng có thể thiết lập lại toàn bộ bản đồ định tuyến, đánh cắp dữ liệu hoặc gây nghẽn mạng diện rộng. Do đó, bảo mật Control Plane bằng mã hóa mạnh mẽ, phân quyền nghiêm ngặt (Role-Based Access Control) và theo dõi kiểm toán liên tục (Continuous Audit) là ưu tiên số một trong thiết kế SDN.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Giảm OPEX:&lt;/strong&gt; Tự động hóa giúp giảm thiểu thời gian nhân sự vận hành (hands-on time) và hạn chế tối đa các lỗi cấu hình từ phía con người.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Micro-segmentation:&lt;/strong&gt; Cho phép chia nhỏ mạng lưới thành nhiều phân vùng logic cô lập, bảo vệ dữ liệu cực kỳ an toàn trước các cuộc tấn công lây lan ngang (lateral movement).&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Cân bằng tải linh hoạt:&lt;/strong&gt; Tự động điều hướng lại lưu lượng giao thông khi phát hiện sự cố đứt cáp hoặc thiết bị ngắt kết nối trong thời gian thực.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;SDN Trong Kỷ Nguyên Điện Toán Đám Mây Mới&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tại CMCTS, chúng tôi đang tích hợp SDN sâu sát với hạ tầng đám mây dùng chung (Public Cloud) và hạ tầng đám mây riêng (Private Cloud). Kết quả là một môi trường Hybrid Cloud liền mạch, nơi các doanh nghiệp có thể di chuyển máy ảo (VM) giữa hai trung tâm dữ liệu cách nhau hàng ngàn kilomet mà địa chỉ IP và các chính sách bảo mật vẫn được giữ nguyên. Tương lai của SDN sẽ không chỉ dừng lại ở trung tâm dữ liệu mà sẽ mở rộng ra tận mạng viễn thông (SD-WAN), tạo nên một kết nối toàn cầu không biên giới, an toàn, và được định nghĩa hoàn toàn bằng phần mềm.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_2" model="blog.post">
+            <field name="name">Bảo Mật Đám Mây: Những Xu Hướng Mới Năm 2026</field>
+            <field name="subtitle">Các chiến lược bảo mật Zero-Trust cần thiết cho môi trường hybrid cloud đầy rẫy nguy cơ tấn công không gian mạng.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Xóa Bỏ Lối Mòn &quot;Vùng An Toàn&quot;&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Khái niệm mạng nội bộ (Intranet) an toàn phía sau bức tường lửa (Firewall) dày cộm đã hoàn toàn phá sản trong kỷ nguyên đám mây. Khi dữ liệu của doanh nghiệp được lưu trữ trên nhiều nền tảng Public Cloud (như AWS, Azure, GCP), nhân viên làm việc từ xa (Remote Work) truy cập từ các thiết bị cá nhân (BYOD), ranh giới (perimeter) vật lý truyền thống đã không còn tồn tại. Lỗ hổng không còn nằm ở việc &quot;kẻ tấn công ở ngoài tường lửa&quot;, mà là &quot;kẻ tấn công đã ở bên trong mạng của bạn&quot;.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đứng trước bối cảnh đó, Zero Trust Architecture (ZTA) - &quot;Không tin tưởng ai, luôn luôn xác thực&quot; - đã trở thành kim chỉ nam cho các chiến lược bảo mật hiện đại. Nguyên tắc cốt lõi của Zero Trust là không có thiết bị, người dùng hay ứng dụng nào được tin tưởng mặc định, ngay cả khi chúng đang kết nối từ bên trong mạng lưới nội bộ của công ty. Mọi yêu cầu truy cập đến dữ liệu nhạy cảm đều phải được xác minh nghiêm ngặt về danh tính, trạng thái bảo mật của thiết bị kết nối, và ngữ cảnh (thời gian, vị trí địa lý).&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Identity is the New Perimeter&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Trong môi trường Cloud, định danh (Identity) chính là lớp phòng thủ đầu tiên và cuối cùng. Bức tường lửa truyền thống đã được thay thế bằng hệ thống xác thực danh tính mạnh mẽ.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tự Động Hóa Quản Lý Phân Quyền (IAM)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Quản lý định danh và quyền truy cập (IAM - Identity and Access Management) trong môi trường Multi-Cloud là một thách thức cực kỳ lớn. Doanh nghiệp cần triển khai Single Sign-On (SSO) kết hợp với xác thực đa yếu tố (MFA - Multi-Factor Authentication) sử dụng sinh trắc học hoặc khóa phần cứng vật lý. Không dừng lại ở đó, quyền truy cập (Privilege) phải tuân thủ nguyên tắc &quot;Đặc quyền tối thiểu&quot; (Least Privilege) và &quot;Truy cập vừa đủ thời gian&quot; (Just-In-Time Access). Người dùng chỉ được cấp quyền truy cập vào tài nguyên họ thực sự cần, và quyền này sẽ tự động thu hồi ngay khi công việc hoàn thành.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Việc rò rỉ các khóa mã hóa (API Keys) hay thông tin đăng nhập (Credentials) được cấu hình cứng (hardcode) trong mã nguồn là nguyên nhân hàng đầu dẫn đến các vụ rò rỉ dữ liệu khổng lồ trên Cloud. Để khắc phục, các công cụ Quản lý Thông tin Tuyệt mật (Secrets Management) như HashiCorp Vault đang trở thành tiêu chuẩn bắt buộc, cho phép mã hóa mọi bí mật, xoay vòng khóa tự động (Auto-rotation) và cấp phát token có thời hạn sống siêu ngắn.&lt;/p&gt;
+    
+    &lt;img src=&quot;https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&quot; alt=&quot;Cyber Security Data&quot; class=&quot;w-full h-[500px] object-cover rounded-2xl shadow-xl my-10&quot;/&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Phòng Thủ Bằng Trí Tuệ Nhân Tạo (AI)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong năm 2026, AI trong bảo mật không chỉ dừng lại ở việc phát hiện mã độc qua chữ ký (Signature-based), mà đã chuyển sang phân tích hành vi người dùng (User and Entity Behavior Analytics - UEBA). Ví dụ, nếu một tài khoản kế toán thường ngày chỉ tải xuống vài MB báo cáo bỗng nhiên tải hàng chục GB cơ sở dữ liệu khách hàng vào lúc 2 giờ sáng, AI sẽ lập tức đóng băng tài khoản đó và gửi cảnh báo đỏ cho đội ngũ SOC (Security Operations Center).&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;CMCTS hỗ trợ doanh nghiệp rà soát toàn diện (Security Assessment), phát hiện các lỗ hổng cấu hình (Misconfigurations) trên hạ tầng Cloud bằng các giải pháp CSPM (Cloud Security Posture Management) tự động hóa. Chúng tôi tin rằng, bảo mật không phải là rào cản ngăn cản tốc độ kinh doanh, mà phải là nền tảng vững chắc giúp doanh nghiệp bứt tốc an toàn.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_3" model="blog.post">
+            <field name="name">Tối Ưu Hóa Hiệu Suất Hệ Thống Lưu Trữ NVMe All-Flash</field>
+            <field name="subtitle">Tại sao giao thức NVMe lại là lựa chọn sống còn hàng đầu cho các doanh nghiệp đang vận hành cơ sở dữ liệu lớn.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Bức Tường Băng Thông Của Kỷ Nguyên Cũ&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong nhiều thập kỷ qua, dù vi xử lý (CPU) có tốc độ tăng theo cấp số nhân và dung lượng RAM được mở rộng liên tục, thì nút thắt cổ chai lớn nhất kìm hãm hiệu năng của toàn bộ máy chủ vẫn luôn nằm ở bộ phận lưu trữ. Các giao thức SATA hay SAS vốn được thiết kế cho thời kỳ của ổ đĩa cơ học (HDD) với cấu trúc từ tính chậm chạp. Ngay cả khi ổ cứng thể rắn (SSD) ra đời và thay thế HDD, chúng vẫn phải &quot;chui qua&quot; khe cửa hẹp của giao diện SATA/SAS, làm lãng phí nghiêm trọng sức mạnh thực sự của các con chip nhớ NAND Flash.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đó chính là lúc NVMe (Non-Volatile Memory Express) xuất hiện và viết lại hoàn toàn luật chơi trong ngành lưu trữ. Giao thức này cho phép ổ cứng SSD cắm trực tiếp vào tuyến dữ liệu cao tốc PCIe của bo mạch chủ, bỏ qua hoàn toàn các bộ điều khiển trung gian. Kết quả? Tốc độ đọc ghi tuần tự (Sequential Read/Write) có thể đạt ngưỡng hàng chục Gigabyte mỗi giây, và tốc độ đọc ghi ngẫu nhiên (Random IOPS) đạt mốc hàng triệu – những con số mà giao thức SAS tốt nhất cũng không bao giờ mơ tới được.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Song song hóa kiến trúc lưu trữ&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Trong khi SAS chỉ cung cấp 1 hàng đợi lệnh chứa 256 truy vấn, NVMe cung cấp đến 64,000 hàng đợi, và mỗi hàng chứa được 64,000 lệnh. Nó biến một con đường làng hẹp thành một đại lộ thênh thang cho dữ liệu.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;All-Flash NVMe Array Và Cơ Sở Dữ Liệu&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Với sự phát triển của hệ thống dữ liệu lớn (Big Data) và học máy (Machine Learning), các khối dữ liệu không cấu trúc khổng lồ liên tục được đọc và ghi trong thời gian thực. Hệ thống mạng lưu trữ (SAN) sử dụng giải pháp All-Flash NVMe End-to-End đã trở thành vũ khí tối thượng cho các tổ chức tài chính, các hệ thống ERP cốt lõi hay các nền tảng thương mại điện tử vào những ngày siêu sale.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Công nghệ NVMe-oF (NVMe over Fabrics) còn đẩy xa giới hạn này khi cho phép chia sẻ tốc độ kinh hoàng của NVMe qua hạ tầng cáp quang (Fibre Channel), mạng Ethernet (RoCE) hay TCP. Nghĩa là máy chủ tính toán (Compute Server) truy cập vào mảng lưu trữ dùng chung (Shared Storage) nằm ở một Rack khác với độ trễ (Latency) gần như bằng không – thấp đến mức vi giây (microseconds), tiệm cận với việc truy cập RAM vật lý nội bộ.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Giảm không gian tủ Rack:&lt;/strong&gt; Một mảng SSD NVMe 2U có thể chứa lượng dữ liệu bằng hàng chục tủ Rack ổ cứng HDD truyền thống, giúp tiết kiệm triệt để không gian thuê trung tâm dữ liệu.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tiết kiệm năng lượng:&lt;/strong&gt; NVMe tiêu tốn ít điện năng cho mỗi GB được lưu trữ, đồng thời tạo ra ít nhiệt lượng hơn, giảm thiểu chi phí làm mát (Cooling Cost).&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tăng cường tuổi thọ thiết bị:&lt;/strong&gt; Cơ chế kiểm soát luồng dữ liệu thông minh giúp chip nhớ NAND tránh được tình trạng bị mài mòn cục bộ (Wear Leveling) hiệu quả hơn.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Đầu Tư Thông Minh Cùng CMCTS&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Việc di chuyển hệ thống cơ sở dữ liệu truyền thống sang All-Flash NVMe có thể làm tăng chi phí đầu tư ban đầu (CAPEX). Tuy nhiên, lợi nhuận mang lại (ROI) từ việc tăng cường trải nghiệm người dùng, đẩy nhanh tốc độ kết sổ kế toán từ nhiều ngày xuống còn vài giờ, và tối giản hóa quy trình sao lưu (Backup) là vô giá. Các chuyên gia lưu trữ tại CMCTS sẽ giúp doanh nghiệp thiết kế kiến trúc lưu trữ theo từng phân cấp (Tiering), đảm bảo Dữ liệu Nóng (Hot Data) được đẩy lên NVMe, trong khi Dữ liệu Lạnh (Cold Data) vẫn lưu trữ an toàn trên nền tảng rẻ tiền hơn, tối ưu hóa tối đa chi phí cho khách hàng.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_4" model="blog.post">
+            <field name="name">Điện toán biên (Edge Computing) cho Doanh nghiệp Sản xuất</field>
+            <field name="subtitle">Giải quyết triệt để bài toán độ trễ trong kỷ nguyên vạn vật kết nối (IoT) và nhà máy thông minh tự động hóa.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chống Lại Khoảng Cách Vật Lý&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Điện toán đám mây trung tâm (Centralized Cloud) đã giải quyết xuất sắc bài toán về sức mạnh tính toán và không gian lưu trữ không giới hạn. Nhưng nó vấp phải một rào cản bất di bất dịch của vật lý: Tốc độ ánh sáng. Dù cáp quang tốt đến đâu, việc truyền tín hiệu dữ liệu từ một nhà máy ở Việt Nam đến trung tâm dữ liệu đặt tại Mỹ rồi nhận kết quả phản hồi luôn tiêu tốn một khoản thời gian trễ nhất định (Latency).&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong lĩnh vực Internet vạn vật công nghiệp (IIoT), một vài chục mili-giây trễ không thành vấn đề với việc duyệt web, nhưng lại là thảm họa đối với một dây chuyền sản xuất lắp ráp tự động, hoặc tệ hơn là xe tự lái (Autonomous Vehicles). Việc cảm biến nhận diện lỗi sản phẩm nhưng lệnh dừng cánh tay robot lại đến chậm 1 giây sẽ phá hủy toàn bộ lô hàng hoặc gây tai nạn chết người. Điện toán biên (Edge Computing) sinh ra để giải bài toán sinh tử này bằng cách mang máy chủ về đặt ngay tại xưởng sản xuất.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Sức mạnh xử lý tại cội nguồn&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Edge Computing không thay thế Cloud, mà nó là cánh tay nối dài của Cloud. Edge sẽ xử lý dữ liệu thô ngay lập tức, và chỉ gửi những thông tin tóm tắt có giá trị cao về Cloud để lưu trữ dài hạn.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Đặc Điểm Của Máy Chủ Edge (Edge Servers)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Không giống như các máy chủ bóng bẩy nằm gọn trong phòng máy lạnh sạch sẽ của Data Center, máy chủ Edge (Edge Node) phải hoạt động trong những điều kiện cực kỳ khắc nghiệt: Nhiệt độ có thể lên đến 50 độ C bên cạnh lò luyện thép, hoặc âm độ trong kho lạnh; chấn động rung lắc liên tục trên hệ thống đường sắt; và bụi bẩn bủa vây tại các khu khai thác mỏ. Do đó, phần cứng Edge được thiết kế hoàn toàn không quạt (Fanless), có lớp vỏ nhôm đúc tản nhiệt đặc biệt và hỗ trợ hàng loạt cổng kết nối công nghiệp cổ điển (như RS232/RS485) bên cạnh các cổng mạng Gigabit hiện đại.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tại các nhà máy thông minh, các thuật toán thị giác máy tính (Computer Vision/AI) được đẩy trực tiếp xuống các máy chủ Edge. Các camera công nghiệp liên tục quét qua băng chuyền và Edge AI phát hiện ngay lập tức các vết xước nhỏ đến mức mắt người không nhìn thấy trên bề mặt sản phẩm cơ khí chính xác, tự động gạt bỏ phế phẩm trong tích tắc.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Giảm chi phí băng thông:&lt;/strong&gt; Gửi hình ảnh video HD 24/7 từ hàng trăm camera lên Cloud là bất khả thi và tốn kém kinh khủng. Edge AI lọc và chỉ truyền về vài KB văn bản log báo lỗi sự cố.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Hoạt động độc lập (Offline Capability):&lt;/strong&gt; Ngay cả khi kết nối Internet cáp quang với bên ngoài bị đứt do bão, nhà máy vẫn tiếp tục vận hành bình thường vì bộ não điều khiển (Edge) nằm ngay trong khuôn viên.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Bảo mật dữ liệu nhạy cảm:&lt;/strong&gt; Dữ liệu công nghệ cốt lõi của dây chuyền sản xuất được mã hóa và không bao giờ rời khỏi phạm vi vật lý của nhà máy.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tiên Phong Chuyển Đổi Công Nghiệp Cùng CMCTS&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Triển khai hệ thống Edge Computing đòi hỏi một sự phối hợp chặt chẽ giữa hai mảng tưởng chừng khác biệt: Công nghệ thông tin (IT) và Công nghệ vận hành sản xuất (OT). Đội ngũ CMCTS cam kết đóng vai trò là cầu nối hoàn hảo, mang đến các hệ thống Edge Gateway chuyên biệt, thiết lập các cụm (clusters) máy chủ biên đạt chuẩn, và xây dựng giao diện quản trị tập trung (Central Dashboard) giúp ban lãnh đạo dễ dàng giám sát toàn bộ hoạt động của hàng chục nhà máy trên cả nước chỉ bằng một màn hình.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_5" model="blog.post">
+            <field name="name">Triển khai Hạ tầng AI trong Trung tâm Dữ liệu Tier III</field>
+            <field name="subtitle">Giải quyết các thách thức khổng lồ về tản nhiệt bằng chất lỏng (Liquid Cooling) và cung cấp năng lượng cho cụm AI Servers.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Sức Nóng Khủng Khiếp Của Cơn Sốt AI&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Cuộc đua phát triển các mô hình ngôn ngữ lớn (LLM - Large Language Models) và trí tuệ nhân tạo tạo sinh (Generative AI) đang thúc đẩy sức mạnh tính toán vượt ra khỏi các giới hạn vật lý quen thuộc. Trái tim của những siêu máy tính này là các con chip đồ họa (GPU) chuyên dụng, tiêu tốn lượng điện năng khủng khiếp. Trong một trung tâm dữ liệu thông thường, một tủ máy chủ (Rack) chỉ tiêu thụ trung bình từ 5kW đến 10kW. Tuy nhiên, khi nhét đầy các máy chủ chuyên dụng huấn luyện AI (như hệ thống chứa 8 GPU Nvidia H100), công suất của một tủ Rack duy nhất có thể vọt lên tới 40kW, 50kW, hoặc thậm chí là 80kW.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Và theo định luật bảo toàn năng lượng, mọi kilowatt điện nạp vào để tính toán cuối cùng đều biến thành nhiệt năng tỏa ra môi trường. Cách làm mát bằng quạt thổi khí lạnh truyền thống (Air Cooling) đã hoàn toàn bất lực trước mật độ nhiệt khổng lồ này. Nếu chỉ dùng gió thổi, không khí không đủ năng lực truyền nhiệt nhanh chóng, dẫn đến việc các GPU bị quá nhiệt (thermal throttling), tự động giảm xung nhịp làm tụt thảm hại hiệu năng huấn luyện AI, và nghiêm trọng nhất là gây cháy nổ linh kiện.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Tản Nhiệt Bằng Chất Lỏng (Liquid Cooling)&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Chất lỏng có khả năng hấp thụ và truyền tải nhiệt hiệu quả hơn không khí đến hơn 3000 lần. Việc dẫn ống nước vào trung tâm dữ liệu không còn là sự lựa chọn táo bạo, mà là yêu cầu bắt buộc của thời đại mới.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Direct-to-Chip và Immersion Cooling&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Công nghệ tản nhiệt chất lỏng hiện nay được chia làm hai xu hướng chính. Xu hướng thứ nhất là Direct-to-Chip (D2C) làm mát trực tiếp: Các khối kim loại chứa dung dịch lạnh tinh khiết (Cold Plates) được ốp sát trực tiếp lên bề mặt của CPU và GPU. Chất lỏng chạy qua ống dẫn kín, lấy đi 70-80% lượng nhiệt tỏa ra, phần nhiệt nhỏ lẻ còn lại vẫn được tản bằng quạt khí ở mức độ thấp. Giải pháp này giúp các máy chủ tiêu thụ năng lượng &quot;khủng long&quot; hoạt động êm ái hơn và ổn định tuyệt đối.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tuy nhiên, phương pháp &quot;điên rồ&quot; và triệt để nhất chính là Immersion Cooling (Ngâm chìm toàn bộ). Ở kiến trúc này, toàn bộ bo mạch chủ, RAM, GPU, cáp kết nối không hề có bất kỳ chiếc quạt nào. Toàn bộ máy chủ được ngâm ngập chìm hoàn toàn vào một bồn chứa chất lỏng điện môi tổng hợp đặc biệt (Dielectric Fluid) hoàn toàn không dẫn điện. Nhiệt tỏa ra sẽ làm chất lỏng sôi (đối với phương pháp 2-pha) hoặc đối lưu (đối với 1-pha), tản nhiệt hiệu suất gần như đạt mốc 100%. Đây là cuộc cách mạng giúp loại bỏ hoàn toàn hệ thống quạt hút ồn ào và hệ thống làm lạnh bằng khí nén cồng kềnh.&lt;/p&gt;
+    
+    &lt;img src=&quot;https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&quot; alt=&quot;Data Center Cooling System&quot; class=&quot;w-full h-[500px] object-cover rounded-2xl shadow-xl my-10&quot;/&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Bài Toán Đầu Tư Hạ Tầng Điện Năng (Power Infrastructure)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Ngoài nhiệt độ, điện năng là nút thắt cổ chai sống còn thứ hai. Việc cấp nguồn điện ổn định 40-80kW cho một tủ máy yêu cầu hệ thống thanh dẫn điện (Busway), cầu dao (Breaker) và cáp nguồn khổng lồ. Hơn thế nữa, hệ thống lưu điện (UPS) và máy phát điện dự phòng (Generator) cũng phải được thiết kế với tiêu chuẩn công nghiệp đặc biệt siêu nặng để chịu tải tức thời khi hàng nghìn GPU đồng loạt kích hoạt (Power Spikes) trong chu kỳ huấn luyện mô hình học sâu.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Xây dựng hạ tầng AI là một dự án với nguồn vốn đầu tư (CAPEX) cực lớn. Tại CMCTS, chúng tôi có những chuyên gia sở hữu chứng chỉ thiết kế Data Center cấp cao (như Uptime Institute ATD) để đồng hành cùng các doanh nghiệp, từ khâu cải tạo hệ thống sàn nâng (Raised Floor) sẵn có cho đến thiết kế không gian hoàn toàn mới phù hợp với Liquid Cooling. Một thiết kế trung tâm dữ liệu xuất sắc sẽ không chỉ giúp cụm AI vắt kiệt tối đa sức mạnh mà còn giảm hóa đơn tiền điện khổng lồ mỗi tháng.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_6" model="blog.post">
+            <field name="name">Mạng riêng 5G (Private 5G) cho Khu Công nghiệp</field>
+            <field name="subtitle">Bước nhảy vọt trong quá trình tự động hóa xe tự hành AGV và IIoT tại các nhà máy sản xuất hiện đại.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Mạng Wi-Fi Bắt Đầu Thất Thủ Trong Nhà Máy&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Khi làn sóng Công nghiệp 4.0 (Industry 4.0) bùng nổ, một nhà máy thông minh (Smart Factory) không chỉ còn là vài chiếc máy tiện, mà là hàng chục vạn thiết bị không dây cảm biến liên tục kết nối. Từ những cánh tay robot khổng lồ, các thiết bị đo cảm biến siêu nhỏ (IoT) dán trên hộp sản phẩm, cho đến xe nâng hàng tự động không người lái (AGV - Automated Guided Vehicle) di chuyển tấp nập qua lại các lối đi trong kho. Tất cả những thiết bị này cần duy trì tín hiệu điều khiển liên tục 24/7 để phối hợp nhịp nhàng.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Và đây là lúc hệ thống Wi-Fi công nghiệp truyền thống bộc lộ những điểm yếu chết người. Khả năng phủ sóng của Wi-Fi bị suy giảm nặng nề khi đi qua các vách ngăn kim loại dày đặc trong xưởng sản xuất, gây ra các điểm mù (Dead zones). Quan trọng hơn, khi một chiếc AGV đang di chuyển tốc độ cao, kết nối Wi-Fi buộc phải chuyển giao sóng (Hand-over) từ Access Point này sang Access Point khác. Quá trình này tạo ra độ trễ mạng khiến tín hiệu bị rớt cục bộ, khiến xe AGV phải tự động thắng gấp để tránh va chạm, gây ách tắc toàn bộ chuỗi cung ứng.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Quyền Năng Của Mạng Private 5G&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Private 5G cho phép doanh nghiệp sở hữu trọn vẹn một nhà mạng viễn thông thu nhỏ, hoạt động bằng tần số riêng biệt, bảo mật khép kín hoàn toàn ngay trong nội khu nhà máy.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Độ Tin Cậy Cao (URLLC) &amp; Kết Nối Mật Độ Siêu Dày (mMTC)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Công nghệ 5G mang đến hai đặc tính hoàn hảo &quot;may đo&quot; cho sản xuất tự động: URLLC (Ultra-Reliable Low-Latency Communication) đảm bảo tín hiệu điều khiển có độ trễ dưới 1 mili-giây, nhanh hơn cái chớp mắt, cho phép robot phẫu thuật từ xa hoặc đồng bộ hóa các chi tiết cơ khí tinh vi mà không trượt một phần nghìn milimet. Đặc tính thứ hai là mMTC (Massive Machine Type Communication) hỗ trợ tới 1 triệu thiết bị IoT trên một kilomet vuông kết nối cùng lúc mà không hề xảy ra hiện tượng kẹt nghẽn băng thông.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tính bảo mật (Security) cũng là điểm cốt lõi. Một mạng 5G riêng độc lập hoàn toàn với mạng Internet công cộng hay mạng di động thương mại bên ngoài. Hacker không thể dùng smartphone rò rỉ sóng bên ngoài hàng rào nhà máy để xâm nhập vào hệ thống băng chuyền. Mọi luồng dữ liệu thiết kế khuôn mẫu (Blueprint) hay bí quyết công nghệ sản phẩm đều nằm an toàn trên hệ thống máy chủ 5G Core đặt tại phòng server nội bộ của chính công ty.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Di động tuyệt đối (Mobility):&lt;/strong&gt; Hand-over sóng trong công nghệ viễn thông 5G mượt mà đến mức các xe tự hành AGV và Drone kiểm tra hàng tồn kho có thể bay lượn ở vận tốc cao khắp nhà máy mà không gián đoạn kết nối một giây nào.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Camera AI và Thực tế ảo (AR/VR):&lt;/strong&gt; Băng thông khổng lồ cho phép truyền trực tiếp video độ nét cực cao 4K/8K không nén từ hàng trăm camera về máy chủ AI trung tâm để nhận diện khuyết tật sản phẩm.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Thay thế mớ cáp hỗn độn:&lt;/strong&gt; Hạn chế hoàn toàn chi phí bảo trì và rủi ro chuột cắn đứt cáp mạng LAN, giúp linh hoạt sắp xếp lại thiết kế sàn băng chuyền chỉ trong một ngày.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tiến Lên Hạ Tầng Mạng Vô Tuyến Doanh Nghiệp Cùng CMCTS&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Triển khai mạng di động 5G tại nhà máy không phải là mua một vài thiết bị phát sóng về cắm vào điện. Nó đòi hỏi quy trình đo đạc nhiễu sóng vô tuyến khắt khe, xin cấp phép băng tần riêng biệt từ cơ quan quản lý viễn thông, thiết lập hệ thống trạm thu phát (RAN), và xây dựng khối điều khiển mạng lõi (5G EPC). CMCTS, với kinh nghiệm tích hợp viễn thông sâu rộng, luôn đồng hành cùng các tập đoàn công nghiệp lớn cung cấp giải pháp Private 5G trọn gói (End-to-End), đưa tự động hóa công nghiệp lên một tầm vóc hoàn toàn mới.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_7" model="blog.post">
+            <field name="name">Xây dựng chiến lược Disaster Recovery (DR) toàn diện</field>
+            <field name="subtitle">Kế hoạch bảo vệ doanh nghiệp trước các thảm họa, sự cố tự nhiên và cách tối ưu hóa chỉ số RPO/RTO.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Định Nghĩa Lại Rủi Ro Trong Kỷ Nguyên Số&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Nhiều lãnh đạo doanh nghiệp vẫn lầm tưởng rằng việc trang bị một hệ thống sao lưu (Backup) hàng ngày đồng nghĩa với việc đã có chiến lược Phục hồi Thảm họa (Disaster Recovery - DR). Sự thật phũ phàng là, có dữ liệu trong tay không có nghĩa là doanh nghiệp có thể vận hành lại được các phần mềm cốt lõi ngay lập tức. Hãy tưởng tượng trung tâm dữ liệu chính (Data Center) của bạn bị thiêu rụi bởi một vụ cháy, hoặc bị nhấn chìm do bão lụt. Bạn cầm trên tay đĩa băng từ chứa dữ liệu, nhưng mất hàng tuần liền để mua lại phần cứng máy chủ mới, cài đặt lại hệ điều hành, cấu hình mạng và khôi phục ứng dụng. Hàng tuần ngừng hoạt động (Downtime) có nghĩa là công ty bốc hơi hàng triệu đô la, thậm chí đứng trên bờ vực phá sản do mất niềm tin từ khách hàng.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Một chiến lược Disaster Recovery hoàn chỉnh là một kịch bản toàn diện, dự phòng toàn bộ một trung tâm dữ liệu &quot;song sinh&quot; (DR Site) ở một vị trí địa lý cách xa hàng trăm kilomet, sẵn sàng nhận quyền chỉ huy ngay lập tức (Takeover/Failover) khi hệ thống chính sụp đổ hoàn toàn.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;RPO và RTO - Ngôn Ngữ Của Lãnh Đạo IT&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Thước đo sự thành bại của một chiến dịch khôi phục thảm họa gói gọn trong hai con số: RPO (Lượng dữ liệu bạn có thể chịu đựng bị mất đi) và RTO (Khoảng thời gian bạn phải chịu đựng hệ thống bị sập).&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Kiến Trúc Khôi Phục: Active-Passive hay Active-Active?&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;RPO (Recovery Point Objective) đo lường xem dữ liệu khôi phục nằm ở thời điểm nào. Nếu bạn backup mỗi đêm vào lúc 12 giờ khuya, và thảm họa xảy ra vào 11h sáng hôm sau, bạn mất toàn bộ giao dịch của 11 tiếng đồng hồ (RPO = 11 giờ). Với các ngân hàng, việc mất dù chỉ 1 phút giao dịch là điều cấm kỵ. Họ bắt buộc triển khai công nghệ đồng bộ hóa thời gian thực (Synchronous Replication) thông qua đường cáp quang tốc độ cao giữa hai trung tâm dữ liệu, đảm bảo RPO luôn tiến về mức số không tròn trĩnh (Zero Data Loss).&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong khi đó, RTO (Recovery Time Objective) chỉ ra mất bao lâu để kỹ sư khởi động lại hệ thống thành công. Trong mô hình kiến trúc Active-Passive truyền thống (Trạm dự phòng nằm ngủ, chỉ thức dậy khi trạm chính chết), RTO có thể kéo dài vài giờ do phải bật máy chủ từ xa. Để giải quyết, mô hình hạ tầng đỉnh cao Active-Active ra đời: Cả hai cụm máy chủ tại Hà Nội và TP.Hồ Chí Minh cùng phân phối tải xử lý đồng thời. Khi một nơi mất điện toàn phần, hệ thống cân bằng tải toàn cầu (Global Load Balancer) tự động dồn lưu lượng truy cập sang nơi còn lại chỉ trong vòng vỏn vẹn một phần ngàn giây. Người dùng cuối hầu như không mảy may nhận ra một sự cố kinh hoàng vừa quét qua hệ thống.&lt;/p&gt;
+    
+    &lt;img src=&quot;https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&quot; alt=&quot;Server Operations&quot; class=&quot;w-full h-[500px] object-cover rounded-2xl shadow-xl my-10&quot;/&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;DRaaS – Cứu Cánh Cho Doanh Nghiệp Tầm Trung&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Việc xây dựng riêng một Data Center thứ hai tốn kém một khoản ngân sách khổng lồ cho việc mua máy chủ, hệ thống làm mát, bảo vệ an ninh và đường truyền cáp quang băng thông cao. Hơn nữa, những máy chủ dự phòng này hầu như để &quot;không làm gì&quot; suốt nhiều năm trời chờ ngày thảm họa tới, tạo ra sự lãng phí tài nguyên khủng khiếp.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đó là lúc Dịch vụ Khôi phục Thảm họa trên Đám mây (DRaaS - Disaster Recovery as a Service) thể hiện ưu thế vượt trội. Các máy ảo của doanh nghiệp (VMware/Hyper-V) liên tục được đồng bộ hóa lên Đám mây công cộng (Cloud). Doanh nghiệp chỉ trả khoản tiền thuê dung lượng đĩa cứng lưu trữ nhỏ giọt hàng tháng mà thôi. Và chỉ khi thảm họa thực sự tấn công (Failover event), nền tảng Cloud mới tự động &quot;bật&quot; sức mạnh xử lý CPU/RAM khổng lồ lên để chạy hệ thống, lúc này doanh nghiệp mới phải trả tiền thuê tài nguyên tính toán. Đây là một cuộc cách mạng trong việc quản trị tài chính (FinOps) cho bộ phận công nghệ thông tin ngày nay.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg font-medium&quot;&gt;Bất kể quy mô doanh nghiệp bạn lớn hay nhỏ, việc xây dựng cuốn &quot;Sổ tay diễn tập thảm họa&quot; (Runbook) và định kỳ tổ chức diễn tập (DR Drills) mỗi 6 tháng là dịch vụ cốt lõi mà đội ngũ tư vấn chiến lược của CMCTS cung cấp, đảm bảo công ty bạn luôn đứng vững trước mọi cơn cuồng phong khắc nghiệt nhất.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_8" model="blog.post">
+            <field name="name">Chiến dịch phòng chống mã độc tống tiền (Ransomware)</field>
+            <field name="subtitle">Xây dựng các phòng tuyến vững chắc cần thiết từ thiết bị người dùng cuối (Endpoint) đến máy chủ Core bằng công nghệ Immutable Backup.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Ransomware: Hình Thái Tội Phạm Mạng Xảo Quyệt Nhất&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Mã độc tống tiền (Ransomware) đã không còn dừng lại ở hình thức của những phần mềm rác rưởi lây lan ngẫu nhiên qua email lừa đảo (phishing). Các băng nhóm tin tặc xuyên quốc gia đã tổ chức lại thành những tập đoàn tội phạm dưới hình thức RaaS (Ransomware-as-a-Service) tinh vi, nơi mà những kẻ tạo mã nhượng quyền phân phối lại công cụ bẻ khóa cho hàng vạn chi nhánh chân rết khắp thế giới. Bằng cách tấn công có chủ đích (APT) bằng hàng loạt công cụ do thám tinh vi, chúng vượt qua hệ thống chống virus truyền thống một cách dễ dàng và nằm vùng trong hệ thống máy chủ công ty (Dwell Time) ròng rã suốt nhiều tháng trời.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Hơn thế nữa, một khi đã lấy được quyền kiểm soát hệ thống nội bộ (Domain Admin), tin tặc bắt đầu áp dụng chiến lược &quot;Tống tiền kép&quot; (Double Extortion). Chúng không chỉ mã hóa (encrypt) toàn bộ cơ sở dữ liệu khiến máy chủ tê liệt, mà trước đó đã kịp âm thầm đánh cắp hàng Terabyte dữ liệu nhạy cảm (thông tin mật của khách hàng, công thức sáng chế) gửi lên máy chủ của chúng. Cho dù công ty có hệ thống Backup vững chắc để khôi phục lại mà không cần trả chìa khóa giải mã, tin tặc sẽ quay lại đe dọa tung dữ liệu lên các diễn đàn dark web, buộc nạn nhân phải trả hàng triệu đô la tiền chuộc bằng Bitcoin để giữ im lặng.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Tư duy phòng thủ chủ động&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Không còn câu hỏi &#x27;Liệu chúng ta có bị tấn công không?&#x27;, mà là &#x27;Chúng ta sẽ phản ứng thế nào và phục hồi trong bao lâu khi cuộc tấn công xảy ra ngày hôm nay?&#x27;.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Từ Thiết Bị Người Dùng Đến Máy Chủ Cốt Lõi&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Mắt xích yếu nhất trong chuỗi bảo mật luôn là con người. Chiến lược phòng vệ bắt đầu từ việc triển khai các nền tảng nhận diện và phản hồi sự cố điểm cuối (EDR/XDR - Endpoint Detection and Response). Thay vì quét virus dựa trên chữ ký (signature) tĩnh lỗi thời, công nghệ EDR phân tích hành vi của mọi tiến trình đang chạy trên laptop nhân viên bằng AI. Nếu một tệp tin word bình thường bỗng dưng kích hoạt dòng lệnh PowerShell ẩn để mã hóa tệp tin hệ thống, AI sẽ ngay lập tức chặn đứng mã độc, cô lập laptop đó khỏi toàn bộ mạng công ty chỉ trong một phần ngàn giây.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Bên trong máy chủ Core, các doanh nghiệp phải thiết lập các phân vùng quản lý đặc quyền chặt chẽ (PAM - Privileged Access Management). Không có bất kỳ kỹ sư IT nào được sử dụng tài khoản Administrator gốc cho công việc hằng ngày. Mọi phiên truy cập cấu hình hệ thống quan trọng đều bị ghi hình giám sát (Session Recording) và yêu cầu khóa bảo mật cứng (Hardware Token).&lt;/p&gt;
+    
+    &lt;img src=&quot;https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&quot; alt=&quot;Cyber Security Hacker&quot; class=&quot;w-full h-[500px] object-cover rounded-2xl shadow-xl my-10&quot;/&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chìa Khóa Vàng Trí Mạng: Immutable Backup (Sao Lưu Bất Biến)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Biết được rằng các công ty đều có máy chủ sao lưu, những dòng Ransomware hiện đại được lập trình thông minh để tìm diệt và mã hóa xóa sạch các tệp Backup trước khi chúng tung đòn mã hóa máy chủ chính. Sự hủy diệt hoàn toàn này khiến nhiều hệ thống nghìn tỷ bị xóa sổ không còn một dấu vết phục hồi.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Câu trả lời tuyệt đối cho thảm họa này là công nghệ &lt;strong class=&quot;text-primary&quot;&gt;Immutable Storage (Lưu trữ bất biến)&lt;/strong&gt;. Khi dữ liệu được lưu xuống máy chủ Backup, hệ thống phần cứng (hoặc Object Storage trên Cloud) sẽ khóa chặt dữ liệu đó (WORM - Write Once, Read Many). Một khi đã ghi xong, trong khoảng thời gian cấu hình trước (ví dụ 30 ngày), tuyệt đối không một ai—kể cả tin tặc có chiếm được quyền Quản trị tối cao (Root/Domain Admin) hay tự thân nhân viên IT của công ty—có thể xóa bỏ, thay thế hoặc mã hóa tệp tin đó. Nó trở thành một két sắt bất khả xâm phạm ở mức độ phần cứng.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tại bộ phận an ninh thông tin CMCTS, chúng tôi tuân thủ nghiêm ngặt nguyên tắc Sao lưu 3-2-1-1-0 kinh điển: 3 bản sao, 2 phương tiện lưu trữ khác nhau, 1 bản lưu ngoài văn phòng (Off-site), 1 bản bất biến không thể sửa đổi (Air-gapped/Immutable), và 0 lỗi sau khi kiểm thử tự động. Sự trang bị này mang đến một giấc ngủ ngon cho các CEO và Ban điều hành trước mọi cơn bão mã độc bủa vây.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1614064641913-6b7140414c71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_9" model="blog.post">
+            <field name="name">Hybrid Cloud vs Multi-Cloud: Đâu là lựa chọn tối ưu?</field>
+            <field name="subtitle">Phân tích và hiểu rõ ưu nhược điểm của từng kiến trúc đám mây để tối ưu hóa chi phí vận hành (FinOps) và hiệu suất.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Phân Biệt Khái Niệm Giữa Ma Trận Điện Toán Đám Mây&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong quá trình hoạch định chiến lược chuyển đổi số, hầu hết các Giám đốc công nghệ (CIO) đều đau đầu trước hai từ khóa: Hybrid Cloud (Đám mây Lai) và Multi-Cloud (Đa Đám mây). Sự nhầm lẫn giữa hai khái niệm này thường xuyên dẫn đến các quyết định đầu tư sai lầm, đẩy dự án vào cảnh vượt ngân sách trầm trọng (Cost Overruns) và phức tạp hóa quá trình vận hành (Operational Complexity).&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đám mây lai (Hybrid Cloud) là một thiết kế kiến trúc nơi hệ thống kết nối trực tiếp một trung tâm dữ liệu nội bộ bảo mật của doanh nghiệp (On-Premises / Private Cloud) với một nền tảng Đám mây công cộng (Public Cloud - như AWS, Microsoft Azure hay Google Cloud). Dữ liệu nhạy cảm nhất (như hồ sơ bệnh án, thông tin tài chính) vẫn nằm vững chắc trên máy chủ vật lý ở công ty, trong khi các ứng dụng giao tiếp người dùng cuối (Frontend Apps) hoặc các cụm máy chủ cần tăng đột biến sức mạnh xử lý (Cloud Bursting) lại được vắt lên Public Cloud để tận dụng tài nguyên vô hạn. Đây là một đường hầm khép kín thông suốt và liền mạch giữa hai môi trường.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Ngược lại, Đa Đám mây (Multi-Cloud) không bận tâm đến máy chủ nội bộ. Nó là chiến lược chiến đấu khi doanh nghiệp cùng lúc sử dụng nhiều nhà cung cấp Public Cloud khác nhau cho các mục đích phân tán. Ví dụ: Sử dụng sức mạnh cốt lõi cơ sở dữ liệu của Oracle Cloud, chạy các Container tính toán trên AWS, nhưng lại kết nối AI dịch thuật của Google Cloud. Khách hàng lựa chọn những dịch vụ đỉnh cao nhất (Best-of-breed) từ nhiều gã khổng lồ công nghệ và kết hợp chúng lại thành một siêu ứng dụng của riêng mình.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Né Tránh Bẫy &quot;Vendor Lock-in&quot;&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Multi-Cloud mang lại một quyền lực tối thượng cho người mua: Độc lập đàm phán giá cả và không bao giờ bị phụ thuộc, &#x27;bắt cóc&#x27; hệ thống bởi bất kỳ một hệ sinh thái Cloud đơn lẻ nào.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Ưu Thế Và Cái Giá Phải Trả Cho Từng Mô Hình&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Sức mạnh của Multi-Cloud không thể phủ nhận: Nó đảm bảo hoạt động liên tục (High Availability) tuyệt đỉnh. Ngay cả khi toàn bộ hệ thống của Amazon gặp sự cố đứt cáp đại dương sụp đổ nguyên một Vùng (Region), lưu lượng sẽ lập tức định tuyến sang Microsoft Azure giúp doanh nghiệp vẫn sống sót. Tuy nhiên, rào cản cực lớn là việc đào tạo nhân sự. Quản trị một lúc nhiều nền tảng Cloud đồng nghĩa với việc các kỹ sư phải học ngôn ngữ, giao diện cấu hình và bộ công cụ bảo mật hoàn toàn khác biệt của AWS, GCP, và Azure. Sự phân tán dữ liệu chéo giữa các đám mây (Data Egress) cũng tạo ra những hóa đơn mạng đắt đỏ không lường trước được.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trong khi đó, Hybrid Cloud lại là lộ trình chuyển đổi an toàn nhất, êm ái nhất cho những tập đoàn truyền thống lâu đời (như Ngân hàng, Viễn thông, Hành chính công) bị ràng buộc bởi các điều luật lưu trữ dữ liệu quốc gia (Data Compliance). Nó giúp doanh nghiệp từ từ tận hưởng hương vị linh hoạt của Cloud mà không phải đập bỏ hàng triệu đô la đầu tư máy chủ vật lý đang chạy khấu hao ở trung tâm dữ liệu nhà máy.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Làm chủ FinOps (Tối ưu chi phí):&lt;/strong&gt; CMCTS sở hữu các công cụ phân tích tài chính Cloud tự động rà soát hàng ngàn máy ảo đang ngủ rải rác trên các vùng, giúp tư vấn tắt đi hoặc thu nhỏ dung lượng, tiết kiệm cho khách hàng tới 40% chi phí hóa đơn mỗi tháng.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Quản trị qua một tấm kính (Single Pane of Glass):&lt;/strong&gt; Thay vì mở hàng chục tab trình duyệt, chúng tôi triển khai hệ thống quản trị điện toán đám mây hợp nhất (CMP - Cloud Management Platform) để điều khiển cả vạn máy chủ thuộc nhiều hãng tại một màn hình duy nhất.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Bảo mật chéo đồng nhất (Unified Security):&lt;/strong&gt; Áp đặt chung một chính sách quy tắc tường lửa nghiêm ngặt duy nhất đổ xuống từ máy chủ On-Premise lan tỏa ra đến các Container phân tán trên Cloud.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tìm Kiếm Lời Giải Cuối Cùng Dành Riêng Cho Bạn&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Không có một kiến trúc Đám mây nào là hoàn hảo cho mọi doanh nghiệp (One-size-fits-all). Đội ngũ kiến trúc sư trưởng (Cloud Architects) của CMCTS cung cấp dịch vụ đánh giá tính khả thi (Cloud Readiness Assessment) nhằm phân tích từng dòng ứng dụng cốt lõi của quý công ty. Chúng tôi đặt mục tiêu tái định hình cấu trúc (Refactoring) hạ tầng của bạn trở nên linh hoạt nhất, giúp chuyển mình thành một công ty công nghệ thực thụ trong một thế giới bất trắc đầy cạnh tranh khốc liệt.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_10" model="blog.post">
+            <field name="name">Kubernetes: Tiêu chuẩn vàng trong Container Orchestration</field>
+            <field name="subtitle">Cách thức K8s giúp đội ngũ phát triển doanh nghiệp triển khai siêu tốc hàng nghìn ứng dụng Microservices một cách mượt mà.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Cái Chết Của Kiến Trúc Monolithic Khổng Lồ&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đã qua rồi cái thời mà một khối phần mềm ngân hàng khổng lồ (Monolithic) hàng triệu dòng code mất đến sáu tháng trời chỉ để chắp vá (patch) và tung ra một bản cập nhật nhỏ giọt. Ở thời kỳ đó, chỉ một lỗi (bug) nhỏ xíu liên quan đến nút &quot;In hóa đơn&quot; cũng khiến toàn bộ hệ thống lõi tê liệt, làm gián đoạn mọi dịch vụ rút tiền, chuyển tiền của người dùng. Sự kềnh càng này chính là viên đá tảng kéo lùi sự sáng tạo của doanh nghiệp.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Kiến trúc Microservices trỗi dậy như một đấng cứu thế. Phần mềm khổng lồ được chặt ra thành hàng trăm module nhỏ nhắn (dịch vụ đăng nhập, dịch vụ thanh toán, dịch vụ tìm kiếm), mỗi dịch vụ hoạt động hoàn toàn độc lập, chạy một ngôn ngữ lập trình riêng và được đóng gói vào các Container (thùng chứa) vô cùng nhẹ (như Docker). Khi đội ngũ muốn sửa nút thanh toán, họ chỉ việc cập nhật dịch vụ đó, phần còn lại của ứng dụng vẫn chạy êm ái bình thường.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Nhu Cầu Về Một Vị Nhạc Trưởng&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Chạy một vài container Docker trên máy tính cá nhân thì đơn giản. Nhưng khi bạn triển khai 10,000 container ở môi trường Production toàn cầu, bạn sẽ đứng trên bờ vực của sự hỗn loạn nếu thiếu đi một vị nhạc trưởng điều phối quyền lực.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Quyền Năng Của Kubernetes (K8s)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Sinh ra từ phòng thí nghiệm của gã khổng lồ Google, Kubernetes (thường được gọi tắt là K8s) chính là vị nhạc trưởng chỉ huy (Orchestrator) vĩ đại nhất dành cho kỷ nguyên Container. Kubernetes thay mặt kỹ sư IT làm mọi công việc cực nhọc và tẻ nhạt nhất: Nó quyết định xem một container sẽ được đặt lên máy chủ vật lý nào để cân bằng mức tiêu thụ RAM, CPU; nó kết nối mạng để các container nhỏ bé trò chuyện được với nhau bảo mật; và nó cung cấp mật khẩu, khóa bí mật xuống từng tiến trình (Secrets Management).&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đỉnh cao của Kubernetes nằm ở tính năng &lt;strong&gt;Tự động phục hồi (Self-Healing)&lt;/strong&gt; và &lt;strong&gt;Tự động mở rộng (Auto-Scaling)&lt;/strong&gt;. Bạn ra lệnh cho K8s: &quot;Tôi luôn muốn có đúng 5 ứng dụng thanh toán hoạt động&quot;. Nếu một máy chủ chết cháy, K8s phát hiện ứng dụng thanh toán rớt xuống còn 4, nó ngay lập tức (trong vòng vài giây) kích hoạt lại một bản sao ứng dụng thanh toán ở máy chủ khác để đảm bảo luôn đủ số lượng 5 như đã cấu hình. Tương tự, nếu hôm nay là dịp săn sale Black Friday khiến lượng truy cập tăng vọt nghìn lần, K8s sẽ tự động đẻ ra thêm 50 ứng dụng thanh toán để giải tỏa ách tắc, và khi sale kết thúc, nó dọn dẹp tiêu hủy 50 ứng dụng đó để công ty không phải đóng tiền điện vô ích.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Triển khai không gián đoạn (Zero Downtime Deployments):&lt;/strong&gt; Tính năng Rolling Updates cho phép từ từ đẩy ứng dụng phiên bản mới lên, đồng thời từ từ tắt ứng dụng cũ đi. Người dùng cuối không hề nhận thấy một chút gián đoạn dịch vụ nào (Zero downtime) trong lúc ứng dụng đang âm thầm được nâng cấp lên bản vá lỗi mới nhất.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Hệ sinh thái mở (Open Source):&lt;/strong&gt; Được vận hành bởi tổ chức phi lợi nhuận CNCF, K8s hoạt động ở mọi nơi—trên máy tính cá nhân, máy chủ nội bộ, và mọi hãng Public Cloud (EKS, GKE, AKS) mà không hề bị khóa hệ điều hành độc quyền như các phần mềm thương mại truyền thống.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Quản trị khai báo (Declarative Management):&lt;/strong&gt; Kỹ sư chỉ việc mô tả &quot;trạng thái lý tưởng&quot; bằng văn bản YAML (Ví dụ: cần 3 bản sao Database). Hệ thống K8s tự tư duy và làm mọi hành động (action) cần thiết để môi trường thực tế luôn trùng khớp với mô tả lý tưởng đó bất kể ngày đêm.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Bắt Nhịp DevOps Cùng K8s Tại Doanh Nghiệp Của Bạn&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Dù sở hữu quyền năng vô hạn, K8s nổi tiếng là một hệ sinh thái vô cùng phức tạp với hàng trăm thành phần (API Server, Kubelet, Scheduler, Etcd) cực kỳ khó cấu hình và duy trì bảo mật. Một cấu hình mạng (Network Policies) lỏng lẻo có thể mở toang cánh cửa cho hacker ăn cắp cơ sở dữ liệu khách hàng. Đội ngũ chuyên gia CMCTS là những đơn vị hàng đầu hỗ trợ tích hợp CI/CD Pipeline liền mạch với Kubernetes, giúp các lập trình viên của khách hàng chỉ cần bấm nút &quot;Push Code&quot;, mọi thứ từ kiểm thử, đóng gói, bảo mật đến đẩy lên môi trường thật đều tự động diễn ra như một cỗ máy công nghiệp chính xác hoàn hảo không tì vết.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_11" model="blog.post">
+            <field name="name">AIOps: Khi Trí tuệ nhân tạo Vận hành Hệ thống IT</field>
+            <field name="subtitle">Tạm biệt những đêm thức trắng dò lỗi hệ thống thủ công nhờ vào năng lực phân tích log tự động của Machine Learning.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chết Chìm Trong Cơn Bão Cảnh Báo (Alert Fatigue)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Hãy hình dung một trung tâm giám sát mạng lõi của tập đoàn viễn thông (NOC/SOC). Với hàng chục vạn thiết bị router, hàng vạn máy chủ ứng dụng rải rác khắp toàn quốc, các bộ công cụ giám sát thụ động (Monitoring Tools) cổ điển đang tạo ra một cơn ác mộng khổng lồ. Chúng sinh ra hàng chục nghìn dòng tin nhắn cảnh báo (Alert) màu đỏ rực lóe lên màn hình mỗi ngày. Đa số đó là các cảnh báo lỗi vặt không ảnh hưởng (False Positives). Đội ngũ vận hành (SysOps) trở nên phờ phạc, &quot;chai sạn&quot; với tiếng chuông cảnh báo, bỏ qua các email báo lỗi. Và tất yếu, những lỗi trí mạng gây sập hệ thống (Downtime) đã âm thầm lẩn trốn vào giữa rừng rác cảnh báo đó, bùng phát thiêu rụi dịch vụ cốt lõi.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Phương thức giải quyết sự cố theo cách cổ điển: &quot;Khách hàng phàn nàn ứng dụng chậm -&gt; IT nhận ticket -&gt; Mở chục bảng dashboard dò biểu đồ bằng mắt -&gt; Chạy dòng lệnh gõ bừa để khởi động lại máy chủ -&gt; Hy vọng hệ thống chạy được&quot; - đã hoàn toàn trở nên lố bịch và bất khả thi trong những kiến trúc Microservices có cả trăm luồng giao tiếp thay đổi liên tục.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Sự Ra Đời Của Trí Tuệ Nhân Tạo Trong Vận Hành&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;AIOps (Artificial Intelligence for IT Operations) không phải là một công cụ đơn lẻ, mà là sự thay đổi tư duy dùng sức mạnh của thuật toán (Machine Learning/Big Data) để uống trọn dữ liệu khổng lồ nhằm tìm ra chiếc kim trong đống cỏ khô một cách thần tốc.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Năng Lực Siêu Phàm Của Cỗ Máy Phân Tích (Analytics Engine)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đầu tiên, nền tảng AIOps hút toàn bộ log, metric mạng, cảnh báo bảo mật từ hàng loạt nguồn phần mềm giám sát khác nhau gom vào một cơ sở dữ liệu lớn (Data Lake). Thuật toán học máy sẽ loại bỏ ngay lập tức những tiếng ồn (Noise reduction), tự động gộp hàng trăm cảnh báo đơn lẻ rải rác lại thành MỘT sự cố duy nhất (Event Correlation). Ví dụ: AIOps sẽ nối biểu đồ cho kỹ sư thấy rằng: Lưu lượng truy cập (Traffic) giảm mạnh TẠI máy chủ Web, NGUYÊN NHÂN là do bộ lưu trữ SAN đang bị thắt cổ chai vòng xoay ổ cứng, mà ĐIỂM XUẤT PHÁT sâu xa lại do một nhân viên dọn dẹp cắm nhầm chấu dây cáp mạng ở phòng máy số 3. AIOps vẽ ra biểu đồ Cây nguyên nhân gốc (Root Cause Analysis - RCA) chính xác tuyệt đối ngay khi sự việc xảy ra.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Sức mạnh khủng khiếp thứ hai của AIOps là Dự đoán Tương lai (Predictive Analytics). Thay vì báo động khi ổ đĩa đã đầy 100% gây sập ứng dụng, AI đọc mẫu hành vi dữ liệu trong quá khứ và dự đoán: &quot;Với tốc độ tăng trưởng log này, ổ đĩa C của máy chủ Kế Toán sẽ cạn kiệt không gian vào lúc 2 giờ chiều Thứ Sáu tới&quot;. Lời tiên tri này cho phép các kỹ sư dọn dẹp rác hệ thống trước nhiều ngày, xóa bỏ hoàn toàn khái niệm Downtime do lỗi vận hành vật lý.&lt;/p&gt;
+    
+    &lt;img src=&quot;https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;q=80&amp;w=1200&quot; alt=&quot;Tech Architecture Flow&quot; class=&quot;w-full h-[500px] object-cover rounded-2xl shadow-xl my-10&quot;/&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Vòng Lặp Tự Động Hóa Trọn Vẹn (Closed-Loop Automation)&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Giai đoạn tối thượng của AIOps là cho phép máy móc tự hành động (Auto-Remediation) mà không cần con người nhúng tay vào. Khi AIOps phát hiện dấu hiệu nghẽn bộ nhớ của Database sắp sập, nó tự động kích hoạt Script chạy mã điều khiển mở rộng thêm sức mạnh RAM ở hệ thống Cloud (Scale-up) để gánh tải. Sau đó, nó tự động cập nhật hệ thống báo cáo công việc (ITSM - Ticketing) thông báo cho Giám đốc IT rằng &quot;Sự cố A đã chớm xảy ra, nhưng hệ thống AI đã thay mặt con người tự động xử lý thành công lúc 3h sáng&quot;.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Áp dụng AIOps không phải là việc mua một phần mềm cài đặt là xong. Tại CMCTS, chúng tôi dành nhiều tháng làm việc với đội ngũ kỹ sư của khách hàng nhằm xây dựng mô hình dữ liệu (Data Modeling) chuẩn hóa nguồn log, tinh chỉnh (Tuning) các thuật toán AI học thói quen vận hành mạng đặc thù, và viết sẵn các kịch bản hành động tự động (Runbooks). Nhờ đó, IT không còn đóng vai thợ chữa cháy, mà thực sự trở thành khối óc điều phối chuyển đổi số tinh vi của toàn tập đoàn.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_12" model="blog.post">
+            <field name="name">Green Data Center: Hướng tới Kỷ nguyên IT bền vững</field>
+            <field name="subtitle">Các kỹ thuật tiên tiến giúp giảm lượng khí thải carbon, tái chế nhiệt và tối ưu hóa chỉ số PUE cho trung tâm dữ liệu xanh.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Sát Thủ Môi Trường Phía Sau Sức Mạnh Tính Toán&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đằng sau sự ảo diệu của các nền tảng mạng xã hội, trò chơi trực tuyến, video độ phân giải cao và các cuộc cách mạng AI, ít ai nhận ra điện toán đám mây là một ngọn núi lửa thiêu đốt năng lượng khổng lồ. Trung tâm dữ liệu (Data Center) toàn cầu tiêu thụ khoảng 2% tổng lượng điện năng thế giới và đóng góp tương đương lượng khí thải carbon của toàn bộ ngành công nghiệp hàng không. Tại những trung tâm dữ liệu cũ kỹ thiếu tối ưu hóa thiết kế luồng không khí, hơn một nửa hóa đơn tiền điện hàng tháng không dành cho việc chạy máy chủ tính toán, mà bị đốt sạch vào việc chạy máy lạnh khổng lồ, bơm nước làm mát và thiết bị tản nhiệt tiêu thụ lượng lớn điện năng.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Áp lực từ cổ đông, luật lệ bảo vệ môi trường gắt gao của chính phủ các quốc gia (Net-Zero Emissions) đang thúc đẩy mạnh mẽ xu hướng xây dựng Trung tâm Dữ liệu Xanh (Green Data Center). ESG (Environmental, Social, and Governance) không còn là các khẩu hiệu đánh bóng thương hiệu (Greenwashing), mà trở thành điều kiện tiên quyết (KPIs) sống còn để được chính phủ cấp phép xây dựng các tổ hợp IT công nghiệp khổng lồ, và để thu hút sự đầu tư từ các tập đoàn toàn cầu.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Tối Ưu Chỉ Số PUE&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;PUE (Power Usage Effectiveness) là bài kiểm tra đo lường hiệu quả vận hành cơ điện. PUE = 1.0 là ngưỡng tuyệt đối hoàn hảo, nghĩa là mọi giọt năng lượng đều chạy vào linh kiện tính toán. Các Data Center cũ có PUE chạm ngưỡng 2.5, trong khi các Data Center chuẩn Xanh hiện đại đang cạnh tranh ở mức 1.1 đến 1.2 cực kỳ tối ưu.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Kiến Trúc Làm Mát Cải Tiến: Cold Aisle &amp; Hot Aisle Containment&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Một trong những nguyên nhân khiến việc làm mát kém hiệu quả nhất là tình trạng pha trộn không khí nóng thoát ra từ mặt sau máy chủ với luồng không khí lạnh thổi lên từ sàn nâng. Để giải quyết, công nghệ Containment (Nhốt khí) được ứng dụng mạnh mẽ. Các tủ Rack sẽ được sắp xếp thành các hàng đối diện, với lối đi chung được bọc kín bằng kính và mái che, tạo ra một &quot;Hành lang lạnh&quot; (Cold Aisle) cô lập tuyệt đối. Không khí lạnh chỉ được bơm chính xác vào hành lang này để máy chủ hít vào, trong khi toàn bộ hơi nóng phả ra mặt sau sẽ bị hệ thống điều hòa chính xác (CRAC/CRAH) hút ngay lên trần nhà trả về dàn lạnh, không cho phát tán hỗn loạn ra phòng máy.&lt;/p&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đi xa hơn, các công nghệ Tự do làm mát bằng khí hậu (Free Cooling) cho phép hút không khí lạnh trực tiếp từ thiên nhiên (như ở các vùng ôn đới) đi qua hệ thống lọc bụi và ẩm tĩnh điện để đưa thẳng vào thổi mát máy chủ, giúp tắt hoàn toàn hệ thống máy nén điện lạnh tốn điện suốt 8 tháng mùa đông. Không những thế, nhiệt lượng sinh ra từ hàng triệu chip máy chủ (Waste Heat) đang được thu thập và tái chế bằng các bộ trao đổi nhiệt, chuyển thành nước nóng để sưởi ấm cho các tòa nhà văn phòng, chung cư lân cận và cả các bể bơi công cộng khu vực xung quanh.&lt;/p&gt;
+    
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Năng lượng tái tạo (Renewable Energy):&lt;/strong&gt; Các trung tâm dữ liệu mới của các đại gia công nghệ ký kết cam kết mua 100% điện lưới từ các nhà máy điện gió, điện mặt trời, hoặc tự phủ kín nóc tòa nhà bằng các mảng panel quang năng trải dài hàng kilomet.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tản nhiệt chất lỏng (Liquid Cooling):&lt;/strong&gt; Ngâm chìm máy chủ trong dung môi tản nhiệt hai pha hoặc hệ thống ống nước áp sát trực tiếp vào chip (Direct-to-Chip) giúp tăng hiệu suất tản nhiệt hàng nghìn lần so với không khí, loại bỏ hoàn toàn hệ thống quạt thông gió lãng phí điện năng khủng khiếp.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Xóa bỏ máy chủ thây ma (Zombie Servers):&lt;/strong&gt; CMCTS triển khai các giải pháp ảo hóa sâu (Deep Virtualization) để phát hiện và tắt ngay các máy chủ chạy không tải (Idle) hoặc dồn toàn bộ workload vào số ít máy chủ vật lý, đảm bảo phần cứng không lãng phí điện năng một cách vô ích suốt ngày đêm.&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Xây Dựng Khối Kiến Trúc Xanh Cùng Các Chuyên Gia CMCTS&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Tiến lên nền tảng IT thân thiện với môi trường đòi hỏi sự lột xác từ tư duy quy hoạch không gian vật lý đến thiết kế phần mềm ở tầng kiến trúc vi mô (Micro-Architecture). Đội ngũ chuyên gia CMCTS cam kết hỗ trợ doanh nghiệp rà soát vòng đời carbon (Carbon Footprint Tracking) thông qua các bảng điều khiển năng lượng thông minh, đưa ra các báo cáo đo lường tiêu hao từng Rack Server, và đảm bảo mọi thiết kế phòng máy chủ nội bộ (On-Premise) đều đạt các chuẩn quốc tế về hiệu quả năng lượng khắt khe nhất (như LEED hay CEEDA) trên toàn thế giới.&lt;/p&gt;
+        </field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+
+        <record id="demo_blog_post_100" model="blog.post">
+            <field name="name">Tự động hóa DevOps với CI/CD Pipeline</field>
+            <field name="subtitle">Cách thiết lập 파イプライン CI/CD để triển khai ứng dụng không gián đoạn.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Tự động hóa DevOps với CI/CD Pipeline</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Tự động hóa DevOps với CI/CD Pipeline" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_101" model="blog.post">
+            <field name="name">Bảo mật API trong Kỷ Nguyên Số</field>
+            <field name="subtitle">Ngăn chặn rò rỉ dữ liệu qua các lỗ hổng API bằng cơ chế xác thực Oauth2 và JWT.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Bảo mật API trong Kỷ Nguyên Số</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Bảo mật API trong Kỷ Nguyên Số" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_102" model="blog.post">
+            <field name="name">Tương lai của Máy tính Lượng tử</field>
+            <field name="subtitle">Máy tính lượng tử sẽ thay đổi hoàn toàn cách chúng ta mã hóa dữ liệu như thế nào?</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Tương lai của Máy tính Lượng tử</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Tương lai của Máy tính Lượng tử" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_103" model="blog.post">
+            <field name="name">Phân tích dữ liệu lớn với Apache Spark</field>
+            <field name="subtitle">Xử lý hàng Terabyte dữ liệu trong vài giây bằng sức mạnh điện toán phân tán.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Phân tích dữ liệu lớn với Apache Spark</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Phân tích dữ liệu lớn với Apache Spark" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_104" model="blog.post">
+            <field name="name">Chuyển đổi số trong ngành Y Tế</field>
+            <field name="subtitle">Áp dụng AI và Blockchain để quản lý hồ sơ bệnh án điện tử an toàn.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Chuyển đổi số trong ngành Y Tế</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Chuyển đổi số trong ngành Y Tế" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_105" model="blog.post">
+            <field name="name">Trí tuệ nhân tạo trong Tài chính</field>
+            <field name="subtitle">Phát hiện gian lận giao dịch thẻ tín dụng bằng thuật toán Machine Learning.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Trí tuệ nhân tạo trong Tài chính</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Trí tuệ nhân tạo trong Tài chính" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_106" model="blog.post">
+            <field name="name">Sự trỗi dậy của No-Code/Low-Code</field>
+            <field name="subtitle">Doanh nghiệp có thể tự xây dựng ứng dụng nội bộ mà không cần thuê đội ngũ lập trình viên.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Sự trỗi dậy của No-Code/Low-Code</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1515378960530-7c0da6229674?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Sự trỗi dậy của No-Code/Low-Code" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1515378960530-7c0da6229674?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_107" model="blog.post">
+            <field name="name">Internet of Things (IoT) và Smart City</field>
+            <field name="subtitle">Quản lý năng lượng, giao thông và chất lượng không khí bằng cảm biến thông minh.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Internet of Things (IoT) và Smart City</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Internet of Things (IoT) và Smart City" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_108" model="blog.post">
+            <field name="name">Thực tế ảo (VR) trong Đào tạo Doanh nghiệp</field>
+            <field name="subtitle">Nâng cao hiệu quả đào tạo an toàn lao động thông qua mô phỏng môi trường 3D.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Thực tế ảo (VR) trong Đào tạo Doanh nghiệp</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Thực tế ảo (VR) trong Đào tạo Doanh nghiệp" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_109" model="blog.post">
+            <field name="name">Chiến lược Multi-Cloud cho Doanh nghiệp lớn</field>
+            <field name="subtitle">Kết hợp AWS, Azure và Google Cloud để tránh phụ thuộc vào một nhà cung cấp duy nhất.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Chiến lược Multi-Cloud cho Doanh nghiệp lớn</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Chiến lược Multi-Cloud cho Doanh nghiệp lớn" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_110" model="blog.post">
+            <field name="name">Microservices Architecture vs Monolithic</field>
+            <field name="subtitle">Khi nào nên chia nhỏ hệ thống và khi nào nên giữ lại kiến trúc nguyên khối?</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Microservices Architecture vs Monolithic</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Microservices Architecture vs Monolithic" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_111" model="blog.post">
+            <field name="name">FinOps: Quản lý chi phí Đám mây hiệu quả</field>
+            <field name="subtitle">Tối ưu hóa hóa đơn Cloud hàng tháng bằng các công cụ theo dõi và tự động tắt tài nguyên nhàn rỗi.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về FinOps: Quản lý chi phí Đám mây hiệu quả</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="FinOps: Quản lý chi phí Đám mây hiệu quả" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_112" model="blog.post">
+            <field name="name">Blockchain vượt ra ngoài Tiền điện tử</field>
+            <field name="subtitle">Ứng dụng Blockchain trong quản lý chuỗi cung ứng và truy xuất nguồn gốc nông sản.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Blockchain vượt ra ngoài Tiền điện tử</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1639762681485-074b7f4ec651?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Blockchain vượt ra ngoài Tiền điện tử" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1639762681485-074b7f4ec651?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_113" model="blog.post">
+            <field name="name">Cybersecurity: Đào tạo nhận thức nhân viên</field>
+            <field name="subtitle">Con người luôn là mắt xích yếu nhất trong hệ thống phòng thủ an ninh mạng.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Cybersecurity: Đào tạo nhận thức nhân viên</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Cybersecurity: Đào tạo nhận thức nhân viên" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_114" model="blog.post">
+            <field name="name">Phát triển ứng dụng Mobile Cross-Platform</field>
+            <field name="subtitle">Đánh giá hiệu năng giữa Flutter, React Native và Native Development.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Phát triển ứng dụng Mobile Cross-Platform</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Phát triển ứng dụng Mobile Cross-Platform" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_blog_post_115" model="blog.post">
+            <field name="name">Green IT: Hướng tới Net Zero</field>
+            <field name="subtitle">Giảm thiểu lượng khí thải Carbon bằng cách tối ưu hóa thuật toán và tái chế rác thải điện tử.</field>
+            <field name="blog_id" ref="demo_cmcts_blog"/>
+            <field name="content"><![CDATA[
+                <h2 class="text-3xl font-bold mb-6 text-primary mt-12">Tổng quan về Green IT: Hướng tới Net Zero</h2>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Khám phá chi tiết về chủ đề này cùng các chuyên gia hàng đầu từ CMCTS.</p>
+                <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&amp;fit=crop&amp;q=80&amp;w=1200" alt="Green IT: Hướng tới Net Zero" class="w-full h-[500px] object-cover rounded-2xl shadow-xl my-10"/>
+                <p class="mb-6 text-body-reg leading-relaxed text-lg">Chúng tôi luôn cập nhật những xu hướng công nghệ mới nhất để mang lại giá trị thiết thực cho khách hàng. Với CMCTS, bạn luôn đi trước thời đại một bước.</p>
+            ]]></field>
+            <field name="is_published" eval="True"/>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+    </data>
+</odoo>

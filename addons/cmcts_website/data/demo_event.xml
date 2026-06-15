@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Event Product -->
+        <record id="product_product_event" model="product.product">
+            <field name="name">Vé sự kiện (Chung)</field>
+            <field name="type">service</field>
+            <field name="list_price">0.0</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+
+        <record id="demo_event_1" model="event.event">
+            <field name="name">Hội Nghị Thượng Đỉnh: Kiến Trúc Đám Mây 2026</field>
+            <field name="subtitle">Khám phá chiến lược chuyển dịch và vận hành Hybrid Cloud cho tập đoàn quy mô lớn.</field>
+            <field name="date_begin" eval="'2026-06-22 09:00:00'"/>
+            <field name="date_end" eval="'2026-06-22 17:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tầm Nhìn Đám Mây Tương Lai&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Diễn đàn thường niên quy tụ hàng trăm chuyên gia công nghệ, Giám đốc IT (CIO) và Kiến trúc sư hệ thống hàng đầu khu vực. Chúng ta sẽ cùng nhau bóc tách những bài toán hóc búa nhất trong việc thiết kế hạ tầng lai (Hybrid Cloud), cách phân bổ tải trọng (workloads) linh hoạt giữa môi trường nội bộ và Đám mây công cộng (AWS, Azure, GCP). Khách mời sẽ được lắng nghe những câu chuyện thực chiến (Case studies) từ các tập đoàn ngân hàng lớn đã chuyển đổi thành công hàng nghìn ứng dụng cũ (legacy apps) lên nền tảng đám mây mà không gặp bất kỳ sự cố gián đoạn nào.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Cơ hội Networking Vô Giá&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Không chỉ là nơi cập nhật công nghệ, đây là điểm hẹn để bạn kết nối trực tiếp với các chuyên gia tư vấn chiến lược của CMCTS và đại diện từ các hãng công nghệ toàn cầu.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Nội Dung Diễn Đàn&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Mô hình đánh giá mức độ sẵn sàng:&lt;/strong&gt; Các tiêu chí cốt lõi để xác định ứng dụng nào nên đưa lên Cloud, ứng dụng nào nên giữ lại tại Data Center nội bộ.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tối ưu chi phí (FinOps):&lt;/strong&gt; Các chiến thuật giám sát và cắt giảm hóa đơn đám mây lãng phí lên đến 30% thông qua các công cụ tự động hóa.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Bảo mật dữ liệu xuyên biên giới:&lt;/strong&gt; Đảm bảo tuân thủ các quy định khắt khe về quyền riêng tư và lưu trữ dữ liệu tại quốc gia sở tại.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_2" model="event.event">
+            <field name="name">Webinar: Chiến Lược Bảo Mật Zero Trust Toàn Diện</field>
+            <field name="subtitle">Giải pháp bảo vệ tài sản số cốt lõi trước sự bùng nổ của các cuộc tấn công mạng có tổ chức.</field>
+            <field name="date_begin" eval="'2026-06-27 14:00:00'"/>
+            <field name="date_end" eval="'2026-06-27 16:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Xóa Bỏ Bức Tường Lửa Ảo Tưởng&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Buổi hội thảo trực tuyến (Webinar) đặc biệt dành riêng cho các Giám đốc An toàn Thông tin (CISO) và kỹ sư an ninh mạng. Khi nhân viên làm việc từ mọi nơi, mọi thiết bị, hệ thống tường lửa chu vi đã trở nên vô dụng. Zero Trust là triết lý bảo mật duy nhất có khả năng bảo vệ doanh nghiệp trong bối cảnh này. Chuyên gia của chúng tôi sẽ hướng dẫn chi tiết cách thức cấu hình hệ thống Xác thực Đa Yếu tố (MFA), cấp quyền truy cập theo ngữ cảnh (Context-aware Access) và cô lập phân vùng mạng (Micro-segmentation).&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Thực Hành Trên Môi Trường Giả Lập&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Khách mời tham dự sẽ được chứng kiến một cuộc tấn công mô phỏng trực tiếp (Live Hacking) và cách hệ thống Zero Trust tự động khóa chặt tin tặc chỉ trong vài mili-giây.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chương Trình Đào Tạo&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Phân tích hành vi (UEBA):&lt;/strong&gt; Cách sử dụng AI để phát hiện những thao tác bất thường của nhân viên nội bộ có ý đồ xấu.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Quản lý định danh (IAM):&lt;/strong&gt; Đồng bộ hóa hệ thống danh bạ người dùng (Active Directory) lên đám mây và áp dụng Single Sign-On.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Hỏi đáp trực tiếp (Q&amp;A):&lt;/strong&gt; Trực tiếp giải đáp các bài toán bảo mật đặc thù của doanh nghiệp bạn cùng các chuyên gia bảo mật được chứng nhận quốc tế.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_3" model="event.event">
+            <field name="name">Tech Expo 2026: Triển lãm Trung Tâm Dữ Liệu Xanh</field>
+            <field name="subtitle">Trực tiếp trải nghiệm các công nghệ máy chủ, lưu trữ và tản nhiệt tiên tiến nhất hành tinh.</field>
+            <field name="date_begin" eval="'2026-07-07 08:30:00'"/>
+            <field name="date_end" eval="'2026-07-08 17:30:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Quy Tụ Các Ông Lớn Công Nghệ&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Sự kiện Triển lãm Công nghệ lớn nhất năm do CMCTS tổ chức, quy tụ hơn 50 gian hàng từ các đối tác phần cứng và phần mềm khổng lồ như Dell, HPE, Cisco, VMware, và Nvidia. Quý khách sẽ có cơ hội &quot;mắt thấy tai nghe&quot; các tủ Rack chứa đầy máy chủ hiệu năng cực cao, các khay ổ cứng NVMe chớp nhoáng và đặc biệt là khu vực trình diễn hệ thống tản nhiệt ngâm chìm (Immersion Cooling) vô cùng ngoạn mục.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Không Gian Trải Nghiệm Tương Tác&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Đeo kính thực tế ảo (VR) và dạo bước bên trong mô hình 3D của một Trung tâm Dữ liệu Tier IV chuẩn mực, nơi bạn có thể bóc tách từng lớp cấu trúc từ cáp ngầm đến hệ thống điều hòa chính xác.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Các Khu Vực Chính&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Khu vự AI Server:&lt;/strong&gt; Nơi phô diễn sức mạnh của các dòng card đồ họa chuyên dụng huấn luyện Mô hình Ngôn ngữ Lớn (LLM).&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Khu vực Green IT:&lt;/strong&gt; Trưng bày các công nghệ tái chế nhiệt và pin lưu trữ UPS sử dụng công nghệ Lithium-ion thân thiện môi trường, kéo dài tuổi thọ gấp 3 lần.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Sân khấu Pitching:&lt;/strong&gt; Các buổi trình bày công nghệ liên tục mỗi 30 phút, cập nhật những nghiên cứu mới nhất từ các hãng.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_4" model="event.event">
+            <field name="name">Workshop: Thực Hành Thiết Lập Tường Lửa Thế Hệ Mới (NGFW)</field>
+            <field name="subtitle">Chương trình huấn luyện kỹ thuật chuyên sâu dành cho các kỹ sư quản trị mạng và bảo mật.</field>
+            <field name="date_begin" eval="'2026-06-17 10:00:00'"/>
+            <field name="date_end" eval="'2026-06-17 12:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Nâng Cấp Kỹ Năng Kỹ Sư Thực Chiến&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Một cấu hình tường lửa sai lệch có thể là thảm họa mở toang cánh cửa cho tin tặc. Buổi Workshop này hoàn toàn tập trung vào yếu tố &quot;Thực Hành&quot; (Hands-on Lab). Mỗi học viên sẽ được cấp một tài khoản truy cập vào môi trường Lab giả lập trên Cloud của CMCTS để thao tác cấu hình thiết bị Firewall Thế hệ mới (Next-Gen Firewall). Dưới sự kèm cặp 1-kèm-1 của các chuyên gia, bạn sẽ học cách thiết lập chính sách (policies) bảo mật, cấu hình lọc gói tin sâu (Deep Packet Inspection), và thiết lập VPN an toàn cho nhân viên làm việc từ xa.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Làm Chủ Công Cụ&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Thay vì học lý thuyết khô khan, chúng tôi đưa bạn vào các kịch bản lỗi cấu hình thực tế và yêu cầu bạn phải tự tay rà soát log để gỡ rối (troubleshoot).&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Mục Tiêu Khóa Huấn Luyện&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Phát hiện xâm nhập (IDS/IPS):&lt;/strong&gt; Tối ưu hóa các bộ quy tắc (rules) chặn đứng các loại virus mã hóa và phần mềm gián điệp mà không làm giảm băng thông mạng.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tích hợp tình báo mối đe dọa (Threat Intelligence):&lt;/strong&gt; Tự động đồng bộ hóa danh sách các IP độc hại và domain mã độc từ hệ thống toàn cầu xuống Firewall nội bộ theo thời gian thực.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Kiểm tra lỗ hổng (Pen-test):&lt;/strong&gt; Cuối buổi, học viên sẽ được chia đội để thử thách tấn công vào tường lửa của nhau, tìm ra các điểm yếu cấu hình.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_5" model="event.event">
+            <field name="name">Diễn Đàn Công Nghệ: Ứng Dụng AIOps Vào Giám Sát IT</field>
+            <field name="subtitle">Tự động hóa phát hiện sự cố và giảm tải công việc cực nhọc cho đội ngũ vận hành hệ thống NOC/SOC.</field>
+            <field name="date_begin" eval="'2026-08-05 09:00:00'"/>
+            <field name="date_end" eval="'2026-08-05 11:30:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Giải Phóng Sức Lao Động Nhờ AI&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đội ngũ IT của bạn đang chìm ngập trong hàng chục nghìn email cảnh báo lỗi (Alerts) mỗi ngày? Sự kiện này sẽ trình diễn sức mạnh của AIOps (Trí tuệ nhân tạo dùng trong Vận hành IT) trong việc lọc nhiễu, phân tích log sự kiện và dự đoán sự cố trước khi chúng xảy ra. Diễn giả sẽ trực tiếp demo cách nền tảng AIOps phát hiện một chiếc Switch sắp chết nguồn trước 3 ngày, tự động tạo ticket sửa chữa, và tự động điều hướng băng thông qua đường truyền dự phòng mà không cần con người nhúng tay.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Thay Đổi Cuộc Chơi IT&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Chuyển mình từ trạng thái &#x27;bị động vá lỗi&#x27; sang &#x27;chủ động tiên đoán&#x27;. Máy móc sẽ làm việc chân tay, kỹ sư sẽ làm công việc sáng tạo.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Nội Dung Thảo Luận&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tích hợp Data Lake:&lt;/strong&gt; Phương pháp gom toàn bộ log từ Server, Network, Database, Security vào chung một bồn chứa dữ liệu lớn để AI phân tích tương quan (Correlation).&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Auto-Remediation:&lt;/strong&gt; Thiết lập các kịch bản chạy tự động (Runbook) để máy tính tự sửa lỗi (Ví dụ: Tự động khởi động lại service khi tràn RAM).&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;ROI của AIOps:&lt;/strong&gt; Phân tích bài toán tài chính, làm sao việc áp dụng AIOps giúp tiết kiệm hàng tỷ đồng nhờ việc loại bỏ hoàn toàn hệ thống gián đoạn (Downtime).&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_6" model="event.event">
+            <field name="name">Hội Nghị Kỹ Thuật: Điện Toán Biên (Edge) &amp; Mạng 5G</field>
+            <field name="subtitle">Chìa khóa cho công cuộc tự động hóa thông minh (Smart Manufacturing) và Internet vạn vật (IIoT).</field>
+            <field name="date_begin" eval="'2026-09-12 13:30:00'"/>
+            <field name="date_end" eval="'2026-09-12 17:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chuyển Đổi Số Khối Sản Xuất&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Được thiết kế riêng cho các Giám đốc Nhà máy và Kỹ sư công nghiệp tự động hóa, hội nghị bóc tách sâu về việc triển khai mạng Private 5G nội bộ kết hợp cùng máy chủ điện toán biên (Edge Computing). Đây là giải pháp duy nhất hiện nay cho phép điều khiển hàng trăm xe tự hành (AGV) và cánh tay robot với độ trễ dưới 1 mili-giây, không thể bị nhiễu sóng và không gián đoạn kết nối. Khách mời sẽ được chiêm ngưỡng thiết bị thực tế chạy các thuật toán AI nhận diện lỗi vi mạch ngay tại băng chuyền.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Sức Mạnh Tại Phân Xưởng&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Không cần gửi hình ảnh lên Cloud trung tâm, máy chủ Edge xử lý hàng nghìn khung hình mỗi giây ngay tại nhà máy, bảo mật tuyệt đối bí quyết công nghệ sản xuất.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Hành Trình Triển Khai&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Khảo sát sóng vô tuyến:&lt;/strong&gt; Quy trình đo đạc nhiễu từ trường trong môi trường sản xuất luyện kim hạng nặng và cách tối ưu hóa vùng phủ sóng 5G.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Kiến trúc phần cứng Edge:&lt;/strong&gt; Sự khác biệt của máy chủ công nghiệp không quạt (Fanless), chịu nhiệt độ cao và rung chấn so với máy chủ chuẩn.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Case Study Thành Công:&lt;/strong&gt; Nghe đại diện một nhà máy ô tô hàng đầu chia sẻ cách họ ứng dụng 5G để tự động hóa khâu kiểm soát chất lượng bằng Camera AI.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_7" model="event.event">
+            <field name="name">Khóa Đào Tạo: Xây Dựng Kế Hoạch Disaster Recovery</field>
+            <field name="subtitle">Bảo vệ sinh mạng dữ liệu của công ty khi đối mặt với hỏa hoạn, lũ lụt và các thảm họa diện rộng.</field>
+            <field name="date_begin" eval="'2026-08-20 08:00:00'"/>
+            <field name="date_end" eval="'2026-08-21 17:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chuẩn Bị Cho Ngày Tồi Tệ Nhất&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đừng đợi đến khi máy chủ bốc cháy mới tìm cách cứu dữ liệu. Khóa học chuyên sâu kéo dài 2 ngày này hướng dẫn doanh nghiệp xây dựng bộ tài liệu &quot;Sổ tay thảm họa&quot; (DR Runbook) bài bản. Chúng tôi sẽ phân tích cặn kẽ cách tính toán RPO (Điểm khôi phục dữ liệu) và RTO (Thời gian khôi phục hệ thống) sao cho cân bằng hoàn hảo giữa chi phí đầu tư và mức độ chấp nhận rủi ro của Ban điều hành. Bạn sẽ học cách tổ chức các buổi diễn tập thảm họa (DR Drills) định kỳ mà không làm ảnh hưởng đến hoạt động nghiệp vụ.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Kiến Trúc Song Sinh Cứu Rỗi&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Một chiến lược Backup chỉ giúp bạn có lại dữ liệu. Một chiến lược DR giúp doanh nghiệp bạn có lại hơi thở, tiếp tục kinh doanh trong vòng chưa đầy 15 phút sau thảm họa.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Nội Dung Thực Hành Chuyên Sâu&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Mô hình Active-Active:&lt;/strong&gt; Thiết kế hệ thống hai Data Center chạy song song đồng thời, san sẻ tải và ngay lập tức tiếp quản 100% khi một bên sập nguồn.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Disaster Recovery as a Service (DRaaS):&lt;/strong&gt; Tận dụng sức mạnh của Public Cloud làm trung tâm dự phòng để tiết kiệm 80% chi phí xây Data Center vật lý thứ hai.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Kịch bản Failover/Failback:&lt;/strong&gt; Quy trình kỹ thuật từng bước ấn nút chuyển hướng hệ thống DNS để người dùng tiếp tục truy cập dịch vụ mà không hề hay biết sự cố.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_8" model="event.event">
+            <field name="name">Talkshow: Cuộc Chiến Chống Lại Mã Độc Ransomware</field>
+            <field name="subtitle">Nghe lời khuyên trực tiếp từ các chuyên gia an ninh mạng về công nghệ lưu trữ bất biến (Immutable Backup).</field>
+            <field name="date_begin" eval="'2026-07-25 18:30:00'"/>
+            <field name="date_end" eval="'2026-07-25 21:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Ác Mộng Tống Tiền Dữ Liệu&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Buổi trò chuyện thân mật (Talkshow) buổi tối cùng các kỹ sư pháp y kỹ thuật số (Digital Forensics). Khách mời sẽ được phân tích hành vi của các băng đảng Ransomware khét tiếng nhất hiện nay, cách chúng qua mặt hệ thống diệt virus truyền thống, âm thầm nằm vùng (Dwell Time) trong máy chủ hàng tháng trời để đánh cắp hồ sơ trước khi chính thức bấm nút mã hóa toàn bộ cơ sở dữ liệu. Chúng tôi sẽ chia sẻ kinh nghiệm xương máu trong việc đàm phán, ứng phó rò rỉ truyền thông, và cách khôi phục lại hệ thống sạch sẽ.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Két Sắt Bất Khả Xâm Phạm&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Công nghệ Sao lưu Bất biến (Immutable Storage) đảm bảo rằng một khi file đã được ghi, không một tài khoản Admin hay Hacker nào có thể xóa nó trong suốt 30 ngày.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Tiêu Điểm Thảo Luận&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Lỗ hổng từ con người:&lt;/strong&gt; Phân tích các chiêu trò Lừa đảo kỹ thuật xã hội (Social Engineering) tinh vi nhắm vào bộ phận nhân sự và kế toán.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Thiết lập Air-Gapped Network:&lt;/strong&gt; Phương pháp cách ly hệ thống máy chủ sao lưu hoàn toàn khỏi mạng lưới công ty để tránh lây nhiễm chéo.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;EDR là chưa đủ:&lt;/strong&gt; Giải thích lý do vì sao chỉ cài đặt phần mềm bảo vệ Endpoint là chưa đủ để chống lại kỹ thuật &quot;Sống bằng các công cụ có sẵn&quot; (Living-off-the-Land) của tin tặc.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1614064641913-6b7140414c71?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_9" model="event.event">
+            <field name="name">Bootcamp: Làm Chủ Kubernetes và Định Hình DevOps</field>
+            <field name="subtitle">Ba ngày huấn luyện cường độ cao &#x27;Cầm tay chỉ việc&#x27; triển khai hệ thống Microservices khổng lồ.</field>
+            <field name="date_begin" eval="'2026-10-01 08:30:00'"/>
+            <field name="date_end" eval="'2026-10-03 17:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Vượt Qua Đường Cong Học Tập Khắc Nghiệt&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Trại huấn luyện Bootcamp chuyên sâu 3 ngày dành cho các Lập trình viên (Developers) và Kỹ sư hệ thống (SysAdmin) muốn lột xác trở thành kỹ sư DevOps/SRE. Kubernetes (K8s) nổi tiếng là nền tảng quản trị Container quyền năng nhất, nhưng cũng phức tạp nhất. Dưới sự dẫn dắt của các chuyên gia CMCTS có chứng chỉ CKA (Certified Kubernetes Administrator), học viên sẽ tự tay gõ lệnh triển khai một cụm Cluster hoàn chỉnh, viết các file cấu hình YAML, cấu hình mạng Ingress, và giải quyết các bài toán hóc búa về lưu trữ dữ liệu cố định (Persistent Storage).&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Tự Động Hóa Mọi Thứ&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Mục tiêu tối thượng: Bạn chỉ việc Push code lên Git, đường ống CI/CD sẽ tự động test, build container, và Kubernetes sẽ tự động thay thế phiên bản cũ mà không rớt một giây dịch vụ nào.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chi Tiết Các Ngày Huấn Luyện&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Ngày 1 - Nền tảng:&lt;/strong&gt; Kiến trúc cốt lõi K8s (Pod, Deployment, Service, ReplicaSet) và cách thức các tiến trình trò chuyện với nhau.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Ngày 2 - Vận hành nâng cao:&lt;/strong&gt; Thiết lập hệ thống giám sát Prometheus/Grafana, thu thập Log bằng ELK Stack, và cấu hình tự động co giãn (Auto-scaling) theo tải truy cập.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Ngày 3 - Bảo mật và CI/CD:&lt;/strong&gt; Bảo mật Network Policy, rà soát lỗ hổng hình ảnh Docker, và tích hợp luồng triển khai tự động với GitLab/Jenkins.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_10" model="event.event">
+            <field name="name">Diễn Đàn Chuyên Đề: Giải Pháp Lưu Trữ NVMe All-Flash</field>
+            <field name="subtitle">Phá bỏ mọi giới hạn băng thông, tăng tốc cơ sở dữ liệu hàng trăm lần cho các dự án Big Data.</field>
+            <field name="date_begin" eval="'2026-09-28 14:00:00'"/>
+            <field name="date_end" eval="'2026-09-28 17:00:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Khai Phóng Tốc Độ Ánh Sáng Cho Dữ Liệu&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Một vi xử lý CPU ngàn nhân sẽ trở nên vô dụng nếu nó phải liên tục chờ đợi dữ liệu từ ổ cứng. Các giao thức lưu trữ SAS/SATA truyền thống đã chính thức trở thành nút thắt cổ chai lớn nhất trong kiến trúc Data Center hiện đại. Sự kiện trình diễn công nghệ lưu trữ NVMe End-to-End này sẽ giúp các Giám đốc IT mở mang tầm mắt về tốc độ hàng triệu IOPS với độ trễ (Latency) tính bằng Micro-giây. Cực kỳ phù hợp cho các ngân hàng cần chạy hệ thống Core Banking hoặc các sàn thương mại điện tử vào những ngày siêu sale traffic nghẽn mạng.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;NVMe-oF: San Lấp Khoảng Cách Không Gian&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Chia sẻ sức mạnh đọc ghi của NVMe qua mạng quang (Fibre Channel) hay Ethernet (RoCE), giúp máy chủ ở tủ Rack bên kia vẫn đạt tốc độ truyền tải như thể ổ cứng đang cắm trực tiếp trên bo mạch.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chủ Đề Bàn Luận Nổi Bật&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;So sánh công nghệ NAND Flash:&lt;/strong&gt; Ưu nhược điểm của các dòng chip nhớ SLC, MLC, TLC, QLC và cách lựa chọn phù hợp để cân bằng giữa Độ bền (TBW) và Chi phí.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Data Tiering thông minh:&lt;/strong&gt; Thuật toán tự động đẩy dữ liệu &quot;nóng&quot; lên cụm NVMe đắt tiền và dời dữ liệu &quot;lạnh&quot; xuống hệ thống ổ cứng cơ HDD dung lượng lớn rẻ tiền.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tăng tốc Machine Learning:&lt;/strong&gt; Cách NVMe All-Flash giúp nạp hàng Terabyte hình ảnh huấn luyện vào hệ thống GPU AI nhanh gấp 10 lần, tiết kiệm tối đa thời gian tính toán.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_11" model="event.event">
+            <field name="name">Gặp Gỡ Chuyên Gia: Lộ Trình Triển Khai Mạng SDN</field>
+            <field name="subtitle">Biến hệ thống mạng vật lý cứng nhắc thành một hạ tầng vô hình có thể lập trình bằng phần mềm.</field>
+            <field name="date_begin" eval="'2026-10-15 09:00:00'"/>
+            <field name="date_end" eval="'2026-10-15 11:30:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Chấm Dứt Kỷ Nguyên Cấu Hình Thủ Công&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Buổi giao lưu trực tiếp với đội ngũ Kỹ sư trưởng thiết kế mạng (Network Architects) chuyên sâu về mảng Software-Defined Networking (SDN). Nếu đội ngũ IT của bạn vẫn đang phải cắm rút cáp thủ công, gõ lệnh cấu hình VLAN vào từng chiếc Switch mỗi khi có phòng ban mới chuyển đến, thì bạn đang lãng phí hàng núi thời gian. Tại sự kiện này, chúng tôi sẽ demo trực tiếp hệ thống hạ tầng dưới dạng code (Infrastructure as Code - IaC). Chỉ với vài cú click chuột hoặc một tập tin script nhỏ, toàn bộ chính sách bảo mật, định tuyến và cấp IP sẽ được phủ sóng lên hàng vạn thiết bị mạng trên toàn quốc ngay lập tức.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Tự Động Hóa Khắc Phục Sự Cố&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Controller trung tâm của SDN không chỉ cấp phát mạng, nó còn liên tục theo dõi băng thông. Khi đứt cáp, nó tự động vẽ lại bản đồ dẫn đường (Re-route) mà không làm rớt mạng bất kỳ máy chủ nào.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Những Bức Tranh Tổng Thể&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Chia nhỏ an ninh (Micro-segmentation):&lt;/strong&gt; Cách SDN biến mỗi máy chủ thành một pháo đài cô lập, ngăn chặn tuyệt đối việc virus lây lan theo chiều ngang trong mạng lưới máy chủ.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Kết nối đa chi nhánh (SD-WAN):&lt;/strong&gt; Xóa bỏ các đường truyền Lease Line đắt đỏ truyền thống, thay bằng giải pháp SD-WAN thông minh gộp nhiều đường truyền Internet rẻ tiền nhưng đạt độ ổn định tương đương.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Tính tương thích ngược:&lt;/strong&gt; Chiến thuật đưa các hệ thống mạng cũ, thiết bị legacy vào chung sự quản lý của bộ não điều khiển SDN mới một cách êm ái, không gián đoạn (Zero downtime).&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+        <record id="demo_event_12" model="event.event">
+            <field name="name">Hội Thảo Quốc Tế: Green Data Center - Bền Vững Lâu Dài</field>
+            <field name="subtitle">Định hướng thiết kế trung tâm dữ liệu thế hệ mới nhằm giảm thiểu phát thải Carbon (Net-Zero).</field>
+            <field name="date_begin" eval="'2026-11-20 08:30:00'"/>
+            <field name="date_end" eval="'2026-11-20 16:30:00'"/>
+            <field name="is_published" eval="True"/>
+            <field name="description">
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Xóa Bỏ Gánh Nặng Tiêu Thụ Điện Khổng Lồ&lt;/h2&gt;
+    &lt;p class=&quot;mb-6 text-body-reg leading-relaxed text-lg&quot;&gt;Đứng trước áp lực toàn cầu về bảo vệ môi trường, các trung tâm dữ liệu khổng lồ bị xem là cỗ máy ngốn điện tàn bạo nhất. Hội thảo quốc tế này là cơ hội để các nhà quản trị Data Center, kỹ sư cơ điện lạnh học hỏi các chuẩn mực công nghiệp mới nhất (như chứng chỉ LEED). Trọng tâm của sự kiện là làm thế nào để tối ưu hóa chỉ số PUE (Power Usage Effectiveness) tiến sát đến mức 1.0. Bạn sẽ hiểu được rằng, tiết kiệm điện không chỉ là câu chuyện bảo vệ môi trường, mà là hành động cắt giảm hàng chục tỷ đồng chi phí vận hành (OPEX) cho chính công ty của mình hàng năm.&lt;/p&gt;
+    
+    &lt;div class=&quot;my-10 border-l-4 border-secondary pl-6 bg-surface-container-lowest py-4 rounded-r-lg shadow-sm&quot;&gt;
+        &lt;h3 class=&quot;text-xl font-semibold mb-2 text-primary&quot;&gt;Nghệ Thuật Quản Trị Khí Lưu&lt;/h3&gt;
+        &lt;p class=&quot;text-body-reg italic text-on-surface-variant&quot;&gt;&quot;Không cần mua thêm máy lạnh mới. Đôi khi, chỉ bằng việc lắp đặt các tấm chắn nhốt khí lạnh (Cold Aisle Containment) và tấm bịt lỗ hổng tủ Rack (Blanking panels), bạn đã tăng hiệu suất làm mát lên gấp đôi.&quot;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class=&quot;text-3xl font-bold mb-6 text-primary mt-12&quot;&gt;Công Nghệ Điểm Nhấn&lt;/h2&gt;
+    &lt;ul class=&quot;list-disc pl-8 mb-8 space-y-4 text-body-reg text-lg text-on-surface-variant&quot;&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Free Cooling (Tự do làm mát):&lt;/strong&gt; Kỹ thuật tận dụng trực tiếp luồng không khí lạnh tinh khiết từ thiên nhiên vào những tháng mùa đông để tắt hoàn toàn hệ thống máy nén điện lạnh.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Lithium-ion UPS:&lt;/strong&gt; Bước tiến vượt bậc thay thế các bình ắc quy chì nặng nề truyền thống bằng công nghệ Pin thông minh, cung cấp mật độ năng lượng dày đặc và thân thiện môi trường hơn.&lt;/li&gt;
+        &lt;li&gt;&lt;strong class=&quot;text-primary&quot;&gt;Thẩm định chứng chỉ:&lt;/strong&gt; Lộ trình và các bước cụ thể để doanh nghiệp bạn đăng ký và đạt được các chứng nhận xanh danh giá quốc tế (như CEEDA), nâng tầm giá trị thương hiệu.&lt;/li&gt;
+    &lt;/ul&gt;
+    </field>
+            <field name="cover_properties" eval="'{&quot;background-image&quot;: &quot;url(https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200)&quot;, &quot;background-size&quot;: &quot;cover&quot;, &quot;background-position&quot;: &quot;center&quot;, &quot;opacity&quot;: &quot;0.8&quot;}'"/>
+        </record>
+
+    </data>
+</odoo>

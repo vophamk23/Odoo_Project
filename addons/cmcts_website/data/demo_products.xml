@@ -1,0 +1,1264 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <record id="website_sale.products_categories" model="ir.ui.view">
+            <field name="active" eval="True" />
+        </record>
+
+        <record id="demo_pub_cat_networking" model="product.public.category">
+            <field name="name">Thiết Bị Mạng</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="demo_pub_cat_servers" model="product.public.category">
+            <field name="name">Máy Chủ (Servers)</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="demo_pub_cat_storage" model="product.public.category">
+            <field name="name">Lưu Trữ (Storage)</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="demo_pub_cat_security" model="product.public.category">
+            <field name="name">Bảo Mật (Security)</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="demo_product_server_edge" model="product.template">
+            <field name="name">NexusEdge 7000 Server Unit</field>
+            <field name="list_price">95000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_servers')])]" />
+            <field name="description_sale">Máy chủ Edge hiệu năng cao, tối ưu cho xử lý dữ liệu tại biên (Edge Computing). Dual Intel Xeon, 128GB RAM.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_edge.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;NexusEdge 7000 Server Unit&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về NexusEdge 7000 Server Unit&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Máy chủ Edge hiệu năng cao, tối ưu cho xử lý dữ liệu tại biên (Edge Computing). Dual Intel Xeon, 128GB RAM.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, NexusEdge 7000 Server Unit sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;CPU&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Dual Intel Xeon Silver 4310&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;RAM&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;128GB DDR4 ECC&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Lưu trữ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x 2TB NVMe SSD&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Kết nối mạng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;2x 10GbE SFP+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Form Factor&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;1U Rackmount&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tối ưu Edge Computing&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Xử lý dữ liệu ngay tại rìa mạng lưới, giảm độ trễ tối đa.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Khả năng mở rộng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Hỗ trợ lắp thêm GPU xử lý AI nội bộ.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Hoạt động bền bỉ&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Thiết kế chống bụi và chịu nhiệt độ cao.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_server_ai" model="product.template">
+            <field name="name">Titan AI DeepLearning Server</field>
+            <field name="list_price">550000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_servers')])]" />
+            <field name="description_sale">Hệ thống chuyên dụng cho AI/ML với 4x NVIDIA A100 Tensor Core GPUs, 1TB ECC RAM.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_ai.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;Titan AI DeepLearning Server&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về Titan AI DeepLearning Server&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Hệ thống chuyên dụng cho AI/ML với 4x NVIDIA A100 Tensor Core GPUs, 1TB ECC RAM.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, Titan AI DeepLearning Server sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;GPU&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x NVIDIA A100 80GB Tensor Core&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;CPU&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Dual AMD EPYC 7763&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;RAM&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;1TB DDR4 ECC 3200MHz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Lưu trữ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;8x 4TB NVMe PCIe 4.0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Nguồn&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;2x 2400W Titanium Redundant&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Sức mạnh AI Tuyệt đối&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tối ưu hóa cho quá trình training các mô hình ngôn ngữ lớn (LLM).&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Băng thông siêu tốc&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Sử dụng NVLink kết nối GPU tốc độ cao.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tản nhiệt chất lỏng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Hệ thống làm mát bằng chất lỏng tiên tiến.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_server_rack" model="product.template">
+            <field name="name">ProRack 2U Enterprise Node</field>
+            <field name="list_price">180000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_servers')])]" />
+            <field name="description_sale">Máy chủ Rack 2U linh hoạt cho trung tâm dữ liệu, hỗ trợ khả năng mở rộng bộ nhớ và lưu trữ linh hoạt.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_rack.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;ProRack 2U Enterprise Node&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về ProRack 2U Enterprise Node&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Máy chủ Rack 2U linh hoạt cho trung tâm dữ liệu, hỗ trợ khả năng mở rộng bộ nhớ và lưu trữ linh hoạt.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, ProRack 2U Enterprise Node sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;CPU&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Dual Intel Xeon Gold 6330&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;RAM&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;256GB DDR4 ECC&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Khay ổ cứng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;12x 3.5&quot; Hot-swap SAS/SATA&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Mạng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x 10GbE Base-T&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Nguồn&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;2x 800W Platinum&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Lưu trữ dung lượng lớn&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Hỗ trợ tối đa lên đến 200TB dung lượng nội bộ.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Quản trị từ xa&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tích hợp thẻ quản trị iLO/iDRAC chuyên dụng.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tiết kiệm điện năng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Chứng nhận hiệu suất năng lượng Platinum.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_switch_core" model="product.template">
+            <field name="name">HyperSwitch 400G Core</field>
+            <field name="list_price">220000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Switch Core cấp độ doanh nghiệp, cung cấp cổng 400GbE siêu tốc độ cho mạng lưới Spine-Leaf.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/switch_core.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;HyperSwitch 400G Core&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về HyperSwitch 400G Core&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Switch Core cấp độ doanh nghiệp, cung cấp cổng 400GbE siêu tốc độ cho mạng lưới Spine-Leaf.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, HyperSwitch 400G Core sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Port Speed&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;32x 400GbE QSFP-DD&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Chuyển mạch&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;12.8 Tbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Hệ điều hành&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Enterprise Network OS&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Độ trễ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt; 400ns&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Redundancy&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Nguồn và quạt làm mát kép&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Kiến trúc Spine-Leaf&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Thiết kế hoàn hảo cho các trung tâm dữ liệu quy mô lớn.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Telemetry thời gian thực&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Phân tích luồng dữ liệu sâu sắc và phát hiện tắc nghẽn.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bảo mật hạ tầng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Hỗ trợ mã hóa MACsec cho tất cả các cổng.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_switch_access" model="product.template">
+            <field name="name">NetLink 48-Port Access Switch</field>
+            <field name="list_price">35000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Switch Access 48 port Gigabit hỗ trợ PoE+, quản lý qua cloud, tích hợp bảo mật lớp 2.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/switch_access.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;NetLink 48-Port Access Switch&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về NetLink 48-Port Access Switch&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Switch Access 48 port Gigabit hỗ trợ PoE+, quản lý qua cloud, tích hợp bảo mật lớp 2.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, NetLink 48-Port Access Switch sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Cổng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;48x 10/100/1000 Mbps PoE+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Uplink&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x 10G SFP+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Công suất PoE&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;740W&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Quản lý&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Cloud Controller &amp; Local Web UI&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Lớp mạng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Layer 2+ (Static Routing)&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Quản trị Đám mây&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Dễ dàng cài đặt và cấu hình qua giao diện Cloud.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Cấp nguồn PoE+&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Lý tưởng cho hệ thống camera giám sát và Wifi APs.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Auto-VLAN&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tự động phân chia VLAN cho các thiết bị IoT/Voice.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_transceiver" model="product.template">
+            <field name="name">100GBASE-SR4 QSFP Module</field>
+            <field name="list_price">45000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Module Thu Phát Quang 100G tốc độ cao, khoảng cách lên đến 100m trên cáp quang đa mode OM4.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/transceiver.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;100GBASE-SR4 QSFP Module&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về 100GBASE-SR4 QSFP Module&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Module Thu Phát Quang 100G tốc độ cao, khoảng cách lên đến 100m trên cáp quang đa mode OM4.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, 100GBASE-SR4 QSFP Module sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Bước sóng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;850nm&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Tốc độ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;100 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Giao diện quang&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;MPO/MTP-12&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Công suất tiêu thụ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt; 3.5W&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Nhiệt độ hoạt động&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;0°C đến 70°C&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Độ tin cậy cao&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Thiết kế chuẩn công nghiệp, hoạt động bền bỉ.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tương thích rộng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tương thích hoàn toàn với các hãng Switch lớn.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tiết kiệm điện&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Công suất tiêu thụ thấp nhất trong phân khúc.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_storage_flash" model="product.template">
+            <field name="name">Vellox All-Flash Array V2</field>
+            <field name="list_price">320000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_storage')])]" />
+            <field name="description_sale">Hệ thống lưu trữ All-Flash cung cấp IOPS cực cao và độ trễ cực thấp cho cơ sở dữ liệu và ảo hóa.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/storage_flash.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;Vellox All-Flash Array V2&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về Vellox All-Flash Array V2&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Hệ thống lưu trữ All-Flash cung cấp IOPS cực cao và độ trễ cực thấp cho cơ sở dữ liệu và ảo hóa.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, Vellox All-Flash Array V2 sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Dung lượng Raw&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;50TB NVMe&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Hiệu năng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;2.5 Triệu IOPS&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Độ trễ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt; 0.5ms&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Giao tiếp&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;32Gb Fibre Channel hoặc 100GbE iSCSI&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Tính năng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Deduplication &amp; Compression 4:1&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tốc độ không tưởng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Loại bỏ hoàn toàn độ trễ trong các ứng dụng cơ sở dữ liệu lớn.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bảo vệ dữ liệu&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Hỗ trợ Snapshot và Replication tự động.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Giảm thiểu chi phí&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tối ưu dung lượng lưu trữ lên đến 4 lần bằng Deduplication.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_storage_hybrid" model="product.template">
+            <field name="name">MassVault Hybrid Storage 100TB</field>
+            <field name="list_price">150000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_storage')])]" />
+            <field name="description_sale">Lưu trữ Hybrid kết hợp tốc độ của SSD và dung lượng lớn của HDD, giải pháp tiết kiệm chi phí cho kho dữ liệu.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/storage_hybrid.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;MassVault Hybrid Storage 100TB&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về MassVault Hybrid Storage 100TB&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Lưu trữ Hybrid kết hợp tốc độ của SSD và dung lượng lớn của HDD, giải pháp tiết kiệm chi phí cho kho dữ liệu.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, MassVault Hybrid Storage 100TB sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Dung lượng Raw&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;100TB (10TB SSD Cache + 90TB NL-SAS)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Hiệu năng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;800k IOPS&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Quản lý Data&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Auto-tiering thông minh&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Kết nối&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;16Gb FC / 10GbE&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Nguồn&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Redundant 1200W&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tối ưu hóa chi phí&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Cân bằng giữa hiệu suất và giá thành lưu trữ.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Phân tầng tự động&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tự động đẩy dữ liệu nóng lên SSD và dữ liệu lạnh xuống HDD.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bền bỉ tuyệt đối&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Bảo vệ dữ liệu Dual-Parity RAID.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_firewall_ng" model="product.template">
+            <field name="name">FortisGate Next-Gen Firewall X</field>
+            <field name="list_price">120000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_security')])]" />
+            <field name="description_sale">Tường lửa thế hệ mới tích hợp AI ngăn chặn mối đe dọa không xác định, quản lý ứng dụng sâu (DPI).</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/firewall_ng.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;FortisGate Next-Gen Firewall X&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về FortisGate Next-Gen Firewall X&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Tường lửa thế hệ mới tích hợp AI ngăn chặn mối đe dọa không xác định, quản lý ứng dụng sâu (DPI).&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, FortisGate Next-Gen Firewall X sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Băng thông Firewall&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;20 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Băng thông Threat Prevention&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4.5 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Kết nối đồng thời&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;5 Triệu&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;VPN Tunnels&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;2000 IPsec&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Cổng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;8x 1GbE, 2x 10GbE SFP+&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;AI Threat Prevention&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Nhận diện mã độc Zero-day dựa trên Machine Learning.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Kiểm soát Ứng dụng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Phân tích và ngăn chặn quyền truy cập các ứng dụng không mong muốn.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Tích hợp SD-WAN&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Tối ưu hóa đường truyền mạng diện rộng an toàn.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_ips_ids" model="product.template">
+            <field name="name">CyberGuard IPS/IDS Appliance</field>
+            <field name="list_price">98000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_security')])]" />
+            <field name="description_sale">Thiết bị phát hiện và ngăn chặn xâm nhập mạng chuyên sâu, bảo vệ hạ tầng mạng lõi an toàn tuyệt đối.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/ips_ids.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;CyberGuard IPS/IDS Appliance&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về CyberGuard IPS/IDS Appliance&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Thiết bị phát hiện và ngăn chặn xâm nhập mạng chuyên sâu, bảo vệ hạ tầng mạng lõi an toàn tuyệt đối.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, CyberGuard IPS/IDS Appliance sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Băng thông IPS&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;10 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Độ trễ&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt; 10 microseconds&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Rule cập nhật&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Tự động mỗi giờ&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Giao tiếp&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x 10GbE SFP+ Bypass Ports&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Bảo mật&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;SSL/TLS Decryption&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bảo vệ theo thời gian thực&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Ngăn chặn các cuộc tấn công DDoS và khai thác lỗ hổng mạng.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bypass phần cứng&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Đảm bảo mạng lưới luôn hoạt động ngay cả khi thiết bị gặp sự cố.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Phân tích sâu&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Giải mã và phân tích luồng traffic SSL/TLS.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_wifi_ap" model="product.template">
+            <field name="name">AirNet Wi-Fi 6 Enterprise AP</field>
+            <field name="list_price">12500000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Thiết bị phát sóng Wi-Fi 6 chuyên dụng cho mật độ cao, công nghệ MU-MIMO 4x4, quản lý đám mây tập trung.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/wifi_ap.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;AirNet Wi-Fi 6 Enterprise AP&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về AirNet Wi-Fi 6 Enterprise AP&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Thiết bị phát sóng Wi-Fi 6 chuyên dụng cho mật độ cao, công nghệ MU-MIMO 4x4, quản lý đám mây tập trung.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, AirNet Wi-Fi 6 Enterprise AP sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Chuẩn Wi-Fi&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;802.11ax (Wi-Fi 6)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Tốc độ tối đa&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;3.6 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Radio&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Tri-band (2.4GHz, 5GHz, 6GHz)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Ăng-ten&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Internal 4x4 MU-MIMO&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Nguồn cấp&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;PoE+ 802.3at&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Hỗ trợ mật độ cao&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Phục vụ đồng thời hàng trăm người dùng tại văn phòng/hội trường.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Bảo mật WPA3&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Mã hóa kết nối không dây an toàn nhất hiện nay.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Quản trị Cloud&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Triển khai hàng loạt chỉ với vài cú click.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+        <record id="demo_product_load_balancer" model="product.template">
+            <field name="name">TrafficFlow ADC Load Balancer</field>
+            <field name="list_price">185000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Bộ cân bằng tải và phân phối ứng dụng (ADC), chống DDoS lớp 7 và gia tốc mã hóa SSL cho các Web Server lớn.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/load_balancer.jpg" />
+            <field name="website_description">
+
+        &lt;section class=&quot;s_text_image pt32 pb32&quot; data-snippet=&quot;s_image_text&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-12 pt16 pb32&quot;&gt;
+                        &lt;img src=&quot;https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80&quot; class=&quot;img img-fluid w-100 rounded shadow-lg&quot; alt=&quot;TrafficFlow ADC Load Balancer&quot; style=&quot;max-height: 400px; object-fit: cover;&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row align-items-center mt32&quot;&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;h2&gt;Tổng quan về TrafficFlow ADC Load Balancer&lt;/h2&gt;
+                        &lt;p class=&quot;lead text-muted&quot;&gt;Bộ cân bằng tải và phân phối ứng dụng (ADC), chống DDoS lớp 7 và gia tốc mã hóa SSL cho các Web Server lớn.&lt;/p&gt;
+                        &lt;p&gt;Sản phẩm này được thiết kế dựa trên tiêu chuẩn khắt khe nhất dành cho trung tâm dữ liệu và môi trường doanh nghiệp. Tích hợp nhiều công nghệ tiên tiến để đảm bảo hệ thống luôn hoạt động ổn định và liên tục 24/7.&lt;/p&gt;
+                        &lt;p&gt;Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, TrafficFlow ADC Load Balancer sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6 pt16 pb16&quot;&gt;
+                        &lt;div class=&quot;bg-light p-4 rounded shadow-sm border&quot;&gt;
+                            &lt;h3 class=&quot;mb-4&quot;&gt;Thông số Kỹ thuật (Specifications)&lt;/h3&gt;
+                            &lt;table style=&quot;width: 100%; border-collapse: collapse;&quot;&gt;
+                                &lt;tbody&gt;
+                                    &lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Băng thông L7&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;40 Gbps&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;SSL Transactions/sec&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;25,000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Thuật toán LB&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Round Robin, Least Conn, IP Hash&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Web App Firewall&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;Có tích hợp (WAF)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;&lt;strong&gt;Cổng mạng&lt;/strong&gt;&lt;/td&gt;&lt;td style=&#x27;padding: 10px; border-bottom: 1px solid #ddd;&#x27;&gt;4x 10/25GbE SFP28&lt;/td&gt;&lt;/tr&gt;
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_features pt64 pb64 bg-200&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row text-center mb32&quot;&gt;
+                    &lt;div class=&quot;col-12&quot;&gt;
+                        &lt;h2&gt;Tính Năng Nổi Bật&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row text-center&quot;&gt;
+                    &lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Khả dụng cao (HA)&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Đảm bảo ứng dụng web luôn phản hồi không bị sập.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;Giảm tải Server&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Chuyên xử lý mã hóa SSL/TLS để CPU máy chủ tập trung xử lý dữ liệu.&lt;/p&gt; &lt;/div&gt;&lt;div class=&#x27;col-lg-4 pt16 pb16&#x27;&gt; &lt;i class=&#x27;fa fa-2x fa-check-circle text-primary mb16&#x27;&gt;&lt;/i&gt; &lt;h3&gt;WAF Tích hợp&lt;/h3&gt; &lt;p class=&#x27;text-muted&#x27;&gt;Bảo vệ ứng dụng web khỏi SQL Injection và XSS.&lt;/p&gt; &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+        
+        &lt;section class=&quot;s_call_to_action pt48 pb48 bg-primary text-white&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;row align-items-center&quot;&gt;
+                    &lt;div class=&quot;col-lg-8&quot;&gt;
+                        &lt;h3 class=&quot;mb-2&quot;&gt;Bạn cần tư vấn chi tiết về giải pháp này?&lt;/h3&gt;
+                        &lt;p class=&quot;mb-0&quot;&gt;Đội ngũ chuyên gia CMCTS sẵn sàng hỗ trợ thiết kế hệ thống tối ưu nhất cho doanh nghiệp của bạn.&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-4 text-lg-end mt-3 mt-lg-0&quot;&gt;
+                        &lt;a href=&quot;/contactus&quot; class=&quot;btn btn-light btn-lg&quot;&gt;Nhận Báo Giá Ngay&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    
+            </field>
+        </record>
+
+
+        
+        
+        <record id="prod_13" model="product.template">
+            <field name="name">QuantumFlash NVMe Array 500TB</field>
+            <field name="list_price">850000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_storage')])]" />
+            <field name="description_sale">Giải pháp lưu trữ All-Flash hiệu năng siêu cao cho AI và Big Data.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/storage_flash.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về QuantumFlash NVMe Array 500TB</h2>
+                                <p class="lead text-muted">Giải pháp lưu trữ All-Flash hiệu năng siêu cao cho AI và Big Data.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, QuantumFlash NVMe Array 500TB sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="QuantumFlash NVMe Array 500TB" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Dung lượng Raw</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>500TB NVMe</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>IOPS</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>4 Triệu IOPS</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Độ trễ</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>< 0.2ms</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Kết nối</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>100GbE / 32Gb FC</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Bảo vệ dữ liệu</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>RAID-DP, Snapshot</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_14" model="product.template">
+            <field name="name">DataVault Backup Appliance V5</field>
+            <field name="list_price">250000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_storage')])]" />
+            <field name="description_sale">Hệ thống sao lưu và phục hồi thảm họa tự động chuyên dụng.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_rack.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về DataVault Backup Appliance V5</h2>
+                                <p class="lead text-muted">Hệ thống sao lưu và phục hồi thảm họa tự động chuyên dụng.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, DataVault Backup Appliance V5 sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="DataVault Backup Appliance V5" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Dung lượng Backup</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>1PB Deduplicated</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Tốc độ Ingest</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>50TB/giờ</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Kết nối</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>4x 25GbE</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Hỗ trợ Cloud</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>AWS S3, Azure Blob</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Mã hóa</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>AES-256</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_15" model="product.template">
+            <field name="name">CloudEdge SD-WAN Gateway</field>
+            <field name="list_price">110000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Định tuyến WAN bằng phần mềm, tối ưu hóa kết nối chi nhánh.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/load_balancer.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về CloudEdge SD-WAN Gateway</h2>
+                                <p class="lead text-muted">Định tuyến WAN bằng phần mềm, tối ưu hóa kết nối chi nhánh.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, CloudEdge SD-WAN Gateway sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="CloudEdge SD-WAN Gateway" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Throughput</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>10 Gbps</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Kết nối tối đa</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>1 Triệu Concurrent</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>VPN Tunnels</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>5000 IPSec</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>WAN Interfaces</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>4x 10GbE SFP+</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Quản trị</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Cloud-based Orchestrator</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_16" model="product.template">
+            <field name="name">OmniSwitch 100G Data Center</field>
+            <field name="list_price">340000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Switch trung tâm dữ liệu 100Gbps băng thông siêu rộng.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/switch_core.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về OmniSwitch 100G Data Center</h2>
+                                <p class="lead text-muted">Switch trung tâm dữ liệu 100Gbps băng thông siêu rộng.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, OmniSwitch 100G Data Center sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="OmniSwitch 100G Data Center" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Cổng giao tiếp</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>32x 100GbE QSFP28</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Băng thông chuyển mạch</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>6.4 Tbps</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Độ trễ</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>400ns</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Nguồn</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>1+1 Redundant 800W</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Lớp hoạt động</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Layer 2/3 Data Center</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_17" model="product.template">
+            <field name="name">CyberShield Zero Trust Node</field>
+            <field name="list_price">165000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_security')])]" />
+            <field name="description_sale">Thiết bị bảo mật Zero Trust Network Access (ZTNA) phân quyền chặt chẽ.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/ips_ids.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về CyberShield Zero Trust Node</h2>
+                                <p class="lead text-muted">Thiết bị bảo mật Zero Trust Network Access (ZTNA) phân quyền chặt chẽ.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, CyberShield Zero Trust Node sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="CyberShield Zero Trust Node" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Thông lượng kiểm tra</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>40 Gbps</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Số lượng user hỗ trợ</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Lên đến 10,000</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Xác thực</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>MFA, SAML 2.0</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Định danh thiết bị</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>AI-based Fingerprinting</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Độ trễ xử lý</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>< 2ms</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_18" model="product.template">
+            <field name="name">SecureEmail Gateway Pro</field>
+            <field name="list_price">85000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_security')])]" />
+            <field name="description_sale">Bảo mật email doanh nghiệp, chống phishing và malware nâng cao.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/firewall_ng.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về SecureEmail Gateway Pro</h2>
+                                <p class="lead text-muted">Bảo mật email doanh nghiệp, chống phishing và malware nâng cao.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, SecureEmail Gateway Pro sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="SecureEmail Gateway Pro" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Xử lý Email</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>5 Triệu email/ngày</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Chống Spam</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Độ chính xác > 99.9%</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Mã hóa nội dung</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>TLS, S/MIME</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Sandbox</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Tích hợp Cloud Sandbox</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>DLP</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Hơn 100 template cấu hình sẵn</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_19" model="product.template">
+            <field name="name">AI-Vision Inference Server</field>
+            <field name="list_price">480000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_servers')])]" />
+            <field name="description_sale">Máy chủ phân tích hình ảnh AI với 8 GPU chuyên dụng.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_ai.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về AI-Vision Inference Server</h2>
+                                <p class="lead text-muted">Máy chủ phân tích hình ảnh AI với 8 GPU chuyên dụng.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, AI-Vision Inference Server sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="AI-Vision Inference Server" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>GPU</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>8x NVIDIA H100 Tensor Core</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>CPU</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Dual 64-Core AMD EPYC</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>RAM</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>2TB DDR5</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Lưu trữ</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>30TB NVMe Gen5</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Nguồn điện</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>4x 3000W Titanium</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_20" model="product.template">
+            <field name="name">HyperConverged Node HX2000</field>
+            <field name="list_price">290000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_servers')])]" />
+            <field name="description_sale">Hệ thống siêu hội tụ (HCI) tích hợp server, storage và network.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_rack.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về HyperConverged Node HX2000</h2>
+                                <p class="lead text-muted">Hệ thống siêu hội tụ (HCI) tích hợp server, storage và network.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, HyperConverged Node HX2000 sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="HyperConverged Node HX2000" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Compute</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Dual 32-Core Intel Xeon Scalable</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Memory</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>1TB ECC DDR4</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Lưu trữ HCI</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>15TB All-Flash vSAN</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Mạng</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>2x 25GbE SFP28</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Phần mềm</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Tích hợp sẵn Hypervisor</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_21" model="product.template">
+            <field name="name">Enterprise 5G Router</field>
+            <field name="list_price">65000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_networking')])]" />
+            <field name="description_sale">Router 5G công nghiệp cung cấp kết nối mạng dự phòng siêu tốc.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/wifi_ap.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về Enterprise 5G Router</h2>
+                                <p class="lead text-muted">Router 5G công nghiệp cung cấp kết nối mạng dự phòng siêu tốc.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, Enterprise 5G Router sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="Enterprise 5G Router" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Băng tần 5G</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Sub-6GHz & mmWave</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Tốc độ Download</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Lên đến 4.6 Gbps</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Antenna</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>4x4 MIMO Outdoor</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Tính năng mạng</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>SD-WAN integrated, Dual-SIM</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Bảo vệ môi trường</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>IP67 chống bụi nước</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+
+        <record id="prod_22" model="product.template">
+            <field name="name">Network Analytics Engine</field>
+            <field name="list_price">145000000.00</field>
+            <field name="type">consu</field>
+            <field name="is_published" eval="True" />
+            <field name="public_categ_ids" eval="[(6, 0, [ref('demo_pub_cat_security')])]" />
+            <field name="description_sale">Hệ thống phân tích lưu lượng mạng AI, phát hiện bất thường thời gian thực.</field>
+            <field name="image_1920" type="base64" file="cmcts_website/static/src/img/demo/server_edge.jpg" />
+            <field name="website_description"><![CDATA[
+                <section class="s_text_image pt32 pb32">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <h2>Tổng quan về Network Analytics Engine</h2>
+                                <p class="lead text-muted">Hệ thống phân tích lưu lượng mạng AI, phát hiện bất thường thời gian thực.</p>
+                                <p>Với sự hỗ trợ chuyên sâu từ đội ngũ kỹ thuật CMCTS, Network Analytics Engine sẽ là lựa chọn hoàn hảo để nâng cấp cơ sở hạ tầng công nghệ của công ty bạn.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" class="img img-fluid w-100 rounded shadow-lg" alt="Network Analytics Engine" style="max-height: 400px; object-fit: cover;"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_table pt32 pb32 bg-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h3 class="font-weight-bold">Thông số kỹ thuật</h3>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2">
+                                <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                                    <tbody>
+                                        <tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Khả năng phân tích</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Lên đến 100 Gbps luồng mạng</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Nguồn cấp dữ liệu</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>NetFlow, sFlow, IPFIX, SPAN</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Thuật toán</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Machine Learning bất thường</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Lưu trữ logs</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Lên đến 90 ngày hot data</td></tr><tr><td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Giao diện</strong></td><td style='padding: 10px; border-bottom: 1px solid #ddd;'>Real-time 3D Dashboard</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ]]></field>
+        </record>
+    </data>
+</odoo>
