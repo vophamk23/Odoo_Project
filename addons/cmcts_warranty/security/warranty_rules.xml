@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+File: security/warranty_rules.xml
+Chức năng: Định nghĩa Record Rules (Lớp 3 phân quyền) - Giới hạn từng dòng dữ liệu.
+  - Nhân viên tiếp nhận (group_warranty_manager):
+      + Không giới hạn record rule (nhìn thấy và CRUD tất cả phiếu).
+  - Kỹ thuật viên (group_warranty_technician):
+      + Chỉ xem và cập nhật phiếu BH/yêu cầu BH được phân công cho mình (technician_id = uid).
+-->
+<odoo>
+    <!-- Rule 1: Nhân viên tiếp nhận thấy tất cả phiếu BH -->
+    <record id="rule_warranty_user_all" model="ir.rule">
+        <field name="name">Tiếp nhận: xem tất cả phiếu BH</field>
+        <field name="model_id" ref="model_cmcts_warranty_warranty"/>
+        <field name="groups" eval="[(4, ref('cmcts_warranty.group_warranty_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Rule 3: Nhân viên tiếp nhận thấy tất cả yêu cầu BH -->
+    <record id="rule_warranty_claim_user_all" model="ir.rule">
+        <field name="name">Tiếp nhận: xem tất cả yêu cầu BH</field>
+        <field name="model_id" ref="model_cmcts_warranty_warranty_claim"/>
+        <field name="groups" eval="[(4, ref('cmcts_warranty.group_warranty_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <data noupdate="0">
+        <!-- ==========================================
+             [LỚP 3: PHÂN QUYỀN BẢN GHI / DÒNG (RECORD-LEVEL SECURITY)]
+             Domain_force sẽ chặn Kỹ thuật viên (Manager) xem toàn bộ bảng dữ liệu.
+             Mặc dù họ có quyền Read ở Lớp 2, nhưng Lớp 3 sẽ chỉ cho họ thấy
+             những bản ghi thỏa mãn điều kiện (ví dụ: do họ phụ trách).
+        ========================================== -->
+
+        <!-- Rule 2: Kỹ thuật viên chỉ xem phiếu BH liên quan đến yêu cầu BH do mình phụ trách -->
+        <record id="rule_warranty_manager_all" model="ir.rule">
+            <field name="name">Kỹ thuật viên: xem phiếu BH liên quan yêu cầu BH phụ trách</field>
+            <field name="model_id" ref="model_cmcts_warranty_warranty"/>
+            <field name="groups" eval="[(4, ref('cmcts_warranty.group_warranty_technician'))]"/>
+            <field name="domain_force">[('claim_ids.technician_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Rule 4: Kỹ thuật viên chỉ thấy phiếu yêu cầu BH do mình phụ trách -->
+        <record id="rule_warranty_claim_manager_all" model="ir.rule">
+            <field name="name">Kỹ thuật viên: xem và cập nhật yêu cầu BH được phân công</field>
+            <field name="model_id" ref="model_cmcts_warranty_warranty_claim"/>
+            <field name="groups" eval="[(4, ref('cmcts_warranty.group_warranty_technician'))]"/>
+            <field name="domain_force">[('technician_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

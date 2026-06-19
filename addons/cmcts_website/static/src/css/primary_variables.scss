@@ -1,0 +1,12 @@
+/* cmcts_website/static/src/css/primary_variables.scss */
+
+/* Override Odoo's default purple primary color */
+$o-brand-odoo: #25405b;
+$o-brand-primary: #008fd5;
+$o-brand-secondary: #25405b;
+
+$primary: $o-brand-primary;
+$secondary: $o-brand-secondary;
+
+$body-color: #2a3e52;
+$font-family-base: 'Inter', sans-serif;

@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+File: views/warranty_views.xml
+Chức năng: Khai báo toàn bộ giao diện người dùng (UI) cho module Bảo Hành.
+  - Form View: nhập liệu chi tiết (Yêu cầu 2a)
+  - List View: danh sách phiếu BH (Yêu cầu 2b)
+  - Kanban View: thẻ theo trạng thái (Yêu cầu 2b)
+  - Search View: bộ lọc tìm kiếm
+  - Graph/Pivot: thống kê (bonus)
+-->
+<odoo>
+
+    <!-- ==========================================
+         PHIẾU BẢO HÀNH (cmcts_warranty.warranty)
+    ========================================== -->
+
+    <!-- FORM VIEW: Nhập liệu chi tiết Phiếu Bảo Hành (Yêu cầu 2a) -->
+    <record id="view_warranty_form" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.form</field>
+        <field name="model">cmcts_warranty.warranty</field>
+        <field name="arch" type="xml">
+            <form string="Phiếu Bảo Hành">
+                <!-- Header: thanh trạng thái + nút hành động -->
+                <header>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Hủy phiếu BH"
+                            class="btn-secondary"
+                            invisible="state == 'cancelled'"
+                            groups="cmcts_warranty.group_warranty_manager"
+                            confirm="Bạn có chắc muốn hủy phiếu bảo hành này không?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="active,expired,cancelled"/>
+                </header>
+                <sheet>
+                    <!-- Smart button: đếm số lần yêu cầu BH -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_claims"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-wrench"
+                                invisible="claim_count == 0">
+                            <field name="claim_count" string="Yêu cầu BH" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <!-- Ribbon: đánh dấu phiếu hết hạn/đã hủy -->
+                    <widget name="web_ribbon" title="Hết hạn" bg_color="bg-warning"
+                            invisible="state != 'expired'"/>
+                    <widget name="web_ribbon" title="Đã hủy" bg_color="bg-danger"
+                            invisible="state != 'cancelled'"/>
+
+                    <!-- Ảnh thiết bị -->
+                    <field name="image" widget="image" class="oe_avatar"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="product_id"
+                                placeholder="Chọn sản phẩm / thiết bị..."
+                                domain="product_id_domain"
+                                options="{'no_create': False}"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group string="Thông tin thiết bị">
+                            <field name="product_category_id" readonly="1"/>
+                            <field name="lot_id"
+                                domain="lot_id_domain"
+                                options="{'no_create': False}"
+                                placeholder="Chọn số serial..."/>
+                        </group>
+                        <group string="Thông tin khách hàng">
+                            <field name="partner_id"/>
+                            <field name="sale_order_id"
+                                   domain="[('partner_id', '=', partner_id), ('state', 'in', ['sale', 'done'])]"
+                                   placeholder="Chọn đơn hàng..."/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Thông tin bảo hành">
+                            <field name="sale_date"/>
+                            <field name="warranty_months"/>
+                            <field name="expiry_date" readonly="1"/>
+                        </group>
+                        <group string="Thông tin nội bộ">
+                            <!-- Ghi chú nội bộ -->
+                            <field name="internal_note"
+                                   placeholder="Ghi chú nội bộ..."/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Ghi chú" name="note">
+                            <field name="note" placeholder="Ghi chú thêm về thiết bị hoặc điều kiện bảo hành..."/>
+                        </page>
+                        <!-- Tab danh sách yêu cầu BH liên quan -->
+                        <page string="Lịch sử yêu cầu BH" name="claims">
+                            <field name="claim_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="received_date"/>
+                                    <field name="issue_description"/>
+                                    <field name="technician_id"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == '1_received'"
+                                           decoration-warning="state == '2_processing'"
+                                           decoration-success="state == '3_done'"
+                                           decoration-danger="state == '4_rejected'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter: tự động ghi log mọi thay đổi (Yêu cầu 2c) -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW: Danh sách phiếu bảo hành (Yêu cầu 2b) -->
+    <record id="view_warranty_list" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.list</field>
+        <field name="model">cmcts_warranty.warranty</field>
+        <field name="arch" type="xml">
+            <list string="Phiếu Bảo Hành">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_category_id" optional="show"/>
+                <field name="lot_id"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id" optional="show"/>
+                <field name="sale_date" optional="show"/>
+                <field name="warranty_months" optional="hide"/>
+                <field name="expiry_date" widget="remaining_days"/>
+                <field name="claim_count" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'expired'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW: Thẻ theo trạng thái (Yêu cầu 2b) -->
+    <record id="view_warranty_kanban" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.kanban</field>
+        <field name="model">cmcts_warranty.warranty</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state"
+                    class="o_kanban_small_column"
+                    quick_create="false"
+                    highlight_color="color">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_name"/>
+                <field name="product_category_id"/>
+                <field name="lot_id"/>
+                <field name="serial_number"/>
+                <field name="partner_id"/>
+                <field name="expiry_date"/>
+                <field name="state"/>
+                <field name="claim_count"/>
+                <field name="image"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="menu">
+    <t t-if="widget.editable">
+        <a type="open" class="dropdown-item">Xem / Sửa</a>
+    </t>
+    <t t-if="widget.deletable">
+        <a type="delete" class="dropdown-item">Xóa</a>
+    </t>
+    <field name="color" widget="kanban_color_picker"/>
+</t>
+                    <t t-name="card">
+                        <!-- TOP: Ảnh thiết bị full-width -->
+                        <div style="margin: -12px -12px 10px -12px; height: 140px; overflow: hidden; border-radius: 6px 6px 0 0; background: #f0f0f0;">
+                            <t t-if="record.image.raw_value">
+                                <img t-attf-src="/web/image/cmcts_warranty.warranty/#{record.id.raw_value}/image"
+                                     style="width: 100%; height: 140px; object-fit: cover;" alt="Device"/>
+                            </t>
+                            <t t-else="">
+                                <img src="/web/static/img/placeholder.png"
+                                     style="width: 100%; height: 140px; object-fit: contain;" alt="Device"/>
+                            </t>
+                        </div>
+                        <!-- Tên thiết bị + Serial + Khách hàng -->
+                        <div class="o_kanban_record_top mb-2 align-items-center">
+                            <div class="o_kanban_record_headings flex-grow-1">
+                                <strong class="o_kanban_record_title fs-5 text-truncate">
+                                    <field name="product_id"/>
+                                </strong>
+                                <div class="text-muted text-truncate" style="font-size:0.85em;">
+                                    <i class="fa fa-barcode me-1" title="Serial/Lô"/>
+                                    <field name="lot_id"/>
+                                </div>
+                                <div class="text-info text-truncate mt-1" style="font-size:0.85em;">
+                                    <i class="fa fa-user me-1" title="Khách hàng"/>
+                                    <field name="partner_id"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BODY: Thông tin BH -->
+                        <div class="o_kanban_record_body">
+                            <div class="mt-1 text-dark">
+                                <i class="fa fa-tag me-1" title="Loại thiết bị"/>
+                                <field name="product_category_id"/>
+                            </div>
+                            <div t-attf-class="mt-1 d-flex align-items-center #{record.expiry_date.raw_value and record.expiry_date.raw_value &lt; (new Date().toISOString().split('T')[0]) ? 'text-danger fw-bold' : 'text-dark'}">
+                                <i class="fa fa-clock-o me-1" title="Hết hạn"/>
+                                <field name="expiry_date" widget="remaining_days"/>
+                            </div>
+                            <div t-if="record.claim_count.raw_value > 0" class="mt-1 text-warning">
+                                <i class="fa fa-wrench me-1" title="Số lượng Claim"/>
+                                <field name="claim_count"/> lần yêu cầu BH
+                            </div>
+                        </div>
+
+                        <!-- BOTTOM: Trạng thái -->
+                        <div class="o_kanban_record_bottom mt-2">
+                            <div class="oe_kanban_bottom_left">
+                                <field name="state" widget="badge"
+                                       decoration-success="state == 'active'"
+                                       decoration-warning="state == 'expired'"
+                                       decoration-danger="state == 'cancelled'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW: Bộ lọc tìm kiếm -->
+    <record id="view_warranty_search" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.search</field>
+        <field name="model">cmcts_warranty.warranty</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm Phiếu BH">
+                <field name="name" string="Mã phiếu"/>
+                <field name="product_id" string="Sản phẩm"/>
+                <field name="lot_id" string="Số Serial"/>
+                <field name="partner_id" string="Khách hàng"/>
+
+                <separator/>
+                <filter string="Còn hiệu lực" name="active_warranty"
+                        domain="[('state', '=', 'active')]"/>
+                <filter string="Hết hạn" name="expired_warranty"
+                        domain="[('state', '=', 'expired')]"/>
+                <filter string="Đã hủy" name="cancelled_warranty"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Đã lưu trữ" name="inactive"
+                        domain="[('active', '=', False)]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Nhóm sản phẩm" name="group_by_category"
+                            context="{'group_by': 'product_category_id'}"/>
+                    <filter string="Trạng thái BH" name="group_by_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ==========================================
+         PHIẾU YÊU CẦU BẢO HÀNH (cmcts_warranty.warranty.claim)
+    ========================================== -->
+
+    <!-- FORM VIEW: Nhập liệu Phiếu Yêu cầu BH -->
+    <record id="view_warranty_claim_form" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.claim.form</field>
+        <field name="model">cmcts_warranty.warranty.claim</field>
+        <field name="arch" type="xml">
+            <form string="Phiếu Yêu Cầu Bảo Hành">
+                <header>
+                    <button name="action_process" type="object"
+                            string="Bắt đầu xử lý" class="oe_highlight"
+                            invisible="state != '1_received'"
+                            groups="cmcts_warranty.group_warranty_manager,cmcts_warranty.group_warranty_technician"/>
+                    <button name="action_done" type="object"
+                            string="Hoàn thành" class="oe_highlight"
+                            invisible="state != '2_processing'"
+                            groups="cmcts_warranty.group_warranty_manager,cmcts_warranty.group_warranty_technician"/>
+                    <button name="action_reject" type="object"
+                            string="Từ chối" class="btn-secondary"
+                            invisible="state not in ['1_received', '2_processing']"
+                            groups="cmcts_warranty.group_warranty_manager,cmcts_warranty.group_warranty_technician"
+                            confirm="Bạn có chắc muốn từ chối yêu cầu này không?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="1_received,2_processing,3_done,4_rejected"/>
+                </header>
+                <sheet>
+                    <!-- Field ẩn: dùng để tính điều kiện readonly cho nhân viên tiếp nhận -->
+                    <field name="is_receptionist" invisible="1"/>
+
+                    <!-- Ribbon: BH không hợp lệ -->
+                    <widget name="web_ribbon" title="BH không hợp lệ" bg_color="bg-danger"
+                            invisible="is_valid != False or not warranty_id"/>
+                    <widget name="web_ribbon" title="Hoàn thành" bg_color="bg-success"
+                            invisible="state != '3_done'"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Thông tin phiếu BH gốc">
+                            <field name="warranty_id"
+                                   domain="[('state', '=', 'active'), ('claim_count', '=', 0)]"
+                                   options="{'no_create': True}"
+                                   readonly="not is_receptionist"/>
+                            <!-- Tự động hiện thông tin khi chọn Phiếu BH -->
+                            <field name="product_id" readonly="1"/>
+                            <field name="lot_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="warranty_expiry_date" readonly="1"/>
+                            <field name="is_valid" widget="boolean_toggle" readonly="1"/>
+                        </group>
+
+                        <group string="Thông tin tiếp nhận">
+                            <field name="received_date" readonly="not is_receptionist"/>
+                            <field name="expected_return_date" readonly="not is_receptionist"/>
+                            <field name="technician_id"
+                                   widget="many2one_avatar_user"
+                                   readonly="not is_receptionist"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Mô tả lỗi" name="issue">
+                            <field name="issue_description"
+                                   placeholder="Mô tả chi tiết lỗi hoặc triệu chứng mà khách hàng phản ánh..."
+                                   readonly="not is_receptionist"/>
+                        </page>
+                        <page string="Kết quả xử lý" name="resolution">
+                            <field name="resolution_note"
+                                   placeholder="Ghi chú kết quả sau khi xử lý xong..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter: ghi log thay đổi (Yêu cầu 2c) -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- LIST VIEW: Danh sách phiếu yêu cầu BH -->
+    <record id="view_warranty_claim_list" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.claim.list</field>
+        <field name="model">cmcts_warranty.warranty.claim</field>
+        <field name="arch" type="xml">
+            <list string="Yêu cầu Bảo Hành"
+                  decoration-info="state == '1_received'"
+                  decoration-warning="state == '2_processing'"
+                  decoration-success="state == '3_done'"
+                  decoration-danger="state == '4_rejected'">
+                <field name="name"/>
+                <field name="warranty_id"/>
+                <field name="product_name"/>
+                <field name="serial_number" optional="show"/>
+                <field name="partner_id"/>
+                <field name="received_date"/>
+                <field name="expected_return_date" optional="show" widget="remaining_days"/>
+                <field name="technician_id" optional="show"/>
+                <field name="is_valid" widget="boolean"
+                       decoration-success="is_valid == True"
+                       decoration-danger="is_valid == False"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == '1_received'"
+                       decoration-warning="state == '2_processing'"
+                       decoration-success="state == '3_done'"
+                       decoration-danger="state == '4_rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW: Phiếu yêu cầu BH theo trạng thái xử lý -->
+    <record id="view_warranty_claim_kanban" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.claim.kanban</field>
+        <field name="model">cmcts_warranty.warranty.claim</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state"
+                    quick_create="false"
+                    highlight_color="color">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="product_name"/>
+                <field name="partner_id"/>
+                <field name="received_date"/>
+                <field name="expected_return_date"/>
+                <field name="state"/>
+                <field name="is_valid"/>
+                <field name="technician_id"/>
+                <field name="color"/>
+                <field name="image"/>
+                <templates>
+                    <t t-name="menu">
+    <t t-if="widget.editable">
+        <a type="open" class="dropdown-item">Xem / Sửa</a>
+    </t>
+    <t t-if="widget.deletable">
+        <a type="delete" class="dropdown-item">Xóa</a>
+    </t>
+    <field name="color" widget="kanban_color_picker"/>
+</t>
+                    <t t-name="card">
+                        <!-- TOP: Ảnh thiết bị full-width -->
+                        <div style="margin: -12px -12px 10px -12px; height: 140px; overflow: hidden; border-radius: 6px 6px 0 0; background: #f0f0f0;">
+                            <t t-if="record.image.raw_value">
+                                <img t-attf-src="/web/image/cmcts_warranty.warranty.claim/#{record.id.raw_value}/image"
+                                     style="width: 100%; height: 140px; object-fit: cover;" alt="Device"/>
+                            </t>
+                            <t t-else="">
+                                <img src="/web/static/img/placeholder.png"
+                                     style="width: 100%; height: 140px; object-fit: contain;" alt="Device"/>
+                            </t>
+                        </div>
+                        <!-- INFO: Mã phiếu + Tên máy + Khách hàng + Badge -->
+                        <div class="o_kanban_record_top mb-2 align-items-start">
+                            <div class="o_kanban_record_headings flex-grow-1">
+                                <strong class="o_kanban_record_title fs-5 text-truncate">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted text-truncate" style="font-size:0.85em;">
+                                    <i class="fa fa-laptop me-1" title="Sản phẩm"/>
+                                    <field name="product_name"/>
+                                </div>
+                                <div class="text-info text-truncate mt-1" style="font-size:0.85em;">
+                                    <i class="fa fa-user me-1" title="Kỹ thuật viên"/>
+                                    <field name="partner_id"/>
+                                </div>
+                            </div>
+                            <div class="ms-auto">
+                                <span t-if="record.is_valid.raw_value"
+                                      class="badge bg-success">Hợp lệ</span>
+                                <span t-else=""
+                                      class="badge bg-danger">Hết hạn</span>
+                            </div>
+                        </div>
+
+                        <div class="o_kanban_record_body">
+                            <div class="mt-1 text-dark">
+                                <i class="fa fa-calendar me-1" title="Tiếp nhận"/>
+                                <field name="received_date"/>
+                            </div>
+                            <div t-if="record.expected_return_date.raw_value"
+                                 class="mt-1 text-dark d-flex align-items-center">
+                                <i class="fa fa-clock-o me-1" title="Dự kiến trả"/>
+                                <field name="expected_return_date" widget="remaining_days"/>
+                            </div>
+                        </div>
+
+                        <div class="o_kanban_record_bottom mt-2">
+                            <div class="oe_kanban_bottom_left d-flex align-items-center">
+                                <field name="technician_id" widget="many2one_avatar_user" class="me-2"/>
+                                <field name="state" widget="badge"
+                                       decoration-info="state == '1_received'"
+                                       decoration-warning="state == '2_processing'"
+                                       decoration-success="state == '3_done'"
+                                       decoration-danger="state == '4_rejected'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW: Tìm kiếm Phiếu yêu cầu BH -->
+    <record id="view_warranty_claim_search" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.claim.search</field>
+        <field name="model">cmcts_warranty.warranty.claim</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm Yêu cầu BH">
+                <field name="name" string="Mã yêu cầu"/>
+                <field name="product_name" string="Thiết bị"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="serial_number" string="Serial"/>
+                <filter string="Tiếp nhận" name="received"
+                        domain="[('state', '=', '1_received')]"/>
+                <filter string="Đang xử lý" name="processing"
+                        domain="[('state', '=', '2_processing')]"/>
+                <filter string="Hoàn thành" name="done"
+                        domain="[('state', '=', '3_done')]"/>
+                <filter string="Từ chối" name="rejected"
+                        domain="[('state', '=', '4_rejected')]"/>
+                <separator/>
+                <filter string="BH hợp lệ" name="valid"
+                        domain="[('is_valid', '=', True)]"/>
+                <filter string="BH hết hạn" name="invalid"
+                        domain="[('is_valid', '=', False)]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Trạng thái xử lý" name="group_by_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Kỹ thuật viên" name="group_by_technician"
+                            context="{'group_by': 'technician_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- GRAPH VIEW: Thống kê yêu cầu BH -->
+    <record id="view_warranty_claim_graph" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.claim.graph</field>
+        <field name="model">cmcts_warranty.warranty.claim</field>
+        <field name="arch" type="xml">
+            <graph string="Thống kê yêu cầu BH" type="bar" sample="1">
+                <field name="state" type="col"/>
+                <field name="technician_id" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- PIVOT VIEW: Báo cáo bảo hành -->
+    <record id="view_warranty_pivot" model="ir.ui.view">
+        <field name="name">cmcts_warranty.warranty.pivot</field>
+        <field name="model">cmcts_warranty.warranty</field>
+        <field name="arch" type="xml">
+            <pivot string="Báo cáo Bảo hành" sample="1">
+                <field name="partner_id" type="row"/>
+                <field name="product_category_id" type="col"/>
+                <field name="claim_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

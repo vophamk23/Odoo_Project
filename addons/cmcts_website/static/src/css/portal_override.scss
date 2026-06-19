@@ -1,0 +1,95 @@
+/* Override Odoo's default portal UI to match CMCTS */
+
+/* Portal Header & General Layout */
+.o_portal_wrap {
+    background-color: var(--background);
+    font-family: 'Inter', sans-serif;
+}
+
+#quote_content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border);
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* Override default buttons */
+.o_portal_wrap .btn-primary, 
+#o_sale_portal_use .btn-primary {
+    background: linear-gradient(135deg, #008fd5 0%, #0c8eda 100%) !important;
+    border: none !important;
+    border-radius: 999px !important;
+    box-shadow: 0 4px 14px rgba(0, 143, 213, 0.3) !important;
+    padding: 10px 24px;
+    font-weight: 600;
+}
+
+.o_portal_wrap .btn-primary:hover,
+#o_sale_portal_use .btn-primary:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 20px rgba(0, 143, 213, 0.5) !important;
+}
+
+.o_portal_wrap .btn-secondary, 
+.o_portal_wrap .btn-light {
+    background-color: white !important;
+    border: 1px solid var(--border) !important;
+    color: var(--primary) !important;
+    border-radius: 999px !important;
+    font-weight: 600;
+}
+
+.o_portal_wrap .btn-secondary:hover, 
+.o_portal_wrap .btn-light:hover {
+    background-color: var(--background) !important;
+}
+
+/* Typography Overrides */
+.o_portal_wrap h1, 
+.o_portal_wrap h2, 
+.o_portal_wrap h3 {
+    color: var(--primary) !important;
+    font-weight: 800 !important;
+}
+
+.o_portal_wrap .text-muted {
+    color: var(--text-muted) !important;
+}
+
+.o_portal_wrap th {
+    color: var(--primary-light);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--border) !important;
+}
+
+.o_portal_wrap td {
+    color: var(--text-main);
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+/* Sidebar styling */
+#o_sale_portal_sidebar {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.list-group-item {
+    border-color: var(--border) !important;
+}
+
+/* Total section */
+#quote_content .border-bottom {
+    border-bottom-color: var(--border) !important;
+}
+
+#quote_content .border-top {
+    border-top-color: var(--border) !important;
+}

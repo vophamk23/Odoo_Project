@@ -1,0 +1,42 @@
+# File: docker-compose.yml
+# Chức năng: Cấu hình để chạy dự án Odoo bằng Docker Compose.
+# Tệp này định nghĩa 2 dịch vụ: cơ sở dữ liệu PostgreSQL (db) và ứng dụng Odoo (odoo).
+version: "3.8"
+
+services:
+  # Cấu hình dịch vụ Cơ sở dữ liệu PostgreSQL
+  db:
+    image: postgres:15-alpine # Sử dụng ảnh (image) PostgreSQL phiên bản 15 bản nhẹ (alpine)
+    container_name: cmcts_db # Tên container
+    restart: unless-stopped # Tự động khởi động lại trừ khi bị dừng thủ công
+    environment:
+      POSTGRES_USER: odoo # Tên người dùng database
+      POSTGRES_PASSWORD: odoo # Mật khẩu database
+      POSTGRES_DB: postgres # Tên database mặc định
+    volumes:
+      - cmcts-pgdata:/var/lib/postgresql/data # Lưu trữ dữ liệu DB tránh mất dữ liệu khi container bị xóa
+    ports:
+      - "15433:5432" # Ánh xạ cổng 15433 của máy thật vào cổng 5432 của PostgreSQL
+
+  # Cấu hình dịch vụ ứng dụng Odoo
+  odoo:
+    image: odoo:18.0 # Sử dụng ảnh Odoo phiên bản 18.0
+    container_name: cmcts_odoo # Tên container
+    restart: unless-stopped
+    depends_on:
+      - db # Đảm bảo dịch vụ db chạy trước rồi mới chạy odoo
+    ports:
+      - "8888:8069" # Ánh xạ cổng 8070 của máy thật vào cổng 8069 của Odoo
+    environment:
+      HOST: db # Liên kết tới container db ở trên
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      - cmcts-odoo-data:/var/lib/odoo # Lưu trữ dữ liệu sinh ra của odoo (filestore, sessions, v.v.)
+      - ./addons:/mnt/extra-addons # Gắn kết (Mount) thư mục addons trên máy thật vào container để dev module
+      - ./config/odoo.conf:/etc/odoo/odoo.conf # Gắn kết file cấu hình odoo.conf
+
+# Định nghĩa các volume (ổ đĩa lưu trữ) được dùng trong các dịch vụ trên
+volumes:
+  cmcts-pgdata:
+  cmcts-odoo-data:

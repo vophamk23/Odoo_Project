@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_shop_detail" name="CMCTS Shop Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="flex-grow pt-[120px] pb-space-xl px-margin_mobile md:px-margin_desktop max-w-grid_max_width mx-auto w-full">
+<!-- Promotional Banner -->
+<div class="w-full bg-[#0A192F] text-white py-16 px-6 text-center rounded-2xl shadow-xl mb-space-lg relative overflow-hidden flex flex-col items-center justify-center border border-white/10">
+    <div class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent z-0"></div>
+    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+        <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4 text-white">Kỹ Thuật Đáng Tin Cậy</h2>
+        <p class="text-base md:text-lg text-white/80 font-medium max-w-3xl mx-auto leading-relaxed">Chúng tôi chế tạo phần cứng cốt lõi vận hành những môi trường doanh nghiệp phức tạp nhất. Thiết kế tối giản, hiệu suất tối đa.</p>
+    </div>
+</div>
+
+<!-- Modern Breadcrumbs -->
+<div class="inline-flex items-center gap-2 mb-space-lg font-label-sm text-[13px] bg-surface-container-lowest border border-outline-variant/50 rounded-full px-4 py-2 shadow-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="/shop" style="text-decoration: none;">Sản Phẩm</a>
+<t t-if="product.public_categ_ids">
+    <span class="material-symbols-outlined text-[16px] text-on-surface-variant/40">chevron_right</span>
+    <a class="text-on-surface-variant hover:text-primary transition-colors" t-attf-href="/shop/category/#{product.public_categ_ids[0].id}" style="text-decoration: none;" t-esc="product.public_categ_ids[0].name">Danh Mục</a>
+</t>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant/40">chevron_right</span>
+<span class="text-primary font-semibold" t-esc="product.name">Tên Sản Phẩm</span>
+</div>
+<!-- Product Hero Section -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-space-xl">
+<!-- Left: Gallery (Shopee Style) -->
+<div class="md:col-span-5 lg:col-span-5 flex flex-col gap-4">
+    <!-- Main Image Box -->
+    <div class="bg-surface-container-lowest rounded-xl ambient-shadow aspect-square relative overflow-hidden flex items-center justify-center border border-outline-variant max-w-[450px] max-h-[450px] mx-auto w-full">
+        <img id="product_main_image" t-att-src="website.image_url(product, 'image_1920')" class="object-contain w-full h-full hover:scale-105 transition-transform duration-500" t-att-alt="product.name"/>
+    </div>
+    
+    <!-- Thumbnails Container -->
+    <div class="flex gap-2 justify-center mt-2 overflow-x-auto pb-2 max-w-[450px] mx-auto w-full" id="product_thumbnails">
+        <!-- Main Image Thumbnail -->
+        <div class="w-16 h-16 border-2 border-secondary rounded cursor-pointer overflow-hidden flex-shrink-0 thumbnail-item active" t-att-data-src="website.image_url(product, 'image_1920')" onclick="switchMainImage(this)">
+            <img t-att-src="website.image_url(product, 'image_256')" class="object-cover w-full h-full"/>
+        </div>
+        <!-- Extra Images Thumbnails -->
+        <t t-if="product.product_template_image_ids">
+            <t t-foreach="product.product_template_image_ids" t-as="img_rec">
+                <div class="w-16 h-16 border border-outline-variant rounded cursor-pointer overflow-hidden flex-shrink-0 thumbnail-item" t-att-data-src="website.image_url(img_rec, 'image_1920')" onclick="switchMainImage(this)">
+                    <img t-att-src="website.image_url(img_rec, 'image_256')" class="object-cover w-full h-full"/>
+                </div>
+            </t>
+        </t>
+    </div>
+
+    <!-- Share & Like Row -->
+    <div class="flex items-center justify-between border-t border-outline-variant/60 pt-4 mt-2 max-w-[450px] mx-auto w-full text-sm text-on-surface-variant">
+        <div class="flex items-center gap-3">
+            <span class="font-medium text-xs uppercase tracking-wider text-on-surface-variant/75">Chia sẻ:</span>
+            <div class="flex items-center gap-2">
+                <!-- Messenger -->
+                <a href="#" class="w-6 h-6 rounded-full bg-[#0084ff] text-white flex items-center justify-center hover:opacity-90 shadow-sm" style="text-decoration: none;">
+                    <i class="fa fa-comment text-[12px]"></i>
+                </a>
+                <!-- Facebook -->
+                <a href="#" class="w-6 h-6 rounded-full bg-[#1877f2] text-white flex items-center justify-center hover:opacity-90 shadow-sm" style="text-decoration: none;">
+                    <i class="fa fa-facebook text-[12px]"></i>
+                </a>
+                <!-- Pinterest -->
+                <a href="#" class="w-6 h-6 rounded-full bg-[#e60023] text-white flex items-center justify-center hover:opacity-90 shadow-sm" style="text-decoration: none;">
+                    <i class="fa fa-pinterest text-[12px]"></i>
+                </a>
+                <!-- Twitter/X -->
+                <a href="#" class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center hover:opacity-90 shadow-sm" style="text-decoration: none;">
+                    <span class="font-bold text-[10px]">X</span>
+                </a>
+            </div>
+        </div>
+        <div class="h-4 w-[1px] bg-outline-variant/60"></div>
+        <div class="flex items-center gap-2 cursor-pointer text-secondary hover:opacity-85 font-medium" onclick="var el = document.getElementById('like_icon'); if(el.innerText==='favorite_border' || el.classList.contains('fill-none')) { el.innerText='favorite'; el.classList.remove('fill-none'); } else { el.innerText='favorite_border'; el.classList.add('fill-none'); }">
+            <span class="material-symbols-outlined text-[20px] text-secondary" id="like_icon">favorite</span>
+            <span class="text-xs">Đã thích (1.2k)</span>
+        </div>
+    </div>
+</div>
+
+<!-- Right: Details (Shopee Style) -->
+<div class="md:col-span-7 lg:col-span-7 flex flex-col pt-space-sm text-left">
+    <!-- Badge, Stars & SKU Stats Row -->
+    <div class="flex flex-wrap items-center gap-3 mb-3 text-sm">
+        <span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Yêu thích</span>
+        
+        <div class="flex items-center gap-1">
+            <span class="text-secondary font-bold text-sm">4.9</span>
+            <div class="flex text-amber-500 text-xs">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+        </div>
+        
+        <div class="h-3 w-[1px] bg-outline-variant/60"></div>
+        
+        <div class="text-on-surface-variant text-xs">
+            <span class="font-bold text-on-surface text-sm">333</span> Đánh Giá
+        </div>
+        
+        <div class="h-3 w-[1px] bg-outline-variant/60"></div>
+        
+        <div class="text-on-surface-variant text-xs" t-esc="'SKU: ' + (product.default_code or 'N/A')">
+            SKU: N/A
+        </div>
+    </div>
+
+    <!-- Alert / Added notification -->
+    <t t-if="request.params.get('added')">
+        <div class="bg-[#e8f5e9] border border-[#a5d6a7] text-[#2e7d32] px-4 py-3 rounded mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span>
+            <div class="text-sm">
+                <strong>Thành công!</strong> Đã thêm sản phẩm vào danh sách báo giá. 
+                <a href="/shop/cart" class="underline font-semibold ml-1">Xem Giỏ Hàng</a>
+            </div>
+        </div>
+    </t>
+
+    <!-- Product Name -->
+    <h1 class="font-h2 text-h2-mobile md:text-h2 text-primary font-bold mb-3 tracking-tight" t-esc="product.name">Tên Sản Phẩm</h1>
+    
+    <!-- Short Description -->
+    <p class="text-on-surface-variant font-body-lg text-body-lg mb-4 leading-relaxed" t-esc="product.description_sale or 'Đang cập nhật mô tả.'">
+        Mô tả ngắn.
+    </p>
+
+    <!-- Price Banner -->
+    <div class="bg-surface-container-low rounded-lg p-5 mb-5 w-full text-left">
+        <span class="text-2xl md:text-3xl font-extrabold text-secondary block">
+            <t t-esc="&quot;{:,.0f}&quot;.format(product.list_price).replace(',', '.')"/> VNĐ
+        </span>
+        <span class="text-xs text-on-surface-variant mt-1 block">Chưa bao gồm thuế và phí vận chuyển</span>
+    </div>
+
+    <!-- Logistics / Shipping Row -->
+    <div class="flex flex-col gap-3 text-sm text-on-surface-variant mb-6 w-full text-left border-b border-outline-variant/50 pb-5">
+        <div class="grid grid-cols-12 gap-2 items-center">
+            <div class="col-span-3 font-semibold text-on-surface-variant text-xs uppercase tracking-wider">Vận chuyển</div>
+            <div class="col-span-9 flex items-center gap-2 text-on-surface text-sm">
+                <span class="material-symbols-outlined text-[18px] text-secondary">local_shipping</span>
+                <span>Miễn phí vận chuyển toàn quốc</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-12 gap-2 items-center">
+            <div class="col-span-3 font-semibold text-on-surface-variant text-xs uppercase tracking-wider">Hỗ trợ</div>
+            <div class="col-span-9 flex items-center gap-2 text-on-surface text-sm">
+                <span class="material-symbols-outlined text-[18px] text-secondary">verified</span>
+                <span>Hỗ trợ kỹ thuật chuyên sâu 24/7</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add To Cart Form -->
+    <form method="POST" action="/shop/cart/add" onsubmit="submitAddToCart(event)" class="flex flex-col gap-5 w-full text-left">
+        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+        <input type="hidden" name="product_id" t-att-value="product.id"/>
+        
+        <!-- Quantity Row -->
+        <div class="grid grid-cols-12 gap-2 items-center">
+            <div class="col-span-3 font-semibold text-on-surface-variant text-xs uppercase tracking-wider">Số lượng</div>
+            <div class="col-span-9 flex items-center gap-4">
+                <div class="flex items-center border border-outline-variant rounded bg-surface-container-lowest focus-within:border-primary transition-colors w-max">
+                    <button type="button" class="px-3 py-1.5 text-on-surface-variant hover:text-primary transition-colors" onclick="var el=document.getElementById('qty_input'); var val=parseInt(el.value); if(val>1) el.value=val-1;">
+                        <span class="material-symbols-outlined text-[20px]">remove</span>
+                    </button>
+                    <input class="w-12 text-center border-none focus:ring-0 font-body-reg bg-transparent p-0" id="qty_input" name="qty" min="1" type="number" value="1"/>
+                    <button type="button" class="px-3 py-1.5 text-on-surface-variant hover:text-primary transition-colors" onclick="var el=document.getElementById('qty_input'); el.value=parseInt(el.value)+1;">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                    </button>
+                </div>
+                
+                <!-- Display Available Quantity -->
+                <t t-if="product.type in ['consu', 'product']">
+                    <span class="text-sm text-[#757575]">
+                        <t t-set="available_qty" t-value="max(0, int(product.sudo().qty_available) - current_cart_qty)"/>
+                        <t t-if="available_qty > 0">
+                            <span id="available-qty-text"><t t-esc="available_qty"/></span> sản phẩm có sẵn
+                        </t>
+                        <t t-else="">
+                            <span id="available-qty-text" class="text-red-500 font-medium">Hết hàng</span>
+                        </t>
+                    </span>
+                </t>
+            </div>
+        </div>
+
+        <!-- Buttons Row -->
+        <div class="flex flex-wrap gap-4 mt-2 w-full">
+            <!-- Add to Cart (Outline style) -->
+            <button type="submit" class="px-6 py-3 bg-secondary/10 text-secondary border border-secondary font-semibold rounded hover:bg-secondary/20 transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+                Thêm Vào Giỏ
+            </button>
+            
+            <!-- Contact For Consultation (Solid style) -->
+            <a t-attf-href="/tu-van?product_id=#{product.id}" class="px-8 py-3 bg-secondary hover:bg-secondary/90 text-on-secondary font-semibold rounded transition-all flex items-center justify-center text-center shadow-sm text-white hover:no-underline" style="text-decoration: none; color: white;">
+                Liên hệ tư vấn
+            </a>
+        </div>
+    </form>
+</div>
+</div>
+<!-- Product Details & Description (Shopee Style Layout) -->
+<div class="mb-space-xl text-left flex flex-col gap-6">
+    <!-- Chi Tiết Sản Phẩm -->
+    <div class="bg-white rounded border border-outline-variant/60 shadow-sm overflow-hidden">
+        <div class="bg-[#f5f5f5] text-[14px] font-bold text-[#222] uppercase tracking-wider px-6 py-3">
+            Chi tiết sản phẩm
+        </div>
+        <div class="p-6 flex flex-col gap-4 text-[14px] bg-white">
+            <div class="grid grid-cols-12 gap-2 py-1 border-b border-gray-50/50">
+                <div class="col-span-4 md:col-span-3 text-[#757575] font-normal">Danh Mục</div>
+                <div class="col-span-8 md:col-span-9 text-secondary font-medium flex flex-wrap items-center gap-1 text-[13px]">
+                    <t t-if="product.public_categ_ids">
+                        <a href="/shop" class="text-secondary hover:underline" style="text-decoration: none;">Cửa hàng</a> 
+                        <t t-set="categ" t-value="product.public_categ_ids[0]"/>
+                        <t t-if="categ.parent_id">
+                            <span class="text-[#757575] font-normal">&gt;</span>
+                            <a t-attf-href="/shop/category/#{categ.parent_id.id}" class="text-secondary hover:underline" style="text-decoration: none;" t-esc="categ.parent_id.name"/>
+                        </t>
+                        <span class="text-[#757575] font-normal">&gt;</span>
+                        <a t-attf-href="/shop/category/#{categ.id}" class="text-secondary hover:underline" style="text-decoration: none;" t-esc="categ.name"/>
+                    </t>
+                    <t t-else="">
+                        <a href="/shop" class="text-secondary hover:underline" style="text-decoration: none;">Shopee</a> 
+                        <span class="text-[#757575] font-normal">&gt;</span>
+                        <a href="/shop" class="text-secondary hover:underline" style="text-decoration: none;">Thể Thao &amp; Du Lịch</a>
+                        <span class="text-[#757575] font-normal">&gt;</span>
+                        <a href="/shop" class="text-secondary hover:underline" style="text-decoration: none;">Phụ kiện du lịch</a>
+                        <span class="text-[#757575] font-normal">&gt;</span>
+                        <span class="text-[#222] font-normal">Bộ chiết mỹ phẩm</span>
+                    </t>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-2 py-1 border-b border-gray-50/50">
+                <div class="col-span-4 md:col-span-3 text-[#757575] font-normal">Tên tổ chức chịu trách nhiệm sản xuất</div>
+                <div class="col-span-8 md:col-span-9 text-[#222]">Đang cập nhật</div>
+            </div>
+            <div class="grid grid-cols-12 gap-2 py-1 border-b border-gray-50/50">
+                <div class="col-span-4 md:col-span-3 text-[#757575] font-normal">Địa chỉ tổ chức chịu trách nhiệm sản xuất</div>
+                <div class="col-span-8 md:col-span-9 text-[#222]">Đang cập nhật</div>
+            </div>
+            <!-- Dynamic product attributes -->
+            <t t-if="product.attribute_line_ids">
+                <t t-foreach="product.attribute_line_ids" t-as="line">
+                    <div class="grid grid-cols-12 gap-2 py-1 border-b border-gray-50/50">
+                        <div class="col-span-4 md:col-span-3 text-[#757575] font-normal" t-esc="line.attribute_id.name"/>
+                        <div class="col-span-8 md:col-span-9 text-[#222] flex flex-wrap gap-2">
+                            <t t-foreach="line.value_ids" t-as="value">
+                                <span t-esc="value.name" class="bg-gray-100 px-2 py-0.5 rounded text-xs"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <div class="grid grid-cols-12 gap-2 py-1">
+                <div class="col-span-4 md:col-span-3 text-[#757575] font-normal">Gửi từ</div>
+                <div class="col-span-8 md:col-span-9 text-[#222]">Tỉnh Thanh Hóa</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mô Tả Sản Phẩm -->
+    <div class="bg-white rounded border border-outline-variant/60 shadow-sm overflow-hidden">
+        <div class="bg-[#f5f5f5] text-[14px] font-bold text-[#222] uppercase tracking-wider px-6 py-3">
+            Mô tả sản phẩm
+        </div>
+        <div class="p-6 text-sm leading-relaxed text-[#222] bg-white">
+            <t t-if="product.website_description">
+                <div t-field="product.website_description" class="product-rich-description"/>
+            </t>
+            <t t-else="">
+                <p class="whitespace-pre-line text-[#222]" t-esc="product.description_sale or 'Đang cập nhật thông tin chi tiết.'"/>
+            </t>
+        </div>
+    </div>
+
+    <!-- Đánh Giá Sản Phẩm (Shopee Style) -->
+    <t t-set="all_ratings" t-value="product.sudo().rating_ids.filtered(lambda r: r.consumed)"/>
+    <t t-set="ratings_sorted" t-value="all_ratings.sorted(key=lambda r: r.create_date, reverse=True)"/>
+    <t t-set="avg_rating" t-value="product.sudo().rating_avg or 0.0"/>
+    <t t-set="avg_rating_formatted" t-value="'{:.1f}'.format(avg_rating)"/>
+    <t t-set="count_5" t-value="len(all_ratings.filtered(lambda r: r.rating == 5))"/>
+    <t t-set="count_4" t-value="len(all_ratings.filtered(lambda r: r.rating == 4))"/>
+    <t t-set="count_3" t-value="len(all_ratings.filtered(lambda r: r.rating == 3))"/>
+    <t t-set="count_2" t-value="len(all_ratings.filtered(lambda r: r.rating == 2))"/>
+    <t t-set="count_1" t-value="len(all_ratings.filtered(lambda r: r.rating == 1))"/>
+    <t t-set="count_feedback" t-value="len(all_ratings.filtered(lambda r: r.feedback))"/>
+    <t t-set="count_total" t-value="len(all_ratings)"/>
+
+    <div class="bg-white rounded border border-outline-variant/60 shadow-sm overflow-hidden">
+        <div class="bg-[#f5f5f5] text-[14px] font-bold text-[#222] uppercase tracking-wider px-6 py-3">
+            Đánh giá sản phẩm
+        </div>
+        <div class="p-6 bg-white">
+            <!-- Overall Rating Summary Box -->
+            <div class="bg-[#fffbf8] border border-[#f9ede5] rounded p-6 mb-6 grid grid-cols-12 gap-6 items-center">
+                <!-- Score Column -->
+                <div class="col-span-12 md:col-span-3 text-center md:border-r border-[#f9ede5] flex flex-col items-center justify-center">
+                    <div class="text-3xl font-bold text-secondary"><span class="text-4xl" t-esc="avg_rating_formatted">4.9</span> trên 5</div>
+                    <div class="flex text-amber-500 text-lg mt-2">
+                        <t t-foreach="range(1, 6)" t-as="star_idx">
+                            <i t-attf-class="fa #{'fa-star' if avg_rating &gt;= star_idx else 'fa-star-half-o' if avg_rating &gt;= star_idx - 0.5 else 'fa-star-o'}"></i>
+                        </t>
+                    </div>
+                </div>
+                
+                <!-- Filter Tags Column -->
+                <div class="col-span-12 md:col-span-9 flex flex-wrap gap-2 justify-center md:justify-start">
+                    <button class="px-4 py-1.5 rounded-sm border border-secondary bg-white text-secondary text-xs font-semibold" onclick="filterReviews('all', this)">
+                        Tất Cả (<t t-esc="count_total"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('5', this)">
+                        5 Sao (<t t-esc="count_5"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('4', this)">
+                        4 Sao (<t t-esc="count_4"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('3', this)">
+                        3 Sao (<t t-esc="count_3"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('2', this)">
+                        2 Sao (<t t-esc="count_2"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('1', this)">
+                        1 Sao (<t t-esc="count_1"/>)
+                    </button>
+                    <button class="px-4 py-1.5 rounded-sm border border-gray-200 bg-white text-[#222] text-xs hover:border-secondary hover:text-secondary" onclick="filterReviews('comment', this)">
+                        Có Bình Luận (<t t-esc="count_feedback"/>)
+                    </button>
+                </div>
+            </div>
+            
+            <!-- User Reviews List -->
+            <div class="flex flex-col gap-6" id="reviews_list_container">
+                <t t-if="all_ratings">
+                    <t t-foreach="ratings_sorted" t-as="rating">
+                        <div class="flex gap-4 pb-6 border-b border-gray-100 last:border-none relative review-item" t-att-data-stars="rating.rating" t-att-data-has-comment="'true' if rating.feedback else 'false'">
+                            <!-- Avatar -->
+                            <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-gray-500 text-sm">
+                                <t t-if="rating.sudo().partner_id.image_128">
+                                    <img t-att-src="website.image_url(rating.sudo().partner_id, 'image_128')" class="object-cover w-full h-full"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="uppercase" t-esc="rating.sudo().partner_id.name[0] if rating.sudo().partner_id.name else 'K'"/>
+                                </t>
+                            </div>
+                            <!-- Content -->
+                            <div class="flex flex-col gap-1 w-full text-left">
+                                <span class="font-semibold text-sm text-[#222]" t-esc="rating.sudo().partner_id.name or 'Khách hàng'"/>
+                                <!-- Stars -->
+                                <div class="flex text-amber-500 text-xs">
+                                    <t t-foreach="range(1, 6)" t-as="r_idx">
+                                        <i t-attf-class="fa #{'fa-star' if rating.rating &gt;= r_idx else 'fa-star-o'}"></i>
+                                    </t>
+                                </div>
+                                <!-- Date -->
+                                <span class="text-gray-400 text-[11px] mb-1" t-field="rating.create_date" t-options='{"widget": "datetime", "format": "yyyy-MM-dd HH:mm"}'/>
+                                
+                                <!-- Comment text -->
+                                <p class="text-sm text-[#222] leading-relaxed mb-3" t-esc="rating.feedback or 'Khách hàng không để lại bình luận.'"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <div class="text-center py-8 text-gray-500">
+                        <span class="material-symbols-outlined text-[48px] text-gray-300 block mb-2">rate_review</span>
+                        <p class="text-sm">Chưa có đánh giá nào cho sản phẩm này.</p>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Odoo Review Submit Form (Chatter Composer only, list is hidden via CSS overrides) -->
+            <div class="shopee-chatter-wrapper mt-6 pt-6 border-t border-gray-100">
+                <h4 class="text-sm font-bold text-[#222] mb-3 uppercase">Gửi Đánh Giá Của Bạn</h4>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="product"/>
+                    <t t-set="chatter_mode" t-value="'json'"/>
+                </t>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+<![CDATA[
+    function switchMainImage(element) {
+        var newSrc = element.getAttribute('data-src');
+        var mainImg = document.getElementById('product_main_image');
+        if (mainImg) {
+            mainImg.src = newSrc;
+        }
+        var thumbs = document.querySelectorAll('.thumbnail-item');
+        thumbs.forEach(function(t) {
+            t.classList.remove('border-primary', 'border-2', 'border-secondary');
+            t.classList.add('border-outline-variant', 'border');
+        });
+        element.classList.remove('border-outline-variant', 'border');
+        element.classList.add('border-secondary', 'border-2');
+    }
+
+    function submitAndGoToCart(event) {
+        event.preventDefault();
+        var form = event.target.closest('form');
+        if (form) {
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            }).then(function() {
+                window.location.href = '/shop/cart';
+            }).catch(function() {
+                window.location.href = '/shop/cart';
+            });
+        }
+    }
+
+    function filterReviews(filterType, element) {
+        // Active/Inactive styles
+        var buttons = element.parentNode.querySelectorAll('button');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('border-secondary', 'text-secondary', 'font-semibold');
+            btn.classList.add('border-gray-200', 'text-[#222]');
+        });
+        element.classList.remove('border-gray-200', 'text-[#222]');
+        element.classList.add('border-secondary', 'text-secondary', 'font-semibold');
+
+        // Filter list items
+        var reviews = document.querySelectorAll('.review-item');
+        reviews.forEach(function(rev) {
+            var stars = Math.round(parseFloat(rev.getAttribute('data-stars') || '0'));
+            var hasComment = rev.getAttribute('data-has-comment') === 'true';
+
+            if (filterType === 'all') {
+                rev.style.display = 'flex';
+            } else if (filterType === '5') {
+                rev.style.display = (stars === 5) ? 'flex' : 'none';
+            } else if (filterType === '4') {
+                rev.style.display = (stars === 4) ? 'flex' : 'none';
+            } else if (filterType === '3') {
+                rev.style.display = (stars === 3) ? 'flex' : 'none';
+            } else if (filterType === '2') {
+                rev.style.display = (stars === 2) ? 'flex' : 'none';
+            } else if (filterType === '1') {
+                rev.style.display = (stars === 1) ? 'flex' : 'none';
+            } else if (filterType === 'comment') {
+                rev.style.display = hasComment ? 'flex' : 'none';
+            }
+        });
+    }
+
+    function showCartToast(data) {
+        var existing = document.getElementById('cart-toast');
+        if (existing) existing.remove();
+
+        var toast = document.createElement('div');
+        toast.id = 'cart-toast';
+        toast.className = 'fixed top-24 right-4 z-[99999] w-full max-w-[400px] bg-white rounded shadow-lg border border-gray-200 overflow-hidden animate-cart-toast';
+        toast.style.fontFamily = 'Inter, sans-serif';
+        
+        toast.innerHTML = 
+            '<div class="flex items-start justify-between px-4 py-3 border-b border-gray-200">' +
+                '<h3 class="text-[#4b5563] font-semibold text-[15px] leading-snug pr-4">Mặt hàng đã được thêm vào giỏ hàng của bạn</h3>' +
+                '<button onclick="document.getElementById(\'cart-toast\').remove()" class="text-gray-400 hover:text-gray-600 transition-colors mt-0.5 shrink-0">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                      '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />' +
+                    '</svg>' +
+                '</button>' +
+            '</div>' +
+            '<div class="p-4">' +
+                '<div class="flex items-start gap-4 mb-5">' +
+                    '<div class="w-16 h-16 bg-[#f9fafb] rounded border border-gray-100 flex items-center justify-center shrink-0">' +
+                        '<img src="' + data.image_url + '" class="w-full h-full object-contain mix-blend-multiply" alt="Product Image"/>' +
+                    '</div>' +
+                    '<div class="flex-1 min-w-0 pt-0.5">' +
+                        '<div class="flex justify-between items-start gap-3">' +
+                            '<p class="text-[#374151] text-[15px] leading-snug">' +
+                                data.added_qty + ' x ' + data.product_name +
+                            '</p>' +
+                            '<p class="text-[#111827] text-[15px] whitespace-nowrap">' +
+                                data.product_price_formatted +
+                            '</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<a href="/shop/cart" class="block w-full py-2.5 bg-[#a04100] hover:bg-[#853600] text-white text-[15px] font-medium text-center rounded transition-colors shadow-sm" style="text-decoration: none;">' +
+                    'Xem giỏ hàng' +
+                '</a>' +
+            '</div>';
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(function() {
+            if (toast.parentNode) {
+                toast.remove();
+            }
+        }, 8000);
+    }
+
+    function submitAddToCart(event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+        
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var originalHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">sync</span> Thêm...';
+
+        fetch('/shop/cart/add_json', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHtml;
+            if (data.success) {
+                var badge = document.getElementById('cart-badge');
+                if (badge) {
+                    badge.innerText = data.total_qty;
+                    badge.classList.remove('hidden');
+                }
+                var qtyText = document.getElementById('available-qty-text');
+                if (qtyText) {
+                    if (data.remaining_qty > 0) {
+                        qtyText.innerText = data.remaining_qty;
+                        qtyText.className = "";
+                        qtyText.nextSibling.textContent = " sản phẩm có sẵn";
+                    } else {
+                        qtyText.innerText = "Hết hàng";
+                        qtyText.className = "text-red-500 font-medium";
+                        qtyText.nextSibling.textContent = "";
+                    }
+                }
+                showCartToast(data);
+            } else {
+                alert('Lỗi: ' + (data.error || 'Không thể thêm vào giỏ hàng'));
+            }
+        })
+        .catch(function(err) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHtml;
+            console.error(err);
+            form.submit();
+        });
+    }
+]]>
+</script>
+</main>
+            </div>
+        </t>
+    </template>
+</odoo>

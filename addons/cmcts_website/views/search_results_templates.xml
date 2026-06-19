@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_search_results" name="CMCTS Search Results">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="flex-grow pt-[120px] pb-space-xl px-margin_desktop max-w-grid_max_width mx-auto w-full min-h-[60vh]">
+                    <!-- Search Header -->
+                    <div class="w-full mb-space-xl">
+                        <h1 class="font-h2 text-h2 text-primary mb-4">Kết quả tìm kiếm</h1>
+                        <form action="/search" method="GET" class="relative w-full shadow-sm rounded-xl border border-outline-variant bg-surface">
+                            <span class="material-symbols-outlined absolute left-6 top-1/2 transform -translate-y-1/2 text-outline text-[24px]">search</span>
+                            <input name="q" t-att-value="q" class="w-full h-[64px] pl-16 pr-[120px] rounded-xl border-none bg-transparent font-body-lg text-body-lg text-on-surface focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Tìm kiếm sản phẩm, tin tức..." type="text"/>
+                            <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-on-primary px-6 py-3 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors font-label-sm font-bold">
+                                Tìm kiếm
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="flex gap-10 border-b border-surface-variant mb-space-xl">
+                        <a class="pb-4 font-body-lg text-body-lg font-bold text-on-surface border-b-[3px] border-primary" href="#">Tất cả (<t t-esc="total_results or 0"/>)</a>
+                    </div>
+
+                    <!-- Results Area -->
+                    <t t-if="total_results and total_results > 0">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+                            
+                            <!-- Products Column -->
+                            <t t-if="products">
+                                <div t-attf-class="{{ 'lg:col-span-12' if not blogs else 'lg:col-span-8' }}">
+                                    <h2 class="font-h3 text-h3 text-primary mb-space-md border-b border-outline-variant pb-2">Sản phẩm (<t t-esc="len(products)"/>)</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                                        <t t-foreach="products" t-as="product">
+                                            <a t-attf-href="/shop/detail/#{product.id}" class="flex gap-4 p-4 border border-outline-variant rounded-xl hover:bg-surface-container-lowest hover:border-primary transition-all group shadow-sm hover:shadow-md bg-surface-container-lowest" style="text-decoration: none;">
+                                                <img t-att-src="image_data_uri(product.image_128) if product.image_128 else '/web/static/img/placeholder.png'" class="w-20 h-20 object-cover rounded bg-surface-variant"/>
+                                                <div class="flex-1">
+                                                    <span class="text-[12px] font-bold text-secondary uppercase tracking-wider mb-1 block" t-esc="product.default_code or 'N/A'"/>
+                                                    <h3 class="font-body-reg font-bold text-on-surface group-hover:text-primary line-clamp-2" t-esc="product.name"/>
+                                                    <p class="font-label-sm text-outline mt-2"><t t-esc="'{:,.0f}'.format(product.list_price)"/> đ</p>
+                                                </div>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- Blogs Column -->
+                            <t t-if="blogs">
+                                <div t-attf-class="{{ 'lg:col-span-12' if not products else 'lg:col-span-4' }}">
+                                    <h2 class="font-h3 text-h3 text-primary mb-space-md border-b border-outline-variant pb-2">Tin tức &amp; Sự kiện (<t t-esc="len(blogs)"/>)</h2>
+                                    <div class="flex flex-col gap-space-md">
+                                        <t t-foreach="blogs" t-as="blog">
+                                            <a t-attf-href="/blog/detail/#{blog.id}" class="p-4 border border-outline-variant rounded-xl hover:bg-surface-container-lowest hover:border-primary transition-all group shadow-sm hover:shadow-md bg-surface-container-lowest" style="text-decoration: none;">
+                                                <h3 class="font-body-reg font-bold text-on-surface group-hover:text-primary mb-2 line-clamp-2" t-esc="blog.name"/>
+                                                <p class="font-label-sm text-outline line-clamp-2" t-esc="blog.subtitle or 'Xem chi tiết...'"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            
+                        </div>
+                    </t>
+
+                    <!-- Empty State UI -->
+                    <t t-else="">
+                        <div class="flex flex-col items-center justify-center py-[80px]">
+                            <span class="material-symbols-outlined text-[100px] text-surface-variant mb-space-lg" style="font-variation-settings: 'FILL' 1;">search_off</span>
+                            <h2 class="font-h3 text-h3 text-on-surface mb-base">Không tìm thấy kết quả nào cho "<t t-esc="q"/>"</h2>
+                            <p class="font-body-reg text-body-reg text-outline mb-space-lg">Vui lòng thử lại với từ khóa khác hoặc duyệt qua các danh mục của chúng tôi.</p>
+                            <a href="/shop" class="bg-primary text-on-primary font-label-sm text-label-sm px-6 py-3 rounded-lg hover:bg-secondary-container hover:text-on-secondary-container transition-colors duration-200 shadow-sm" style="text-decoration: none;">
+                                Khám phá Sản phẩm
+                            </a>
+                        </div>
+                    </t>
+                </main>
+            </div>
+        </t>
+    </template>
+</odoo>

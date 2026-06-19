@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+File: views/warranty_menus.xml
+Chức năng: Khai báo Menu và Actions điều hướng cho module Bảo Hành.
+Phân quyền Lớp 1 (App/Menu Level): Odoo tự ẩn menu nếu user không có quyền đọc bảng dữ liệu.
+Người không có group nào → không thấy app (Yêu cầu 3a).
+-->
+<odoo>
+
+    <!-- ==========================================
+         WINDOW ACTIONS
+    ========================================== -->
+
+    <!-- Action mở danh sách Phiếu Bảo Hành -->
+    <record id="action_warranty" model="ir.actions.act_window">
+        <field name="name">Phiếu Bảo Hành</field>
+        <field name="res_model">cmcts_warranty.warranty</field>
+        <field name="view_mode">kanban,list,form,pivot</field>
+        <field name="context">{'search_default_active_warranty': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo phiếu bảo hành đầu tiên!
+            </p>
+            <p>
+                Quản lý thông tin bảo hành thiết bị công nghệ cho khách hàng CMCTS.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action mở danh sách Phiếu Yêu cầu Bảo Hành -->
+    <record id="action_warranty_claim" model="ir.actions.act_window">
+        <field name="name">Yêu cầu Bảo Hành</field>
+        <field name="res_model">cmcts_warranty.warranty.claim</field>
+        <field name="view_mode">kanban,list,form,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo phiếu yêu cầu bảo hành đầu tiên!
+            </p>
+            <p>
+                Ghi nhận yêu cầu bảo hành khi khách hàng mang thiết bị đến sửa chữa.
+            </p>
+        </field>
+    </record>
+
+    <!-- ==========================================
+         MENU STRUCTURE
+         Root → Bảo Hành
+           ├── Phiếu Bảo Hành
+           ├── Yêu cầu Bảo Hành
+           └── Cấu hình (chỉ Manager)
+    ========================================== -->
+
+    <!-- ==========================================
+         [LỚP 1: PHÂN QUYỀN MENU / GIAO DIỆN (APP LEVEL)]
+         Odoo sẽ tự động kiểm tra quyền Read ở Lớp 2 (ir.model.access.csv).
+         Nếu User KHÔNG CÓ QUYỀN ĐỌC trên Model, Odoo sẽ tự động ẨN luôn Menu này!
+         Nghĩa là người lạ (Sales, HR) sẽ không hề thấy app "Bảo Hành" trên màn hình.
+    ========================================== -->
+
+    <!-- Top-level menu: hiển thị trên thanh điều hướng chính -->
+    <menuitem id="menu_warranty_root"
+              name="Bảo Hành"
+              sequence="15"
+              web_icon="cmcts_warranty,static/description/icon.png"/>
+
+    <!-- Sub-menu: Phiếu Bảo Hành -->
+    <menuitem id="menu_warranty"
+              name="Phiếu Bảo Hành"
+              parent="menu_warranty_root"
+              action="action_warranty"
+              sequence="10"/>
+
+    <!-- Sub-menu: Yêu cầu Bảo Hành -->
+    <menuitem id="menu_warranty_claim"
+              name="Yêu cầu Bảo Hành"
+              parent="menu_warranty_root"
+              action="action_warranty_claim"
+              sequence="20"/>
+
+    <!-- Sub-menu: Cấu hình - chỉ Manager thấy (Phân quyền Lớp 1) -->
+    <menuitem id="menu_warranty_config"
+              name="Cấu hình"
+              parent="menu_warranty_root"
+              sequence="100"
+              groups="cmcts_warranty.group_warranty_technician"/>
+
+</odoo>

@@ -1,0 +1,29 @@
+/* File: static/src/css/customer_style.css
+   Chức năng: Thay đổi màu sắc của thanh trạng thái (statusbar) thành màu tím đậm (dark purple) theo yêu cầu.
+*/
+
+/* Đổi màu nền của trạng thái đang active thành tím đậm */
+.o_form_view .o_statusbar_status .o_arrow_button.btn-primary,
+.o_form_view .o_statusbar_status .o_arrow_button.text-bg-primary,
+.o_form_view .o_statusbar_status .o_arrow_button[aria-checked="true"],
+.o_form_view .o_statusbar_status .o_arrow_button.o_arrow_button_current {
+    background-color: #714B67 !important;
+    color: #FFFFFF !important;
+    font-weight: bold;
+}
+
+/* Đổi màu viền mũi tên phía sau */
+.o_form_view .o_statusbar_status .o_arrow_button.btn-primary:after,
+.o_form_view .o_statusbar_status .o_arrow_button.text-bg-primary:after,
+.o_form_view .o_statusbar_status .o_arrow_button[aria-checked="true"]:after,
+.o_form_view .o_statusbar_status .o_arrow_button.o_arrow_button_current:after {
+    border-left-color: #714B67 !important;
+}
+
+/* Đảm bảo mũi tên phía trước không bị lệch màu */
+.o_form_view .o_statusbar_status .o_arrow_button.btn-primary:before,
+.o_form_view .o_statusbar_status .o_arrow_button.text-bg-primary:before,
+.o_form_view .o_statusbar_status .o_arrow_button[aria-checked="true"]:before,
+.o_form_view .o_statusbar_status .o_arrow_button.o_arrow_button_current:before {
+    border-left-color: #714B67 !important;
+}

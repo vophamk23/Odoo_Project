@@ -1,0 +1,38 @@
+{
+    'name': 'CMCTS Website',
+    'version': '1.0',
+    'summary': 'Giao diện Website và Form tư vấn đổ về CRM',
+    'author': 'Phase1-team',
+    'depends': ['website', 'crm', 'website_sale', 'website_blog', 'website_event', 'sale_management', 'portal', 'auth_signup'],
+    'data': [
+        'views/layout_templates.xml',
+        'views/home_templates.xml',
+        'views/contact_templates.xml',
+        'views/thank_you_templates.xml',
+        'views/about_us_templates.xml',
+        'views/blog_list_templates.xml',
+        'views/blog_detail_templates.xml',
+        'views/shop_list_templates.xml',
+        'views/shop_detail_templates.xml',
+        'views/privacy_templates.xml',
+        'views/quote_cart_templates.xml',
+        'views/event_list_templates.xml',
+        'views/event_detail_templates.xml',
+        'views/search_results_templates.xml',
+        'views/portal_override_templates.xml',
+        'data/demo_products.xml',
+        'data/demo_blog.xml',
+        'data/demo_event.xml',
+    ],
+    'assets': {
+        'web._assets_primary_variables': [
+            ('prepend', 'cmcts_website/static/src/css/primary_variables.scss'),
+        ],
+        'web.assets_frontend': [
+            'cmcts_website/static/src/css/style.scss',
+            'cmcts_website/static/src/css/portal_override.scss',
+        ],
+    },
+    'installable': True,
+    'application': True,
+}

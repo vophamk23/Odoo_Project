@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_portal_override" inherit_id="portal.frontend_layout" priority="999">
+        <xpath expr="//head" position="inside">
+            <style>
+                :root {
+                    --o-brand-odoo: #000f22 !important;
+                    --o-brand-primary: #a04100 !important;
+                    --primary: #a04100 !important;
+                }
+                body.o_portal {
+                    font-family: 'Inter', sans-serif !important;
+                    background-color: #faf9fb !important;
+                }
+                .o_portal_wrap .btn-primary, .btn-primary {
+                    background: #a04100 !important;
+                    border: none !important;
+                    color: white !important;
+                    border-radius: 8px !important;
+                }
+                .o_portal_wrap .btn-primary:hover, .btn-primary:hover {
+                    background: #fe6b00 !important;
+                }
+            </style>
+        </xpath>
+    </template>
+
+    <!-- ═══ Login Override ═══ -->
+    <template id="cmcts_login" inherit_id="web.login" name="CMCTS Login">
+        <xpath expr="//t[@t-call='web.login_layout']" position="replace">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            <t t-call="web.frontend_layout">
+                <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+                <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+                
+                <script id="tailwind-config">
+                    tailwind.config = {
+                        darkMode: "class",
+                        theme: {
+                            extend: {
+                                "colors": {
+                                    "tertiary": "#0b1012",
+                                    "surface-container-highest": "#d1e4fb",
+                                    "primary-container": "#0a2540",
+                                    "error-container": "#ffdad6",
+                                    "on-tertiary-fixed-variant": "#43474a",
+                                    "surface-container-low": "#edf4ff",
+                                    "surface-container": "#e3efff",
+                                    "surface": "#f7f9ff",
+                                    "on-surface": "#091d2d",
+                                    "secondary-fixed": "#ffdbcc",
+                                    "primary-fixed-dim": "#b0c8eb",
+                                    "on-primary-fixed-variant": "#314865",
+                                    "inverse-primary": "#b0c8eb",
+                                    "tertiary-container": "#212527",
+                                    "on-secondary-container": "#572000",
+                                    "on-secondary-fixed": "#351000",
+                                    "primary": "#000f22",
+                                    "background": "#f7f9ff",
+                                    "tertiary-fixed-dim": "#c3c7ca",
+                                    "surface-variant": "#d1e4fb",
+                                    "on-error": "#ffffff",
+                                    "tertiary-fixed": "#e0e3e6",
+                                    "surface-tint": "#49607e",
+                                    "surface-bright": "#f7f9ff",
+                                    "surface-container-high": "#d8eaff",
+                                    "surface-container-lowest": "#ffffff",
+                                    "on-tertiary": "#ffffff",
+                                    "outline-variant": "#c4c6ce",
+                                    "primary-fixed": "#d2e4ff",
+                                    "on-primary": "#ffffff",
+                                    "surface-dim": "#c9dcf2",
+                                    "secondary-fixed-dim": "#ffb693",
+                                    "on-secondary": "#ffffff",
+                                    "error": "#ba1a1a",
+                                    "secondary": "#a04100",
+                                    "outline": "#74777e",
+                                    "on-surface-variant": "#43474d",
+                                    "secondary-container": "#fe6b00",
+                                    "on-tertiary-fixed": "#181c1e",
+                                    "inverse-surface": "#203243",
+                                    "on-error-container": "#93000a",
+                                    "on-primary-container": "#768dad",
+                                    "inverse-on-surface": "#e8f2ff",
+                                    "on-primary-fixed": "#001c37",
+                                    "on-secondary-fixed-variant": "#7a3000",
+                                    "on-background": "#091d2d",
+                                    "on-tertiary-container": "#888c8f"
+                                },
+                                "borderRadius": {
+                                    "DEFAULT": "0.125rem",
+                                    "lg": "0.25rem",
+                                    "xl": "0.5rem",
+                                    "full": "0.75rem"
+                                },
+                                "spacing": {
+                                    "unit": "8px",
+                                    "container-max-width": "1280px",
+                                    "margin-mobile": "16px",
+                                    "gutter": "24px",
+                                    "margin-desktop": "64px"
+                                },
+                                "fontFamily": {
+                                    "label-bold": ["Inter"],
+                                    "body-md": ["Inter"],
+                                    "label-sm": ["Inter"],
+                                    "headline-lg": ["Inter"],
+                                    "headline-lg-mobile": ["Inter"],
+                                    "headline-xl": ["Inter"]
+                                },
+                                "fontSize": {
+                                    "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                                    "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                                    "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                                    "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                                }
+                            }
+                        }
+                    }
+                </script>
+                <style>
+                    .grid-pattern {
+                        background-size: 40px 40px;
+                        background-image: 
+                            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+                    }
+                    html, body, #wrapwrap {
+                        height: 100vh !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        overflow: hidden !important;
+                    }
+                    #wrapwrap > main {
+                        height: 100vh !important;
+                        padding: 0 !important;
+                    }
+                    .oe_login_wrap { display: none !important; }
+                    .oe_login_form {
+                        max-width: 100% !important;
+                        width: 100% !important;
+                        margin: 0 !important;
+                    }
+                </style>
+
+                <div class="bg-background text-on-background font-body-md min-h-screen flex antialiased w-full h-full">
+                    <!-- Left Brand Pane (Hidden on Mobile) -->
+                    <div class="hidden md:flex w-1/2 relative bg-primary-container overflow-hidden flex-col justify-center px-margin-desktop py-12">
+                        <!-- Background Image with Gradient Overlay -->
+                        <div class="absolute inset-0 z-0">
+                            <img alt="Modern data center server racks illuminated by cool blue lights" class="w-full h-full object-cover opacity-30 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK9ahRwDyvPKIFPNQQrcAG7adY1YObXNM_qniCpGe4LkNRiH-wlKHrqdIjL2bqVihRuyVuH2UFKYQbySfgx41M9S4QAAs6oguNpEGGhacDJeWHM_yM8xiQ530XeL6XYoWfAwLGgyOS-SwWi8XAIoX8f-QkI2hhxJDzGuy4dmEjb9PsdCrcAW8QL4iOZcdV0J-Snhr_yMBzpTO86rZcRMWfdpc1BIRIDwE0_MpXYgjcJr-3h_qNB_bY7mfwawX4Yjm6G2O_qzpBdfhj"/>
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary-container/90 to-primary/95"></div>
+                            <div class="absolute inset-0 grid-pattern opacity-50"></div>
+                        </div>
+                        <!-- Content Content -->
+                        <div class="relative z-10 flex flex-col max-w-lg mx-auto w-full my-auto text-white">
+                            <!-- Logo -->
+                            <div class="flex items-center gap-4 mb-10">
+                                <div class="w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center shadow-2xl">
+                                    <span class="material-symbols-outlined text-white text-3xl">memory</span>
+                                </div>
+                                <div>
+                                    <div class="text-3xl font-black tracking-tight text-white drop-shadow-sm">CMCTS</div>
+                                    <div class="text-[11px] font-bold text-blue-200 uppercase tracking-[0.25em]">Enterprise System</div>
+                                </div>
+                            </div>
+                            <!-- Headline & Description -->
+                            <div class="mb-12">
+                                <h1 class="text-[44px] font-extrabold text-white mb-6 leading-[1.15] tracking-tight drop-shadow-md">
+                                    Hệ Thống Quản Trị<br/>Khách Hàng Doanh Nghiệp
+                                </h1>
+                                <div class="border-l-4 border-[#fe6b00] pl-6 py-1">
+                                    <p class="text-[17px] text-blue-50 leading-relaxed font-medium drop-shadow-sm">
+                                        Nền tảng vận hành hạ tầng số thế hệ mới – Cung cấp sức mạnh tính toán, lưu trữ và bảo mật mạng toàn diện cho doanh nghiệp.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Trust Metrics -->
+                            <div class="pt-8 border-t border-white/20 grid grid-cols-3 gap-6">
+                                <div>
+                                    <div class="text-4xl font-black text-white mb-1 drop-shadow-md">1,500<span class="text-[#fe6b00]">+</span></div>
+                                    <div class="text-[11px] font-bold text-blue-200 uppercase tracking-[0.15em]">Khách Hàng</div>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-black text-white mb-1 drop-shadow-md">100<span class="text-[#fe6b00]">%</span></div>
+                                    <div class="text-[11px] font-bold text-blue-200 uppercase tracking-[0.15em]">Độ Tin Cậy</div>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-black text-white mb-1 drop-shadow-md">24/7</div>
+                                    <div class="text-[11px] font-bold text-blue-200 uppercase tracking-[0.15em]">Hỗ Trợ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Action Pane (Login Form) -->
+                    <div class="w-full md:w-1/2 flex items-center justify-center bg-surface-container-lowest p-margin-mobile md:p-margin-desktop relative">
+                        <div class="w-full max-w-[420px]">
+                            <!-- Mobile Header (Hidden on Desktop) -->
+                            <div class="md:hidden flex flex-col items-center mb-6">
+                                <div class="w-16 h-16 bg-[#1b365d] rounded-xl flex items-center justify-center mb-4 shadow-md shadow-[#1b365d]/20">
+                                    <span class="material-symbols-outlined text-white text-3xl">memory</span>
+                                </div>
+                                <h1 class="text-2xl text-primary font-bold text-center tracking-tight">CMCTS PORTAL</h1>
+                                <p class="text-[11px] font-bold text-outline uppercase tracking-widest text-center mt-1">Hệ Thống Quản Trị Thông Minh</p>
+                            </div>
+                            <!-- Desktop Header -->
+                            <div class="hidden md:flex flex-col items-center mb-6">
+                                <div class="w-14 h-14 bg-[#1b365d] rounded-xl flex items-center justify-center mb-4 shadow-md shadow-[#1b365d]/20">
+                                    <span class="material-symbols-outlined text-white text-2xl">memory</span>
+                                </div>
+                                <h2 class="text-2xl text-primary font-bold tracking-tight">CMCTS PORTAL</h2>
+                                <p class="text-[11px] font-bold text-outline uppercase tracking-widest mt-1">Hệ Thống Quản Trị Thông Minh</p>
+                            </div>
+                            <!-- Role Selection Tabs -->
+                            <div class="bg-surface rounded-lg p-1 flex mb-4 border border-outline-variant/30">
+                                <button type="button" id="tab-user" class="active-tab flex-1 py-2 px-4 bg-surface-container-lowest text-primary rounded shadow-sm flex items-center justify-center gap-2 transition-all text-[14px] font-bold border border-outline-variant/20">
+                                    <span class="material-symbols-outlined text-[18px] text-secondary-container">person</span>
+                                    Người dùng
+                                </button>
+                                <button type="button" id="tab-admin" class="inactive-tab flex-1 py-2 px-4 text-on-surface-variant rounded hover:text-primary transition-all flex items-center justify-center gap-2 text-[14px] font-bold">
+                                    <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                                    Quản trị
+                                </button>
+                            </div>
+                            <!-- Login Form -->
+                            <form class="space-y-4 oe_login_form" role="form" t-attf-action="/web/login" method="post" onsubmit="this.action = '/web/login' + location.hash">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="login_type" id="login_type" t-att-value="login_type or 'user'"/>
+
+                                <!-- Database Selection -->
+                                <div t-if="databases and len(databases) &gt; 1">
+                                    <label class="block text-[12px] font-bold text-on-surface mb-2 uppercase tracking-wider">Cơ sở dữ liệu</label>
+                                    <div class="flex gap-2">
+                                        <div class="relative flex-1">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="material-symbols-outlined text-outline text-[20px]">database</span>
+                                            </div>
+                                            <input class="w-full h-12 pl-10 pr-4 bg-surface text-on-surface border border-outline-variant rounded-lg focus:ring-0 focus:border-outline-variant text-[15px] cursor-default" readonly="readonly" type="text" name="db" t-att-value="request.db" id="db"/>
+                                        </div>
+                                        <a href="/web/database/selector" class="flex items-center justify-center h-12 px-4 bg-surface border border-outline-variant rounded-lg text-on-surface-variant text-[14px] font-bold hover:bg-surface-variant/50 transition-colors">
+                                            Chọn
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Alerts -->
+                                <!-- Alerts -->
+                                <div class="alert alert-danger fade show d-flex align-items-center justify-content-center auto-dismiss-alert" t-if="error" role="alert" style="position:fixed; top:20px; right:20px; z-index:9999; min-width:300px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-radius:8px; font-size:14px; padding:12px 16px; background:#ffdad6; color:#ba1a1a; border:none;">
+                                    <span class="font-medium"><t t-esc="error"/></span>
+                                </div>
+                                <div class="alert alert-success fade show d-flex align-items-center justify-content-center auto-dismiss-alert" t-if="message" role="status" style="position:fixed; top:20px; right:20px; z-index:9999; min-width:300px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-radius:8px; font-size:14px; padding:12px 16px; background:#d1e4fb; color:#091d2d; border:none;">
+                                    <span class="font-medium"><t t-esc="message"/></span>
+                                </div>
+                                <t t-if="error or message">
+                                    <script type="text/javascript">
+                                        setTimeout(function() {
+                                            let alerts = document.querySelectorAll('.auto-dismiss-alert');
+                                            alerts.forEach(function(alert) {
+                                                alert.style.transition = 'opacity 0.5s ease';
+                                                alert.style.opacity = '0';
+                                                setTimeout(() => alert.remove(), 500);
+                                            });
+                                        }, 5000);
+                                    </script>
+                                </t>
+
+                                <!-- Email -->
+                                <div>
+                                    <label class="block text-[12px] font-bold text-on-surface mb-2 uppercase tracking-wider" for="login">Email đăng nhập</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-outline text-[20px]">mail</span>
+                                        </div>
+                                        <input class="w-full h-12 pl-10 pr-4 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container text-[15px] font-medium transition-all placeholder:text-outline/60" id="login" name="login" t-att-value="login" required="required" autofocus="autofocus" placeholder="name@company.com" type="text"/>
+                                    </div>
+                                </div>
+                                <!-- Password -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="block text-[12px] font-bold text-on-surface uppercase tracking-wider" for="password">Mật khẩu</label>
+                                        <a class="text-[12px] font-bold text-secondary-container hover:text-secondary" href="/web/reset_password">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-outline text-[20px]">lock</span>
+                                        </div>
+                                        <input class="w-full h-12 pl-10 pr-10 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container text-[15px] font-medium transition-all placeholder:text-outline/60" id="password" name="password" required="required" placeholder="••••••••" type="password"/>
+                                        <button class="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface focus:outline-none" type="button" onclick="var p=document.getElementById('password');p.type=p.type==='password'?'text':'password';this.querySelector('span').textContent=p.type==='password'?'visibility':'visibility_off';">
+                                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Submit Button -->
+                                <button class="w-full h-12 mt-4 bg-[#1b365d] text-white rounded-lg text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-[#132642] hover:shadow-lg hover:shadow-[#1b365d]/20 transition-all group relative overflow-hidden" type="submit">
+                                    <span class="relative z-10 tracking-wide">ĐĂNG NHẬP</span>
+                                    <span class="material-symbols-outlined text-[20px] relative z-10 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-secondary-container transform translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                                </button>
+
+                                <!-- Signup Link -->
+                                <div class="mt-6 text-center text-[13px] text-on-surface-variant" t-if="signup_enabled">
+                                    Bạn chưa có tài khoản? 
+                                    <a class="font-bold text-primary hover:text-secondary transition-colors" t-attf-href="/web/signup?{{ keep_query() }}">Đăng ký ngay</a>
+                                </div>
+                                <t t-if="debug">
+                                    <button type="submit" name="redirect" value="/web/become" style="width:100%;margin-top:15px;background:none;border:none;color:#94a3b8;font-size:13px;text-decoration:underline;cursor:pointer;">
+                                        Đăng nhập bằng quyền Superuser
+                                    </button>
+                                </t>
+
+                                <div class="o_login_auth" style="margin-top:10px;"/>
+                                <input type="hidden" name="type" value="password"/>
+                                <input type="hidden" name="redirect" t-att-value="redirect"/>
+                            </form>
+                            
+                            <!-- Bottom Action -->
+                            <div class="mt-4 pt-4 border-t border-outline-variant/30 text-center">
+                                <a href="/" class="w-full py-2 bg-surface border border-outline-variant rounded-lg text-on-surface-variant text-[13px] font-bold hover:bg-surface-variant/30 transition-colors flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">home</span>
+                                    Quay lại trang chủ hệ thống
+                                </a>
+                            </div>
+                            <div class="mt-6 text-center">
+                                <p class="text-[11px] font-medium text-outline">© 2026 Tập Đoàn Công Nghệ CMCTS</p>
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const tabUser = document.getElementById('tab-user');
+                                    const tabAdmin = document.getElementById('tab-admin');
+                                    const loginInput = document.getElementById('login');
+                                    const loginTypeInput = document.getElementById('login_type');
+                                    
+                                    const activeClasses = 'active-tab flex-1 py-2 px-4 bg-surface-container-lowest text-primary rounded shadow-sm flex items-center justify-center gap-2 transition-all text-[14px] font-bold border border-outline-variant/20'.split(' ');
+                                    const inactiveClasses = 'inactive-tab flex-1 py-2 px-4 text-on-surface-variant rounded hover:text-primary transition-all flex items-center justify-center gap-2 text-[14px] font-bold'.split(' ');
+
+                                    // Remove 'demo' default value if present to clean up UI
+                                    if (loginInput.value === 'demo') {
+                                        loginInput.value = '';
+                                    }
+
+                                    function setAdmin() {
+                                        loginTypeInput.value = 'admin';
+                                        tabUser.className = inactiveClasses.join(' ');
+                                        tabUser.querySelector('.material-symbols-outlined').classList.remove('text-secondary-container');
+                                        
+                                        tabAdmin.className = activeClasses.join(' ');
+                                        tabAdmin.querySelector('.material-symbols-outlined').classList.add('text-secondary-container');
+                                        
+                                        loginInput.placeholder = 'admin@company.com';
+                                        if (loginInput.value === 'portal' || loginInput.value === 'demo') {
+                                            loginInput.value = '';
+                                        }
+                                    }
+                                    
+                                    function setUser() {
+                                        loginTypeInput.value = 'user';
+                                        tabAdmin.className = inactiveClasses.join(' ');
+                                        tabAdmin.querySelector('.material-symbols-outlined').classList.remove('text-secondary-container');
+                                        
+                                        tabUser.className = activeClasses.join(' ');
+                                        tabUser.querySelector('.material-symbols-outlined').classList.add('text-secondary-container');
+                                        
+                                        loginInput.placeholder = 'name@company.com';
+                                        if (loginInput.value === 'admin' || loginInput.value === 'demo') {
+                                            loginInput.value = '';
+                                        }
+                                    }
+
+                                    tabAdmin.addEventListener('click', setAdmin);
+                                    tabUser.addEventListener('click', setUser);
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ═══ Portal Quotations ═══ -->
+    <template id="cmcts_portal_my_quotations" inherit_id="sale.portal_my_quotations">
+        <xpath expr="//t[@t-call='portal.portal_searchbar']" position="replace">
+            <!-- Hide default searchbar -->
+        </xpath>
+        <xpath expr="//div[@t-if='not quotations']" position="replace">
+            <t t-if="not quotations">
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/40 text-center">
+                    <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4">description</span>
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Chưa có báo giá nào</h3>
+                    <p class="text-on-surface-variant">Bạn chưa có yêu cầu báo giá nào trong hệ thống.</p>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-if='quotations']" position="replace">
+            <t t-if="quotations">
+                <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden mb-8">
+                    <!-- Header -->
+                    <div class="px-6 py-4 border-b border-outline-variant/40 bg-surface-container/50 flex justify-between items-center">
+                        <h3 class="text-[18px] font-bold text-on-surface m-0 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">request_quote</span>
+                            Danh sách báo giá
+                        </h3>
+                    </div>
+                    
+                    <!-- List -->
+                    <div class="divide-y divide-outline-variant/20">
+                        <t t-foreach="quotations" t-as="quotation">
+                            <a t-attf-href="#{quotation.get_portal_url()}" class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-decoration-none group">
+                                <div class="flex items-start gap-4">
+                                    <t t-set="is_new_quote" t-value="not quotation.is_read_by_customer and quotation.state in ['draft', 'sent']"/>
+                                    <div t-attf-class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 #{'bg-primary/10 text-primary' if is_new_quote else 'bg-surface-variant text-on-surface-variant'}">
+                                        <span class="material-symbols-outlined text-[24px]">receipt</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_quote else 'font-medium text-on-surface'}">
+                                                <t t-esc="quotation.name"/>
+                                            </span>
+                                            <t t-if="is_new_quote">
+                                                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                                    Mới
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="text-[13px] text-on-surface-variant flex items-center gap-3">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                                <t t-esc="quotation.create_date.strftime('%d/%m/%Y')"/>
+                                            </span>
+                                            <t t-if="quotation.validity_date">
+                                                <span class="flex items-center gap-1 text-secondary">
+                                                    <span class="material-symbols-outlined text-[14px]">timer</span>
+                                                    Hiệu lực đến: <t t-esc="quotation.validity_date.strftime('%d/%m/%Y')"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 md:mt-0 flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2">
+                                    <div t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_quote else 'font-medium text-on-surface'}">
+                                        <span t-field="quotation.amount_total" t-options='{"widget": "monetary", "display_currency": quotation.pricelist_id.currency_id}'/>
+                                    </div>
+                                    <div>
+                                        <span t-if="quotation.state == 'cancel'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">cancel</span> Đã hủy
+                                        </span>
+                                        <span t-if="quotation.is_expired" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">timer_off</span> Hết hạn
+                                        </span>
+                                        <span t-if="quotation.state in ['draft', 'sent'] and not quotation.is_expired" t-attf-class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] #{'font-bold bg-primary-container/20 text-primary' if is_new_quote else 'font-medium bg-surface-variant text-on-surface-variant'}">
+                                            <span class="material-symbols-outlined text-[14px]">pending_actions</span> Đang chờ
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- ═══ Portal Orders ═══ -->
+    <template id="cmcts_portal_my_orders" inherit_id="sale.portal_my_orders">
+        <xpath expr="//t[@t-call='portal.portal_searchbar']" position="replace">
+            <!-- Hide default searchbar -->
+        </xpath>
+        <xpath expr="//div[@t-if='not orders']" position="replace">
+            <t t-if="not orders">
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/40 text-center">
+                    <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4">shopping_bag</span>
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Chưa có đơn hàng nào</h3>
+                    <p class="text-on-surface-variant">Bạn chưa có đơn hàng nào trong hệ thống.</p>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-if='orders']" position="replace">
+            <t t-if="orders">
+                <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden mb-8">
+                    <!-- Header -->
+                    <div class="px-6 py-4 border-b border-outline-variant/40 bg-surface-container/50 flex justify-between items-center">
+                        <h3 class="text-[18px] font-bold text-on-surface m-0 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">shopping_bag</span>
+                            Danh sách đơn hàng
+                        </h3>
+                    </div>
+                    
+                    <!-- List -->
+                    <div class="divide-y divide-outline-variant/20">
+                        <t t-foreach="orders" t-as="order">
+                            <a t-attf-href="#{order.get_portal_url()}" class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-decoration-none group">
+                                <div class="flex items-start gap-4">
+                                    <t t-set="is_new_order" t-value="not order.is_read_by_customer and order.state in ['draft', 'sent']"/>
+                                    <div t-attf-class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 #{'bg-primary/10 text-primary' if is_new_order else 'bg-surface-variant text-on-surface-variant'}">
+                                        <span class="material-symbols-outlined text-[24px]">inventory_2</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_order else 'font-medium text-on-surface'}">
+                                                <t t-esc="order.name"/>
+                                            </span>
+                                            <t t-if="is_new_order">
+                                                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                                    Mới
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="text-[13px] text-on-surface-variant flex items-center gap-3">
+                                            <span class="flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                                <t t-esc="order.date_order.strftime('%d/%m/%Y')"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 md:mt-0 flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2">
+                                    <div t-attf-class="text-[16px] #{'font-bold text-primary' if is_new_order else 'font-medium text-on-surface'}">
+                                        <span t-field="order.amount_total" t-options='{"widget": "monetary", "display_currency": order.pricelist_id.currency_id}'/>
+                                    </div>
+                                    <div>
+                                        <span t-if="order.state == 'sale'" t-attf-class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] #{'font-bold bg-primary/10 text-primary' if is_new_order else 'font-medium bg-surface-variant text-on-surface-variant'}">
+                                            <span class="material-symbols-outlined text-[14px]">check_circle</span> Đã xác nhận
+                                        </span>
+                                        <span t-if="order.state == 'done'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">verified</span> Đã hoàn thành
+                                        </span>
+                                        <span t-if="order.state == 'cancel'" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[12px] font-medium bg-surface-variant text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[14px]">cancel</span> Đã hủy
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

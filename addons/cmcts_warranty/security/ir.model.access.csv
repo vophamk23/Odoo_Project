@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_warranty_manager,cmcts_warranty.warranty.manager,model_cmcts_warranty_warranty,cmcts_warranty.group_warranty_manager,1,1,1,1
+access_warranty_technician,cmcts_warranty.warranty.technician,model_cmcts_warranty_warranty,cmcts_warranty.group_warranty_technician,1,0,0,0
+access_warranty_claim_manager,cmcts_warranty.warranty.claim.manager,model_cmcts_warranty_warranty_claim,cmcts_warranty.group_warranty_manager,1,1,1,1
+access_warranty_claim_technician,cmcts_warranty.warranty.claim.technician,model_cmcts_warranty_warranty_claim,cmcts_warranty.group_warranty_technician,1,1,0,0

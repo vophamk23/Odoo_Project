@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cmcts_blog_list" name="CMCTS Blog List">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main id="ajax-content-container" class="flex-grow w-full max-w-grid_max_width mx-auto px-margin_mobile md:px-margin_desktop pt-[120px] pb-space-xl">
+<!-- Blog Custom Banner -->
+<section class="mb-space-xl">
+    <div class="w-full text-white py-24 px-8 rounded-3xl shadow-2xl relative overflow-hidden flex flex-col items-start justify-center bg-primary-container border border-outline-variant/30">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-[url('/cmcts_website/static/src/img/blog_banner.png')] bg-cover bg-center mix-blend-luminosity opacity-40"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/90 via-[#1e3a8a]/70 to-[#1e40af]/30"></div>
+        
+        <!-- Decorative abstract shapes -->
+        <div class="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl mix-blend-overlay pointer-events-none"></div>
+        <div class="absolute -bottom-20 right-40 w-96 h-96 bg-secondary/30 rounded-full blur-3xl mix-blend-overlay pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl">
+            <span class="inline-block px-4 py-1.5 rounded bg-black/20 text-white/90 text-sm font-bold tracking-widest mb-6 backdrop-blur-sm border border-white/20 uppercase">Blog &amp; Insights</span>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6 text-white drop-shadow-lg leading-tight">Góc Nhìn Công Nghệ</h1>
+            <p class="text-lg md:text-2xl text-white/90 font-medium leading-relaxed drop-shadow-md">Cập nhật xu hướng điện toán đám mây, an ninh mạng và giải pháp IT mới nhất từ các chuyên gia hàng đầu CMCTS.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Header & Categories -->
+<section class="mb-space-xl">
+<div class="hidden">
+<h1 class="font-h1-mobile text-h1-mobile md:font-h1 md:text-h1 mb-space-md text-on-background">Góc Nhìn &amp; Kiến Thức</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-space-lg max-w-3xl">Phân tích chuyên sâu về kiến trúc điện toán hiệu năng cao, xu hướng mạng doanh nghiệp và chiến lược triển khai bảo mật.</p>
+</div>
+<div class="flex flex-wrap gap-space-sm">
+<a href="/blog" t-attf-class="ajax-filter font-label-sm text-label-sm px-4 py-2 rounded-full border transition-colors #{'bg-primary text-on-primary border-primary' if not current_category else 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary hover:text-primary'}">All</a>
+<a href="/blog?category=hardware" t-attf-class="ajax-filter font-label-sm text-label-sm px-4 py-2 rounded-full border transition-colors #{'bg-primary text-on-primary border-primary' if current_category == 'hardware' else 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary hover:text-primary'}">Phần cứng</a>
+<a href="/blog?category=security" t-attf-class="ajax-filter font-label-sm text-label-sm px-4 py-2 rounded-full border transition-colors #{'bg-primary text-on-primary border-primary' if current_category == 'security' else 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary hover:text-primary'}">Bảo mật</a>
+<a href="/blog?category=cloud" t-attf-class="ajax-filter font-label-sm text-label-sm px-4 py-2 rounded-full border transition-colors #{'bg-primary text-on-primary border-primary' if current_category == 'cloud' else 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary hover:text-primary'}">Đám mây</a>
+<a href="/blog?category=network" t-attf-class="ajax-filter font-label-sm text-label-sm px-4 py-2 rounded-full border transition-colors #{'bg-primary text-on-primary border-primary' if current_category == 'network' else 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary hover:text-primary'}">Mạng</a>
+</div>
+</section>
+
+<t t-if="posts">
+    <t t-set="featured_post" t-value="posts[0]"/>
+    <!-- Featured Article -->
+    <section class="mb-space-xl">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-surface-container-lowest rounded-xl overflow-hidden elevated-card border border-outline-variant">
+    <a t-attf-href="/blog/detail/#{featured_post.id}" class="h-64 lg:h-auto relative block" style="text-decoration: none;">
+        <div class="w-full h-full absolute inset-0">
+            <t t-call="website.record_cover">
+                <t t-set="_record" t-value="featured_post"/>
+                <t t-set="additionnal_classes" t-value="'w-full h-full'"/>
+            </t>
+        </div>
+    </a>
+    <div class="p-space-lg md:p-space-xl flex flex-col justify-center bg-surface-container-lowest">
+    <div class="flex items-center gap-space-sm mb-space-md">
+    <span class="bg-secondary/10 text-secondary font-label-sm text-label-sm px-2 py-1 rounded" t-esc="featured_post.blog_id.name or 'Tin Tức'"/>
+    <span class="text-outline font-label-sm text-label-sm" t-esc="featured_post.published_date and featured_post.published_date.strftime('%b %d') or 'Gần đây'"/>
+    </div>
+    <a t-attf-href="/blog/detail/#{featured_post.id}" style="text-decoration: none;" class="block mb-space-md"><h2 class="font-h2-mobile text-h2-mobile md:font-h2 md:text-h2 text-on-background hover:text-primary transition-colors" t-esc="featured_post.name"/></a>
+    <p class="font-body-reg text-body-reg text-on-surface-variant mb-space-lg" t-esc="featured_post.subtitle or 'Xem chi tiết bài viết bên trong...'"/>
+    <div class="flex items-center justify-between mt-auto">
+    <div class="flex items-center gap-space-sm">
+    <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-label-sm text-label-sm">
+        <t t-esc="featured_post.sudo().author_id.name[0] if featured_post.sudo().author_id else 'A'"/>
+    </div>
+    <span class="font-label-sm text-label-sm text-on-surface" t-esc="featured_post.sudo().author_id.name or 'Admin'"/>
+    </div>
+    <a class="inline-flex items-center gap-2 text-primary hover:text-secondary font-label-sm text-label-sm transition-colors group" t-attf-href="/blog/detail/#{featured_post.id}">
+                                Đọc bài viết
+                                <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+    </a>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <!-- Grid Articles -->
+    <t t-if="len(posts) > 1">
+        <section class="mb-space-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+            <t t-foreach="posts[1:]" t-as="post">
+                <article class="bg-surface-container-lowest rounded-xl overflow-hidden elevated-card border border-outline-variant flex flex-col">
+                    <a t-attf-href="/blog/detail/#{post.id}" class="h-48 relative overflow-hidden block" style="text-decoration: none;">
+                        <div class="w-full h-full relative">
+                            <t t-call="website.record_cover">
+                                <t t-set="_record" t-value="post"/>
+                                <t t-set="additionnal_classes" t-value="'w-full h-full'"/>
+                            </t>
+                        </div>
+                    </a>
+                    <div class="p-space-md flex flex-col flex-grow">
+                        <div class="flex items-center gap-space-sm mb-space-sm">
+                            <span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded" t-esc="post.blog_id.name or 'Tin Tức'"/>
+                            <span class="text-outline font-label-sm text-label-sm" t-esc="post.published_date and post.published_date.strftime('%b %d') or 'Gần đây'"/>
+                        </div>
+                        <a t-attf-href="/blog/detail/#{post.id}" style="text-decoration: none;" class="block mb-space-sm">
+                            <h3 class="font-h3 text-h3 text-on-background line-clamp-2 hover:text-primary transition-colors" t-esc="post.name"/>
+                        </a>
+                        <p class="font-body-reg text-body-reg text-on-surface-variant mb-space-md line-clamp-3 flex-grow" t-esc="post.subtitle or 'Xem chi tiết bài viết bên trong...'"/>
+                        <a class="inline-flex items-center gap-1 text-primary hover:text-secondary font-label-sm text-label-sm transition-colors group mt-auto" t-attf-href="/blog/detail/#{post.id}">
+                            Đọc thêm
+                            <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                        </a>
+                    </div>
+                </article>
+            </t>
+        </div>
+        <!-- Dynamic Pagination -->
+        <t t-if="total_pages and total_pages > 1">
+            <div class="flex justify-center items-center gap-2 mt-space-xl pb-space-lg border-t border-outline-variant pt-space-md w-full">
+                <!-- Previous Button -->
+                <a t-if="page > 1" t-attf-href="/blog/page/#{page - 1}?#{'category=' + current_category if current_category else ''}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface hover:bg-surface-variant transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                </a>
+                
+                <!-- Page Numbers -->
+                <t t-foreach="range(1, total_pages + 1)" t-as="p">
+                    <a t-attf-href="/blog/page/#{p}?#{'category=' + current_category if current_category else ''}" t-attf-class="w-10 h-10 flex items-center justify-center rounded-full font-label-sm text-label-sm transition-colors shadow-sm #{'bg-primary text-on-primary' if p == page else 'bg-surface-container-lowest text-on-surface hover:bg-surface-variant border border-outline-variant'}">
+                        <t t-esc="p"/>
+                    </a>
+                </t>
+
+                <!-- Next Button -->
+                <a t-if="page &lt; total_pages" t-attf-href="/blog/page/#{page + 1}?#{'category=' + current_category if current_category else ''}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container text-on-surface hover:bg-surface-variant transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                </a>
+            </div>
+            <div class="text-center text-outline-variant font-body-sm text-body-sm mt-2 mb-space-lg">
+                Hiển thị trang <t t-esc="page"/> / <t t-esc="total_pages"/>
+            </div>
+        </t>
+        </section>
+    </t>
+</t>
+<t t-else="">
+    <div class="text-center py-10 mb-space-xl">
+        <p class="text-on-surface-variant font-body-reg">Chưa có bài viết nào được xuất bản.</p>
+    </div>
+</t>
+
+<!-- Newsletter Signup -->
+<section class="bg-primary-container text-on-primary-container rounded-xl p-space-lg md:p-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg shadow-sm">
+<div class="max-w-xl">
+<h3 class="font-h3 text-h3 font-bold text-on-primary-container dark:text-on-primary-fixed mb-space-xs">Đăng ký nhận Bản tin Kỹ thuật</h3>
+<p class="font-body-reg text-body-reg opacity-80">Nhận phân tích chuyên sâu hàng tháng về đổi mới phần cứng trực tiếp qua email của bạn.</p>
+</div>
+<form class="w-full md:w-auto flex flex-col sm:flex-row gap-space-sm">
+<input class="bg-surface-container-lowest text-on-surface border border-outline-variant rounded px-4 py-2 font-body-reg text-body-reg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none w-full sm:w-64" placeholder="emaildoanhnghiep@congty.com" required="" type="email"/>
+<button class="bg-secondary text-on-secondary font-label-sm text-label-sm px-6 py-2 rounded whitespace-nowrap hover:bg-secondary-container hover:text-on-secondary-container transition-colors" type="submit">
+                    Đăng ký
+                </button>
+</form>
+</section>
+</main>
+            </div>
+        </t>
+    </template>
+</odoo>

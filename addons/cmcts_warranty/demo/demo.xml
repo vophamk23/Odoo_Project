@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+File: demo/demo.xml
+Chức năng: Dữ liệu demo để test giao diện module Bảo Hành khi cài đặt.
+LƯU Ý: Sau khi liên kết Phase 1 (dùng product.product + stock.lot),
+demo data tạo sẵn sản phẩm và số serial demo, rồi liên kết vào phiếu BH.
+-->
+<odoo>
+    <data>
+
+        <!-- =====================
+             NHÓM SẢN PHẨM DEMO
+        ===================== -->
+        <record id="demo_categ_laptop" model="product.category">
+            <field name="name">Laptop / Máy tính xách tay</field>
+        </record>
+        <record id="demo_categ_server" model="product.category">
+            <field name="name">Server / Máy chủ</field>
+        </record>
+        <record id="demo_categ_network" model="product.category">
+            <field name="name">Thiết bị mạng</field>
+        </record>
+
+        <!-- =====================
+             SẢN PHẨM DEMO (product.template + product.product)
+        ===================== -->
+        <record id="demo_product_laptop_dell_tmpl" model="product.template">
+            <field name="name">Laptop Dell XPS 15 9520</field>
+            <field name="categ_id" ref="demo_categ_laptop"/>
+            <field name="type">consu</field>
+            <field name="tracking">serial</field>
+        </record>
+        <record id="demo_product_laptop_dell" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_laptop_dell_tmpl"/>
+        </record>
+
+        <record id="demo_product_server_hpe_tmpl" model="product.template">
+            <field name="name">Server HPE ProLiant DL380 Gen10</field>
+            <field name="categ_id" ref="demo_categ_server"/>
+            <field name="type">consu</field>
+            <field name="tracking">serial</field>
+        </record>
+        <record id="demo_product_server_hpe" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_server_hpe_tmpl"/>
+        </record>
+
+        <record id="demo_product_switch_cisco_tmpl" model="product.template">
+            <field name="name">Switch Cisco Catalyst 2960-X</field>
+            <field name="categ_id" ref="demo_categ_network"/>
+            <field name="type">consu</field>
+            <field name="tracking">serial</field>
+        </record>
+        <record id="demo_product_switch_cisco" model="product.product">
+            <field name="product_tmpl_id" ref="demo_product_switch_cisco_tmpl"/>
+        </record>
+
+        <!-- =====================
+             SỐ SERIAL DEMO (stock.lot)
+        ===================== -->
+        <record id="demo_lot_dell_001" model="stock.lot">
+            <field name="name">DELL-XPS-2024-001</field>
+            <field name="product_id" ref="demo_product_laptop_dell"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="demo_lot_hpe_042" model="stock.lot">
+            <field name="name">HPE-DL380-2023-042</field>
+            <field name="product_id" ref="demo_product_server_hpe"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="demo_lot_cisco_015" model="stock.lot">
+            <field name="name">CISCO-CAT-2024-015</field>
+            <field name="product_id" ref="demo_product_switch_cisco"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <!-- =====================
+             PHIẾU BẢO HÀNH DEMO
+        ===================== -->
+
+        <!-- Phiếu 1: Laptop Dell - Còn hiệu lực -->
+        <record id="demo_warranty_laptop_dell" model="cmcts_warranty.warranty">
+            <field name="name">WH/DEMO/0001</field>
+            <field name="product_id" ref="demo_product_laptop_dell"/>
+            <field name="lot_id" ref="demo_lot_dell_001"/>
+            <field name="partner_id" ref="base.res_partner_1"/>
+            <field name="sale_date" eval="(DateTime.now() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+            <field name="warranty_months">24</field>
+            <field name="state">active</field>
+            <field name="note">Khách hàng doanh nghiệp, ưu tiên xử lý nhanh.</field>
+        </record>
+
+        <!-- Phiếu 2: Server HPE - Còn hiệu lực -->
+        <record id="demo_warranty_server_hpe" model="cmcts_warranty.warranty">
+            <field name="name">WH/DEMO/0002</field>
+            <field name="product_id" ref="demo_product_server_hpe"/>
+            <field name="lot_id" ref="demo_lot_hpe_042"/>
+            <field name="partner_id" ref="base.res_partner_2"/>
+            <field name="sale_date" eval="(DateTime.now() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+            <field name="warranty_months">36</field>
+            <field name="state">active</field>
+            <field name="note">Bảo hành phần cứng 3 năm theo hợp đồng.</field>
+        </record>
+
+        <!-- Phiếu 3: Switch Cisco - Còn hiệu lực -->
+        <record id="demo_warranty_switch" model="cmcts_warranty.warranty">
+            <field name="name">WH/DEMO/0003</field>
+            <field name="product_id" ref="demo_product_switch_cisco"/>
+            <field name="lot_id" ref="demo_lot_cisco_015"/>
+            <field name="partner_id" ref="base.res_partner_4"/>
+            <field name="sale_date" eval="(DateTime.now() - relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+            <field name="warranty_months">12</field>
+            <field name="state">active</field>
+            <field name="color">10</field>
+        </record>
+
+        <!-- =====================
+             PHIẾU YÊU CẦU BH DEMO
+        ===================== -->
+
+        <!-- Yêu cầu 1: Đang xử lý -->
+        <record id="demo_claim_001" model="cmcts_warranty.warranty.claim">
+            <field name="name">CLM/DEMO/0001</field>
+            <field name="warranty_id" ref="demo_warranty_laptop_dell"/>
+            <field name="issue_description">Màn hình xuất hiện sọc ngang, có thể do kết nối cáp màn hình lỏng hoặc card đồ họa lỗi sau 3 tháng sử dụng.</field>
+            <field name="received_date" eval="(DateTime.now() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="expected_return_date" eval="(DateTime.now() + relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="state">2_processing</field>
+        </record>
+
+        <!-- Yêu cầu 2: Hoàn thành -->
+        <record id="demo_claim_002" model="cmcts_warranty.warranty.claim">
+            <field name="name">CLM/DEMO/0002</field>
+            <field name="warranty_id" ref="demo_warranty_server_hpe"/>
+            <field name="issue_description">Ổ cứng RAID lỗi sau 8 tháng, cần thay thế HDD 4TB.</field>
+            <field name="received_date" eval="(DateTime.now() - relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="state">3_done</field>
+            <field name="resolution_note">Đã thay thế HDD lỗi bằng HDD mới, kiểm tra RAID array bình thường. Thiết bị hoạt động ổn định.</field>
+        </record>
+
+        <!-- Yêu cầu 3: Tiếp nhận mới -->
+        <record id="demo_claim_003" model="cmcts_warranty.warranty.claim">
+            <field name="name">CLM/DEMO/0003</field>
+            <field name="warranty_id" ref="demo_warranty_switch"/>
+            <field name="issue_description">Switch bị reboot ngẫu nhiên, mất kết nối mạng trong khoảng 2-5 phút mỗi lần.</field>
+            <field name="received_date" eval="DateTime.now().strftime('%Y-%m-%d')"/>
+            <field name="state">1_received</field>
+        </record>
+
+    </data>
+</odoo>

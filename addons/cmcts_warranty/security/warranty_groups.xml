@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+File: security/warranty_groups.xml
+Chức năng: Định nghĩa các nhóm quyền (Groups) cho module Warranty.
+  - group_warranty_manager:    Nhân viên tiếp nhận (Đọc + Ghi)
+    → Người trực tiếp tạo và quản lý phiếu bảo hành khi KH mang thiết bị đến
+  - group_warranty_technician: Kỹ thuật viên (Chỉ đọc)
+    → Xem phiếu để biết cần sửa gì, không chỉnh sửa hệ thống
+  Người không có group nào → không thấy app
+-->
+<odoo>
+    <data noupdate="0">
+
+        <!-- Danh mục module Warranty trên giao diện phân quyền người dùng -->
+        <record id="module_category_warranty" model="ir.module.category">
+            <field name="name">Warranty</field>
+            <field name="description">Phân quyền cho module Quản lý Bảo Hành</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!--
+        PHÂN QUYỀN: Group Kỹ thuật viên - Chỉ đọc
+        Kỹ thuật viên xem phiếu để biết cần sửa gì, không được chỉnh sửa hệ thống
+        KHÔNG kế thừa group_warranty_manager vì user có CRUD, kế thừa sẽ bị lây CRUD!
+        Phải định nghĩa trước group_warranty_manager vì group_warranty_manager tham chiếu đến nó
+        -->
+        <record id="group_warranty_technician" model="res.groups">
+            <field name="name">Kỹ thuật viên</field>
+            <field name="category_id" ref="module_category_warranty"/>
+            <!-- Tự động thêm admin vào nhóm này để xem app ngay sau khi cài -->
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+            <!-- Kỹ thuật viên chỉ kế thừa base.group_user (Internal User), KHÔNG kế thừa group_warranty_manager -->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Kỹ thuật viên: chỉ được xem phiếu bảo hành, không chỉnh sửa</field>
+        </record>
+
+        <!--
+        PHÂN QUYỀN: Group Nhân viên tiếp nhận - Toàn quyền CRUD
+        Người trực tiếp tiếp nhận thiết bị, tạo và cập nhật phiếu bảo hành
+        -->
+        <record id="group_warranty_manager" model="res.groups">
+            <field name="name">Nhân viên tiếp nhận</field>
+            <field name="category_id" ref="module_category_warranty"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('cmcts_warranty.group_warranty_technician')])]"/>
+            <field name="comment">Nhân viên tiếp nhận: toàn quyền tạo, sửa phiếu bảo hành</field>
+        </record>
+
+    </data>
+</odoo>
