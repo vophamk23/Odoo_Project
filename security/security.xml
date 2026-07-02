@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="t4_gate_keeper_branch_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Branch: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_branch"/>
+        <field name="domain_force">[('company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_controller_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Controller: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_controller"/>
+        <field name="domain_force">[('branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_device_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Device: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_device"/>
+        <field name="domain_force">[('branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_access_log_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Access Log: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_access_log"/>
+        <field name="domain_force">[('branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_employee_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Employee: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_employee"/>
+        <field name="domain_force">['|', ('branch_id', '=', False), ('branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_employee_biometric_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Employee Biometric: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_employee_biometric"/>
+        <field name="domain_force">['|', ('employee_id.branch_id', '=', False), ('employee_id.branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_area_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Area: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_area"/>
+        <field name="domain_force">[('branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="t4_gate_keeper_area_warning_company_rule" model="ir.rule">
+        <field name="name">Gate Keeper Area Warning: multi-company access</field>
+        <field name="model_id" ref="model_t4_gate_keeper_area_warning"/>
+        <field name="domain_force">[('area_id.branch_id.company_id', 'child_of', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>
+

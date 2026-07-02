@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_t4_gate_keeper_branch,t4.gate_keeper.branch,model_t4_gate_keeper_branch,base.group_user,1,1,1,1
+access_t4_gate_keeper_controller,t4.gate_keeper.controller,model_t4_gate_keeper_controller,base.group_user,1,1,1,1
+access_t4_gate_keeper_device,t4.gate_keeper.device,model_t4_gate_keeper_device,base.group_user,1,1,1,1
+access_t4_gate_keeper_device_model,t4.gate_keeper.device_model,model_t4_gate_keeper_device_model,base.group_user,1,1,1,1
+access_t4_gate_keeper_algorithm,t4.gate_keeper.algorithm,model_t4_gate_keeper_algorithm,base.group_user,1,1,1,1
+access_t4_gate_keeper_access_log,t4.gate_keeper.access_log,model_t4_gate_keeper_access_log,base.group_user,1,1,1,1
+access_t4_gate_keeper_employee,t4.gate_keeper.employee,model_t4_gate_keeper_employee,base.group_user,1,1,1,1
+access_t4_gate_keeper_employee_biometric,t4.gate_keeper.employee.biometric,model_t4_gate_keeper_employee_biometric,base.group_user,1,1,1,1
+access_t4_gate_keeper_area,t4.gate_keeper.area,model_t4_gate_keeper_area,base.group_user,1,1,1,1
+access_t4_gate_keeper_area_warning,t4.gate_keeper.area_warning,model_t4_gate_keeper_area_warning,base.group_user,1,1,1,1
+access_t4_gate_keeper_area_warning_type,t4.gate_keeper.area_warning_type,model_t4_gate_keeper_area_warning_type,base.group_user,1,1,1,1
+
+
+

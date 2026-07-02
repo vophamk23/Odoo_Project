@@ -1,0 +1,33 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* t4_gate_keeper
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-23 12:00+0000\n"
+"PO-Revision-Date: 2026-06-23 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: t4_gate_keeper
+#: python-code:addons/t4_gate_keeper/models/gk_employee.py:0
+msgid "Employee ID %s has been used before and cannot be reassigned."
+msgstr "Mã số nhân viên %s đã từng được sử dụng trước đây và không thể cấp lại."
+
+#. module: t4_gate_keeper
+#: python-code:addons/t4_gate_keeper/models/gk_employee.py:0
+msgid "Employee ID must be unique."
+msgstr "Mã số nhân viên phải là duy nhất."
+
+#. module: t4_gate_keeper
+#: python-code:addons/t4_gate_keeper/models/hr_employee.py:0
+msgid "Employee ID cannot be modified once assigned."
+msgstr "Không thể chỉnh sửa mã số nhân viên sau khi đã gán."
+

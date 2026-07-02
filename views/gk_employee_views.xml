@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="t4_gate_keeper_employee_view_list" model="ir.ui.view">
+        <field name="name">t4.gate_keeper.employee.view.list</field>
+        <field name="model">t4.gate_keeper.employee</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="emp_id"/>
+                <field name="name"/>
+                <field name="branch_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="t4_gate_keeper_employee_view_form" model="ir.ui.view">
+        <field name="name">t4.gate_keeper.employee.view.form</field>
+        <field name="model">t4.gate_keeper.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="button_box">
+                        <button name="action_view_biometrics"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-fingerprint">
+                            <field name="biometric_count" string="Biometrics" widget="statinfo"/>
+                        </button>
+                    </div> -->
+                    <group col="2">
+
+                        <group>
+                            <field name="name"/>
+                            <field name="emp_id"/>
+                            <field name="branch_id"/>
+                        </group>
+
+                        <group>
+                            <field name="avatar" widget="image" class="oe_avatar" option="{'size': [180, 180]}" nolabel="1"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page string="Biometrics" name="biometrics">
+                            <field name="biometric_ids">
+                                <list editable="bottom">
+                                    <field name="algorithm_id"/>
+                                    <field name="biometric_type" readonly="1"/>
+                                    <field name="finger_index"/>
+                                    <field name="template" widget="binary"/>
+                                    <field name="description"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="t4_gate_keeper_employee_view_search" model="ir.ui.view">
+        <field name="name">t4.gate_keeper.employee.view.search</field>
+        <field name="model">t4.gate_keeper.employee</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="emp_id"/>
+                <field name="branch_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="t4_gate_keeper_employee_action" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="res_model">t4.gate_keeper.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="t4_gate_keeper_employee_view_search"/>
+    </record>
+
+</odoo>

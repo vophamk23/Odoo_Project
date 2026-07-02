@@ -1,0 +1,38 @@
+Gate Keeper - Company Access Control Changes
+
+The Gate Keeper module now enforces company-based access for Controllers and Devices.
+
+1. Controller company ownership
+
+- Each Controller belongs to one company through the company_id field.
+- The default company is the current user's active company.
+- Users should only work with Controllers that belong to their allowed companies.
+
+2. Device company inheritance
+
+- Each Device belongs to a Controller.
+- The Device company is inherited from its Controller through a related company_id field.
+- This keeps Device visibility aligned with Controller visibility.
+
+3. Record rules
+
+- A record rule was added for t4.gate_keeper.controller.
+- A record rule was added for t4.gate_keeper.device.
+- Both rules filter records by:
+
+  company_id child_of company_ids
+
+This means normal users can access Controllers and Devices that belong to companies available to their current Odoo session and their descendant companies.
+
+4. Result
+
+- When a user is working under Company A, they can access Controllers of Company A and Company A's child companies.
+- Child companies do not automatically access Controllers from their parent companies.
+- Devices follow the same rule because their company comes from their Controller.
+
+5. Company hierarchy view
+
+- A Gate Keeper Companies menu was added.
+- The action lists companies in the current allowed company hierarchy.
+- The company form shows company information and a Controllers tab.
+- Child companies are not shown inside the parent company's notebook.

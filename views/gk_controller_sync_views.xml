@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Controller Sync List View -->
+    <record id="t4_gate_keeper_controller_sync_view_list" model="ir.ui.view">
+        <field name="name">t4.gate_keeper.controller.sync.view.list</field>
+        <field name="model">t4.gate_keeper.controller</field>
+        <field name="arch" type="xml">
+            <list default_order="last_sync_at asc">
+                <field name="name"/>
+                <field name="serial_number"/>
+                <field name="branch_id"/>
+                <field name="connection_type"/>
+                <field name="ip_address"/>
+                <field name="status" 
+                       widget="badge"
+                       decoration-success="status == 'online'"
+                       decoration-danger="status == 'offline'"/>
+                <field name="last_heartbeat_at"/>
+                <field name="last_sync_at"/>
+                <field name="employee_sync_status" 
+                       widget="badge" 
+                       decoration-success="employee_sync_status == 'synced'" 
+                       decoration-danger="employee_sync_status == 'out_of_sync'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Controller Sync Action -->
+    <record id="t4_gate_keeper_controller_sync_action" model="ir.actions.act_window">
+        <field name="name">Controllers</field>
+        <field name="res_model">t4.gate_keeper.controller</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="t4_gate_keeper_controller_sync_view_list"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No controllers found.
+            </p>
+            <p>
+                Monitor the employee synchronization status of controllers here.
+            </p>
+        </field>
+    </record>
+
+</odoo>
