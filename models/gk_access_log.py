@@ -19,6 +19,7 @@ VERIFICATION_TYPE = [
 DIRECTION = [
     ('in', 'Check-in'),
     ('out', 'Check-out'),
+    ('unk', 'Unknown'),
 ]
 
 class GateKeeperAccessLog(models.Model):
