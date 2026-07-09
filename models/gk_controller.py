@@ -3,7 +3,7 @@ import logging
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
 # pyrefly: ignore [missing-import]
-from odoo.addons.t4_coreapi.utils import endpoint, get_body, set_response
+from odoo.addons.t4_coreapi.utils import endpoint, get_body
 # pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 
@@ -140,21 +140,39 @@ class T4GateKeeperController(models.Model):
     )
 
     ################################## ENDPOINT ###############################################
-    def _find_controller(self, serial_number):
+    def _find_controller(self, controller_id):
         return self.search([
-            ("serial_number", "=", serial_number),
+            ("serial_number", "=", controller_id),
+        ], limit=1)
+    
+    def _find_device(self, controller_id, device_id):
+        return self.env["t4.gate_keeper.device"].search([
+            ("serial_number", "=", device_id),
+            ("controller_id", "=", controller_id),
         ], limit=1)
     
 
     @endpoint(name="ControllerHeartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
-        serial_number = body.get("serial_number", False)
+        controller_id = body.get("controller_id", False)
 
-        controller = self._find_controller(serial_number)
+        controller = self._find_controller(controller_id)
         if not controller:
-            raise ValidationError(f"Can not find controller with serial {serial_number}")
+            raise ValidationError(f"Can not find controller with id {controller_id}")
+        devices = body.get("devices", [])
+        for device in devices:
+            device_id = device.get("serial", False)
+            device_status = device.get("status", False)
+            if device_id is False or device_status is False:
+               continue
+            
+            device_record = self._find_device(controller.id, device_id)
+            if device_record:
+                device_record.write({"status": device_status})
 
+
+        
         heartbeat_at = fields.Datetime.now()
         controller.write({
             "last_heartbeat_at": heartbeat_at,

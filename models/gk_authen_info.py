@@ -9,3 +9,10 @@ class T4GateKeeperAuthInfo (models.Model):
         string="Employee"
     )
 
+    # emp_code = fields.Char(string="Employee Code", required=True, copy=True)
+    # emp_status = fields.Boolean(string="Employee Status", default=True)
+    # description = fields.Text(string="Description")
+
+    # _sql_constraints = [
+    #     ('emp_code_unique', 'unique(emp_code)', 'Employee Code must be unique!'),
+    # ]
