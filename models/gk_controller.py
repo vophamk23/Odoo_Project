@@ -161,10 +161,18 @@ class T4GateKeeperController(models.Model):
         if not controller:
             raise ValidationError(f"Can not find controller with id {controller_id}")
         devices = body.get("devices", [])
+        if not devices:
+            raise ValidationError("Devices list is required.")
         for device in devices:
-            device_id = device.get("serial", False)
-            device_status = device.get("status", False)
-            if device_id is False or device_status is False:
+            device_id = device.get("serial")
+            device_status = device.get("status")
+            if not device_id:
+                raise ValidationError("Device serial number is required.")
+
+            if not device_status:
+                raise ValidationError(f"Device status is required for device {device_id}")
+                
+            if not device_id or not device_status:
                continue
             
             device_record = self._find_device(controller.id, device_id)
@@ -172,7 +180,7 @@ class T4GateKeeperController(models.Model):
                 device_record.write({"status": device_status})
 
 
-        
+
         heartbeat_at = fields.Datetime.now()
         controller.write({
             "last_heartbeat_at": heartbeat_at,
