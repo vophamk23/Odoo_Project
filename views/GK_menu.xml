@@ -121,7 +121,7 @@
             sequence="30"/>
 
   <!-- CONFIG: controller tab -->
-  <!-- <menuitem id="t4_gate_keeper_configuration_controller_menu"
+  <menuitem id="t4_gate_keeper_configuration_controller_menu"
             name="Controller"
             parent="t4_gate_keeper_configuration_menu"
             sequence="300"/>
@@ -130,6 +130,6 @@
             name="Controllers" 
             parent="t4_gate_keeper_configuration_controller_menu" 
             action="t4_gate_keeper_controller_sync_action" 
-            sequence="50"/> -->
+            sequence="50"/>
 
 </odoo>
