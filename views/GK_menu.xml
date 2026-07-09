@@ -133,4 +133,13 @@
             sequence="50"/>
 
   
+
+
+  <menuitem id="test_automation"
+
+            name="Test auto"
+
+            parent="t4_gate_keeper_menu_root"
+
+            sequence="300"/>
 </odoo>
