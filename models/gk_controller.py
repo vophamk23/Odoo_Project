@@ -161,8 +161,8 @@ class T4GateKeeperController(models.Model):
         if not controller:
             raise ValidationError(f"Can not find controller with id {controller_id}")
         devices = body.get("devices", [])
-        if not devices:
-            raise ValidationError("Devices list is required.")
+        # if not devices:
+        #     raise ValidationError("Devices list is required.")
         for device in devices:
             device_id = device.get("serial")
             device_status = device.get("status")
