@@ -284,7 +284,7 @@ class T4GateKeeperController(models.Model):
 
         if "branch_code" in body:
             branch_code = body.pop("branch_code")
-            body["branch_id"] = self._find_branch_by_code(branch_code)  
+            body["branch_id"] = self._find_branch_by_code(branch_code).id
 
         vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
 
