@@ -265,6 +265,9 @@ class T4GateKeeperController(models.Model):
         return self.env["t4.gate_keeper.employee"].search(domain)
 
     #### Register 
+
+    def _find_branch_by_code(self, branch_code):
+        return self.env[]
     @endpoint("ControllerRegister")
     def _controller_register (self):
         body = get_body()
