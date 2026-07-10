@@ -20,9 +20,16 @@ CONTROLLER_STATUS = [
 
 
 ALLOWED_FIELDS = [  # fields of t4 gatekeeper controller if you add or delete pls change this list
-    'name', 'serial_number', 'branch_id', 'hardware_model', 
-    'firmware_version', 'ip_address', 'mac_address', 
-    'connection_type', 'status', 'installed_at'
+    'name', 
+    'serial_number', 
+    'branch_id', 
+    'hardware_model', 
+    'firmware_version', 
+    'ip_address', 
+    'mac_address', 
+    'connection_type', 
+    'status', 
+    'installed_at'
 ]
 
 class T4GateKeeperController(models.Model):
@@ -272,24 +279,27 @@ class T4GateKeeperController(models.Model):
         ], limit=1)
 
     @endpoint("ControllerRegister")
-    def _controller_register (self):
+    def _controller_register(self):
         body = get_body()
 
-        vals = {
-            key: body[key] 
-            for key in ALLOWED_FIELDS 
-            if key in body
-        }
+        if "branch_code" in body:
+            branch_code = body.pop("branch_code")
+            body["branch_id"] = self._find_branch_by_code(branch_code)  
+
+        vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
 
         if 'serial_number' not in vals or 'branch_id' not in vals:
             raise ValidationError("Missing required fields (serial_number, branch_id)")
 
+        if not vals['branch_id']:
+            raise ValidationError("Invalid branch_code provided")   
+
         new_controller = self.env['t4.gate_keeper.controller'].sudo().create(vals)
-            
+
         return {
             "message": "Controller registered successfully",
             "data": {
-                    "id": new_controller.id
+                "id": new_controller.id
             }
         }
         
