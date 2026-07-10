@@ -61,7 +61,7 @@ class GateKeeperBranch(models.Model):
         for branch in self:
             branch.device_ids = branch.controller_ids.mapped("device_ids")
 
-    unique_branch_code = models.Constraint(
+    _unique_branch_code = models.Constraint(
         "UNIQUE(code)",
         "This code is already used!"
     )
