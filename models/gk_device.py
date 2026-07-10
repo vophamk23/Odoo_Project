@@ -1,5 +1,7 @@
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
+from odoo.addons.t4_coreapi.utils import endpoint, get_params, get_body
+
 
 # DEVICE_ROLES = [
 #     ("input", "Input"),
@@ -209,3 +211,8 @@ class GateKeeperDevice(models.Model):
         "UNIQUE(controller_id, port_or_channel)",
         _("Device port or channel must be unique per controller.")
     )
+
+
+    @endpoint("DeviceRegister")
+    def _device_register(self):
+        body = get_body()
