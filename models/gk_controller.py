@@ -19,6 +19,12 @@ CONTROLLER_STATUS = [
 ]
 
 
+ALLOWED_FIELDS = [  # fields of t4 gatekeeper controller if you add or delete pls change this list
+    'name', 'serial_number', 'branch_id', 'hardware_model', 
+    'firmware_version', 'ip_address', 'mac_address', 
+    'connection_type', 'status', 'installed_at'
+]
+
 class T4GateKeeperController(models.Model):
     _name = "t4.gate_keeper.controller"
     _description = "Gate Keeper Controller"
@@ -257,3 +263,29 @@ class T4GateKeeperController(models.Model):
 
     def _get_employees_to_sync(self, domain):
         return self.env["t4.gate_keeper.employee"].search(domain)
+
+    #### Register 
+    @endpoint("ControllerRegister")
+    def _controller_register (self):
+        body = get_body()
+
+        vals = {
+            key: body[key] 
+            for key in ALLOWED_FIELDS 
+            if key in body
+        }
+
+        if 'serial_number' not in vals or 'branch_id' not in vals:
+            raise ValidationError("Missing required fields (serial_number, branch_id)")
+
+        new_controller = request.env['t4.gate_keeper.controller'].sudo().create(vals)
+            
+        return {
+            "message": "Controller registered successfully",
+            "data": {
+                    "id": new_controller.id
+            }
+        }
+        
+
+
