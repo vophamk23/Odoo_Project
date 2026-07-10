@@ -7,6 +7,7 @@
             <list string="Branches">
                 <field name="name"/>
                 <field name="company_id"/>
+                <field name="code"/>
             </list>
         </field>
     </record>
@@ -21,6 +22,7 @@
                         <group>
                             <field name="name"/>
                             <field name="timezone"/>
+                            <field name="code"/>
                         </group>
 
                         <group>

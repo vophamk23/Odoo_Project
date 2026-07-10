@@ -13,6 +13,10 @@ class GateKeeperBranch(models.Model):
         help="Name of the branch.",
     )
 
+    code = fields.Char(
+        string="Branch Code",
+    )
+
     timezone = fields.Selection(
         selection=lambda self: [(tz, tz) for tz in pytz.common_timezones],
         string="Timezone",
@@ -56,3 +60,8 @@ class GateKeeperBranch(models.Model):
     def _compute_device_ids(self):
         for branch in self:
             branch.device_ids = branch.controller_ids.mapped("device_ids")
+
+    unique_branch_code = models.Constraint(
+        "UNIQUE(code)",
+        "This code is already used!"
+    )
