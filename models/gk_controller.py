@@ -278,7 +278,7 @@ class T4GateKeeperController(models.Model):
         if 'serial_number' not in vals or 'branch_id' not in vals:
             raise ValidationError("Missing required fields (serial_number, branch_id)")
 
-        new_controller = request.env['t4.gate_keeper.controller'].sudo().create(vals)
+        new_controller = self.env['t4.gate_keeper.controller'].sudo().create(vals)
             
         return {
             "message": "Controller registered successfully",
