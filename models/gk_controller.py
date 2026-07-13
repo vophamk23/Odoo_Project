@@ -402,6 +402,41 @@ class T4GateKeeperController(models.Model):
             "message": _("Success"),
             "data": biometric_data
         }
+    
+    #### Config
+    @endpoint(name="ControllerGetConfig")
+    def controller_get_config(self):
+        body = get_body()
+        serial_number = body.get("controller_sn", False)
+
+        if not serial_number:
+            raise ValidationError(_("Controller ID is required."))
+
+        controller = self._find_controller(serial_number)
+        if not controller:
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+        device_list = controller.device_ids
+        device_data = []
+
+        for device in device_list:
+            device_data.append({
+                "device_sn": device.serial_number,
+                "device_model": device.device_model_id.name if device.device_model_id else "N/A",
+                "assigned_area": device.area_id.name if device.area_id else "N/A",
+                "status": device.status,
+                "connection_type": device.connection_type,
+                "port/channel": device.port_or_channel,
+                "supported_biometric_types": [biometric.name for biometric in device.algorithm_ids],
+            })
+
+        return {
+            "message": _("Success"),
+            "timezone": controller.timezone,
+            "data": {
+                "devices": device_data
+            }
+        }
         
 
 
