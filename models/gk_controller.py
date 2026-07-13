@@ -168,7 +168,7 @@ class T4GateKeeperController(models.Model):
     @endpoint(name="ControllerHeartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
-        controller_id = body.get("controller_id", False)
+        controller_id = body.get("controller_sn", False)
 
         controller = self._find_controller(controller_id)
         if not controller:
@@ -204,14 +204,14 @@ class T4GateKeeperController(models.Model):
     @endpoint(name="ControllerEmployeeSync")
     def controller_employee_sync(self):
         body = get_body()
-        serial_number = body.get("serial_number", False)
+        serial_number = body.get("controller_sn", False)
 
         if not serial_number:
-            raise ValidationError(_("Serial number is required."))
+            raise ValidationError(_("Controller ID is required."))
 
         controller = self._find_controller(serial_number)
         if not controller:
-            raise ValidationError(_("Can not find controller with serial %s") % serial_number)
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
 
         domain = self._get_employee_sync_domain(controller)
         employees = self._get_employees_to_sync(domain)
@@ -224,23 +224,84 @@ class T4GateKeeperController(models.Model):
                 "status": "online",
             })
             return {
-                "message": _("Already up-to-date"),
-                "data": []
+                "message": _("Employee sync completed"),
+                "data": {
+                    "new": [],
+                    "update": [],
+                    "deleted": [],
+                }
             }
             
-        data = []
+        new = []
+        update = []
+        deleted = []
         for emp in employees:
-            data.append({
-                "name": emp.name,
-                "emp_id": emp.emp_id,
-            })
+            if not emp.active:
+                deleted.append(emp)
+            elif not controller.last_sync_at:
+                new.append(emp)
+            elif emp.create_date > controller.last_sync_at:
+                new.append(emp)
+            else:
+                update.append(emp)
+
             
         controller.write({
             "last_sync_at": current_time,
             "status": "online",
         })
         
-        return data
+        return {
+            "message": _("Employee sync completed"),
+            "data": {
+                "new": [
+                        {
+                        "id": emp.emp_id,
+                        "name": emp.name,
+                        "branch_id": emp.branch_id.id if emp.branch_id else None,
+                    }
+                    for emp in new
+                ],
+                "update": [
+                    {
+                        "id": emp.emp_id,
+                        "name": emp.name,
+                        "branch_id": emp.branch_id.id if emp.branch_id else None,
+                    }
+                    for emp in update
+                ],
+                "deleted": [
+                    {
+                        "id": emp.emp_id,
+                        "name": emp.name,
+                        "branch_id": emp.branch_id.id if emp.branch_id else None,
+                    }
+                    for emp in deleted
+                ],
+            }
+        }
+    
+    @endpoint(name="ControllerEmployeeSyncStatus")
+    def controller_employee_sync_status(self):
+        body = get_body()
+        serial_number = body.get("controller_sn", False)
+
+        if not serial_number:
+            raise ValidationError(_("Controller ID is required."))
+
+        controller = self._find_controller(serial_number)
+        if not controller:
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+
+        domain = self._get_employee_sync_domain(controller)
+        update = bool(self._get_employees_to_sync(domain))
+
+        return {
+            "message": _("Success"),
+            "data": {
+                "update": update,
+            }
+        }
 
     def write(self, vals):
         res = super(T4GateKeeperController, self).write(vals)

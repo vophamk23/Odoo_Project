@@ -19,9 +19,9 @@ class T4GateKeeperEmployee(models.Model):
         string="Employee name",
     )
 
-    emp_id = fields.Char(
+    emp_id = fields.Integer(
         string="Employee ID",
-        readonly="1",
+        readonly=True,
     )
 
     branch_id = fields.Many2one(
@@ -49,9 +49,14 @@ class T4GateKeeperEmployee(models.Model):
         compute="_compute_biometric_count",
     )
 
-    _emp_id_cosntraint = models.Constraint(
+    _emp_id_constraint = models.Constraint(
         "UNIQUE(emp_id)",
         _("Employee ID must be unique.")
+    )
+
+    active = fields.Boolean(
+        string="Active",
+        default=True,
     )
 
     # @api.depends("biometric_ids")
@@ -72,9 +77,10 @@ class T4GateKeeperEmployee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        sequence = self.env["ir.sequence"]
         for vals in vals_list:
-            if not vals.get('emp_id'):
-                vals['emp_id'] = str(uuid.uuid4())
+            if "emp_id" not in vals:
+                vals["emp_id"] = int(sequence.next_by_code("t4.gate_keeper.employee"))
             
         return super().create(vals_list)
 
