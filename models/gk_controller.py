@@ -363,6 +363,45 @@ class T4GateKeeperController(models.Model):
                 "id": new_controller.id
             }
         }
+    
+    ##### Biometric
+    @endpoint(name="EmployeeBiometricGet")
+    def employee_biometric_get(self):
+        body = get_body()
+        serial_number = body.get("controller_sn", False)
+
+        if not serial_number:
+            raise ValidationError(_("Controller ID is required."))
+
+        controller = self._find_controller(serial_number)
+        if not controller:
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+        employee_id = body.get("employee_id", False)
+        if not employee_id:
+            raise ValidationError(_("Employee ID is required."))
+
+        employee = self.env["t4.gate_keeper.employee"].search([
+            ("emp_id", "=", employee_id),
+            "|", 
+            ("branch_id", "=", False), 
+            ("branch_id", "=", controller.branch_id.id)
+        ], limit=1)
+
+        biometric_data = []
+        if employee:
+            for biometric in employee.biometric_ids:
+                biometric_data.append({
+                    "algorithm": biometric.algorithm_id.name,
+                    "biometric_type": biometric.biometric_type,
+                    "finger_index": biometric.finger_index,
+                    "template": biometric.template.decode or None,
+                })
+
+        return {
+            "message": _("Success"),
+            "data": biometric_data
+        }
         
 
 
