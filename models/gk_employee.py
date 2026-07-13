@@ -21,7 +21,7 @@ class T4GateKeeperEmployee(models.Model):
 
     emp_id = fields.Integer(
         string="Employee ID",
-        readonly=True,
+        readonly=False,
     )
 
     branch_id = fields.Many2one(
