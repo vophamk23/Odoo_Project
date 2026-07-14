@@ -221,14 +221,6 @@ class GateKeeperDevice(models.Model):
         _("Device Serial Number must be unique!")
     )
 
-    _sql_constraints = [
-        (
-            'serial_number_unique',
-            'UNIQUE(serial_number)',
-            'Device Serial Number must be unique!'
-        )
-    ]
-
     # REGISTER
     @api.model
     def _filter_vals_for_create (self, vals):
