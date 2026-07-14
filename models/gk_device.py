@@ -255,5 +255,5 @@ class GateKeeperDevice(models.Model):
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
      
-        return self.env['t4.gate_keeper.device'].sudo().create(filtered_vals_list)
+        return self.env['t4.gate_keeper.device'].create(filtered_vals_list)
 
