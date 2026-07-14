@@ -369,8 +369,7 @@ class T4GateKeeperController(models.Model):
         body = get_body()
         vals_list = body['devices']
 
-        device = self.env['t4.gate_keeper.device'].sudo()
-        device._device_register(vals_list)
+        self.env['t4.gate_keeper.device']._device_register(vals_list)
 
         return {
             "message": "Devices register successfully"
