@@ -57,6 +57,14 @@ class GateKeeperDevice(models.Model):
         help="Controller that manages this device.",
     )
 
+    serial_number = fields.Char(
+        string="Serial Number",
+        copy=False,
+        index=True,
+        required=True,
+        help="Physical serial number of the device.",
+    )
+
     branch_id = fields.Many2one(
         comodel_name="t4.gate_keeper.branch",
         related="controller_id.branch_id",
@@ -88,13 +96,6 @@ class GateKeeperDevice(models.Model):
         comodel_name="t4.gate_keeper.device_model",
         string="Device Model",
         help="Specific model name or number of the hardware device.",
-    )
-
-    serial_number = fields.Char(
-        string="Serial Number",
-        copy=False,
-        index=True,
-        help="Physical serial number of the device.",
     )
 
     port_or_channel = fields.Char(
@@ -252,12 +253,12 @@ class GateKeeperDevice(models.Model):
                     raise ValidationError("Can not find controller serial number")
                 vals["controller_id"] = controller.id
 
-            if not vals.get("serial_number"):
-                raise ValidationError("Device Register must contain serial_number")
+            if not vals.get("serial_number") or not vals.get("controller_id") or not vals.get("name"):
+                raise ValidationError("Device Register must contain (name,controller_id,serial_number)")
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
 
-        _logger.warning(filtered_vals_list)
+        # _logger.warning(filtered_vals_list)
      
-        # return self.create(filtered_vals_list)
+        return self.create(filtered_vals_list)
 
