@@ -14,6 +14,26 @@ DEVICE_STATUS = [
     ("controller_offline", "Controller Offline"),
 ]
 
+ALLOWED_CREATE_FIELDS = [
+    # REQUIRE
+    "controller_id",
+    "serial_number",
+    
+    # OPTIONAL
+    "name",
+    "area_id",
+    "vendor",
+    "device_model_id",
+    "port_or_channel",
+    "firmware_version",
+    "system_version",
+    "status",
+    "last_seen_at",
+    "installed_at",
+    "last_sync_at",
+    "employee_sync_status"
+]
+
 
 class GateKeeperDevice(models.Model):
     _name = "t4.gate_keeper.device"
@@ -50,21 +70,12 @@ class GateKeeperDevice(models.Model):
         store=True,
     )
 
-
-
     area_id = fields.Many2one(
         comodel_name="t4.gate_keeper.area",
         string="Area",
         domain="[('branch_id', '=', branch_id)]",
         help="Area within the branch where this device is located.",
     )
-
-    # device_role = fields.Selection(
-    #     selection=DEVICE_ROLES,
-    #     string="Device Role",
-    #     required=True,
-    #     help="Defines whether the device reads data or receives output commands.",
-    # )
 
     vendor = fields.Char(
         string="Vendor",
@@ -212,7 +223,36 @@ class GateKeeperDevice(models.Model):
         _("Device port or channel must be unique per controller.")
     )
 
+    # REGISTER
+    @api.model
+    def _filter_vals_for_create (self, vals):
+        return {
+            key:value 
+            for key, value in vals.items()
+            if key in ALLOWED_CREATE_FIELDS
+        }
 
-    @endpoint("DeviceRegister")
-    def _device_register(self):
-        body = get_body()
+    @api.model
+    def _find_controller_by_sn(self, controller_sn):
+        return self.env['t4.gate_keeper.controller'].sudo().search([
+            ('controller_sn', '=', controller_sn)
+        ], limit=1)
+
+    @api.model
+    def _device_register(self, vals_list):
+        vals_list = [vals_list] if isinstance(vals_list, dict) else vals_list
+
+        filtered_vals_list = []
+        for vals in vals_list:
+            if 'controller_sn' in vals:
+                controller = self._find_controller_by_sn(vals["controller_sn"])
+                if not controller:
+                    raise ValidationError("Can not find controller serial number")
+                vals["controller_id"] = controller.id
+
+            if not vals.get("serial_number"):
+                raise ValidationError("Device Register must contain serial_number")
+
+            filtered_vals_list.append(self._filter_vals_for_create(vals))
+     
+        return self.create(filtered_vals_list)

@@ -363,7 +363,19 @@ class T4GateKeeperController(models.Model):
                 "id": new_controller.id
             }
         }
-    
+
+    @endpoint('DeviceRegister')
+    def _device_register(self):
+        body = get_body()
+        vals_list = body['devices']
+
+        device = self.env['t4.gate_keeper.device'].sudo()
+        device._device_register(vals_list)
+
+        return {
+            "message": "Devices register successfully"
+        }
+
     ##### Biometric
     @endpoint(name="EmployeeBiometricGet")
     def employee_biometric_get(self):
