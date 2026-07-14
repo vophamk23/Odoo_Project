@@ -235,7 +235,7 @@ class GateKeeperDevice(models.Model):
     @api.model
     def _find_controller_by_sn(self, controller_sn):
         return self.env['t4.gate_keeper.controller'].sudo().search([
-            ('controller_sn', '=', controller_sn)
+            ('serial_number', '=', controller_sn)
         ], limit=1)
 
     @api.model
