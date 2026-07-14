@@ -216,7 +216,7 @@ class GateKeeperDevice(models.Model):
         if active_warnings:
             active_warnings.action_resolve()
 
-    _serial_number_unique = models.Constraint(
+    _device_serial_number_unique = models.Constraint(
         "UNIQUE(serial_number)",
         _("Device Serial Number must be unique!")
     )

@@ -147,7 +147,7 @@ class T4GateKeeperController(models.Model):
             else:
                 controller.employee_sync_status = "out_of_sync"
 
-    _serial_number_unique = models.Constraint(
+    _controller_serial_number_unique = models.Constraint(
         "UNIQUE(serial_number)",
         _("Controller serial number must be unique.")
     )
