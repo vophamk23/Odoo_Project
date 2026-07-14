@@ -5,12 +5,6 @@ from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
-
-# DEVICE_ROLES = [
-#     ("input", "Input"),
-#     ("output", "Output"),
-# ]
-
 DEVICE_STATUS = [
     ("online", "Online"),
     ("offline", "Offline"),
@@ -222,9 +216,9 @@ class GateKeeperDevice(models.Model):
         if active_warnings:
             active_warnings.action_resolve()
 
-    _controller_port_unique = models.Constraint(
-        "UNIQUE(controller_id, port_or_channel)",
-        _("Device port or channel must be unique per controller.")
+    _serial_number_unique = models.Constraint(
+        "UNIQUE(serial_number)",
+        _("Device Serial Number must be unique!")
     )
 
     # REGISTER
@@ -258,8 +252,6 @@ class GateKeeperDevice(models.Model):
                 raise ValidationError("Device Register must contain (name,controller_id,serial_number)")
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
-
-        # _logger.warning(filtered_vals_list)
      
         return self.create(filtered_vals_list)
 
