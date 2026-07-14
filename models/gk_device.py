@@ -1,6 +1,8 @@
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
 from odoo.addons.t4_coreapi.utils import endpoint, get_params, get_body
+import logging
+_logger = logging.getLogger(__name__)
 
 
 # DEVICE_ROLES = [
@@ -254,6 +256,8 @@ class GateKeeperDevice(models.Model):
                 raise ValidationError("Device Register must contain serial_number")
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
+
+        _logger.warning(filtered_vals_list)
      
-        return self.env['t4.gate_keeper.device'].create(filtered_vals_list)
+        # return self.create(filtered_vals_list)
 
