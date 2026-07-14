@@ -219,12 +219,9 @@ class T4GateKeeperController(models.Model):
         current_time = fields.Datetime.now()
         
         if not employees:
-            controller.write({
-                "last_sync_at": current_time,
-                "status": "online",
-            })
             return {
                 "message": _("Employee sync completed"),
+                "sync_timestamp": current_time,
                 "data": {
                     "new": [],
                     "update": [],
@@ -245,14 +242,10 @@ class T4GateKeeperController(models.Model):
             else:
                 update.append(emp)
 
-            
-        controller.write({
-            "last_sync_at": current_time,
-            "status": "online",
-        })
         
         return {
             "message": _("Employee sync completed"),
+            "sync_timestamp": current_time,
             "data": {
                 "new": [
                         {
@@ -448,6 +441,34 @@ class T4GateKeeperController(models.Model):
                 "devices": device_data
             }
         }
+    
+    @endpoint(name="ControllerSyncAck")
+    def controller_sync_ack(self):
+        body = get_body()
+        serial_number = body.get("controller_sn", False)
+
+        if not serial_number:
+            raise ValidationError(_("Controller ID is required."))
         
+        controller = self._find_controller(serial_number)
+        if not controller:
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+        timestamp = body.get("timestamp", False)
+        if not timestamp:
+            raise ValidationError(_("Timestamp is required."))
+        
+        try:
+            fields.Datetime.to_datetime(timestamp)
+        except ValueError:
+            raise ValidationError(_("Invalid timestamp format. Expected format: YYYY-MM-DD HH:MM:SS"))
+        
+        if not controller.last_sync_at or fields.Datetime.to_datetime(timestamp) > controller.last_sync_at:
+            controller.write({"last_sync_at": fields.Datetime.to_datetime(timestamp)})
+
+        return {
+            "message": _("Success")
+        }
+
 
 
