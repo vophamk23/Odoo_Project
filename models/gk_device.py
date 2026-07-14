@@ -255,5 +255,5 @@ class GateKeeperDevice(models.Model):
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
      
-        # return self.create(filtered_vals_list)
+        self.create(filtered_vals_list)
 
