@@ -1,6 +1,7 @@
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
 from odoo.addons.t4_coreapi.utils import endpoint, get_params, get_body
+from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
