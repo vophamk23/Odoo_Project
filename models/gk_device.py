@@ -259,5 +259,5 @@ class GateKeeperDevice(models.Model):
 
         _logger.warning(filtered_vals_list)
      
-        return self.create(filtered_vals_list)
+        # return self.create(filtered_vals_list)
 
