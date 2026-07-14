@@ -221,8 +221,8 @@ class T4GateKeeperController(models.Model):
         if not employees:
             return {
                 "message": _("Employee sync completed"),
-                "sync_timestamp": current_time,
                 "data": {
+                    "sync_timestamp": current_time,
                     "new": [],
                     "update": [],
                     "deleted": [],
@@ -245,8 +245,8 @@ class T4GateKeeperController(models.Model):
         
         return {
             "message": _("Employee sync completed"),
-            "sync_timestamp": current_time,
             "data": {
+                "sync_timestamp": current_time,
                 "new": [
                         {
                         "id": emp.emp_id,
