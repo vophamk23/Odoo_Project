@@ -15,9 +15,8 @@ ALLOWED_CREATE_FIELDS = [
     # REQUIRE
     "controller_id",
     "serial_number",
-    
-    # OPTIONAL
     "name",
+    # OPTIONAL
     "area_id",
     "vendor",
     "device_model_id",
@@ -237,9 +236,34 @@ class GateKeeperDevice(models.Model):
         ], limit=1)
 
     @api.model
+    def _find_device_by_sn(self, device_sn):
+        device_sn_lst = [device_sn] if isinstance(device_sn, str) else device_sn
+        return self.search([
+            ('serial_number', 'in', device_sn_lst),
+        ])
+
+    @api.model
+    def _check_duplicate_device_sn(self, vals_list):
+        serial_numbers = [v.get("serial_number") for v in vals_list if v.get("serial_number")]
+
+        if len(serial_numbers) != len(set(serial_numbers)):
+            seen = set()
+            dupes = set(x for x in serial_numbers if x in seen or seen.add(x))
+            raise ValidationError(f"Lỗi dữ liệu gửi lên: Các Serial Number này bị lặp lại trong danh sách: {', '.join(dupes)}")
+        
+        if serial_numbers:
+            existing_devices = self._find_device_by_sn(serial_numbers)
+            if existing_devices:
+                duplicated_sns = existing_devices.mapped('serial_number')
+                raise ValidationError(f"Device Register failed: Serial Numbers already exist: {', '.join(duplicated_sns)}")
+
+
+    @api.model
     def _device_register(self, vals_list):
         vals_list = [vals_list] if isinstance(vals_list, dict) else vals_list
 
+        self._check_duplicate_device_sn(vals_list)
+        
         filtered_vals_list = []
         for vals in vals_list:
             if 'controller_sn' in vals:

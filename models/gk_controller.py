@@ -327,6 +327,44 @@ class T4GateKeeperController(models.Model):
 
     #### Register 
 
+    @endpoint("ControllerStatus")
+    def _controller_status(self):
+        body = get_body()
+        serial_number = body.get("serial_number")
+
+        if not serial_number:
+            raise ValidationError(_("Serial number is required."))
+
+        # Use search_read for performance optimization
+        controller = self.sudo().search_read(
+            [("serial_number", "=", serial_number)],
+            ["id", "serial_number"],
+            limit=1
+        )
+
+        if not controller:
+            return {
+                "data": {
+                    "is_registered": False,
+                }
+            }
+
+        controller_id = controller[0]["id"]
+        
+        # Only fetch serial_number of devices managed by this controller
+        devices = self.env["t4.gate_keeper.device"].sudo().search_read(
+            [("controller_id", "=", controller_id)],
+            ["serial_number"]
+        )
+
+        return {
+            "data": {
+                "is_registered": True,
+                "controller_sn": controller[0]["serial_number"],
+                "devices": [d["serial_number"] for d in devices if d.get("serial_number")]
+            }
+        }
+
     def _find_branch_by_code(self, branch_code):
         return self.env['t4.gate_keeper.branch'].sudo().search([
             ("code", "=", branch_code)
