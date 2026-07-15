@@ -185,9 +185,10 @@ class T4GateKeeperController(models.Model):
             if not device_status:
                 raise ValidationError(f"Device status is required for device {device_id}")
             
-            if device_status not in dict(self.env["t4.gate_keeper.device"]._fields["status"].selection):
-                raise ValidationError(f"Invalid device status '{device_status}' for device {device_id}. Valid statuses are: {', '.join(dict(self.env['t4.gate_keeper.device']._fields['status'].selection).keys())}")
-                
+            allowed_status = dict(self.env["t4.gate_keeper.device"]._fields["status"].selection).keys()
+            if device_status not in allowed_status:
+                raise ValidationError(f"Invalid device status for device {device_id}")
+
             if not device_id or not device_status:
                continue
             
