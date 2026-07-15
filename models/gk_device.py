@@ -1,6 +1,8 @@
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
+# pyrefly: ignore [missing-import]
 from odoo.addons.t4_coreapi.utils import endpoint, get_params, get_body
+# pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
@@ -249,7 +251,7 @@ class GateKeeperDevice(models.Model):
         if len(serial_numbers) != len(set(serial_numbers)):
             seen = set()
             dupes = set(x for x in serial_numbers if x in seen or seen.add(x))
-            raise ValidationError(f"Lỗi dữ liệu gửi lên: Các Serial Number này bị lặp lại trong danh sách: {', '.join(dupes)}")
+            raise ValidationError(f"Data submission error: These serial numbers are duplicated in the list: {', '.join(dupes)}")
         
         if serial_numbers:
             existing_devices = self._find_device_by_sn(serial_numbers)

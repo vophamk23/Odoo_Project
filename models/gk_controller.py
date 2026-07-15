@@ -335,7 +335,6 @@ class T4GateKeeperController(models.Model):
         if not serial_number:
             raise ValidationError(_("Serial number is required."))
 
-        # Use search_read for performance optimization
         controller = self.sudo().search_read(
             [("serial_number", "=", serial_number)],
             ["id", "serial_number"],
@@ -344,6 +343,7 @@ class T4GateKeeperController(models.Model):
 
         if not controller:
             return {
+                "message": "Controller not found.",
                 "data": {
                     "is_registered": False,
                 }
@@ -351,13 +351,13 @@ class T4GateKeeperController(models.Model):
 
         controller_id = controller[0]["id"]
         
-        # Only fetch serial_number of devices managed by this controller
         devices = self.env["t4.gate_keeper.device"].sudo().search_read(
             [("controller_id", "=", controller_id)],
             ["serial_number"]
         )
 
         return {
+            "message": "Success.",
             "data": {
                 "is_registered": True,
                 "controller_sn": controller[0]["serial_number"],
