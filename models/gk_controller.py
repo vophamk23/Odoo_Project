@@ -177,7 +177,7 @@ class T4GateKeeperController(models.Model):
         # if not devices:
         #     raise ValidationError("Devices list is required.")
         for device in devices:
-            device_id = device.get("serial")
+            device_id = device.get("device_sn")
             device_status = device.get("status")
             if not device_id:
                 raise ValidationError("Device serial number is required.")
