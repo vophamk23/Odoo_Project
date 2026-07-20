@@ -224,6 +224,7 @@ class T4GateKeeperController(models.Model):
 
         domain = self._get_employee_sync_domain(controller)
         employees = self._get_employees_to_sync(domain, offset=offset, limit=page_size)
+        has_next_page = offset + len(employees) < employees
 
         if employees:
             sync_time = max(employees.mapped("write_date"))
@@ -261,6 +262,7 @@ class T4GateKeeperController(models.Model):
                 "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
                 "page": page,
                 "page_size": page_size,
+                "has_next_page": has_next_page,
                 "new": [
                         {
                         "id": emp.emp_id,
