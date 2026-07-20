@@ -220,13 +220,16 @@ class T4GateKeeperController(models.Model):
         domain = self._get_employee_sync_domain(controller)
         employees = self._get_employees_to_sync(domain)
 
-        current_time = fields.Datetime.now()
-        
+        if employees:
+            sync_time = max(employees.mapped("write_date"))
+        else:
+            sync_time = controller.last_sync_at
+
         if not employees:
             return {
                 "message": _("Employee sync completed"),
                 "data": {
-                    "sync_timestamp": current_time,
+                    "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
                     "new": [],
                     "update": [],
                     "deleted": [],
@@ -250,7 +253,7 @@ class T4GateKeeperController(models.Model):
         return {
             "message": _("Employee sync completed"),
             "data": {
-                "sync_timestamp": current_time,
+                "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
                 "new": [
                         {
                         "id": emp.emp_id,
@@ -327,7 +330,8 @@ class T4GateKeeperController(models.Model):
         return domain
 
     def _get_employees_to_sync(self, domain):
-        return self.env["t4.gate_keeper.employee"].search(domain)
+        return self.env["t4.gate_keeper.employee"].search(domain,
+                                                          order="write_date, id")
 
     #### Register 
 
@@ -448,6 +452,28 @@ class T4GateKeeperController(models.Model):
             "message": _("Success"),
             "data": biometric_data
         }
+    
+    # @endpoint(name="EmployeeBiometricUpdate")
+    # def employee_biometric_update(self):
+    #     body = get_body()
+    #     serial_number = body.get("controller_sn", False)
+
+    #     if not serial_number:
+    #         raise ValidationError(_("Controller ID is required."))
+
+    #     controller = self._find_controller(serial_number)
+    #     if not controller:
+    #         raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+    #     employee_id = body.get("employee_id", False)
+    #     if not employee_id:
+    #         raise ValidationError(_("Employee ID is required."))
+        
+    #     biometric_data = body.get("biometric_data", [])
+        
+    #     allowed_biometric_types = dict(self.env["t4.gate_keeper.employee.biometric"]._fields["biometric_type"].selection).keys()
+        
+
     
     #### Config
     @endpoint(name="ControllerGetConfig")
