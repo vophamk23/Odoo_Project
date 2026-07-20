@@ -216,9 +216,14 @@ class T4GateKeeperController(models.Model):
         controller = self._find_controller(serial_number)
         if not controller:
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+        #Paging
+        page = body.get("page", 1)
+        page_size = 15
+        offset = (page - 1) * page_size
 
         domain = self._get_employee_sync_domain(controller)
-        employees = self._get_employees_to_sync(domain)
+        employees = self._get_employees_to_sync(domain, offset=offset, limit=page_size)
 
         if employees:
             sync_time = max(employees.mapped("write_date"))
@@ -294,7 +299,7 @@ class T4GateKeeperController(models.Model):
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
 
         domain = self._get_employee_sync_domain(controller)
-        update = bool(self._get_employees_to_sync(domain))
+        update = bool(self._get_employees_to_sync(domain, limit=1))
 
         return {
             "message": _("Success"),
@@ -329,9 +334,11 @@ class T4GateKeeperController(models.Model):
             
         return domain
 
-    def _get_employees_to_sync(self, domain):
+    def _get_employees_to_sync(self, domain, offset=0, limit=None):
         return self.env["t4.gate_keeper.employee"].search(domain,
-                                                          order="write_date, id")
+                                                          order="write_date, id",
+                                                          offset=offset,
+                                                          limit=limit)
 
     #### Register 
 
