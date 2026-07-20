@@ -259,6 +259,8 @@ class T4GateKeeperController(models.Model):
             "message": _("Employee sync completed"),
             "data": {
                 "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
+                "page": page,
+                "page_size": page_size,
                 "new": [
                         {
                         "id": emp.emp_id,
