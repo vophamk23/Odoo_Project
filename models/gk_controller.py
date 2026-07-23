@@ -217,26 +217,43 @@ class T4GateKeeperController(models.Model):
         if not controller:
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
         
+        timestamp = body.get("sync_timestamp", False)
+        if timestamp:
+            try:
+                timestamp = fields.Datetime.to_datetime(last_sync)
+            except ValueError:
+                raise ValidationError(_("Invalid timestamp format. Expected YYYY-MM-DD HH-MM-SS"))
+        last_sync = body.get("last_sync_at", False)
+        if last_sync:
+            try:
+                last_sync = fields.Datetime.to_datetime(timestamp)
+            except ValueError:
+                raise ValidationError(_("Invalid last sync time format. Expected YYYY-MM-DD HH-MM-SS"))
+        
         #Paging
-        page = body.get("page", 1)
+        try:
+            page = int(body.get("page", 1))
+        except (TypeError, ValueError):
+            raise ValidationError(_("Invalid page number"))
+        
+        if page < 1:
+            raise ValidationError(_("Page number must be greater than 0"))
         page_size = 15
         offset = (page - 1) * page_size
 
-        domain = self._get_employee_sync_domain(controller)
+        domain = self._get_employee_sync_domain(controller, last_sync_at=last_sync, timestamp=timestamp)
         employees = self._get_employees_to_sync(domain, offset=offset, limit=page_size)
         total = self.env["t4.gate_keeper.employee"].search_count(domain)
         has_next_page = offset + len(employees) < total
-
-        if employees:
-            sync_time = max(employees.mapped("write_date"))
-        else:
-            sync_time = controller.last_sync_at
 
         if not employees:
             return {
                 "message": _("Employee sync completed"),
                 "data": {
-                    "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "sync_timestamp": timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+                    "page": page,
+                    "page_size": page_size,
+                    "has_next_page": False,
                     "new": [],
                     "update": [],
                     "deleted": [],
@@ -249,9 +266,9 @@ class T4GateKeeperController(models.Model):
         for emp in employees:
             if not emp.active:
                 deleted.append(emp)
-            elif not controller.last_sync_at:
+            elif not last_sync:
                 new.append(emp)
-            elif emp.create_date > controller.last_sync_at:
+            elif emp.create_date > last_sync:
                 new.append(emp)
             else:
                 update.append(emp)
@@ -260,7 +277,7 @@ class T4GateKeeperController(models.Model):
         return {
             "message": _("Employee sync completed"),
             "data": {
-                "sync_timestamp": sync_time.strftime("%Y-%m-%d %H:%M:%S"),
+                "sync_timestamp": timestamp.strftime("%Y-%m-%d %H:%M:%S"),
                 "page": page,
                 "page_size": page_size,
                 "has_next_page": has_next_page,
@@ -302,14 +319,23 @@ class T4GateKeeperController(models.Model):
         controller = self._find_controller(serial_number)
         if not controller:
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        
+        last_sync = body.get("last_sync_at", False)
+        if last_sync:
+            try:
+                last_sync = fields.Datetime.to_datetime(last_sync)
+            except ValueError:
+                raise ValidationError(_("Invalid format. Expected YYYY-MM-DD HH-MM-SS"))
+        timestamp = fields.Datetime.now()
 
-        domain = self._get_employee_sync_domain(controller)
+        domain = self._get_employee_sync_domain(controller, last_sync_at=last_sync,timestamp=timestamp)
         update = bool(self._get_employees_to_sync(domain, limit=1))
 
         return {
             "message": _("Success"),
             "data": {
                 "update": update,
+                "sync_timestamp": timestamp
             }
         }
 
@@ -327,15 +353,18 @@ class T4GateKeeperController(models.Model):
                         devices_to_update.write({'status': 'controller_offline'})
         return res
 
-    def _get_employee_sync_domain(self, controller):
+    def _get_employee_sync_domain(self, controller, last_sync_at, timestamp):
         domain = [
             '|', 
             ('branch_id', '=', False), 
             ('branch_id', '=', controller.branch_id.id)
         ]
-        
-        if controller.last_sync_at:
-            domain.append(('write_date', '>', controller.last_sync_at))
+
+        if last_sync_at:
+            domain.append(('write_date', '>', last_sync_at))
+
+        if timestamp:
+            domain.append(('write_date', '<=', timestamp))
             
         return domain
 
