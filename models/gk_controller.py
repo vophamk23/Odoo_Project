@@ -220,13 +220,14 @@ class T4GateKeeperController(models.Model):
         timestamp = body.get("sync_timestamp", False)
         if timestamp:
             try:
-                timestamp = fields.Datetime.to_datetime(last_sync)
+                timestamp = fields.Datetime.to_datetime(timestamp)
             except ValueError:
                 raise ValidationError(_("Invalid timestamp format. Expected YYYY-MM-DD HH-MM-SS"))
+              
         last_sync = body.get("last_sync_at", False)
         if last_sync:
             try:
-                last_sync = fields.Datetime.to_datetime(timestamp)
+                last_sync = fields.Datetime.to_datetime(last_sync)
             except ValueError:
                 raise ValidationError(_("Invalid last sync time format. Expected YYYY-MM-DD HH-MM-SS"))
         
