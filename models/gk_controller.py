@@ -223,8 +223,9 @@ class T4GateKeeperController(models.Model):
         offset = (page - 1) * page_size
 
         domain = self._get_employee_sync_domain(controller)
-        employees = self._get_employees_to_sync(domain, offset=offset, limit=page_size + 1)
-        has_next_page = offset + len(employees) < employees
+        employees = self._get_employees_to_sync(domain, offset=offset, limit=page_size)
+        total = self.env["t4.gate_keeper.employee"].search_count(domain)
+        has_next_page = offset + len(employees) < total
 
         if employees:
             sync_time = max(employees.mapped("write_date"))
