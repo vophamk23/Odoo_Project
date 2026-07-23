@@ -438,7 +438,7 @@ class T4GateKeeperController(models.Model):
         if not controller:
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
         
-        employee_id = body.get("employee_id", False)
+        employee_id = body.get("emp_id", False)
         if not employee_id:
             raise ValidationError(_("Employee ID is required."))
 
@@ -449,19 +449,26 @@ class T4GateKeeperController(models.Model):
             ("branch_id", "=", controller.branch_id.id)
         ], limit=1)
 
-        biometric_data = []
+        finger_templates = []
+        face_templates = None
         if employee:
             for biometric in employee.biometric_ids:
-                biometric_data.append({
-                    "algorithm": biometric.algorithm_id.name,
-                    "biometric_type": biometric.biometric_type,
-                    "finger_index": biometric.finger_index,
-                    "template": biometric.template.decode or None,
-                })
+                template = biometric.template.decode() if biometric.template else None
+
+                if biometric.biometric_type == "fingerprint":
+                    finger_templates.append(template)
+                elif biometric.biometric_type == "face":
+                    face_templates = template
+            
 
         return {
             "message": _("Success"),
-            "data": biometric_data
+            "data": {
+                "emp_id": employee.emp_id,
+                "finger_templates": finger_templates,
+                "face_template": face_templates,
+                "photo_avatar": employee.avatar.decode() if employee.avatar else None,
+            }
         }
     
     # @endpoint(name="EmployeeBiometricUpdate")
@@ -483,7 +490,6 @@ class T4GateKeeperController(models.Model):
     #     biometric_data = body.get("biometric_data", [])
         
     #     allowed_biometric_types = dict(self.env["t4.gate_keeper.employee.biometric"]._fields["biometric_type"].selection).keys()
-        
 
     
     #### Config
@@ -521,6 +527,8 @@ class T4GateKeeperController(models.Model):
             }
         }
     
+
+    ##Sẽ bỏ
     @endpoint(name="ControllerSyncAck")
     def controller_sync_ack(self):
         body = get_body()
