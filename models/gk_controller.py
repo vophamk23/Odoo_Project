@@ -291,7 +291,6 @@ class T4GateKeeperController(models.Model):
                 update.append(emp)
 
         data = {
-            "message": _("Employee sync completed"),
             "data": {
                 "next_cursor_id": last.id,
                 "has_next_page": has_next_page,
@@ -323,8 +322,9 @@ class T4GateKeeperController(models.Model):
             }
         }
 
-        return {
-            data
+        return{
+            "message": _("Employee sync completed"),
+            "data": data
         }
     
 
