@@ -273,7 +273,7 @@ class T4GateKeeperController(models.Model):
 
         if has_next_page:
             employee = employee[:page_size]
-
+        last = None
         if has_next_page and employee:
             last = employee[-1]
             
