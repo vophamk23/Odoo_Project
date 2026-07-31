@@ -273,9 +273,11 @@ class T4GateKeeperController(models.Model):
 
         if has_next_page:
             employee = employee[:page_size]
-        last = None
+
+        next_cursor = None
         if has_next_page and employee:
             last = employee[-1]
+            next_cursor = last.id
             
         new = []
         update = []
@@ -292,7 +294,7 @@ class T4GateKeeperController(models.Model):
 
         data = {
             "data": {
-                "next_cursor_id": last.id,
+                "next_cursor_id": next_cursor,
                 "has_next_page": has_next_page,
                 "new": [
                         {
