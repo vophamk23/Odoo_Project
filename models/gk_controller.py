@@ -581,6 +581,10 @@ class T4GateKeeperController(models.Model):
             employee.write({
                 "avatar": photo["Content"]
             })
+
+        return {
+            "message": _("Success")
+        }
                 
 
 
