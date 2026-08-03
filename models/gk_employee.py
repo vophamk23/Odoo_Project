@@ -11,12 +11,22 @@ class T4GateKeeperEmployee(models.Model):
 
     avatar = fields.Image(
         string="Avatar",
-        max_width=1920,
-        max_height=1920,
+        max_width=400,
+        max_height=400,
+        attachment = True
     )
 
     name = fields.Char(
         string="Employee name",
+    )
+    password = fields.Char(
+        string="Employee password"
+    )
+    card_id = fields.Char(
+        string="Employee card serial"
+    )
+    privilege = fields.Integer(
+        string="Privilege"
     )
 
     emp_id = fields.Integer(

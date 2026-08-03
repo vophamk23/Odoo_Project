@@ -330,9 +330,9 @@ class T4GateKeeperController(models.Model):
         }
     
 
-    def write(self, vals):
-        res = super(T4GateKeeperController, self).write(vals)
-        if 'status' in vals:
+    def write(self, userInfo_vals):
+        res = super(T4GateKeeperController, self).write(userInfo_vals)
+        if 'status' in userInfo_vals:
             for controller in self:
                 if controller.status == 'online':
                     devices_to_update = controller.device_ids.filtered(lambda d: d.status == 'controller_offline')
@@ -415,15 +415,15 @@ class T4GateKeeperController(models.Model):
             branch_code = body.pop("branch_code")
             body["branch_id"] = self._find_branch_by_code(branch_code).id
 
-        vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
+        userInfo_vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
 
-        if 'serial_number' not in vals or 'branch_id' not in vals:
+        if 'serial_number' not in userInfo_vals or 'branch_id' not in userInfo_vals:
             raise ValidationError("Missing required fields (serial_number, branch_id)")
 
-        if not vals['branch_id']:
+        if not userInfo_vals['branch_id']:
             raise ValidationError("Invalid branch_code provided")   
 
-        new_controller = self.env['t4.gate_keeper.controller'].sudo().create(vals)
+        new_controller = self.env['t4.gate_keeper.controller'].sudo().create(userInfo_vals)
 
         return {
             "message": "Controller registered successfully",
@@ -435,9 +435,9 @@ class T4GateKeeperController(models.Model):
     @endpoint('DeviceRegister')
     def _device_register(self):
         body = get_body()
-        vals_list = body['devices']
+        userInfo_vals_list = body['devices']
 
-        self.env['t4.gate_keeper.device']._device_register(vals_list)
+        self.env['t4.gate_keeper.device']._device_register(userInfo_vals_list)
 
         return {
             "message": "Devices register successfully"
@@ -489,19 +489,99 @@ class T4GateKeeperController(models.Model):
             }
         }
     
-    # @endpoint(name="EmployeeBiometricUpdate")
-    # def employee_biometric_update(self):
-    #     body = get_body()
-    #     serial_number = body.get("controller_sn", False)
+    @endpoint(name="EmployeeBiometricUpdate")
+    def employee_biometric_update(self):
+        body = get_body()
+        serial_number = body.get("controller_sn", False)
 
-    #     if not serial_number:
-    #         raise ValidationError(_("Controller ID is required."))
+        if not serial_number:
+            raise ValidationError(_("Controller ID is required."))
 
-    #     controller = self._find_controller(serial_number)
-    #     if not controller:
-    #         raise ValidationError(_("Can not find controller with ID %s") % serial_number)
-    #     ###User
-    #     userInfo = body.get("USER", {})
+        controller = self._find_controller(serial_number)
+        if not controller:
+            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        ###User
+        userInfo = body.get("USER", {})
+        if not userInfo:
+            raise ValidationError(_("User information is required"))
+        emp_id = userInfo.get("PIN", False)
+        if not emp_id:
+            raise ValidationError(_("Missing employee id"))
+        employee = self.env["t4.gate_keeper.employee"].search([
+            ("emp_id", "=", emp_id),
+            "|",
+            ("branch_id", "=", False),
+            ("branch_id", "=", controller.branch_id.id),
+        ], limit=1)
+
+        userInfo_vals ={
+            "emp_id": emp_id
+        }
+
+        if controller.branch_id:
+            userInfo_vals["branch_id"] = controller.branch_id.id
+        
+        if userInfo.get("Name"):
+            userInfo_vals["name"] = userInfo["Name"]
+
+        if userInfo.get("Passwd"):
+            userInfo_vals["password"] = userInfo["Passwd"]
+        
+        if userInfo.get("Card"):
+            userInfo_vals["card_id"] = userInfo["Card"]
+
+        if userInfo.get("Pri"):
+            userInfo_vals["privilege"] = userInfo["Pri"]
+
+        if employee:
+            employee.write(userInfo_vals)
+        else:
+            employee = self.env["t4.gate_keeper.employee"].create(userInfo_vals)
+
+        ###Fingerprint
+        fingerprint = body.get("FP", [])
+        if fingerprint:
+            for fp in fingerprint:
+                finger = self.env["t4.gate_keeper.employee.biometric"].search([
+                    ("employee_id", "=", employee.id),
+                    ("biometric_type", "=", "fingerprint"),
+                    ("finger_index", "=", fp["FID"])
+                ], limit = 1)
+                finger_vals = {
+                    "employee_id": employee.id,
+                    "biometric_type": "fingerprint",
+                    "finger_index": fp["FID"],
+                    "template": fp["TMP"]
+                }
+                if finger:
+                    finger.write(finger_vals)
+                else:
+                    self.env["t4.gate_keeper.employee.biometric"].create(finger_vals)
+        ###BIODATA
+        biodata = body.get("BIODATA", {})
+        if biodata:
+            face = self.env["t4.gate_keeper.employee.biometric"].search([
+                ("employee_id", "=", employee.id),
+                ("biometric_type", "=", "face"),
+                ("finger_index", "=", biodata["Index"])
+            ], limit = 1)
+            biodata_vals = {
+                "employee_id": employee.id,
+                "biometric_type": "face",
+                "finger_index": biodata["Index"],
+                "template": biodata["Tmp"]
+            }
+            if face:
+                face.write(biodata_vals)
+            else:
+                self.env["t4.gate_keeper.employee.biometric"].create(biodata_vals)
+        ###PHOTO
+        photo = body.get("PHOTO", {})
+        if photo and photo.get("Content"):
+            employee.write({
+                "avatar": photo["Content"]
+            })
+                
 
 
     
@@ -539,36 +619,5 @@ class T4GateKeeperController(models.Model):
                 "devices": device_data
             }
         }
-    
-
-    ##Sẽ bỏ
-    @endpoint(name="ControllerSyncAck")
-    def controller_sync_ack(self):
-        body = get_body()
-        serial_number = body.get("controller_sn", False)
-
-        if not serial_number:
-            raise ValidationError(_("Controller ID is required."))
-        
-        controller = self._find_controller(serial_number)
-        if not controller:
-            raise ValidationError(_("Can not find controller with ID %s") % serial_number)
-        
-        timestamp = body.get("timestamp", False)
-        if not timestamp:
-            raise ValidationError(_("Timestamp is required."))
-        
-        try:
-            fields.Datetime.to_datetime(timestamp)
-        except ValueError:
-            raise ValidationError(_("Invalid timestamp format. Expected format: YYYY-MM-DD HH:MM:SS"))
-        
-        if not controller.last_sync_at or fields.Datetime.to_datetime(timestamp) > controller.last_sync_at:
-            controller.write({"last_sync_at": fields.Datetime.to_datetime(timestamp)})
-
-        return {
-            "message": _("Success")
-        }
-
 
 
