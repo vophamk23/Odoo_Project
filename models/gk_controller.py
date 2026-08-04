@@ -301,6 +301,14 @@ class T4GateKeeperController(models.Model):
                         "id": emp.emp_id,
                         "name": emp.name,
                         "branch_id": emp.branch_id.id if emp.branch_id else None,
+                        "biometrics": [
+                            {
+                                "type": bio.biometric_type,
+                                "template": bio.template,
+                                "finger_index/slot": bio.finger_index
+                            }
+                            for bio in emp.biometric_ids
+                        ]
                     }
                     for emp in new
                 ],
@@ -309,6 +317,14 @@ class T4GateKeeperController(models.Model):
                         "id": emp.emp_id,
                         "name": emp.name,
                         "branch_id": emp.branch_id.id if emp.branch_id else None,
+                        "biometrics": [
+                            {
+                                "type": bio.biometric_type,
+                                "template": bio.template,
+                                "finger_index/slot": bio.finger_index
+                            }
+                            for bio in emp.biometric_ids
+                        ]
                     }
                     for emp in update
                 ],
@@ -317,6 +333,14 @@ class T4GateKeeperController(models.Model):
                         "id": emp.emp_id,
                         "name": emp.name,
                         "branch_id": emp.branch_id.id if emp.branch_id else None,
+                        "biometrics": [
+                            {
+                                "type": bio.biometric_type,
+                                "template": bio.template,
+                                "finger_index/slot": bio.finger_index
+                            }
+                            for bio in emp.biometric_ids
+                        ]
                     }
                     for emp in deleted
                 ],
