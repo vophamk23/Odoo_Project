@@ -305,7 +305,8 @@ class T4GateKeeperController(models.Model):
                             {
                                 "type": bio.biometric_type,
                                 "template": bio.template,
-                                "finger_index/slot": bio.finger_index
+                                "finger_index/slot": bio.finger_index,
+                                "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
                         ]
@@ -321,7 +322,8 @@ class T4GateKeeperController(models.Model):
                             {
                                 "type": bio.biometric_type,
                                 "template": bio.template,
-                                "finger_index/slot": bio.finger_index
+                                "finger_index/slot": bio.finger_index,
+                                "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
                         ]
@@ -337,7 +339,8 @@ class T4GateKeeperController(models.Model):
                             {
                                 "type": bio.biometric_type,
                                 "template": bio.template,
-                                "finger_index/slot": bio.finger_index
+                                "finger_index/slot": bio.finger_index,
+                                "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
                         ]
