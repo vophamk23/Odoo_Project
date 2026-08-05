@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
@@ -605,9 +606,17 @@ class T4GateKeeperController(models.Model):
         ###PHOTO
         photo = body.get("PHOTO", {})
         if photo and photo.get("Content"):
-            employee.write({
-                "avatar": photo["Content"]
-            })
+            employee.avatar = photo["Content"]
+            attachment = self.env["ir.attachment"].search({
+                ("res_model", "=", "t4.gate_keeper.employee"),
+                ("res_field", "=", "avatar"),
+                ("res_id", "=", employee.id)
+            }, limit = 1)
+            if attachment:
+                attachment.write({
+                    "name": photo["FileName"],
+                    "photo_type": photo["Type"],
+                })
 
         return {
             "message": _("Success")
@@ -652,3 +661,164 @@ class T4GateKeeperController(models.Model):
         }
 
 
+    #### Access Log
+    @endpoint(name="AccessLogUpload")
+    def controller_log(self):
+        """
+        Receive access log records from a controller.
+
+        Expected body:
+        {
+            "controller_sn": "CTRL-001",
+            "devices": [
+                {
+                    "device_sn": "DEV-001",
+                    "records": [
+                        {
+                            "emp_id": 1,
+                            "punch_type": "check_in",
+                            "verify_mode": "face",
+                            "punched_at": "2026-08-05T07:30:00+07:00"
+                        }
+                    ]
+                }
+            ]
+        }
+        """
+        body = get_body()
+        controller_sn = body.get("controller_sn")
+
+        if not controller_sn:
+            raise ValidationError(_("Controller serial number is required."))
+
+        controller = self._find_controller(controller_sn)
+        if not controller:
+            raise ValidationError(
+                _("Controller with serial number '%s' is not registered.") % controller_sn
+            )
+
+        devices_data = body.get("devices") or []
+        if not devices_data:
+            return {"message": _("No device data provided.")}
+
+        DeviceObj = self.env["t4.gate_keeper.device"]
+        EmployeeObj = self.env["t4.gate_keeper.employee"]
+        AccessLogObj = self.env["t4.gate_keeper.access_log"]
+
+        # Direction mapping
+        DIRECTION_MAP = {
+            "check_in": "in",
+            "check_out": "out",
+        }
+
+        # Allowed verification types from the model
+        ALLOWED_VERIFY_TYPES = {"face", "fingerprint", "card", "password", "other"}
+
+        created_count = 0
+        errors = []
+
+        for device_data in devices_data:
+            device_sn = device_data.get("device_sn")
+            if not device_sn:
+                errors.append(_("Skipped device entry with missing serial number."))
+                continue
+
+            device = DeviceObj.search([
+                ("serial_number", "=", device_sn),
+                ("controller_id", "=", controller.id),
+            ], limit=1)
+
+            if not device:
+                errors.append(
+                    _("Device '%s' is not registered under controller '%s'.") % (device_sn, controller_sn)
+                )
+                continue
+
+            records = device_data.get("records") or []
+            log_vals_list = []
+
+            for rec in records:
+                emp_id = rec.get("emp_id")
+                if not emp_id:
+                    errors.append(_("Skipped record with missing emp_id on device '%s'.") % device_sn)
+                    continue
+
+                # emp_id is Integer in the system
+                try:
+                    emp_id_int = int(emp_id)
+                except (ValueError, TypeError):
+                    errors.append(_("Invalid emp_id '%s' on device '%s'.") % (emp_id, device_sn))
+                    continue
+
+                employee = EmployeeObj.search([("emp_id", "=", emp_id_int)], limit=1)
+                if not employee:
+                    errors.append(
+                        _("Employee with ID '%s' not found. Skipped record on device '%s'.") % (emp_id, device_sn)
+                    )
+                    continue
+
+                # Direction
+                punch_type = rec.get("punch_type", "")
+                direction = DIRECTION_MAP.get(punch_type, "unk")
+
+                # Verification type
+                verify_mode = rec.get("verify_mode", "")
+                verification_type = verify_mode if verify_mode in ALLOWED_VERIFY_TYPES else "other"
+
+                # Parse access time
+                access_time = self._parse_access_time(rec.get("punched_at"))
+
+                log_vals_list.append({
+                    "controller_id": controller.id,
+                    "device_id": device.id,
+                    "employee_id": employee.id,
+                    "access_time": access_time,
+                    "direction": direction,
+                    "verification_type": verification_type,
+                    "sync_status": "success",
+                })
+
+            if log_vals_list:
+                AccessLogObj.create(log_vals_list)
+                created_count += len(log_vals_list)
+
+        result = {
+            "message": _("%d access log(s) created successfully.") % created_count,
+            "data": {
+                "created_count": created_count,
+            },
+        }
+
+        if errors:
+            result["data"]["warnings"] = errors
+
+        _logger.info(
+            "Access log upload from controller %s: %d records created, %d warnings",
+            controller_sn, created_count, len(errors),
+        )
+
+        return result
+
+    def _parse_access_time(self, raw_value):
+        """
+        Parse access time from various formats.
+        Returns a naive UTC datetime string or falls back to now().
+        """
+        if not raw_value:
+            return fields.Datetime.now()
+
+        try:
+            raw_str = str(raw_value)
+            if "T" in raw_str:
+                # ISO format: 2026-08-05T07:30:00+07:00
+                dt = datetime.fromisoformat(raw_str.replace("Z", "+00:00"))
+                if dt.utcoffset() is not None:
+                    # Convert to naive UTC for Odoo storage
+                    dt = (dt - dt.utcoffset()).replace(tzinfo=None)
+                return dt.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                # Assume already in correct format
+                return raw_value
+        except Exception:
+            _logger.warning("Failed to parse access time '%s', using current time.", raw_value)
+            return fields.Datetime.now()
