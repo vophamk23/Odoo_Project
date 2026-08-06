@@ -14,17 +14,24 @@ class GateKeeperEmployeeBiometric(models.Model):
         index=True,
     )
 
+    device_model_id = fields.Many2one(
+        comodel_name="t4.gate_keeper.device_model",
+        string="Device Model",
+        required=True,
+        ondelete="cascade",
+        index=True,
+    )
+
     algorithm_id = fields.Many2one(
         comodel_name="t4.gate_keeper.algorithm",
         string="Algorithm",
-        required=True,
         ondelete="restrict",
         index=True,
     )
 
     biometric_type = fields.Selection(
         related="algorithm_id.algorithm_type",
-        string="Biometric Type",
+        string="Biometric Typedd",
         store=True,
         readonly=True,
     )

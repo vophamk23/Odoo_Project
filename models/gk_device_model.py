@@ -12,11 +12,6 @@ class GateKeeperDeviceModel(models.Model):
         help="Specific model name or number of the hardware device, e.g., SpeedFace V5L.",
     )
 
-    algorithm_ids = fields.Many2many(
-        comodel_name="t4.gate_keeper.algorithm",
-        relation="t4_gate_keeper_device_model_algorithm_rel",
-        column1="device_model_id",
-        column2="algorithm_id",
-        string="Supported Algorithms",
-        help="Face, fingerprint, or other recognition algorithms supported by this model.",
+    version = fields.Char(
+        string="Version",
     )

@@ -136,19 +136,18 @@
                             <field name="installed_at"/>
                         </group>
                     </group>
-                    <notebook>
+                    <!-- <notebook>
                         <page string="Supported Algorithms" name="supported_algorithms">
                             <field name="algorithm_ids">
                                 <list>
                                     <field name="name"/>
                                     <field name="algorithm_type"/>
                                     <field name="version"/>
-                                    <!-- <field name="vendor"/> -->
                                     <field name="template_format"/>
                                 </list>
                             </field>
                         </page>
-                    </notebook>
+                    </notebook> -->
                 </sheet>
             </form>
         </field>

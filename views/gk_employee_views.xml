@@ -47,6 +47,7 @@
                         <page string="Biometrics" name="biometrics">
                             <field name="biometric_ids">
                                 <list editable="bottom">
+                                    <field name="device_model_id"/>
                                     <field name="algorithm_id"/>
                                     <field name="biometric_type" readonly="1"/>
                                     <field name="finger_index"/>

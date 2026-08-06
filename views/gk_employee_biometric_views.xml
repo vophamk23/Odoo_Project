@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="employee_id"/>
+                <field name="device_model_id"/>
                 <field name="algorithm_id"/>
                 <field name="biometric_type"/>
                 <field name="finger_index"/>
@@ -25,6 +26,7 @@
                     <group>
                         <group>
                             <field name="employee_id"/>
+                            <field name="device_model_id"/>
                             <field name="algorithm_id"/>
                             <field name="biometric_type"/>
                             <field name="finger_index"/>
