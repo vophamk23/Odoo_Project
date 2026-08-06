@@ -568,6 +568,7 @@ class T4GateKeeperController(models.Model):
         if employee:
             employee.write(userInfo_vals)
         else:
+            userInfo_vals["emp_id"] = emp_id
             employee = self.env["t4.gate_keeper.employee"].create(userInfo_vals)
 
         ###Fingerprint
@@ -611,11 +612,11 @@ class T4GateKeeperController(models.Model):
         photo = body.get("PHOTO", {})
         if photo and photo.get("Content"):
             employee.avatar = photo["Content"]
-            attachment = self.env["ir.attachment"].search({
+            attachment = self.env["ir.attachment"].search([
                 ("res_model", "=", "t4.gate_keeper.employee"),
                 ("res_field", "=", "avatar"),
                 ("res_id", "=", employee.id)
-            }, limit = 1)
+            ], limit = 1)
             if attachment:
                 attachment.write({
                     "name": photo["FileName"],
