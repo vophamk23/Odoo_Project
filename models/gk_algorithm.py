@@ -5,7 +5,7 @@ from odoo import models, fields, api, _
 class GateKeeperAlgorithm(models.Model):
     _name = "t4.gate_keeper.algorithm"
     _description = "Gate Keeper Algorithm"
-    _order = "algorithm_type, name, version"
+    _order = "name, version"
 
     name = fields.Char(
         string="Algorithm Name",
