@@ -9,6 +9,7 @@ SYNC_STATUS = [
 ]
 
 VERIFICATION_TYPE = [
+    ('finger', 'Fingerprint'),
     ('face', 'Face'),
     ('fingerprint', 'Fingerprint'),
     ('card', 'Card'),
@@ -130,4 +131,12 @@ class GateKeeperAccessLog(models.Model):
                         reason
                     )
                 })
+
+    _sql_constraints = [
+        (
+            "unique_access_log",
+            "unique(controller_id, device_id, employee_id, access_time)",
+            "This access log entry already exists.",
+        )
+    ]
 

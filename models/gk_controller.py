@@ -739,7 +739,7 @@ class T4GateKeeperController(models.Model):
 
             for rec in records:
                 emp_id = rec.get("emp_id")
-                if not emp_id:
+                if emp_id is None:
                     errors.append(_("Skipped record with missing emp_id on device '%s'.") % device_sn)
                     continue
 
