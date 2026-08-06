@@ -9,3 +9,4 @@ from . import gk_employee_biometric
 from . import gk_access_log
 from . import hr_employee
 from . import gk_area
+from . import ir_attachment
