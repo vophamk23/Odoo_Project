@@ -40,13 +40,6 @@ class T4GateKeeperEmployee(models.Model):
         help="If empty, all controllers can sync this employee. If set, only controllers in this branch can sync.",
     )
 
-    hr_employee_id = fields.Many2one(
-        comodel_name="hr.employee",
-        string="HR Employee",
-        ondelete="cascade",
-        index=True,
-        help="Linked HR Employee. Used to sync name updates.",
-    )
 
     biometric_ids = fields.One2many(
         comodel_name="t4.gate_keeper.employee.biometric",
@@ -69,22 +62,6 @@ class T4GateKeeperEmployee(models.Model):
         default=True,
     )
 
-    # @api.depends("biometric_ids")
-    # def _compute_biometric_count(self):
-    #     for rec in self:
-    #         rec.biometric_count = len(rec.biometric_ids)
-
-    # def action_view_biometrics(self):
-    #     self.ensure_one()
-    #     return {
-    #         "type": "ir.actions.act_window",
-    #         "name": "Biometrics",
-    #         "res_model": "t4.gate_keeper.employee.biometric",
-    #         "view_mode": "list,form",
-    #         "domain": [("employee_id", "=", self.id)],
-    #         "context": {"default_employee_id": self.id},
-    #     }
-
     @api.model_create_multi
     def create(self, vals_list):
         sequence = self.env["ir.sequence"]
@@ -97,6 +74,6 @@ class T4GateKeeperEmployee(models.Model):
     def write(self, vals):
         if 'emp_id' in vals:
             raise ValidationError(
-                "Không được phép thay đổi mã nhân viên."
+                "Employee codes cannot be changed."
             )
         return super().write(vals)

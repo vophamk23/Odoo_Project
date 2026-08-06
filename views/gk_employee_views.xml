@@ -49,10 +49,10 @@
                                 <list editable="bottom">
                                     <field name="device_model_id"/>
                                     <field name="algorithm_id"/>
-                                    <field name="biometric_type" readonly="1"/>
+                                    <field name="biometric_type"/>
                                     <field name="finger_index"/>
-                                    <field name="template" widget="binary"/>
-                                    <field name="description"/>
+                                    <field name="char_template"/>
+                                    <field name="binary_template" widget="binary"/>
                                 </list>
                             </field>
                         </page>

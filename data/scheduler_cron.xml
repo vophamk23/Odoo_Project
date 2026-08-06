@@ -12,14 +12,5 @@
         <field name="active">True</field>
     </record>
 
-    <record id="ir_cron_sync_missing_employees" model="ir.cron">
-        <field name="name">Sync Missing Employees to Gate Keeper</field>
-        <field name="model_id" ref="model_t4_gate_keeper_scheduler"/>
-        <field name="state">code</field>
-        <field name="code">model.cron_sync_missing_employees()</field>
-        <field name="interval_number">12</field>
-        <field name="interval_type">hours</field>
-        <field name="active">True</field>
-    </record>
 
 </odoo>

@@ -11,7 +11,8 @@
                 <field name="algorithm_id"/>
                 <field name="biometric_type"/>
                 <field name="finger_index"/>
-                <field name="description"/>
+                <field name="char_template"/>
+                <field name="binary_template" widget="binary"/>
             </list>
         </field>
     </record>
@@ -32,8 +33,8 @@
                             <field name="finger_index"/>
                         </group>
                         <group>
-                            <field name="template"/>
-                            <field name="description"/>
+                            <field name="char_template" invisible="biometric_type != 'character'"/>
+                            <field name="binary_template" widget="binary" invisible="biometric_type != 'base64'"/>
                         </group>
                     </group>
                 </sheet>

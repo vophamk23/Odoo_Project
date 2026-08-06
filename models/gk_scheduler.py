@@ -45,21 +45,4 @@ class T4GateKeeperScheduler(models.Model):
         if device_offline:
             device_offline.write({'status': 'offline'})
 
-    @api.model
-    def cron_sync_missing_employees(self):
-        # Find all hr_employee_ids that already have a t4.gate_keeper.employee
-        existing_hr_employee_ids = self.env['t4.gate_keeper.employee'].sudo().search([]).mapped('hr_employee_id').ids
-
-        # Search for hr.employee records whose ID is not in the existing list
-        missing_employees = self.env['hr.employee'].sudo().search([('id', 'not in', existing_hr_employee_ids)])
-
-        if missing_employees:
-            vals_list = []
-            for emp in missing_employees:
-                vals_list.append({
-                    "name": emp.name,
-                    "emp_id": emp.emp_id,
-                    "hr_employee_id": emp.id,
-                })
-            self.env["t4.gate_keeper.employee"].sudo().create(vals_list)
 

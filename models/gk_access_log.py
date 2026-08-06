@@ -132,11 +132,8 @@ class GateKeeperAccessLog(models.Model):
                     )
                 })
 
-    _sql_constraints = [
-        (
-            "unique_access_log",
-            "unique(controller_id, device_id, employee_id, access_time)",
-            "This access log entry already exists.",
-        )
-    ]
+    _unique_access_log = models.Constraint(
+        "UNIQUE(controller_id, device_id, employee_id, access_time)",
+        _("This access log entry already exists.")
+    )
 

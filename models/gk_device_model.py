@@ -14,4 +14,5 @@ class GateKeeperDeviceModel(models.Model):
 
     version = fields.Char(
         string="Version",
+        help="Version of model"
     )

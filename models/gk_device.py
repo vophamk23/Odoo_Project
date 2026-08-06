@@ -110,13 +110,6 @@ class GateKeeperDevice(models.Model):
         help="Operating system or embedded application version installed on the device.",
     )
 
-    # algorithm_ids = fields.Many2many(
-    #     related="device_model_id.algorithm_ids",
-    #     readonly=True,
-    #     string="Supported Algorithms",
-    #     help="Face, fingerprint, or other recognition algorithms supported by this device.",
-    # )
-
     status = fields.Selection(
         selection=DEVICE_STATUS,
         string="Status",

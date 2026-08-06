@@ -7,9 +7,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'hr_attendance'],
-
-    'post_init_hook': 'post_init_hook',
+    'depends': ['base'],
 
     # always loaded
     'data': [
@@ -25,7 +23,6 @@
         'views/gk_access_log_views.xml',
         'views/gk_employee_biometric_views.xml',
         'views/gk_employee_views.xml',
-        'views/hr_employee_views.xml',
         'views/gk_controller_sync_views.xml',
         'views/GK_menu.xml'
     ],
