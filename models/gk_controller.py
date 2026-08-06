@@ -205,6 +205,10 @@ class T4GateKeeperController(models.Model):
             "status": "online",
         })
 
+        return {
+            "message": _("Success")
+        }
+
 
     @endpoint(name="ControllerEmployeeSync")
     def controller_employee_sync(self):
