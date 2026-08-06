@@ -546,9 +546,7 @@ class T4GateKeeperController(models.Model):
             ("branch_id", "=", controller.branch_id.id),
         ], limit=1)
 
-        userInfo_vals ={
-            "emp_id": emp_id
-        }
+        userInfo_vals ={}
 
         if controller.branch_id:
             userInfo_vals["branch_id"] = controller.branch_id.id
