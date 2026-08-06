@@ -449,8 +449,8 @@ class T4GateKeeperController(models.Model):
 
         userInfo_vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
 
-        if 'serial_number' not in userInfo_vals or 'branch_id' not in userInfo_vals:
-            raise ValidationError("Missing required fields (serial_number, branch_id)")
+        if 'serial_number' not in userInfo_vals or 'branch_id' not in userInfo_vals or "name" not in userInfo_vals:
+            raise ValidationError("Missing required fields (serial_number, branch_id, name)")
 
         if not userInfo_vals['branch_id']:
             raise ValidationError("Invalid branch_code provided")   
