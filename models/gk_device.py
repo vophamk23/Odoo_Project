@@ -18,6 +18,7 @@ ALLOWED_CREATE_FIELDS = [
     "controller_id",
     "serial_number",
     "name",
+    "model",
     # OPTIONAL
     "area_id",
     "vendor",
