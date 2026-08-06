@@ -1,13 +1,6 @@
 # pyrefly: ignore [missing-import]
 from odoo import models, fields, api, _
 
-ALGORITHM_TYPES = [
-    ("face", "Face Recognition"),
-    ("fingerprint", "Fingerprint Recognition"),
-    ("card", "Card Recognition"),
-    ("other", "Other"),
-]
-
 
 class GateKeeperAlgorithm(models.Model):
     _name = "t4.gate_keeper.algorithm"
@@ -20,34 +13,12 @@ class GateKeeperAlgorithm(models.Model):
         help="Commercial or technical name of the recognition algorithm.",
     )
 
-    algorithm_type = fields.Selection(
-        selection=ALGORITHM_TYPES,
-        string="Algorithm Type",
-        required=True,
-        default="other",
-    )
-
     version = fields.Char(
         string="Algorithm Version",
-        required=True,
         help="Version of this recognition algorithm.",
     )
-
-    # vendor = fields.Char(
-    #     string="Vendor",
-    #     help="Algorithm vendor or provider.",
-    # )
-
-    template_format = fields.Char(
-        string="Template Format",
-        help="Biometric template format produced or consumed by this algorithm.",
-    )
-
-    notes = fields.Text(
-        string="Notes",
-    )
-
+    
     _algorithm_version_unique = models.Constraint(
-        "UNIQUE(name, algorithm_type, version, vendor)",
-        _("Algorithm version must be unique per name, type, and vendor.")
+        "UNIQUE(name, version)",
+        _("Algorithm version must be unique per name and version.")
     )

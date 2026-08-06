@@ -166,10 +166,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="algorithm_type"/>
                 <field name="version"/>
-                <!-- <field name="vendor"/> -->
-                <field name="template_format"/>
             </list>
         </field>
     </record>
@@ -181,18 +178,10 @@
             <form>
                 <sheet>
                     <group>
-                        <group string="Algorithm">
+                        <group string="Algorithm Information">
                             <field name="name"/>
-                            <field name="algorithm_type"/>
                             <field name="version"/>
                         </group>
-                        <group string="Compatibility">
-                            <!-- <field name="vendor"/> -->
-                            <field name="template_format"/>
-                        </group>
-                    </group>
-                    <group>
-                        <field name="notes"/>
                     </group>
                 </sheet>
             </form>
