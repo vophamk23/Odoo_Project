@@ -38,7 +38,7 @@ ALLOWED_FIELDS = [  # fields of t4 gatekeeper controller if you add or delete pl
 class T4GateKeeperController(models.Model):
     _name = "t4.gate_keeper.controller"
     _description = "Gate Keeper Controller"
-    _order = "last_heartbeat_at desc, id desc"
+    _order = "last_heartbeat desc, id desc"
 
     name = fields.Char(
         string="Controller Name",
