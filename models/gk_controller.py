@@ -165,6 +165,12 @@ class T4GateKeeperController(models.Model):
             ("controller_id", "=", controller_id),
             ("serial_number", "in", device_sns),
         ])
+
+    def _find_device_by_name(self, controller_id, device_name):
+        return self.env['t4.gate_keeper.device'].search([
+            ("controller_id", "=", controller_id),
+            ("name", "=", device_name),
+        ], limit=1)
  
 
     @endpoint(name="ControllerHeartbeat")
@@ -424,7 +430,7 @@ class T4GateKeeperController(models.Model):
                                                           offset=offset,
                                                           limit=limit)
 
-    def _get_employee_biometric_algorithms(self, algorithm, employee, device_model, request_data):
+    def _get_employee_biometric_algorithms(self, algorithm, employee, device_model, index):
 
         algorithm_type = self.env["t4.gate_keeper.algorithm"].search([("name", "=", algorithm)], limit=1)
         if not algorithm_type:
@@ -436,9 +442,9 @@ class T4GateKeeperController(models.Model):
             ("device_model_id", "=", device_model.id)
         ]
 
-        if request_data is not None:
+        if index is not None:
             biometric_domain.append((
-                "finger_index", "=", request_data
+                "finger_index", "=", index
             ))
 
         return self.env["t4.gate_keeper.employee.biometric"].search(biometric_domain, limit = 1)
@@ -551,7 +557,7 @@ class T4GateKeeperController(models.Model):
         face_templates = None
         if employee:
             for biometric in employee.biometric_ids:
-                template = biometric.template.decode() if biometric.template else None
+                template = biometric.binary_template.decode() if biometric.binary_template else biometric.char_template
 
                 if biometric.biometric_type == "fingerprint":
                     finger_templates.append(template)
@@ -629,8 +635,10 @@ class T4GateKeeperController(models.Model):
                     algorithm="fingerprint",
                     employee=employee,
                     device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
-                    request_data=finger_index
+                    index=finger_index
                 )
+                if not finger_biometric:
+                    raise ValidationError(_("No matching fingerprint biometric found for employee %s with finger index %s") % (employee.emp_id, finger_index))
 
                 biometric_vals = {
                     "algorithm_id": finger_biometric.algorithm_id.id,
@@ -652,8 +660,10 @@ class T4GateKeeperController(models.Model):
                 algorithm="face",
                 employee=employee,
                 device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
-                request_data=biodata_slot
+                index=biodata_slot
             )
+            if not face_biometric:
+                raise ValidationError(_("No matching face biometric found for employee %s with slot index %s") % (employee.emp_id, biodata_slot))
             biometrics_vals = {
                 "algorithm_id": face_biometric.algorithm_id.id,
                 "employee_id": employee.id,
