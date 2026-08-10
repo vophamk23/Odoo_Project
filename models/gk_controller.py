@@ -183,7 +183,7 @@ class T4GateKeeperController(models.Model):
                     }
                 }), 
                 message="Invalid controller",
-                status=400
+                status_code=400
             )
 
         device_sns = body.get("device_sns", [])
@@ -203,7 +203,7 @@ class T4GateKeeperController(models.Model):
                     }
                 }), 
                 message="invalid device list",
-                status=400
+                status_code=400
             )
         # if not devices:
         # #     raise ValidationError("Devices list is required.")
