@@ -160,6 +160,12 @@ class T4GateKeeperController(models.Model):
         return self.search([
             ("serial_number", "=", controller_id),
         ], limit=1)
+
+    def _find_devices(self, controller_id, device_ids):
+        return self.env['t4.gate_keeper.device'].search([
+            ("controller_id", "=", controller_id),
+            ("device_id", "in", device_ids),
+        ])
  
 
     @endpoint(name="ControllerHeartbeat")
@@ -181,7 +187,7 @@ class T4GateKeeperController(models.Model):
             )
 
         device_ids = body.get("devices", [])
-        devices = self._find_device(controller_id, device_ids)
+        devices = self._find_devices(controller_id, device_ids)
 
         found_serials = devices.mapped('serial_number')
 
