@@ -180,12 +180,14 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_sn)
         if not controller:
-            api_error_response(
+            set_response(
+                data={
+                    "is_missing": True,
+                    "controller_sn": controller_sn,
+                    "device_sns": [],
+                }, 
                 message="invalid controller",
-                status_code=400,
-                is_missing=True,
-                controller_sn=controller_sn,
-                device_sns=[],
+                status_code=400
             )
             return
 
@@ -198,13 +200,11 @@ class T4GateKeeperController(models.Model):
 
         if missing_serials:
             set_response(
-                data=json.dumps({
-                    "message": "invalid controller",
-                    "missing": {
-                        "controller_sn": "",
-                        "device_sns": list(missing_serials), 
-                    }
-                }), 
+                data={
+                    "is_missing": True,
+                    "controller_sn": False,
+                    "device_sns": list(missing_serials)
+                },
                 message="invalid device list",
                 status_code=400
             )
