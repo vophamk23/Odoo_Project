@@ -156,42 +156,42 @@ class T4GateKeeperController(models.Model):
 
     ################################## ENDPOINT ###############################################
     # heart beat
-    def _find_controller(self, controller_id):
+    def _find_controller(self, serial_number):
         return self.search([
-            ("serial_number", "=", controller_id),
+            ("serial_number", "=", serial_number),
         ], limit=1)
 
-    def _find_devices(self, controller_id, device_ids):
+    def _find_devices(self, controller_sn, device_sns):
         return self.env['t4.gate_keeper.device'].search([
             ("controller_id", "=", controller_id),
-            ("device_id", "in", device_ids),
+            ("serial_number", "in", device_ids),
         ])
  
 
     @endpoint(name="ControllerHeartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
-        controller_id = body.get("controller_sn", False)
+        controller_sn = body.get("controller_sn", False)
 
-        controller = self._find_controller(controller_id)
+        controller = self._find_controller(controller_sn)
         if not controller:
             request.make_response(
                 json.dumps({
                     "message": "invalid controller",
                     "missing": {
-                        "controller_sn": controller_id,
+                        "controller_sn": controller_sn,
                         "device_sns": [], 
                     }
                 }), 
                 status=400
             )
 
-        device_ids = body.get("devices", [])
-        devices = self._find_devices(controller_id, device_ids)
+        device_sns = body.get("devices", [])
+        devices = self._find_devices(controller.id, device_sns)
 
         found_serials = devices.mapped('serial_number')
 
-        missing_serials = set(device_ids) - set(found_serials)
+        missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
             request.make_response(
