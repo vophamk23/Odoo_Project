@@ -161,7 +161,7 @@ class T4GateKeeperController(models.Model):
             ("serial_number", "=", serial_number),
         ], limit=1)
 
-    def _find_devices(self, controller_sn, device_sns):
+    def _find_devices(self, controller_id, device_sns):
         return self.env['t4.gate_keeper.device'].search([
             ("controller_id", "=", controller_id),
             ("serial_number", "in", device_ids),
