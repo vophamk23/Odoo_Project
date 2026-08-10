@@ -4,7 +4,7 @@ from datetime import datetime
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
 # pyrefly: ignore [missing-import]
-from odoo.addons.t4_coreapi.utils import endpoint, get_body
+from odoo.addons.t4_coreapi.utils import endpoint, get_body, set_response
 from odoo.addons.t4_coreapi.utils.response import api_error_response# pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 import json
