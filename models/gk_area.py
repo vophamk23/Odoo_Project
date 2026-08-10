@@ -71,11 +71,6 @@ class GateKeeperArea(models.Model):
         for area in self:
             area.warning_count = len(area.warning_ids)
 
-    # def action_clear_warnings(self):
-    #     for area in self:
-    #         active_warnings = area.warning_ids.filtered(lambda w: w.state == "active")
-    #         active_warnings.action_resolve()
-
     def action_view_warnings(self):
         self.ensure_one()
         return {

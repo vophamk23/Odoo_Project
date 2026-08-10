@@ -16,3 +16,8 @@ class GateKeeperDeviceModel(models.Model):
         string="Version",
         help="Version of model"
     )
+
+    _device_model_name_unique = models.Constraint(
+        "UNIQUE(name)",
+        "device model name must be unique."
+    )

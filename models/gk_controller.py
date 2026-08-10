@@ -40,7 +40,6 @@ class T4GateKeeperController(models.Model):
 
     name = fields.Char(
         string="Controller Name",
-        required=True,
         help="Human-readable name used to identify this controller.",
     )
 
@@ -154,17 +153,12 @@ class T4GateKeeperController(models.Model):
     )
 
     ################################## ENDPOINT ###############################################
+    # heart beat
     def _find_controller(self, controller_id):
         return self.search([
             ("serial_number", "=", controller_id),
         ], limit=1)
-    
-    def _find_device(self, controller_id, device_id):
-        return self.env["t4.gate_keeper.device"].search([
-            ("serial_number", "=", device_id),
-            ("controller_id", "=", controller_id),
-        ], limit=1)
-    
+ 
 
     @endpoint(name="ControllerHeartbeat")
     def controller_heartbeat(self):
@@ -173,29 +167,56 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_id)
         if not controller:
-            raise ValidationError(f"Can not find controller with id {controller_id}")
-        devices = body.get("devices", [])
+            request.make_response(
+                json.dumps({
+                    "message": "invalid controller",
+                    "missing": {
+                        "controller_sn": controller_id,
+                        "device_sns": [], 
+                    }
+                }), 
+                status=400
+            )
+
+        device_ids = body.get("devices", [])
+        devices = self._find_device(controller_id, device_ids)
+
+        found_serials = devices.mapped('serial_number')
+
+        missing_serials = set(device_ids) - set(found_serials)
+
+        if missing_serials:
+            request.make_response(
+                json.dumps({
+                    "message": "invalid controller",
+                    "missing": {
+                        "controller_sn": "",
+                        "device_sns": missing_serials, 
+                    }
+                }), 
+                status=400
+            )
         # if not devices:
-        #     raise ValidationError("Devices list is required.")
-        for device in devices:
-            device_id = device.get("device_sn")
-            device_status = device.get("status")
-            if not device_id:
-                raise ValidationError("Device serial number is required.")
+        # #     raise ValidationError("Devices list is required.")
+        # for device in devices:
+        #     device_id = device.get("device_sn")
+        #     device_status = device.get("status")
+        #     if not device_id:
+        #         raise ValidationError("Device serial number is required.")
 
-            if not device_status:
-                raise ValidationError(f"Device status is required for device {device_id}")
+        #     if not device_status:
+        #         raise ValidationError(f"Device status is required for device {device_id}")
             
-            allowed_status = dict(self.env["t4.gate_keeper.device"]._fields["status"].selection).keys()
-            if device_status not in allowed_status:
-                raise ValidationError(f"Invalid device status for device {device_id}")
+        #     allowed_status = dict(self.env["t4.gate_keeper.device"]._fields["status"].selection).keys()
+        #     if device_status not in allowed_status:
+        #         raise ValidationError(f"Invalid device status for device {device_id}")
 
-            if not device_id or not device_status:
-               continue
+        #     if not device_id or not device_status:
+        #        continue
             
-            device_record = self._find_device(controller.id, device_id)
-            if device_record:
-                device_record.write({"status": device_status})
+        #     device_record = self._find_device(controller.id, device_id)
+        #     if device_record:
+        #         device_record.write({"status": device_status})
 
 
 
@@ -209,7 +230,7 @@ class T4GateKeeperController(models.Model):
             "message": _("Success")
         }
 
-
+    # Employee Sync
     @endpoint(name="ControllerEmployeeSync")
     def controller_employee_sync(self):
         body = get_body()
@@ -395,11 +416,10 @@ class T4GateKeeperController(models.Model):
                                                           limit=limit)
 
     #### Register 
-
     @endpoint("ControllerStatus")
     def _controller_status(self):
         body = get_body()
-        serial_number = body.get("serial_number")
+        serial_number = body.get("controller_sn")
 
         if not serial_number:
             raise ValidationError(_("Serial number is required."))
@@ -449,7 +469,7 @@ class T4GateKeeperController(models.Model):
 
         userInfo_vals = {key: body[key] for key in ALLOWED_FIELDS if key in body}    
 
-        if 'serial_number' not in userInfo_vals or 'branch_id' not in userInfo_vals or "name" not in userInfo_vals:
+        if 'serial_number' not in userInfo_vals or 'branch_id' not in userInfo_vals:
             raise ValidationError("Missing required fields (serial_number, branch_id, name)")
 
         if not userInfo_vals['branch_id']:
