@@ -186,7 +186,7 @@ class T4GateKeeperController(models.Model):
                 status=400
             )
 
-        device_sns = body.get("devices", [])
+        device_sns = body.get("device_sns", [])
         devices = self._find_devices(controller.id, device_sns)
 
         found_serials = devices.mapped('serial_number')
