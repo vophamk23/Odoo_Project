@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 from datetime import datetime
 
 # pyrefly: ignore [missing-import]
@@ -171,25 +172,40 @@ class T4GateKeeperController(models.Model):
             ("controller_id", "=", controller_id),
             ("name", "=", device_name),
         ], limit=1)
- 
 
-    @endpoint(name="ControllerHeartbeat")
+    
+    @api.model
+    def set_response(self, message: str, status_code: int, **kwargs: Any) -> bool:
+        set_response(
+            data=kwargs,
+            message=message,
+            status_code=status_code
+        )
+        return False
+
+    @endpoint(name="Heartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
         controller_sn = body.get("controller_sn", False)
 
         controller = self._find_controller(controller_sn)
         if not controller:
-            set_response(
-                data={
-                    "is_missing": True,
-                    "controller_sn": controller_sn,
-                    "device_sns": [],
-                }, 
+            # set_response(
+            #     data={
+            #         "is_missing": True,
+            #         "missing_controller_sn": controller_sn,
+            #         "missing_device_sns": False,
+            #     }, 
+            #     message="invalid controller",
+            #     status_code=400
+            # )
+            return self.set_response(
                 message="invalid controller",
-                status_code=400
+                status_code=400,
+                is_missing=True,
+                missing_controller_sn=controller_sn,
+                missing_device_sns=False,
             )
-            return
 
         device_sns = body.get("device_sns", [])
         devices = self._find_devices(controller.id, device_sns)
@@ -199,50 +215,49 @@ class T4GateKeeperController(models.Model):
         missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
-            set_response(
-                data={
-                    "is_missing": True,
-                    "controller_sn": False,
-                    "device_sns": list(missing_serials)
-                },
-                message="invalid device list",
-                status_code=400
+            # set_response(
+            #     data={
+            #         "is_missing": True,
+            #         "controller_sn": False,
+            #         "device_sns": list(missing_serials)
+            #     },
+            #     message="invalid device list",
+            #     status_code=400
+            # )
+            return self.set_response(
+                message="invalid controller",
+                status_code=400,
+                is_missing=True,
+                missing_controller_sn=False,
+                missing_device_sns=list(missing_serials),
             )
-            return
-            
-        # if not devices:
-        # #     raise ValidationError("Devices list is required.")
-        # for device in devices:
-        #     device_id = device.get("device_sn")
-        #     device_status = device.get("status")
-        #     if not device_id:
-        #         raise ValidationError("Device serial number is required.")
-
-        #     if not device_status:
-        #         raise ValidationError(f"Device status is required for device {device_id}")
-            
-        #     allowed_status = dict(self.env["t4.gate_keeper.device"]._fields["status"].selection).keys()
-        #     if device_status not in allowed_status:
-        #         raise ValidationError(f"Invalid device status for device {device_id}")
-
-        #     if not device_id or not device_status:
-        #        continue
-            
-        #     device_record = self._find_device(controller.id, device_id)
-        #     if device_record:
-        #         device_record.write({"status": device_status})
-
-
 
         heartbeat_at = fields.Datetime.now()
         controller.write({
             "last_heartbeat_at": heartbeat_at,
             "status": "online",
         })
+        devices.write({
+            "last_heartbeat_at": heartbeat_at,
+            "status": "online",
+        })
 
-        return {
-            "message": _("Success")
-        }
+        # set_response(
+        #     data={
+        #         "is_missing": False,
+        #         "controller_sn": False,
+        #         "device_sns": False
+        #     },
+        #     message="success",
+        #     status_code=200
+        # )
+        return self.set_response(
+                message="success",
+                status_code=200,
+                is_missing=False,
+                missing_controller_sn=False,
+                missing_device_sns=False,
+        )
 
     # Employee Sync
     @endpoint(name="ControllerEmployeeSync")

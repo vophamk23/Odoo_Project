@@ -17,9 +17,9 @@ ALLOWED_CREATE_FIELDS = [
     # REQUIRE
     "controller_id",
     "serial_number",
-    "name",
     "model",
     # OPTIONAL
+    "name",
     "area_id",
     "vendor",
     "device_model_id",
@@ -41,7 +41,6 @@ class GateKeeperDevice(models.Model):
 
     name = fields.Char(
         string="Device Name",
-        required=True,
         help="Human-readable name used to identify this device.",
     )
 
@@ -268,8 +267,8 @@ class GateKeeperDevice(models.Model):
                     raise ValidationError("Can not find controller serial number")
                 vals["controller_id"] = controller.id
 
-            if not vals.get("serial_number") or not vals.get("controller_id") or not vals.get("name"):
-                raise ValidationError("Device Register must contain (name,controller_id,serial_number)")
+            if not vals.get("serial_number") or not vals.get("controller_id"):
+                raise ValidationError("Device Register must contain (controller_sn,serial_number)")
 
             filtered_vals_list.append(self._filter_vals_for_create(vals))
      
