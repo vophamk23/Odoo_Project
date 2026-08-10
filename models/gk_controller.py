@@ -8,6 +8,7 @@ from odoo.addons.t4_coreapi.utils import endpoint, get_body
 # pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 from odoo.http import request
+import json
 
 
 _logger = logging.getLogger(__name__)
