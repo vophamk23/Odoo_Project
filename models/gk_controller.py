@@ -4,10 +4,9 @@ from datetime import datetime
 # pyrefly: ignore [missing-import]
 from odoo import api, _, fields, models
 # pyrefly: ignore [missing-import]
-from odoo.addons.t4_coreapi.utils import endpoint, get_body
+from odoo.addons.t4_coreapi.utils import endpoint, get_body, set_response
 # pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
-from odoo.http import request
 import json
 
 
@@ -175,14 +174,15 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_sn)
         if not controller:
-            request.make_response(
-                json.dumps({
+           set_response(
+                data=json.dumps({
                     "message": "invalid controller",
                     "missing": {
                         "controller_sn": controller_sn,
                         "device_sns": [], 
                     }
                 }), 
+                message="Invalid controller",
                 status=400
             )
 
@@ -194,14 +194,15 @@ class T4GateKeeperController(models.Model):
         missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
-            request.make_response(
-                json.dumps({
+            set_response(
+                data=json.dumps({
                     "message": "invalid controller",
                     "missing": {
                         "controller_sn": "",
                         "device_sns": list(missing_serials), 
                     }
                 }), 
+                message="invalid device list",
                 status=400
             )
         # if not devices:
