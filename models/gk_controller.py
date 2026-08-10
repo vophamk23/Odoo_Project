@@ -209,6 +209,7 @@ class T4GateKeeperController(models.Model):
                 message="invalid device list",
                 status_code=400
             )
+            return
             
         # if not devices:
         # #     raise ValidationError("Devices list is required.")
