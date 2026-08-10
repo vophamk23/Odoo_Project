@@ -199,7 +199,7 @@ class T4GateKeeperController(models.Model):
                     "message": "invalid controller",
                     "missing": {
                         "controller_sn": "",
-                        "device_sns": missing_serials, 
+                        "device_sns": list(missing_serials), 
                     }
                 }), 
                 status=400
