@@ -5,7 +5,7 @@ from datetime import datetime
 from odoo import api, _, fields, models
 # pyrefly: ignore [missing-import]
 from odoo.addons.t4_coreapi.utils import endpoint, get_body, set_response
-from odoo.addons.t4_coreapi.utils.response import api_error_response# pyrefly: ignore [missing-import]
+# pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 import json
 
@@ -180,20 +180,16 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_sn)
         if not controller:
-        #    return {
-        #         "data": {
-        #             "is_exists": False,
-        #             "controller_sn": controller_sn,
-        #             "device_sns": [], 
-        #         },
-        #         "message": "Invalid controller",
-        #     }
-            api_error_response(
-                message="invalid controller",
-                status_code=400,
-                is_missing=True,
-                controller_sn=controller_sn,
-                device_sns=[],
+           set_response(
+                data=json.dumps({
+                    "message": "invalid controller",
+                    "missing": {
+                        "controller_sn": controller_sn,
+                        "device_sns": [], 
+                    }
+                }), 
+                message="Invalid controller",
+                status_code=400
             )
 
         device_sns = body.get("device_sns", [])
@@ -215,7 +211,6 @@ class T4GateKeeperController(models.Model):
                 message="invalid device list",
                 status_code=400
             )
-            
         # if not devices:
         # #     raise ValidationError("Devices list is required.")
         # for device in devices:
@@ -562,7 +557,7 @@ class T4GateKeeperController(models.Model):
         face_templates = None
         if employee:
             for biometric in employee.biometric_ids:
-                template = biometric.binary_template.decode() if biometric.binary_template else biometric.char_template
+                template = biometric.binary_template if biometric.binary_template else biometric.char_template
 
                 if biometric.biometric_type == "fingerprint":
                     finger_templates.append(template)
@@ -591,6 +586,15 @@ class T4GateKeeperController(models.Model):
         controller = self._find_controller(serial_number)
         if not controller:
             raise ValidationError(_("Can not find controller with ID %s") % serial_number)
+        device_sn = body.get("device_sn", False)
+        if not device_sn:
+            raise ValidationError(_("Device serial number is required."))
+        device = self._find_devices(controller.id, device_sn)
+        if not device:
+            raise ValidationError(_("Can not find device with serial number %s") % device_sn)
+        device_model = device.device_model_id
+        if not device_model:
+            raise ValidationError(_("Device %s does not have a model assigned") % device_sn)
         ###User
         userInfo = body.get("USER", {})
         if not userInfo:
@@ -639,7 +643,7 @@ class T4GateKeeperController(models.Model):
                 finger_biometric = self._get_employee_biometric_algorithms(
                     algorithm="fingerprint",
                     employee=employee,
-                    device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
+                    device_model=device_model,
                     index=finger_index
                 )
                 if not finger_biometric:
@@ -664,7 +668,7 @@ class T4GateKeeperController(models.Model):
             face_biometric = self._get_employee_biometric_algorithms(
                 algorithm="face",
                 employee=employee,
-                device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
+                device_model=device_model,
                 index=biodata_slot
             )
             if not face_biometric:
