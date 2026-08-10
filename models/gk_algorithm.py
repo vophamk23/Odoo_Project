@@ -13,6 +13,11 @@ class GateKeeperAlgorithm(models.Model):
         help="Commercial or technical name of the recognition algorithm.",
     )
 
+    code = fields.Char(
+        string="Algorithm Code",
+        required=True,
+    )
+
     version = fields.Char(
         string="Algorithm Version",
         help="Version of this recognition algorithm.",
@@ -21,4 +26,9 @@ class GateKeeperAlgorithm(models.Model):
     _algorithm_version_unique = models.Constraint(
         "UNIQUE(name, version)",
         _("Algorithm version must be unique per name and version.")
+    )
+
+    _algorithm_code_unique = models.Constraint(
+        "UNIQUE(code)",
+        _("Algorithm code must be unique.")
     )
