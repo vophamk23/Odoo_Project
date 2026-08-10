@@ -309,8 +309,8 @@ class T4GateKeeperController(models.Model):
                         "biometrics": [
                             {
                                 "type": bio.biometric_type,
-                                "template": bio.template,
-                                "finger_index/slot": bio.finger_index,
+                                "template": bio.binary_template.decode() if bio.binary_template else bio.char_template,
+                                "index": bio.finger_index,
                                 "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
@@ -326,8 +326,8 @@ class T4GateKeeperController(models.Model):
                         "biometrics": [
                             {
                                 "type": bio.biometric_type,
-                                "template": bio.template,
-                                "finger_index/slot": bio.finger_index,
+                                "template": bio.binary_template.decode() if bio.binary_template else bio.char_template,
+                                "index": bio.finger_index,
                                 "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
@@ -343,8 +343,8 @@ class T4GateKeeperController(models.Model):
                         "biometrics": [
                             {
                                 "type": bio.biometric_type,
-                                "template": bio.template,
-                                "finger_index/slot": bio.finger_index,
+                                "template": bio.binary_template.decode() if bio.binary_template else bio.char_template,
+                                "index": bio.finger_index,
                                 "photo_avatar": emp.avatar,
                             }
                             for bio in emp.biometric_ids
@@ -393,6 +393,25 @@ class T4GateKeeperController(models.Model):
                                                           order="write_date, id",
                                                           offset=offset,
                                                           limit=limit)
+
+    def _get_employee_biometric_algorithms(self, algorithm, employee, device_model, request_data):
+
+        algorithm_type = self.env["t4.gate_keeper.algorithm"].search([("name", "=", algorithm)], limit=1)
+        if not algorithm_type:
+            raise ValidationError(_("Algorithm type %s not found") % algorithm)
+
+        biometric_domain = [
+            ("employee_id", "=", employee.emp_id),
+            ("algorithm_id", "=", algorithm_type.id),
+            ("device_model_id", "=", device_model.id)
+        ]
+
+        if request_data is not None:
+            biometric_domain.append((
+                "finger_index", "=", request_data
+            ))
+
+        return self.env["t4.gate_keeper.employee.biometric"].search(biometric_domain, limit = 1)
 
     #### Register 
 
@@ -568,44 +587,55 @@ class T4GateKeeperController(models.Model):
         else:
             userInfo_vals["emp_id"] = emp_id
             employee = self.env["t4.gate_keeper.employee"].create(userInfo_vals)
-
-        ###Fingerprint
+        #(cần gửi thêm device sn để xác định device_model_id)
+        ###Fingerprint 
         fingerprint = body.get("FP", [])
         if fingerprint:
             for fp in fingerprint:
-                finger = self.env["t4.gate_keeper.employee.biometric"].search([
-                    ("employee_id", "=", employee.id),
-                    ("biometric_type", "=", "fingerprint"),
-                    ("finger_index", "=", fp["FID"])
-                ], limit = 1)
-                finger_vals = {
+                finger_index = fp.get("FID")
+                if finger_index is None:
+                    raise ValidationError(_("Missing finger index for fingerprint template"))
+
+                finger_biometric = self._get_employee_biometric_algorithms(
+                    algorithm="fingerprint",
+                    employee=employee,
+                    device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
+                    request_data=finger_index
+                )
+
+                biometric_vals = {
+                    "algorithm_id": finger_biometric.algorithm_id.id,
                     "employee_id": employee.id,
-                    "biometric_type": "fingerprint",
-                    "finger_index": fp["FID"],
-                    "template": fp["TMP"]
+                    "biometric_type": "base64",
+                    "finger_index": finger_index,
+                    "binary_template": fp.get("TMP")
                 }
-                if finger:
-                    finger.write(finger_vals)
+
+                if finger_biometric:
+                    finger_biometric.write(biometric_vals)
                 else:
-                    self.env["t4.gate_keeper.employee.biometric"].create(finger_vals)
+                    self.env["t4.gate_keeper.employee.biometric"].create(biometric_vals)
         ###BIODATA
         biodata = body.get("BIODATA", {})
         if biodata:
-            face = self.env["t4.gate_keeper.employee.biometric"].search([
-                ("employee_id", "=", employee.id),
-                ("biometric_type", "=", "face"),
-                ("finger_index", "=", biodata["Index"])
-            ], limit = 1)
-            biodata_vals = {
+            biodata_slot = biodata.get("Index")
+            face_biometric = self._get_employee_biometric_algorithms(
+                algorithm="face",
+                employee=employee,
+                device_model=controller.device_ids[0].device_model_id, #Can gui device serial number để xác định device_model_id
+                request_data=biodata_slot
+            )
+            biometrics_vals = {
+                "algorithm_id": face_biometric.algorithm_id.id,
                 "employee_id": employee.id,
-                "biometric_type": "face",
-                "finger_index": biodata["Index"],
-                "template": biodata["Tmp"]
+                "biometric_type": "base64",
+                "finger_index": 0,
+                "binary_template": biodata.get("Tmp")
             }
-            if face:
-                face.write(biodata_vals)
+            if face_biometric:
+                face_biometric.write(biometrics_vals)
             else:
-                self.env["t4.gate_keeper.employee.biometric"].create(biodata_vals)
+                self.env["t4.gate_keeper.employee.biometric"].create(biometrics_vals)
         ###PHOTO
         photo = body.get("PHOTO", {})
         if photo and photo.get("Content"):
