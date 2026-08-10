@@ -113,7 +113,7 @@ class T4GateKeeperController(models.Model):
         tracking=True,
     )
 
-    last_heartbeat_at = fields.Datetime(
+    last_heartbeat = fields.Datetime(
         string="Last Heartbeat",
         readonly=True,
         help="Last time this controller reported that it was online.",
@@ -190,15 +190,6 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_sn)
         if not controller:
-            # set_response(
-            #     data={
-            #         "is_missing": True,
-            #         "missing_controller_sn": controller_sn,
-            #         "missing_device_sns": False,
-            #     }, 
-            #     message="invalid controller",
-            #     status_code=400
-            # )
             return self.set_response(
                 message="invalid controller",
                 status_code=400,
@@ -215,15 +206,6 @@ class T4GateKeeperController(models.Model):
         missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
-            # set_response(
-            #     data={
-            #         "is_missing": True,
-            #         "controller_sn": False,
-            #         "device_sns": list(missing_serials)
-            #     },
-            #     message="invalid device list",
-            #     status_code=400
-            # )
             return self.set_response(
                 message="invalid controller",
                 status_code=400,
@@ -233,24 +215,13 @@ class T4GateKeeperController(models.Model):
             )
 
         heartbeat_at = fields.Datetime.now()
-        controller.write({
-            "last_heartbeat_at": heartbeat_at,
+        vals = {
+            "last_heartbeat": heartbeat_at,
             "status": "online",
-        })
-        devices.write({
-            "last_heartbeat_at": heartbeat_at,
-            "status": "online",
-        })
+        }
+        controller.write(vals)
+        devices.write(vals)
 
-        # set_response(
-        #     data={
-        #         "is_missing": False,
-        #         "controller_sn": False,
-        #         "device_sns": False
-        #     },
-        #     message="success",
-        #     status_code=200
-        # )
         return self.set_response(
                 message="success",
                 status_code=200,
@@ -526,10 +497,7 @@ class T4GateKeeperController(models.Model):
         new_controller = self.env['t4.gate_keeper.controller'].sudo().create(userInfo_vals)
 
         return {
-            "message": "Controller registered successfully",
-            "data": {
-                "id": new_controller.id
-            }
+            "message": "Controller registered successfully"
         }
 
     @endpoint('DeviceRegister')

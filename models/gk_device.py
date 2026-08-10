@@ -116,7 +116,7 @@ class GateKeeperDevice(models.Model):
         tracking=True,
     )
 
-    last_seen_at = fields.Datetime(
+    last_heartbeat = fields.Datetime(
         string="Last Seen",
         readonly=True,
         help="Last time the controller received a response from this device.",
