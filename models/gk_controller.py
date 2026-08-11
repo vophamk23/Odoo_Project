@@ -548,7 +548,7 @@ class T4GateKeeperController(models.Model):
                         "template": template if template else None
                     })
                 elif biometric.algorithm_id.name == "face":
-                    face_templates = face_templates if template else None
+                    face_templates = template if template else None
 
 
         return {
