@@ -627,7 +627,7 @@ class T4GateKeeperController(models.Model):
                     raise ValidationError(_("Missing finger index for fingerprint template"))
 
                 finger_biometric = self._get_employee_biometric_algorithms(
-                    algorithm="fingerprint",
+                    algorithm="Fingerprint",
                     employee=employee,
                     device_model=device_model,
                     index=finger_index
@@ -652,7 +652,7 @@ class T4GateKeeperController(models.Model):
         if biodata:
             biodata_slot = biodata.get("Index")
             face_biometric = self._get_employee_biometric_algorithms(
-                algorithm="face",
+                algorithm="Face",
                 employee=employee,
                 device_model=device_model,
                 index=biodata_slot
