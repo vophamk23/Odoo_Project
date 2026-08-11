@@ -549,8 +549,12 @@ class T4GateKeeperController(models.Model):
                     })
                 elif biometric.algorithm_id.name == "face":
                     face_templates = template if template else None
-
         if employee:
+            _logger.info("========== EMPLOYEE BIOMETRIC DEBUG ==========")
+            _logger.info("Employee ID: %s", employee.id)
+            _logger.info("Employee emp_id: %s", employee.emp_id)
+            _logger.info("Biometric count: %s", len(employee.biometric_ids))
+
             for biometric in employee.biometric_ids:
                 template = (
                     biometric.binary_template
@@ -558,15 +562,49 @@ class T4GateKeeperController(models.Model):
                     else biometric.char_template
                 )
 
+                _logger.info("----------------------------------------")
+                _logger.info("Biometric ID       : %s", biometric.id)
+                _logger.info("Biometric type     : %r", biometric.biometric_type)
                 _logger.info(
-                    "BIOMETRIC: id=%s, type=%r, algorithm=%r, "
-                    "finger_index=%r, template=%s",
-                    biometric.id,
-                    biometric.biometric_type,
-                    biometric.algorithm_id.name,
-                    biometric.finger_index,
-                    bool(template),
+                    "Algorithm ID       : %s",
+                    biometric.algorithm_id.id if biometric.algorithm_id else None
                 )
+                _logger.info(
+                    "Algorithm name     : %r",
+                    biometric.algorithm_id.name if biometric.algorithm_id else None
+                )
+                _logger.info("Finger index       : %r", biometric.finger_index)
+                _logger.info(
+                    "Binary template    : %s",
+                    "EXISTS" if biometric.binary_template else "EMPTY"
+                )
+                _logger.info(
+                    "Char template      : %s",
+                    "EXISTS" if biometric.char_template else "EMPTY"
+                )
+                _logger.info("Template type      : %s", type(template))
+                _logger.info(
+                    "Template length    : %s",
+                    len(template) if template else 0
+                )
+                _logger.info(
+                    "Template preview   : %s",
+                    template[:100] if template else None
+                )
+
+                if biometric.algorithm_id.name == "fingerprint":
+                    _logger.info(">>> MATCH FINGERPRINT")
+
+                elif biometric.algorithm_id.name == "face":
+                    _logger.info(">>> MATCH FACE")
+
+                else:
+                    _logger.warning(
+                        ">>> NO MATCH: algorithm_name=%r",
+                        biometric.algorithm_id.name if biometric.algorithm_id else None
+                    )
+
+            _logger.info("==============================================")
 
 
         return {
