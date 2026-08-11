@@ -550,6 +550,24 @@ class T4GateKeeperController(models.Model):
                 elif biometric.algorithm_id.name == "face":
                     face_templates = template if template else None
 
+        if employee:
+            for biometric in employee.biometric_ids:
+                template = (
+                    biometric.binary_template
+                    if biometric.binary_template
+                    else biometric.char_template
+                )
+
+                _logger.info(
+                    "BIOMETRIC: id=%s, type=%r, algorithm=%r, "
+                    "finger_index=%r, template=%s",
+                    biometric.id,
+                    biometric.biometric_type,
+                    biometric.algorithm_id.name,
+                    biometric.finger_index,
+                    bool(template),
+                )
+
 
         return {
             "message": _("Success"),
