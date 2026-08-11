@@ -208,7 +208,7 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 
 ### 1. Khởi Động Môi Trường
 Đảm bảo môi trường Docker đã được khởi động:
-1. Chạy file [start_docker.bat](file:///C:/Users/ASUS/Desktop/Phase%203/docker/start_docker.bat) để dựng dịch vụ Odoo 19:
+1. Chạy file [start_docker.bat](docker/start_docker.bat) để dựng dịch vụ Odoo 19:
    ```bash
    docker/start_docker.bat
    ```
@@ -226,15 +226,15 @@ pip install openpyxl requests
 
 #### Bước 2.2: Thực thi kiểm thử tự động
 Bạn có thể chọn 1 trong 2 cách:
-* **Cách 1 (Nhanh nhất):** Double-click chạy trực tiếp file [run_tests.bat](file:///C:/Users/ASUS/Desktop/Phase%203/run_tests.bat).
+* **Cách 1 (Nhanh nhất):** Double-click chạy trực tiếp file [run_tests.bat](run_tests.bat).
 * **Cách 2 (Sử dụng lệnh):**
   ```bash
   python tests/run_excel_tests.py
   ```
 
 #### Bước 2.3: Đọc kết quả kiểm thử
-* Script kiểm thử sẽ tự động đọc danh sách kịch bản trong file [api_test_cases.xlsx](file:///C:/Users/ASUS/Desktop/Phase%203/tests/api_test_cases.xlsx).
-* Sau khi hoàn tất, kết quả chi tiết từng case (Pass/Fail, HTTP status thực tế, Response chi tiết, Latency) sẽ được xuất ra file: [api_test_results.xlsx](file:///C:/Users/ASUS/Desktop/Phase%203/tests/api_test_results.xlsx).
+* Script kiểm thử sẽ tự động đọc danh sách kịch bản trong file [api_test_cases.xlsx](tests/api_test_cases.xlsx).
+* Sau khi hoàn tất, kết quả chi tiết từng case (Pass/Fail, HTTP status thực tế, Response chi tiết, Latency) sẽ được xuất ra file: [api_test_results.xlsx](tests/api_test_results.xlsx).
 * Nếu chạy qua file `.bat`, file kết quả Excel này sẽ tự động mở lên khi chạy xong.
 
 *(Mẹo: Bạn có thể chọn chạy hoặc bỏ qua một test case bằng cách điền chữ `x` hoặc để trống tại cột **Run?** trong file Excel kịch bản)*
@@ -246,8 +246,8 @@ Bạn có thể chọn 1 trong 2 cách:
 
 #### Bước 3.1: Import Collections vào Postman
 Mở Postman, chọn **Import** và kéo thả các file sau vào:
-1. [0_api_response_tests.postman_collection.json](file:///C:/Users/ASUS/Desktop/Phase%203/tests/0_api_response_tests.postman_collection.json): Chứa các kịch bản kiểm tra mã lỗi HTTP Status.
-2. [GateKeeper.postman_collection.json](file:///C:/Users/ASUS/Desktop/Phase%203/tests/http_scenarios/GateKeeper.postman_collection.json): Chứa các luồng API nghiệp vụ tích hợp.
+1. [0_api_response_tests.postman_collection.json](tests/0_api_response_tests.postman_collection.json): Chứa các kịch bản kiểm tra mã lỗi HTTP Status.
+2. [GateKeeper.postman_collection.json](tests/http_scenarios/GateKeeper.postman_collection.json): Chứa các luồng API nghiệp vụ tích hợp.
 
 #### Bước 3.2: Thực thi
 Bấm chọn từng API request để gửi dữ liệu thử nghiệm, hoặc chọn **Run Collection** để chạy tự động toàn bộ nhóm API.
