@@ -1,14 +1,12 @@
-# 🧪 Hướng Dẫn Chạy Kiểm Thử (Testing Guide)
+# Hướng Dẫn Chạy Kiểm Thử (Testing Guide)
 
 Tài liệu này cung cấp chi tiết toàn bộ các API, danh mục kịch bản kiểm thử (test cases) và hướng dẫn thực thi kiểm thử thông qua **Excel Automation** và **Postman** cho hệ thống **T4 Gate Keeper**.
 
----
 
-## 📋 I. Danh Mục Chi Tiết API & Kịch Bản Kiểm Thử (API Test Cases Directory)
+## I. Danh Mục Chi Tiết API & Kịch Bản Kiểm Thử (API Test Cases Directory)
 
 Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)** giả lập toàn bộ các hành vi tích hợp, các lỗi kết nối, lỗi dữ liệu đầu vào và các ràng buộc bảo mật.
 
----
 
 ### 1. API Xác Thực Hệ Thống (Auth Token)
 * **Endpoint:** `POST /auth/token`
@@ -30,7 +28,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **1.K** | IP không nằm trong Allowed IPs của Application | `403 Forbidden` | `"IP not in allowed list"` |
 | **1.L** | Rate limit bị vượt quá | `429 Too Many Requests` | `"Rate limit exceeded"` |
 
----
 
 ### 2. API Đăng Ký Bộ Điều Khiển (Controller Register)
 * **Endpoint:** `POST /api/v1/ControllerRegister`
@@ -57,8 +54,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **2.M** | Gọi API không kèm Authorization Header | `401 Unauthorized` | `"Missing Authorization"` |
 | **2.N** | Gọi API với token sai/hết hạn | `401 Unauthorized` | `"Invalid or expired access token."` |
 
----
-
 ### 3. API Đăng Ký Thiết Bị Đầu Cuối (Device Register)
 * **Endpoint:** `POST /api/v1/DeviceRegister`
 * **Mô tả:** Đăng ký các thiết bị con (như đầu đọc thẻ RFID, đầu đọc vân tay) thuộc quyền quản lý của một Controller cụ thể.
@@ -82,7 +77,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **5.L** | Gọi đăng ký với token sai | `401 Unauthorized` | `"Invalid or expired access token."` |
 | **-** | **[Ràng buộc] Trùng lặp port/channel trên cùng Controller**| `400 Bad Request` | `"Device port or channel must be unique per controller."` |
 
----
 
 ### 4. API Gửi Tín Hiệu Sống (Controller Heartbeat)
 * **Endpoint:** `POST /api/v1/ControllerHeartbeat`
@@ -100,8 +94,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **3.E** | Gọi heartbeat không có token | `401 Unauthorized` | Trả về mã 401 |
 | **3.F** | Gọi heartbeat với token sai | `401 Unauthorized` | Trả về mã 401 |
 
----
-
 ### 5. API Lấy Cấu Hình Điều Khiển (Controller Get Config / Remote Command)
 * **Endpoint:** `POST /api/v1/ControllerGetConfig`
 * **Mô tả:** Lấy thông tin cấu hình hệ thống bao gồm múi giờ (timezone) của chi nhánh và thông tin chi tiết của tất cả các Device trực thuộc.
@@ -115,7 +107,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **8.D** | `controller_sn` không tồn tại trong DB | `400 Bad Request` | `"Can not find controller with ID ..."` |
 | **8.E/F** | Không có token hoặc token không hợp lệ | `401 Unauthorized` | Trả về mã 401 |
 
----
 
 ### 6. API Trạng Thái Đồng Bộ Nhân Viên (Controller Employee Sync Status)
 * **Endpoint:** `GET /api/v1/ControllerEmployeeSyncStatus`
@@ -130,7 +121,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **6.D** | `controller_sn` không tồn tại | `400 Bad Request` | `"Can not find controller serial number..."` |
 | **6.E/F** | Lỗi xác thực token | `401 Unauthorized` | Trả về mã 401 |
 
----
 
 ### 7. API Đồng Bộ Nhân Sự Phân Trang (Controller Employee Sync)
 * **Endpoint:** `POST /api/v1/ControllerEmployeeSync`
@@ -148,8 +138,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **3_ES.H**| Test phân trang con trỏ: Gọi trang 2 với Cursor | `200 OK` | Sử dụng `next_cursor_id` của trang 1 để đọc tiếp dữ liệu |
 | **3_ES.I**| Đồng bộ kết hợp mốc `last_sync_at` (sync delta) & cursor | `200 OK` | Lọc dữ liệu thay đổi và phân trang |
 
----
-
 ### 8. API Xác Nhận Đồng Bộ Thành Công (Controller Sync Ack)
 * **Endpoint:** `POST /api/v1/ControllerSyncAck`
 * **Mô tả:** Gửi tín hiệu xác nhận Controller đã lưu toàn bộ thông tin nhân sự thành công để Server cập nhật mốc thời gian đồng bộ cuối cùng.
@@ -164,7 +152,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **3_ACK.E**| Gọi báo nhận không có token | `401 Unauthorized` | Trả về mã 401 |
 | **3_ACK.F**| Định dạng trường `sync_timestamp` bị sai | `500 Internal Error` | Trả về lỗi định dạng thời gian |
 
----
 
 ### 9. API Lấy Chi Tiết Sinh Trắc Học Nhân Viên (Employee Biometric Get)
 * **Endpoint:** `POST /api/v1/EmployeeBiometricGet`
@@ -181,7 +168,6 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **7.F** | **Nhân viên thuộc chi nhánh khác với Controller** | `400 Bad Request` | `"Không tìm thấy Controller hoặc Nhân viên hợp lệ"` (Chặn xem chéo) |
 | **7.G/H** | Lỗi xác thực token | `401 Unauthorized` | Trả về mã 401 |
 
----
 
 ### 10. API Tải Nhật Ký Truy Cập (Access Log Upload)
 * **Endpoint:** `POST /api/v1/AccessLogUpload`
@@ -202,9 +188,8 @@ Hệ thống có tổng cộng hơn **80 kịch bản kiểm thử (test cases)*
 | **4.G** | Gửi danh sách log trống | `200 OK` | `"Success"`, không ghi nhận thêm log |
 | **4.H** | Thiết bị gửi log không trực thuộc Controller này | `200 OK` | Bỏ qua ghi nhận thiết bị lạ |
 
----
 
-## 🔌 II. Hướng Dẫn Thiết Lập & Chạy Kiểm Thử (Test Execution Guide)
+## II. Hướng Dẫn Thiết Lập & Chạy Kiểm Thử (Test Execution Guide)
 
 ### 1. Khởi Động Môi Trường
 Đảm bảo môi trường Docker đã được khởi động:
@@ -239,7 +224,6 @@ Bạn có thể chọn 1 trong 2 cách:
 
 *(Mẹo: Bạn có thể chọn chạy hoặc bỏ qua một test case bằng cách điền chữ `x` hoặc để trống tại cột **Run?** trong file Excel kịch bản)*
 
----
 
 ### 3. Kiểm Thử Thủ Công/Theo Nhóm Qua Postman (Postman Collections)
 Để kiểm tra từng API trực tiếp trên giao diện:
