@@ -190,26 +190,13 @@ class T4GateKeeperController(models.Model):
 
         controller = self._find_controller(controller_sn)
         if not controller:
-<<<<<<< HEAD
-           set_response(
-                data=json.dumps({
-                    "message": "invalid controller",
-                    "missing": {
-                        "controller_sn": controller_sn,
-                        "device_sns": [], 
-                    }
-                }), 
-                message="Invalid controller",
-                status_code=400
-=======
             return self.set_response(
                 message="invalid controller",
                 status_code=400,
                 is_missing=True,
                 missing_controller_sn=controller_sn,
                 missing_device_sns=False,
->>>>>>> c78c38ddaad09c5363b5b6ab18eda2e6738d9436
-            )
+                )
 
         device_sns = body.get("device_sns", [])
         devices = self._find_devices(controller.id, device_sns)
@@ -226,32 +213,7 @@ class T4GateKeeperController(models.Model):
                 missing_controller_sn=False,
                 missing_device_sns=list(missing_serials),
             )
-<<<<<<< HEAD
-        # if not devices:
-        # #     raise ValidationError("Devices list is required.")
-        # for device in devices:
-        #     device_id = device.get("device_sn")
-        #     device_status = device.get("status")
-        #     if not device_id:
-        #         raise ValidationError("Device serial number is required.")
 
-        #     if not device_status:
-        #         raise ValidationError(f"Device status is required for device {device_id}")
-            
-        #     allowed_status = dict(self.env["t4.gate_keeper.device"]._fields["status"].selection).keys()
-        #     if device_status not in allowed_status:
-        #         raise ValidationError(f"Invalid device status for device {device_id}")
-
-        #     if not device_id or not device_status:
-        #        continue
-            
-        #     device_record = self._find_device(controller.id, device_id)
-        #     if device_record:
-        #         device_record.write({"status": device_status})
-
-
-=======
->>>>>>> c78c38ddaad09c5363b5b6ab18eda2e6738d9436
 
         heartbeat_at = fields.Datetime.now()
         vals = {
