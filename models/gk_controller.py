@@ -542,12 +542,12 @@ class T4GateKeeperController(models.Model):
         if employee:
             for biometric in employee.biometric_ids:
                 template = biometric.binary_template if biometric.binary_template else biometric.char_template
-                if biometric.algorithm_id.name == "fingerprint":
+                if biometric.algorithm_id.name == "Fingerprint":
                     finger_templates.append({
                         "index": biometric.finger_index,
                         "template": template if template else None
                     })
-                elif biometric.algorithm_id.name == "face":
+                elif biometric.algorithm_id.name == "Face":
                     face_templates = template if template else None
         if employee:
             _logger.info("========== EMPLOYEE BIOMETRIC DEBUG ==========")
