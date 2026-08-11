@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>T4 Gate Keeper — API Employee Sync & Biometric Update</title>
+<style>
+  @page { size: A4; margin: 16mm 18mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.55; font-size: 12.5px; margin: 0; padding: 0; }
+  h1 { font-size: 21px; color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 6px; margin: 0 0 16px 0; }
+  h2 { font-size: 16px; color: #1e40af; margin: 22px 0 8px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; page-break-after: avoid; }
+  h3 { font-size: 13.5px; color: #334155; margin: 14px 0 6px 0; page-break-after: avoid; }
+  h4 { font-size: 12.5px; color: #475569; margin: 10px 0 4px 0; page-break-after: avoid; }
+  .badge { display: inline-block; padding: 2px 8px; font-weight: 700; font-size: 11px; border-radius: 4px; color: #fff; }
+  .badge-post { background: #2563eb; }
+  .badge-req { background: #059669; }
+  .badge-opt { background: #94a3b8; }
+  .ep { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; margin: 8px 0 14px 0; }
+  .ep p { margin: 3px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px 0; font-size: 11.5px; }
+  th, td { border: 1px solid #cbd5e1; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #f1f5f9; color: #0f172a; font-weight: 600; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { font-family: Consolas, 'Courier New', monospace; background: #f1f5f9; padding: 1px 4px; border-radius: 3px; color: #0f172a; font-size: 11px; }
+  pre { font-family: Consolas, 'Courier New', monospace; background: #0f172a; color: #e2e8f0; padding: 10px 12px; border-radius: 6px; font-size: 10.5px; line-height: 1.45; margin: 4px 0 10px 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+  pre code { background: transparent; color: inherit; padding: 0; }
+  ul, ol { margin: 4px 0; padding-left: 18px; }
+  li { margin-bottom: 4px; }
+  .note { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 6px 10px; margin: 8px 0; font-size: 11.5px; border-radius: 0 4px 4px 0; }
+  .warn { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 6px 10px; margin: 8px 0; font-size: 11.5px; border-radius: 0 4px 4px 0; }
+  .divider { border: none; border-top: 2px solid #e2e8f0; margin: 20px 0; }
+  .page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<!-- ======================= COVER ======================= -->
+<h1>T4 Gate Keeper — API Documentation</h1>
+<p style="font-size:14px;color:#475569;margin-bottom:24px;">
+  Tài liệu mô tả chi tiết 2 API: <strong>ControllerEmployeeSync</strong> và <strong>EmployeeBiometricUpdate</strong>.<br>
+  Phiên bản: <code>2026-08-03</code> &nbsp;|&nbsp; Module: <code>t4_gate_keeper</code>
+</p>
+
+<!-- ======================= TABLE OF CONTENTS ======================= -->
+<h2>Mục Lục</h2>
+<ol>
+  <li><a href="#api1" style="text-decoration:none;color:#1e40af;">API 1 — ControllerEmployeeSync</a></li>
+  <li><a href="#api2" style="text-decoration:none;color:#1e40af;">API 2 — EmployeeBiometricUpdate</a></li>
+  <li><a href="#errors" style="text-decoration:none;color:#1e40af;">Xử lý lỗi chung (Error Handling)</a></li>
+</ol>
+
+<hr class="divider">
+
+<!-- =============================================================== -->
+<!--               API 1 — ControllerEmployeeSync                   -->
+<!-- =============================================================== -->
+<h2 id="api1">API 1 — ControllerEmployeeSync</h2>
+<p>Trả về danh sách Nhân viên cần đồng bộ xuống Controller phần cứng, sử dụng <strong>phân trang dựa trên Cursor</strong> để đảm bảo dữ liệu nhất quán giữa các trang.</p>
+
+<div class="ep">
+  <p><strong>Endpoint Name:</strong> <code>ControllerEmployeeSync</code></p>
+  <p><strong>Method:</strong> <span class="badge badge-post">POST</span></p>
+  <p><strong>Content-Type:</strong> <code>application/json</code></p>
+</div>
+
+<!-- -------- Request -------- -->
+<h3>1.1 Tham Số Đầu Vào (Request Body)</h3>
+<table>
+  <thead>
+    <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>controller_sn</code></td><td>String</td>
+      <td><span class="badge badge-req">Bắt buộc</span></td><td>—</td>
+      <td>Mã sê-ri phần cứng của Controller.</td>
+    </tr>
+    <tr>
+      <td><code>last_sync_at</code></td><td>String</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td><td><code>null</code></td>
+      <td>Mốc thời gian đồng bộ thành công gần nhất (<code>YYYY-MM-DD HH:MM:SS</code>).<br>Nếu không truyền → server đồng bộ toàn bộ nhân viên.</td>
+    </tr>
+    <tr>
+      <td><code>page_size</code></td><td>Integer</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td><td><code>15</code></td>
+      <td>Số lượng bản ghi tối đa trả về trong 1 trang.</td>
+    </tr>
+    <tr>
+      <td><code>next_cursor_id</code></td><td>Integer</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td><td><code>null</code></td>
+      <td>ID cursor nhận từ trang trước. <strong>Không truyền ở trang đầu tiên.</strong></td>
+    </tr>
+    <tr>
+      <td><code>latest_write_date</code></td><td>String</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td><td><code>null</code></td>
+      <td>Mốc <code>write_date</code> của cursor nhận từ trang trước. Truyền kèm <code>next_cursor_id</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>▸ Request — Trang đầu tiên (Đồng bộ lần đầu):</h4>
+<pre><code>{
+  "controller_sn": "CTRL_001",
+  "page_size": 15
+}</code></pre>
+
+<h4>▸ Request — Trang đầu tiên (Incremental sync từ lần 2):</h4>
+<pre><code>{
+  "controller_sn": "CTRL_001",
+  "last_sync_at": "2026-07-25 08:00:00",
+  "page_size": 15
+}</code></pre>
+
+<h4>▸ Request — Trang tiếp theo (Sử dụng cursor):</h4>
+<pre><code>{
+  "controller_sn": "CTRL_001",
+  "last_sync_at": "2026-07-25 08:00:00",
+  "page_size": 15,
+  "next_cursor_id": 42,
+  "latest_write_date": "2026-08-01 10:30:00"
+}</code></pre>
+
+<!-- -------- Response -------- -->
+<h3>1.2 Cấu Trúc Phản Hồi (Response Body)</h3>
+<pre><code>{
+  "success": true,
+  "message": "Employee sync completed",
+  "data": {
+    "data": {
+      "next_cursor_id": 42,
+      "has_next_page": true,
+      "new": [ ... ],
+      "update": [ ... ],
+      "deleted": [ ... ],
+      "latest_write_date": "2026-08-01 10:30:00"
+    }
+  }
+}</code></pre>
+
+<h4>Chi tiết các field trong <code>data.data</code>:</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>next_cursor_id</code></td><td>Integer / null</td><td>ID bản ghi cuối cùng trong trang. Truyền lại cho trang tiếp theo. <code>null</code> nếu không còn trang sau.</td></tr>
+    <tr><td><code>has_next_page</code></td><td>Boolean</td><td><code>true</code> nếu còn trang tiếp; <code>false</code> nếu đã hết dữ liệu.</td></tr>
+    <tr><td><code>new</code></td><td>Array</td><td>Danh sách nhân viên mới thêm (tạo sau <code>last_sync_at</code> hoặc toàn bộ nếu sync lần đầu).</td></tr>
+    <tr><td><code>update</code></td><td>Array</td><td>Danh sách nhân viên đã tồn tại nhưng có cập nhật thông tin.</td></tr>
+    <tr><td><code>deleted</code></td><td>Array</td><td>Danh sách nhân viên bị vô hiệu hóa (<code>active = False</code>).</td></tr>
+    <tr><td><code>latest_write_date</code></td><td>String</td><td>Mốc <code>write_date</code> mới nhất trong lô dữ liệu (<code>YYYY-MM-DD HH:MM:SS</code>).<br>Controller lưu lại giá trị này làm <code>last_sync_at</code> cho đợt sync tiếp theo.</td></tr>
+  </tbody>
+</table>
+
+<h4>Cấu trúc Object Nhân Viên (trong <code>new</code>, <code>update</code>, <code>deleted</code>):</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>id</code></td><td>Integer</td><td>Mã định danh duy nhất của nhân viên (<code>emp_id</code>).</td></tr>
+    <tr><td><code>name</code></td><td>String</td><td>Tên đầy đủ của nhân viên.</td></tr>
+    <tr><td><code>branch_id</code></td><td>Integer / null</td><td>ID Chi nhánh. <code>null</code> nếu thuộc tất cả chi nhánh.</td></tr>
+  </tbody>
+</table>
+
+<!-- -------- Pagination Flow -------- -->
+<h3>1.3 Cơ Chế Phân Trang Cursor (Pagination Flow)</h3>
+<div class="note"><strong>Tại sao dùng Cursor?</strong> Cursor-based pagination đảm bảo <strong>không bỏ sót</strong> và <strong>không trùng lặp</strong> bản ghi giữa các trang, ngay cả khi có dữ liệu mới thay đổi trên Server trong lúc Controller đang kéo từng trang.</div>
+
+<ol>
+  <li><strong>Trang đầu tiên</strong>: Controller gọi API <em>không</em> truyền <code>next_cursor_id</code> và <code>latest_write_date</code>.</li>
+  <li><strong>Kiểm tra <code>has_next_page</code></strong>:
+    <ul>
+      <li>Nếu <code>true</code>: Lưu <code>next_cursor_id</code> + <code>latest_write_date</code> từ response, truyền lại vào request trang tiếp theo.</li>
+      <li>Nếu <code>false</code>: Hoàn tất. Lưu <code>latest_write_date</code> làm <code>last_sync_at</code> cho đợt đồng bộ sau.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- -------- Sample Responses -------- -->
+<h3>1.4 Response Mẫu</h3>
+
+<h4>▸ Trường hợp 1 — Còn trang tiếp (<code>has_next_page = true</code>):</h4>
+<pre><code>{
+  "success": true,
+  "message": "Employee sync completed",
+  "data": {
+    "data": {
+      "next_cursor_id": 42,
+      "has_next_page": true,
+      "new": [
+        { "id": 1001, "name": "Nguyen Van A", "branch_id": 2 },
+        { "id": 1002, "name": "Tran Thi B", "branch_id": null }
+      ],
+      "update": [],
+      "deleted": [],
+      "latest_write_date": "2026-08-01 10:30:00"
+    }
+  }
+}</code></pre>
+
+<h4>▸ Trường hợp 2 — Trang cuối (<code>has_next_page = false</code>):</h4>
+<pre><code>{
+  "success": true,
+  "message": "Employee sync completed",
+  "data": {
+    "data": {
+      "next_cursor_id": null,
+      "has_next_page": false,
+      "new": [],
+      "update": [
+        { "id": 1003, "name": "Le Van C", "branch_id": 2 }
+      ],
+      "deleted": [
+        { "id": 999, "name": "Pham Van D", "branch_id": 2 }
+      ],
+      "latest_write_date": "2026-08-03 14:00:00"
+    }
+  }
+}</code></pre>
+
+<!-- =============================================================== -->
+<div class="page-break"></div>
+<!-- =============================================================== -->
+<!--             API 2 — EmployeeBiometricUpdate                     -->
+<!-- =============================================================== -->
+<h2 id="api2">API 2 — EmployeeBiometricUpdate</h2>
+<p>Nhận dữ liệu sinh trắc học (Vân tay, Khuôn mặt, Ảnh đại diện) và thông tin cơ bản của nhân viên từ Controller, lưu / cập nhật vào Server.<br>
+Nếu nhân viên chưa tồn tại trên hệ thống, sẽ tự động <strong>tạo mới</strong>.</p>
+
+<div class="ep">
+  <p><strong>Endpoint Name:</strong> <code>EmployeeBiometricUpdate</code></p>
+  <p><strong>Method:</strong> <span class="badge badge-post">POST</span></p>
+  <p><strong>Content-Type:</strong> <code>application/json</code></p>
+</div>
+
+<!-- -------- Request -------- -->
+<h3>2.1 Tham Số Đầu Vào (Request Body)</h3>
+<table>
+  <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>controller_sn</code></td><td>String</td>
+      <td><span class="badge badge-req">Bắt buộc</span></td>
+      <td>Mã sê-ri phần cứng của Controller.</td>
+    </tr>
+    <tr>
+      <td><code>USER</code></td><td>Object</td>
+      <td><span class="badge badge-req">Bắt buộc</span></td>
+      <td>Khối thông tin nhân viên (xem chi tiết bên dưới).</td>
+    </tr>
+    <tr>
+      <td><code>FP</code></td><td>Array</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td>
+      <td>Danh sách mẫu vân tay.</td>
+    </tr>
+    <tr>
+      <td><code>BIODATA</code></td><td>Object</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td>
+      <td>Mẫu khuôn mặt (Face template).</td>
+    </tr>
+    <tr>
+      <td><code>PHOTO</code></td><td>Object</td>
+      <td><span class="badge badge-opt">Tùy chọn</span></td>
+      <td>Ảnh đại diện của nhân viên.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Cấu trúc khối <code>USER</code>:</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>PIN</code></td><td>Integer</td><td><span class="badge badge-req">Bắt buộc</span></td><td>Mã nhân viên (<code>emp_id</code>). Dùng để định danh.</td></tr>
+    <tr><td><code>Name</code></td><td>String</td><td><span class="badge badge-opt">Tùy chọn</span></td><td>Tên nhân viên.</td></tr>
+    <tr><td><code>Passwd</code></td><td>String</td><td><span class="badge badge-opt">Tùy chọn</span></td><td>Mật khẩu truy cập thiết bị.</td></tr>
+    <tr><td><code>Card</code></td><td>Integer</td><td><span class="badge badge-opt">Tùy chọn</span></td><td>Số thẻ serial (RFID / NFC).</td></tr>
+    <tr><td><code>Pri</code></td><td>Integer</td><td><span class="badge badge-opt">Tùy chọn</span></td><td>Quyền hạn truy cập (privilege level).</td></tr>
+  </tbody>
+</table>
+
+<h4>Cấu trúc mỗi phần tử trong mảng <code>FP</code> (Fingerprint):</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>FID</code></td><td>Integer</td><td>Chỉ số ngón tay / slot (thường 0–9).</td></tr>
+    <tr><td><code>TMP</code></td><td>String (Base64)</td><td>Chuỗi mẫu vân tay đã mã hóa.</td></tr>
+  </tbody>
+</table>
+
+<h4>Cấu trúc khối <code>BIODATA</code> (Face):</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>Index</code></td><td>Integer</td><td>Chỉ số slot khuôn mặt.</td></tr>
+    <tr><td><code>Tmp</code></td><td>String (Base64)</td><td>Chuỗi mẫu khuôn mặt đã mã hóa.</td></tr>
+  </tbody>
+</table>
+
+<h4>Cấu trúc khối <code>PHOTO</code>:</h4>
+<table>
+  <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>Content</code></td><td>String (Base64)</td><td>Ảnh đại diện nhân viên đã mã hóa Base64.</td></tr>
+  </tbody>
+</table>
+
+<!-- -------- Full Sample Request -------- -->
+<h3>2.2 Request Mẫu</h3>
+
+<h4>▸ Request đầy đủ (Tạo/Cập nhật NV + Vân tay + Khuôn mặt + Ảnh):</h4>
+<pre><code>{
+  "controller_sn": "CTRL_001",
+  "USER": {
+    "PIN": 1001,
+    "Name": "Nguyen Van A",
+    "Passwd": "123456",
+    "Card": 88001234,
+    "Pri": 0
+  },
+  "FP": [
+    { "FID": 0, "TMP": "RklOR0VSUF...base64data..." },
+    { "FID": 1, "TMP": "RklOR0VSUF...base64data..." }
+  ],
+  "BIODATA": {
+    "Index": 0,
+    "Tmp": "RkFDRVRFTVBMQVRF...base64data..."
+  },
+  "PHOTO": {
+    "Content": "iVBORw0KGgo...base64data..."
+  }
+}</code></pre>
+
+<h4>▸ Request tối thiểu (Chỉ cập nhật thông tin cơ bản):</h4>
+<pre><code>{
+  "controller_sn": "CTRL_001",
+  "USER": {
+    "PIN": 1001,
+    "Name": "Nguyen Van A Updated"
+  }
+}</code></pre>
+
+<!-- -------- Business Logic -------- -->
+<h3>2.3 Luồng Xử Lý Nghiệp Vụ</h3>
+<ol>
+  <li><strong>Xác thực Controller</strong>: Kiểm tra <code>controller_sn</code> tồn tại trên hệ thống.</li>
+  <li><strong>Tìm nhân viên</strong> theo <code>USER.PIN</code> (<code>emp_id</code>) trong phạm vi chi nhánh của Controller.
+    <ul>
+      <li>Nếu <strong>tìm thấy</strong> → cập nhật các trường thông tin được truyền lên (<code>Name</code>, <code>Passwd</code>, <code>Card</code>, <code>Pri</code>).</li>
+      <li>Nếu <strong>không tìm thấy</strong> → tự động tạo mới bản ghi nhân viên, gán <code>branch_id</code> theo chi nhánh của Controller.</li>
+    </ul>
+  </li>
+  <li><strong>Xử lý Vân tay (<code>FP</code>)</strong>: Duyệt từng phần tử → tìm bản ghi Biometric theo <code>(employee_id, fingerprint, FID)</code>.
+    <ul>
+      <li>Nếu tồn tại → <code>write()</code> cập nhật template.</li>
+      <li>Nếu chưa có → <code>create()</code> tạo mới.</li>
+    </ul>
+  </li>
+  <li><strong>Xử lý Khuôn mặt (<code>BIODATA</code>)</strong>: Tương tự Vân tay, tìm theo <code>(employee_id, face, Index)</code>.</li>
+  <li><strong>Xử lý Ảnh (<code>PHOTO</code>)</strong>: Nếu có <code>Content</code> → ghi trực tiếp vào trường <code>avatar</code> của nhân viên.</li>
+</ol>
+
+<div class="note"><strong>Lưu ý:</strong> API này <strong>không trả về response body</strong> (void). Framework <code>t4_coreapi</code> sẽ tự động bọc thành <code>{ "success": true, "message": "Successful" }</code>.</div>
+
+<!-- -------- Response -------- -->
+<h3>2.4 Response Mẫu</h3>
+<h4>▸ Thành công:</h4>
+<pre><code>{
+  "success": true,
+  "message": "Successful"
+}</code></pre>
+
+<!-- =============================================================== -->
+<hr class="divider">
+<!-- =============================================================== -->
+<!--                     ERROR HANDLING                               -->
+<!-- =============================================================== -->
+<h2 id="errors">Xử Lý Lỗi Chung (Error Handling)</h2>
+<p>Khi xảy ra lỗi validation, hệ thống trả về JSON với <code>success: false</code> kèm thông báo lỗi thân thiện. Không bao giờ trả về Python traceback.</p>
+
+<h4>Cấu trúc Response lỗi:</h4>
+<pre><code>{
+  "success": false,
+  "message": "Nội dung mô tả lỗi"
+}</code></pre>
+
+<h3>Các trường hợp lỗi chung (áp dụng cả 2 API):</h3>
+<table>
+  <thead><tr><th>#</th><th>Trường hợp</th><th>Message trả về</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Thiếu <code>controller_sn</code></td><td><code>"Controller ID is required."</code></td></tr>
+    <tr><td>2</td><td>Controller không tồn tại</td><td><code>"Can not find controller with ID {sn}"</code></td></tr>
+  </tbody>
+</table>
+
+<h3>Lỗi riêng API <code>ControllerEmployeeSync</code>:</h3>
+<table>
+  <thead><tr><th>#</th><th>Trường hợp</th><th>Message trả về</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>Sai định dạng <code>last_sync_at</code></td><td><code>"Invalid last sync time format. Expected YYYY-MM-DD HH-MM-SS"</code></td></tr>
+    <tr><td>4</td><td><code>page_size</code> không phải số hoặc &lt; 1</td><td><code>"Invalid page size"</code></td></tr>
+    <tr><td>5</td><td>Sai định dạng <code>latest_write_date</code></td><td><code>"Invalid latest_write_date"</code></td></tr>
+    <tr><td>6</td><td><code>next_cursor_id</code> không phải số</td><td><code>"Invalid cursor id"</code></td></tr>
+  </tbody>
+</table>
+
+<h3>Lỗi riêng API <code>EmployeeBiometricUpdate</code>:</h3>
+<table>
+  <thead><tr><th>#</th><th>Trường hợp</th><th>Message trả về</th></tr></thead>
+  <tbody>
+    <tr><td>7</td><td>Thiếu khối <code>USER</code></td><td><code>"User information is required"</code></td></tr>
+    <tr><td>8</td><td>Thiếu <code>USER.PIN</code></td><td><code>"Missing employee id"</code></td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>

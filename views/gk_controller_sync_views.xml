@@ -16,7 +16,7 @@
                        widget="badge"
                        decoration-success="status == 'online'"
                        decoration-danger="status == 'offline'"/>
-                <field name="last_heartbeat_at"/>
+                <field name="last_heartbeat"/>
                 <field name="last_sync_at"/>
                 <field name="employee_sync_status" 
                        widget="badge" 

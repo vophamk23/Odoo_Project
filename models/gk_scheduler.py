@@ -17,8 +17,8 @@ class T4GateKeeperScheduler(models.Model):
         offline = controllers.search([
             ('status', '!=', 'offline'),
             '|',
-            ('last_heartbeat_at', '=', False),
-            ('last_heartbeat_at', '<', timeout)
+            ('last_heartbeat', '=', False),
+            ('last_heartbeat', '<', timeout)
         ])
         if offline:
             offline.write({'status': 'offline'})
@@ -39,8 +39,8 @@ class T4GateKeeperScheduler(models.Model):
             ('controller_id.status', '=', 'online'),
             ('status', '!=', 'offline'),
             '|',
-            ('last_seen_at', '=', False),
-            ('last_seen_at', '<', timeout)
+            ('last_heartbeat', '=', False),
+            ('last_hearbeat', '<', timeout)
         ])
         if device_offline:
             device_offline.write({'status': 'offline'})

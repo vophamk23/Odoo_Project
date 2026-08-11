@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 from datetime import datetime
 
 # pyrefly: ignore [missing-import]
@@ -37,7 +38,7 @@ ALLOWED_FIELDS = [  # fields of t4 gatekeeper controller if you add or delete pl
 class T4GateKeeperController(models.Model):
     _name = "t4.gate_keeper.controller"
     _description = "Gate Keeper Controller"
-    _order = "last_heartbeat_at desc, id desc"
+    _order = "last_heartbeat desc, id desc"
 
     name = fields.Char(
         string="Controller Name",
@@ -112,7 +113,7 @@ class T4GateKeeperController(models.Model):
         tracking=True,
     )
 
-    last_heartbeat_at = fields.Datetime(
+    last_heartbeat = fields.Datetime(
         string="Last Heartbeat",
         readonly=True,
         help="Last time this controller reported that it was online.",
@@ -171,15 +172,25 @@ class T4GateKeeperController(models.Model):
             ("controller_id", "=", controller_id),
             ("name", "=", device_name),
         ], limit=1)
- 
 
-    @endpoint(name="ControllerHeartbeat")
+    
+    @api.model
+    def set_response(self, message: str, status_code: int, **kwargs: Any) -> bool:
+        set_response(
+            data=kwargs,
+            message=message,
+            status_code=status_code
+        )
+        return False
+
+    @endpoint(name="Heartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
         controller_sn = body.get("controller_sn", False)
 
         controller = self._find_controller(controller_sn)
         if not controller:
+<<<<<<< HEAD
            set_response(
                 data=json.dumps({
                     "message": "invalid controller",
@@ -190,6 +201,14 @@ class T4GateKeeperController(models.Model):
                 }), 
                 message="Invalid controller",
                 status_code=400
+=======
+            return self.set_response(
+                message="invalid controller",
+                status_code=400,
+                is_missing=True,
+                missing_controller_sn=controller_sn,
+                missing_device_sns=False,
+>>>>>>> c78c38ddaad09c5363b5b6ab18eda2e6738d9436
             )
 
         device_sns = body.get("device_sns", [])
@@ -200,17 +219,14 @@ class T4GateKeeperController(models.Model):
         missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
-            set_response(
-                data=json.dumps({
-                    "message": "invalid controller",
-                    "missing": {
-                        "controller_sn": "",
-                        "device_sns": list(missing_serials), 
-                    }
-                }), 
-                message="invalid device list",
-                status_code=400
+            return self.set_response(
+                message="invalid controller",
+                status_code=400,
+                is_missing=True,
+                missing_controller_sn=False,
+                missing_device_sns=list(missing_serials),
             )
+<<<<<<< HEAD
         # if not devices:
         # #     raise ValidationError("Devices list is required.")
         # for device in devices:
@@ -234,16 +250,24 @@ class T4GateKeeperController(models.Model):
         #         device_record.write({"status": device_status})
 
 
+=======
+>>>>>>> c78c38ddaad09c5363b5b6ab18eda2e6738d9436
 
         heartbeat_at = fields.Datetime.now()
-        controller.write({
-            "last_heartbeat_at": heartbeat_at,
+        vals = {
+            "last_heartbeat": heartbeat_at,
             "status": "online",
-        })
-
-        return {
-            "message": _("Success")
         }
+        controller.write(vals)
+        devices.write(vals)
+
+        return self.set_response(
+                message="success",
+                status_code=200,
+                is_missing=False,
+                missing_controller_sn=False,
+                missing_device_sns=False,
+        )
 
     # Employee Sync
     @endpoint(name="ControllerEmployeeSync")
@@ -512,10 +536,7 @@ class T4GateKeeperController(models.Model):
         new_controller = self.env['t4.gate_keeper.controller'].sudo().create(userInfo_vals)
 
         return {
-            "message": "Controller registered successfully",
-            "data": {
-                "id": new_controller.id
-            }
+            "message": "Controller registered successfully"
         }
 
     @endpoint('DeviceRegister')
