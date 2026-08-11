@@ -1,4 +1,5 @@
 import logging
+from tempfile import template
 from typing import Any
 from datetime import datetime
 
@@ -541,36 +542,14 @@ class T4GateKeeperController(models.Model):
         if employee:
             for biometric in employee.biometric_ids:
                 template = biometric.binary_template if biometric.binary_template else biometric.char_template
+                if biometric.algorithm_id.name == "fingerprint":
+                    finger_templates.append({
+                        "index": biometric.finger_index,
+                        "template": template if template else None
+                    })
+                elif biometric.algorithm_id.name == "face":
+                    face_templates = face_templates if template else None
 
-                if biometric.biometric_type == "fingerprint":
-                    finger_templates.append(template)
-                elif biometric.biometric_type == "face":
-                    face_templates = template
-
-        if employee:
-            _logger.info("========== EMPLOYEE BIOMETRIC GET ==========")
-            _logger.info("Employee ID: %s", employee.id)
-            _logger.info("Employee emp_id: %s", employee.emp_id)
-            _logger.info("Biometric count: %s", len(employee.biometric_ids))
-
-            for biometric in employee.biometric_ids:
-                _logger.info("---------- BIOMETRIC ----------")
-                _logger.info("Biometric ID: %s", biometric.id)
-                _logger.info("Biometric type: %s", biometric.biometric_type)
-                _logger.info("Binary template exists: %s", bool(biometric.binary_template))
-                _logger.info("Binary template type: %s", type(biometric.binary_template))
-                _logger.info("Binary template value: %s", biometric.binary_template)
-                _logger.info("Char template exists: %s", bool(biometric.char_template))
-                _logger.info("Char template value: %s", biometric.char_template)
-
-                template = (
-                    biometric.binary_template
-                    if biometric.binary_template
-                    else biometric.char_template
-                )
-
-                _logger.info("FINAL TEMPLATE: %s", template)
-                    
 
         return {
             "message": _("Success"),
