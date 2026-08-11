@@ -40,7 +40,7 @@ class T4GateKeeperScheduler(models.Model):
             ('status', '!=', 'offline'),
             '|',
             ('last_heartbeat', '=', False),
-            ('last_hearbeat', '<', timeout)
+            ('last_heartbeat', '<', timeout)
         ])
         if device_offline:
             device_offline.write({'status': 'offline'})

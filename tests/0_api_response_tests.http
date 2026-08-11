@@ -1,0 +1,1360 @@
+# ==============================================================================
+# NHÓM 7: KIỂM THỬ PHẢN HỒI API (API RESPONSE TESTS)
+# Mục đích: Kiểm tra từng trường hợp 200/400/401 của tất cả API endpoints
+#
+# DANH SÁCH API:
+# ┌─────┬──────────────────────────────────────┬────────┬──────────────────────────────────────────────┐
+# │  #  │ Tên API                              │ Method │ Route                                        │
+# ├─────┼──────────────────────────────────────┼────────┼──────────────────────────────────────────────┤
+# │  1  │ Auth Token (Lấy / Làm mới token)     │  POST  │ /auth/token                                  │
+# │  2  │ Controller Register (Đăng ký ctrl)   │  POST  │ /api/v1/ControllerRegister                   │
+# │  3  │ Controller Heartbeat (Nhịp tim)      │  POST  │ /api/v1/ControllerHeartbeat                  │
+# │ 3ES │ Employee Sync (Đồng bộ NV)           │  POST  │ /api/v1/ControllerEmployeeSync                 │
+# │  4  │ Access Log Upload (Gửi log vào/ra)   │  POST  │ /api/v1/AccessLogUpload                      │
+# │  5  │ Device Register (Đăng ký thiết bị)   │  POST  │ /api/v1/DeviceRegister                       │
+# │  6  │ Controller Employee Sync Status      │  GET   │ /api/v1/ControllerEmployeeSyncStatus         │
+# │  7  │ Employee Biometric Get (Lấy biomet.) │  POST  │ /api/v1/EmployeeBiometricGet                 │
+# │  8  │ Controller Get Config (Lấy cấu hình) │  POST  │ /api/v1/ControllerGetConfig                  │
+# └─────┴──────────────────────────────────────┴────────┴──────────────────────────────────────────────┘
+#
+# LUỒNG TÍCH HỢP ĐIỂN HÌNH:
+#
+#   [KHỞI ĐỘNG]
+#       │
+#       ▼
+#   API 1 ── Lấy Access Token (client_credentials)
+#       │
+#       ▼
+#   API 2 ── Đăng ký Controller (ControllerRegister)
+#       │
+#       ▼
+#   API 5 ── Đăng ký các Device thuộc Controller (DeviceRegister)
+#       │
+#       ▼
+#   API 8 ── Lấy cấu hình đầy đủ của Controller (ControllerGetConfig)
+#       │
+#       ▼
+#   API 6 ── Kiểm tra có cần đồng bộ nhân viên không? (SyncStatus)
+#       │
+#       ├── update = false ──► [Không cần sync, bỏ qua]
+#       │
+#       └── update = true ───▼
+#   API 3ES ─ Lấy danh sách nhân viên cần sync (ControllerEmployeeSync)
+#       │
+#       ▼
+#   API 7 ── Lấy biometric từng nhân viên (EmployeeBiometricGet)
+#       │
+#   [HOẠT ĐỘNG ĐỊNH KỲ]
+#       │
+#       ▼
+#   API 3 ── Gửi Heartbeat định kỳ (ControllerHeartbeat)
+#       │
+#       ▼
+#   API 4 ── Gửi log chấm công lên server (AccessLogUpload)
+#       │
+#       ▼
+#   API 1 ── Làm mới token trước khi hết hạn (refresh_token)
+#
+# MÃ LỖI CHUNG:
+#   200 — Thành công
+#   400 — Bad Request (thiếu field, sai dữ liệu)
+#   401 — Unauthorized (thiếu/sai/hết hạn token)
+#   403 — Forbidden (IP không được phép) — chỉ API 1
+#   429 — Too Many Requests (rate limit) — chỉ API 1
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Đăng nhập lấy token để dùng cho các test bên dưới.
+# ------------------------------------------------------------------------------
+# @name login
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+
+# ==============================================================================
+# API 1: AUTH TOKEN
+# ==============================================================================
+
+### 1.A 200 - Đăng nhập thành công với client_credentials
+# KẾT QUẢ: {"status": "success", "api_token": {...}, "refresh_token": {...}}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+### 1.B 200 - Làm mới token bằng refresh_token
+# KẾT QUẢ: {"status": "success", "api_token": {...}, "refresh_token": {...}}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "refresh_token",
+    "refresh_token": "REPLACE_WITH_ACTUAL_REFRESH_TOKEN"
+}
+
+### 1.C 400 - Body JSON không hợp lệ (malformed JSON)
+# KẾT QUẢ: {"status": "error", "message": "Invalid JSON body."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+NOT_VALID_JSON
+
+### 1.D 400 - Thiếu refresh_token khi grant_type = refresh_token
+# KẾT QUẢ: {"status": "error", "message": "refresh_token is required."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "refresh_token"
+}
+
+### 1.E 401 - client_id không tồn tại
+# KẾT QUẢ: {"error": "invalid_client", "message": "..."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_FAKE_DOES_NOT_EXIST",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+### 1.F 401 - client_secret sai
+# KẾT QUẢ: {"error": "invalid_client", "message": "..."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "WRONG_SECRET_HERE",
+    "grant_type": "client_credentials"
+}
+
+### 1.G 401 - Thiếu client_secret
+# KẾT QUẢ: {"error": "invalid_request", "message": "client_secret is required."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "grant_type": "client_credentials"
+}
+
+### 1.H 401 - refresh_token hết hạn hoặc không hợp lệ
+# KẾT QUẢ: {"error": "invalid_grant", "message": "Invalid or expired refresh_token..."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "refresh_token",
+    "refresh_token": "EXPIRED_OR_INVALID_TOKEN"
+}
+
+### 1.I 401 - Thiếu client_id khi grant_type = client_credentials
+# KẾT QUẢ: {"status": "error", "message": "client_id is required."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+### 1.J 200 - Thiếu grant_type
+# KẾT QUẢ: {"status": "success", "message": "Authentication successful."}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU"
+}
+
+
+# ==============================================================================
+# API 2: CONTROLLER REGISTER
+# ==============================================================================
+
+### 2.A 200 - Đăng ký controller thành công (đầy đủ fields)
+# KẾT QUẢ: {"message": "Controller registered successfully", "data": {"id": "..."}}
+# Ý NGHĨA CÁC TRƯỜNG THỜI GIAN:
+#   - installed_at: Ngày cài đặt/lắp đặt thiết bị vật lý tại thực tế.
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Controller Sảnh Hà Nội",
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "ip_address": "192.168.10.210",
+    "mac_address": "00:17:0A:11:22:33",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14"
+}
+
+### 2.A2 200 - Đăng ký controller kho HCM
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Kho hàng HCM",
+    "serial_number": "CTRL-HCM-WHS-01",
+    "branch_code": "HcmBranch"
+}
+
+### 2.A3 200 - Đăng ký controller Server Room Hà Nội
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Máy Chủ Hà Nội",
+    "serial_number": "CTRL-HN-SRV-01",
+    "branch_code": "HnMain"
+}
+
+### 2.A4 200 - Đăng ký controller Đà Nẵng
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Đầu đọc Đà Nẵng",
+    "serial_number": "CTRL-DN-MAIN-01",
+    "branch_code": "DnBranch"
+}
+
+### 2.B 200 - Đăng ký controller với minimal request (chỉ các field bắt buộc)
+# KẾT QUẢ: {"message": "Controller registered successfully", "data": {"id": "..."}}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "serial_number": "CTRL-MIN-01",
+    "branch_code": "HnMain"
+}
+
+### 2.C 200 - Khuyết firmware_version
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "CTRL-MIN-02",
+    "serial_number": "CTRL-MIN-02",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "ip_address": "192.168.10.222",
+    "mac_address": "00:17:0A:11:22:90",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14 00:00:00"
+}
+
+### 2.D 200 - Khuyết ip_address
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "CTRL-MIN-03",
+    "serial_number": "CTRL-MIN-03",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "mac_address": "00:17:0A:11:22:91",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14 00:00:00"
+}
+
+### 2.E 200 - Khuyết mac_address
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "CTRL-MIN-04",
+    "serial_number": "CTRL-MIN-04",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "ip_address": "192.168.10.224",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14 00:00:00"
+}
+
+### 2.F 200 - Khuyết installed_at
+# KẾT QUẢ: {"message": "Controller registered successfully"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "CTRL-MIN-05",
+    "serial_number": "CTRL-MIN-05",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "ip_address": "192.168.10.225",
+    "mac_address": "00:17:0A:11:22:93",
+    "connection_type": "tcp_ip"
+}
+
+### 2.G 200 - Đăng ký Controller mới hoàn toàn (tự động tạo mới)
+# KẾT QUẢ: {"message": "Controller registered successfully", "data": {"id": "..."}}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Controller Mới Auto",
+    "serial_number": "CTRL-NEW-AUTO-001",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "ip_address": "192.168.10.220",
+    "mac_address": "00:17:0A:11:22:99",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14 00:00:00"
+}
+
+### 2.H 200 - Đăng ký Controller thay thế cho Controller cũ (kế thừa thiết bị)
+# KẾT QUẢ: {"message": "Controller registered successfully", "data": {"id": "..."}}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Controller Sảnh Hà Nội",
+    "serial_number": "CTRL-HN-LOBBY-REPLACED",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.0.0",
+    "ip_address": "192.168.1.102",
+    "mac_address": "00:17:0A:11:22:AA",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-15"
+}
+
+### 2.I 200 - Dang ky Controller lan 2 (cap nhat thong tin)
+# KẾT QUẢ: {"message": "Controller registered successfully", "data": {"id": "..."}}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Controller Sảnh Hà Nội",
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO",
+    "firmware_version": "v2.1.0",
+    "ip_address": "192.168.10.210",
+    "mac_address": "00:17:0A:11:22:33",
+    "connection_type": "tcp_ip",
+    "installed_at": "2026-07-14"
+}
+
+### 2.J 400 - Thiếu serial_number
+# KẾT QUẢ: {"status": "error", "message": "Missing required fields (serial_number, branch_id, name)"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "branch_code": "HnMain",
+    "hardware_model": "T4-GATE-PRO"
+}
+
+### 2.K 400 - Thiếu branch_code
+# KẾT QUẢ: {"status": "error", "message": "Missing required fields (serial_number, branch_id, name)"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "hardware_model": "T4-GATE-PRO"
+}
+
+### 2.L 400 - Đăng ký Controller với mã branch_code không tồn tại
+# KẾT QUẢ: {"status": "error", "message": "Invalid branch_code provided"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "branch_code": "Can Tho",
+    "hardware_model": "T4-GATE-PRO"
+}
+
+### 2.M 401 - Không có token
+# KẾT QUẢ: {"status": "error", "message": "Missing Authorization"}
+POST http://localhost:8070/api/v1/ControllerRegister
+Content-Type: application/json
+
+{
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "branch_code": "HnMain"
+}
+
+### 2.N 401 - Token sai
+# KẾT QUẢ: {"status": "error", "message": "Invalid or expired access token."}
+POST http://localhost:8070/api/v1/ControllerRegister
+Authorization: Bearer FAKE_TOKEN_XYZ_123
+Content-Type: application/json
+
+{
+    "serial_number": "CTRL-HN-LOBBY-01",
+    "branch_code": "HnMain"
+}
+
+
+# ==============================================================================
+# API 5: DEVICE REGISTER
+# ==============================================================================
+
+### 5.A 200 - Đăng ký thiết bị thành công (đầy đủ fields)
+# KẾT QUẢ: {"message": "Devices register successfully", "data": {"id": "..."}}
+# Ý NGHĨA CÁC TRƯỜNG THỜI GIAN:
+#   - last_heartbeat: Thời điểm cuối cùng thiết bị vật lý ping/giao tiếp với controller.
+#   - installed_at: Ngày lắp đặt thiết bị vật lý tại thực tế.
+#   - last_sync_at: Thời điểm đồng bộ dữ liệu cuối cùng của thiết bị.
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc cổng chính",
+            "serial_number": "DEV-HN-MAIN-01",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "vendor": "ZKTeco",
+            "firmware_version": "v1.5.0",
+            "system_version": "Linux 5.10",
+            "port_or_channel": "1",
+            "last_heartbeat": "2026-07-14 08:00:00",
+            "installed_at": "2026-07-14 00:00:00",
+            "last_sync_at": "2026-07-14 08:00:00"
+        }
+    ]
+}
+
+### 5.A2 200 - Đăng ký thêm các thiết bị test cho các controller khác
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Nhận diện khuôn mặt Server HN",
+            "serial_number": "DEV-HN-SRV-FACE-01",
+            "controller_sn": "CTRL-HN-SRV-01"
+        },
+        {
+            "name": "Vân tay kho HCM",
+            "serial_number": "DEV-HCM-WHS-FGR-01",
+            "controller_sn": "CTRL-HCM-WHS-01"
+        },
+        {
+            "name": "Thẻ RFID Đà Nẵng",
+            "serial_number": "DEV-DN-RD-IN-01",
+            "controller_sn": "CTRL-DN-MAIN-01"
+        }
+    ]
+}
+
+### 5.B 200 - Đăng ký thiết bị với minimal request (chỉ các field bắt buộc)
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "DEV-MIN-01",
+            "serial_number": "DEV-MIN-01",
+            "controller_sn": "CTRL-HN-LOBBY-01"
+        }
+    ]
+}
+
+### 5.C 200 - Khuyết port_or_channel
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc khuyết port",
+            "serial_number": "DEV-MIN-02",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "device_model_code": "RFID_READER_01",
+            "status": "online",
+            "is_active": true
+        }
+    ]
+}
+
+### 5.D 200 - Khuyết device_model_code
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc khuyết model",
+            "serial_number": "DEV-MIN-03",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "port_or_channel": 2,
+            "status": "online",
+            "is_active": true
+        }
+    ]
+}
+
+### 5.E 200 - Khuyết status
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc khuyết status",
+            "serial_number": "DEV-MIN-04",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "port_or_channel": 3,
+            "device_model_code": "RFID_READER_01",
+            "is_active": true
+        }
+    ]
+}
+
+### 5.F 200 - Khuyết is_active
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc khuyết active",
+            "serial_number": "DEV-MIN-05",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "port_or_channel": 4,
+            "device_model_code": "RFID_READER_01",
+            "status": "online"
+        }
+    ]
+}
+
+### 5.G 400 - Thiếu serial_number
+# KẾT QUẢ: {"status": "error", "message": "Device Register must contain (controller_sn,serial_number)"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "controller_sn": "CTRL-HN-LOBBY-01"
+        }
+    ]
+}
+
+### 5.H 400 - Thiếu controller_sn
+# KẾT QUẢ: {"status": "error", "message": "Device Register must contain (controller_sn,serial_number)"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "serial_number": "DEV-HN-MAIN-03"
+        }
+    ]
+}
+
+### 5.I 400 - controller_sn không tồn tại
+# KẾT QUẢ: {"status": "error", "message": "Can not find controller serial number"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "serial_number": "DEV-HN-MAIN-04",
+            "controller_sn": "CTRL-NON-EXIST"
+        }
+    ]
+}
+
+### 5.K 401 - Không có token
+# KẾT QUẢ: {"status": "error", "message": "Missing Authorization"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "serial_number": "DEV-HN-MAIN-01",
+            "controller_sn": "CTRL-HN-LOBBY-01"
+        }
+    ]
+}
+
+### 5.L 401 - Token sai / hết hạn
+# KẾT QUẢ: {"status": "error", "message": "Invalid or expired access token."}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer FAKE_TOKEN_XYZ_123
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "serial_number": "DEV-HN-MAIN-01",
+            "controller_sn": "CTRL-HN-LOBBY-01"
+        }
+    ]
+}
+
+### 5.C2 200 - Cập nhật thiết bị đã tồn tại (gửi lại với thông tin mới)
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc sảnh vào ",
+            "serial_number": "DEV-HN-LOB-IN-01",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "vendor": "ZKTeco",
+            "firmware_version": "v1.6.0",
+            "system_version": "Linux 5.10",
+            "port_or_channel": "6",
+            "last_heartbeat": "2026-07-14 09:00:00",
+            "installed_at": "2026-07-14 00:00:00",
+            "last_sync_at": "2026-07-14 09:00:00"
+        }
+    ]
+}
+
+### 5.D_extra 200 - Đăng ký thiết bị thứ 2 cùng controller
+# KẾT QUẢ: {"message": "Devices register successfully"}
+POST http://localhost:8070/api/v1/DeviceRegister
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": [
+        {
+            "name": "Đầu đọc sảnh ra",
+            "serial_number": "DEV-HN-LOB-OUT-01",
+            "controller_sn": "CTRL-HN-LOBBY-01",
+            "vendor": "ZKTeco",
+            "firmware_version": "v1.5.0",
+            "port_or_channel": "5",
+            "installed_at": "2026-07-14 00:00:00"
+        }
+    ]
+}
+
+
+# ==============================================================================
+# API 3: CONTROLLER HEARTBEAT
+# ==============================================================================
+
+### 3.A 200 - Heartbeat thành công, có thiết bị online và offline
+# KẾT QUẢ: {"message": "Success", "status": "200 OK"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {"device_sn": "DEV-HN-LOB-IN-01", "status": "online"},
+        {"device_sn": "DEV-HN-LOB-OUT-01", "status": "offline"}
+    ]
+}
+
+### 3.A2 200 - Heartbeat với tất cả thiết bị offline
+# KẾT QUẢ: {"message": "Success", "status": "200 OK"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {"device_sn": "DEV-HN-LOB-IN-01", "status": "offline"},
+        {"device_sn": "DEV-HN-LOB-OUT-01", "status": "offline"}
+    ]
+}
+
+### 3.A3 200 - Heartbeat với devices_status rỗng (controller không có device)
+# KẾT QUẢ: {"message": "Success", "status": "200 OK"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-MIN-01",
+    "devices": []
+}
+
+### 3.B 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Missing controller_sn"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": []
+}
+
+### 3.C 400 - Thiếu devices_status
+# KẾT QUẢ: {"success": false, "message": "Missing devices_status"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3.D 400 - controller_sn không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Không tìm thấy Controller với serial số: CTRL-FAKE-999"}
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-999",
+    "devices": []
+}
+
+### 3.E 401 - Không có token
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": []
+}
+
+### 3.F 401 - Token sai / hết hạn
+POST http://localhost:8070/api/v1/ControllerHeartbeat
+Authorization: Bearer INVALID_TOKEN_XYZ
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": []
+}
+
+
+# ==============================================================================
+# API 8: CONTROLLER GET CONFIG
+# ==============================================================================
+
+### 8.A 200 - Lấy cấu hình controller có nhiều device
+# KẾT QUẢ: {"message": "Success", "timezone": "Asia/Ho_Chi_Minh", "data": {"devices": [...]}}
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 8.B 200 - Controller không có device nào → devices = []
+# KẾT QUẢ: {"message": "Success", "timezone": "Asia/Ho_Chi_Minh", "data": {"devices": []}}
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-MIN-01"
+}
+
+### 8.C 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Controller ID is required."}
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### 8.D 400 - Controller không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Can not find controller with ID CTRL-FAKE-DOES-NOT-EXIST"}
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-DOES-NOT-EXIST"
+}
+
+### 8.E 401 - Không có token
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 8.F 401 - Token sai / hết hạn
+POST http://localhost:8070/api/v1/ControllerGetConfig
+Authorization: Bearer INVALID_TOKEN_XYZ
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+
+# ==============================================================================
+# API 6: CONTROLLER EMPLOYEE SYNC STATUS (BEFORE SYNC)
+# ==============================================================================
+
+### 6.A 200 - Controller cần sync (employee_sync_status = out_of_sync)
+# KẾT QUẢ: {"message": "Success", "data": {"update": true}}
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01
+Authorization: Bearer {{token}}
+
+### 6.C 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Can not find controller with id False"}
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus
+Authorization: Bearer {{token}}
+
+### 6.D 400 - Controller không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Can not find controller serial number với serial: CTRL-FAKE-DOES-NOT-EXIST"}
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-FAKE-DOES-NOT-EXIST
+Authorization: Bearer {{token}}
+
+### 6.E 401 - Không có token
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01
+
+### 6.F 401 - Token sai / hết hạn
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01
+Authorization: Bearer INVALID_TOKEN_XYZ
+
+
+# ==============================================================================
+# API 3ES: EMPLOYEE SYNC
+# ==============================================================================
+
+### 3_ES.A 200 - Đồng bộ thành công, có nhân viên mới/cập nhật/xóa (mặc định page_size=15)
+# KẾT QUẢ: {"message": "Employee sync completed", "data": {"data": {"next_cursor_id": ..., "has_next_page": ..., "new": [...], "update": [...], "deleted": [...]}}}
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ES.B 200 - Đồng bộ thành công, không có thay đổi (tất cả mảng rỗng)
+# KẾT QUẢ: {"message": "Employee sync completed", "data": [{"new": [], "update": [], "deleted": []}]}
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ES.C 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Controller ID is required."}
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### 3_ES.D 400 - controller_sn không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Can not find controller with ID CTRL-FAKE-999"}
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-999"
+}
+
+### 3_ES.E 401 - Không có token
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ES.F 401 - Token sai / hết hạn
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer INVALID_TOKEN_XYZ
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ES.G 200 - Đồng bộ thành công, phân trang trang 1 (page_size = 2)
+# KẾT QUẢ: Trả về tối đa 2 nhân viên trong mảng "new", kèm theo "next_cursor_id" và "has_next_page": true
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "page_size": 2
+}
+
+### 3_ES.H 200 - Đồng bộ thành công, phân trang trang 2 với Cursor (page_size = 2)
+# KẾT QUẢ: Trả về trang tiếp theo của danh sách nhân viên bằng con trỏ next_cursor_id
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "page_size": 2,
+    "next_cursor_id": 2,
+    "latest_write_date": "2026-08-05 08:00:00"
+}
+
+### 3_ES.I 200 - Đồng bộ kết hợp mốc last_sync_at Delta và Cursor phân trang trang 2
+# KẾT QUẢ: {"message": "Employee sync completed"}
+POST http://localhost:8070/api/v1/ControllerEmployeeSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "page_size": 15,
+    "last_sync_at": "2026-08-01 00:00:00",
+    "next_cursor_id": 5,
+    "latest_write_date": "2026-08-05 10:00:00"
+}
+
+
+# ==============================================================================
+# API 3_ACK: CONTROLLER SYNC ACK
+# ==============================================================================
+
+### 3_ACK.A 200 - Xác nhận đồng bộ thành công (có truyền sync_timestamp)
+# KẾT QUẢ: {"message": "Success", "data": {"status": "200 OK"}}
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "sync_timestamp": "2026-07-15 02:00:00"
+}
+
+### 3_ACK.B 200 - Xác nhận đồng bộ thành công (không truyền sync_timestamp → tự lấy giờ hiện tại)
+# KẾT QUẢ: {"message": "Success", "data": {"status": "200 OK"}}
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ACK.C 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Controller serial number is required."}
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "sync_timestamp": "2026-07-15 02:00:00"
+}
+
+### 3_ACK.D 400 - controller_sn không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Can not find controller serial number với serial: CTRL-FAKE-999"}
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-999"
+}
+
+### 3_ACK.E 401 - Không có token
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 3_ACK.F 500 - Sai định dạng sync_timestamp
+# KẾT QUẢ: {"status": "error", "message": "ValueError"}
+POST http://localhost:8070/api/v1/ControllerSyncAck
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "sync_timestamp": "INVALID_TIMESTAMP"
+}
+
+
+# ==============================================================================
+# API 6: CONTROLLER EMPLOYEE SYNC STATUS (AFTER SYNC)
+# ==============================================================================
+
+### 6.B 200 - Controller không cần sync (employee_sync_status = synced)
+# KẾT QUẢ: {"message": "Success", "data": {"update": false}}
+GET http://localhost:8070/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01
+Authorization: Bearer {{token}}
+
+
+# ==============================================================================
+# API 7: EMPLOYEE BIOMETRIC GET
+# ==============================================================================
+
+### 7.A 200 - Lấy biometric của nhân viên có dữ liệu sinh trắc học
+# KET QUA: {"message": "Success", "data": {"emp_id": "1001", "finger_templates": [...], "face_template": "...", "photo_avatar": null}}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "emp_id": "1001"
+}
+
+### 7.B 400 - Nhân viên không có biometric phù hợp → mảng rỗng
+# KẾT QUẢ: {"status": "error", "message": "Can not find controller serial number hoặc Nhân viên hợp lệ"}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "emp_id": "9999"
+}
+
+### 7.C 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Controller ID is required."}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "emp_id": "1001"
+}
+
+### 7.D 400 - Thiếu employee_id
+# KẾT QUẢ: {"success": false, "message": "Employee ID is required."}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 7.E 400 - Controller không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Can not find controller with ID CTRL-FAKE-DOES-NOT-EXIST"}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-DOES-NOT-EXIST",
+    "emp_id": "1001"
+}
+
+### 7.F 400 - Nhân viên thuộc chi nhánh khác với Controller
+# KẾT QUẢ: {"success": false, "message": "Không tìm thấy Controller hoặc Nhân viên hợp lệ"}
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "emp_id": "2001"
+}
+
+### 7.G 401 - Không có token
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "emp_id": "1001"
+}
+
+### 7.H 401 - Token sai
+POST http://localhost:8070/api/v1/EmployeeBiometricGet
+Authorization: Bearer INVALID_TOKEN_XYZ
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "emp_id": "1001"
+}
+
+
+# ==============================================================================
+# API 8: CONTROLLER GET CONFIG
+# ==============================================================================
+
+
+
+# ==============================================================================
+# API 8: CONTROLLER GET CONFIG
+# ==============================================================================
+
+Lưu Access Token từ phản hồi của server
+@token = {{login.response.body.api_token.token}}
+
+
+# ==============================================================================
+# API 4: ACCESS LOG UPLOAD
+# ==============================================================================
+
+### 4.A 200 - Upload 1 log thành công
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-IN-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 08:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A2 200 - Upload nhiều log cùng lúc (batch)
+# KẾT QUẢ: {"message": "Success", "data": {"created": 3, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-IN-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 10:00:00"
+                },
+                {
+                    "emp_id": "1002",
+                    "punch_type": "check_in",
+                    "verify_mode": "fingerprint",
+                    "punched_at": "2026-07-14 08:10:00"
+                }
+            ]
+        },
+        {
+            "device_sn": "DEV-HN-LOB-OUT-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_out",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 16:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A3 200 - Upload log trùng lặp (duplicate → skipped)
+# KẾT QUẢ: {"message": "Success", "data": {"created": 0, "skipped": 1}}
+# NOTE: Gửi lại đúng log đã upload ở 4.A — server nên skip
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-IN-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 12:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.B 400 - Thiếu controller_sn
+# KẾT QUẢ: {"success": false, "message": "Controller serial number is required."}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "devices": []
+}
+
+### 4.C 400 - Thiếu logs
+# KẾT QUẢ: {"success": false, "message": "No device data provided."}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01"
+}
+
+### 4.D 400 - controller_sn không tồn tại
+# KẾT QUẢ: {"success": false, "message": "Controller with serial number 'CTRL-FAKE-DOES-NOT-EXIST' is not registered."}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-FAKE-DOES-NOT-EXIST",
+    "devices": []
+}
+
+### 4.E 401 - Không có token
+POST http://localhost:8070/api/v1/AccessLogUpload
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": []
+}
+
+### 4.F 401 - Token sai / hết hạn
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer INVALID_TOKEN_XYZ
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": []
+}
+
+### 4.G 200 - Upload log rỗng
+# KẾT QUẢ: {"message": "Success", "data": {"received": 0, "created": 0, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": []
+}
+
+### 4.H 200 - Device không thuộc controller này
+# KẾT QUẢ: {"message": "Success", "data": {"received": 1, "created": 0, "skipped": 1}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HCM-WHS-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 08:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+
+# ==============================================================================
+# OTHER / HELPERS
+# ==============================================================================
+
+### 1.K 403 - IP không nằm trong Allowed IPs của Application
+# KẾT QUẢ: {"error": "forbidden", "message": "IP not in allowed list"}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+### 1.L 429 - Rate limit bị vượt quá
+# KẾT QUẢ: {"error": "too_many_requests", "message": "Rate limit exceeded"}
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}

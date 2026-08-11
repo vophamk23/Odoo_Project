@@ -1,0 +1,229 @@
+﻿# ==============================================================================
+# NHÓM 6: CÁC KỊCH BẢN KIỂM THỬ NÂNG CAO (EDGE CASES & VIOLATIONS BATCH)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Đăng nhập hệ thống qua chuẩn OAuth2 để lấy Access Token (Bearer Token).
+# KẾT QUẢ THÀNH CÔNG: Trả về 200 OK kèm mã token xác thực có thời hạn 24 giờ.
+#                     REST Client sẽ tự động lưu token này vào biến toàn cục {{token}}.
+# CÁC TRƯỜNG CẬP NHẬT: Tạo bản ghi token mới trong bảng `core.api.token`.
+# ------------------------------------------------------------------------------
+# @name login
+POST http://localhost:8070/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "app_637da3fbc1a6e3e1430a12be2c5e51e4",
+    "client_secret": "Puuf11KY4a6UMhbMW4e6V26ko5CDQzhn4KrVQPnVetU",
+    "grant_type": "client_credentials"
+}
+
+### Lưu Access Token từ phản hồi của server
+@token = {{login.response.body.api_token.token}}
+
+
+### 6.2.A Giả lập Batch Access Log giờ cao điểm Hà Nội (Nhiều người cùng quét)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Mô phỏng nhiều nhân viên quét thẻ vào/ra cùng lúc tại sảnh Hà Nội lúc 19:45.
+# ĐỐI TƯỢNG: Phạm Thanh Sơn (1002) vào và Lê Hoàng Nam (1004) ra.
+# KẾT QUẢ THÀNH CÔNG:
+# - Tạo mới 2 bản ghi access_log.
+# - Không sinh cảnh báo (nhân viên hợp lệ, đúng giờ, đúng khu vực).
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 2 bản ghi.
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-HN-LOBBY-01",
+    "logs": [
+        {
+            "device_serial": "DEV-HN-LOB-IN-01",
+            "emp_id": "1002",
+            "card_code": "RFID-HN-002",
+            "access_time": "2026-07-10 19:45:00",
+            "direction": "in",
+            "verification_type": "card"
+        },
+        {
+            "device_serial": "DEV-HN-LOB-OUT-01",
+            "emp_id": "1004",
+            "card_code": "RFID-HN-004",
+            "access_time": "2026-07-10 19:48:00",
+            "direction": "out",
+            "verification_type": "card"
+        }
+    ]
+}
+
+### 6.2.B Giả lập Nhân viên thời vụ HCM quét giờ cấm (Giờ giới nghiêm thời vụ)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Đẩy log nhân viên thời vụ quét thẻ tại HCM lúc 22:00:00.
+# ĐỐI TƯỢNG: Nguyễn Thị Kim Anh (EMP-HCM-006) quét thẻ lúc 22:00:00 tại HCM Warehouse.
+# KẾT QUẢ THÀNH CÔNG:
+# - Log quét thẻ lưu thành công.
+# - Hệ thống kích hoạt chính sách bảo mật POL-TEMP-CURFEW (Cấm nhân viên thời vụ sau 18:00) và tự động tạo Cảnh báo vi phạm giờ giới nghiêm của CTV.
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 1 bản ghi.
+# - Model `t4.gate_keeper.area_warning`:
+#   * Tạo mới 1 bản ghi cảnh báo loại `invalid_access` trạng thái active với mô tả vi phạm giờ giới nghiêm của CTV thời vụ.
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-HCM-WHS-01",
+    "logs": [
+        {
+            "device_serial": "DEV-HCM-WHS-FGR-01",
+            "emp_id": "EMP-HCM-006",
+            "card_code": "RFID-HCM-006",
+            "access_time": "2026-07-09 22:00:00",
+            "direction": "in",
+            "verification_type": "card"
+        }
+    ]
+}
+
+### 6.3.A Giả lập Nhóm quét thẻ lạ chưa đăng ký ở Hà Nội (Batch Unknown Cards)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Người lạ quét 2 mã thẻ chưa được đăng ký trong Odoo.
+# ĐỐI TƯỢNG: Thẻ RFID-UNKNOWN-8888 và RFID-UNKNOWN-9999 tại sảnh Hà Nội.
+# KẾT QUẢ THÀNH CÔNG:
+# - Odoo lưu thành công 2 sự kiện quét thẻ (trường Nhân viên bị trống vì không nhận diện được).
+# - Kích hoạt chính sách bảo mật POL-UNKNOWN-CARD-MONITOR và dựng 2 Cảnh báo thẻ lạ xâm nhập khẩn cấp.
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 2 bản ghi (trường `employee_id` = False).
+# - Model `t4.gate_keeper.area_warning`:
+#   * Tạo mới 2 bản ghi cảnh báo loại `invalid_access` trạng thái `active` báo động có đối tượng dùng thẻ lạ xâm nhập.
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-HN-LOBBY-01",
+    "logs": [
+        {
+            "device_serial": "DEV-HN-LOB-IN-01",
+            "card_code": "RFID-UNKNOWN-8888",
+            "access_time": "2026-07-09 10:00:00",
+            "direction": "in",
+            "verification_type": "card"
+        },
+        {
+            "device_serial": "DEV-HN-LOB-IN-01",
+            "card_code": "RFID-UNKNOWN-9999",
+            "access_time": "2026-07-09 10:05:00",
+            "direction": "in",
+            "verification_type": "card"
+        }
+    ]
+}
+
+### 6.3.B Giả lập Nhóm quét thẻ lạ chưa đăng ký ở phòng Giám đốc Đà Nẵng (Batch Unknown Cards)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Người lạ quét 2 thẻ lạ tại cửa phòng Giám đốc Đà Nẵng.
+# ĐỐI TƯỢNG: Thẻ RFID-UNKNOWN-3333 và RFID-UNKNOWN-4444 tại Đà Nẵng.
+# KẾT QUẢ THÀNH CÔNG: Log lưu thành công, sinh 2 cảnh báo xâm nhập phòng VIP khẩn cấp.
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 2 bản ghi.
+# - Model `t4.gate_keeper.area_warning`:
+#   * Tạo mới 2 bản ghi cảnh báo xâm nhập của thẻ lạ trạng thái active tại Đà Nẵng.
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-DN-MAIN-01",
+    "logs": [
+        {
+            "device_serial": "DEV-DN-EXEC-IN-01",
+            "card_code": "RFID-UNKNOWN-3333",
+            "access_time": "2026-07-10 11:00:00",
+            "direction": "in",
+            "verification_type": "card"
+        },
+        {
+            "device_serial": "DEV-DN-EXEC-IN-01",
+            "card_code": "RFID-UNKNOWN-4444",
+            "access_time": "2026-07-10 11:05:00",
+            "direction": "in",
+            "verification_type": "card"
+        }
+    ]
+}
+
+### 6.4.A Giả lập Vi phạm quy tắc khu vực cấm - Unauthorized Area Access (Hà Nội)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Nhân sự phòng HR quét thẻ vào phòng máy chủ bảo mật.
+# ĐỐI TƯỢNG: Trần Thu Trang (1003) quét thẻ vào cửa phòng máy chủ.
+# KẾT QUẢ THÀNH CÔNG:
+# - Log quét thẻ lưu thành công.
+# - Kích hoạt chính sách bảo mật POL-SRV-RESTRICT-HN (Cấm HR vào phòng máy chủ).
+# - Tự động tạo Cảnh báo truy cập sai khu vực trong Area Warning.
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 1 bản ghi.
+# - Model `t4.gate_keeper.area_warning`:
+#   * Tạo mới 1 bản ghi cảnh báo với warning_type_id liên kết đến `unauthorized_area` (state = warning).
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-HN-SRV-01",
+    "logs": [
+        {
+            "device_serial": "DEV-HN-SRV-FACE-01",
+            "emp_id": "1003",
+            "card_code": "RFID-HN-003",
+            "access_time": "2026-07-09 14:00:00",
+            "direction": "in",
+            "verification_type": "card"
+        }
+    ]
+}
+
+### 6.5.A Giả lập Vi phạm trình tự ra vào liên tiếp - Anti-passback (Hà Nội)
+# ------------------------------------------------------------------------------
+# CHỨC NĂNG: Nhân viên quét thẻ VÀO liên tiếp 2 lần tại cùng khu vực mà không quét RA.
+# ĐỐI TƯỢNG: Phạm Thanh Sơn (1002) quét VÀO lúc 15:00 và VÀO tiếp lúc 15:05.
+# KẾT QUẢ THÀNH CÔNG:
+# - Ghi nhận log quét thẻ lần 2 thành công.
+# - Kích hoạt quy tắc chống xoay vòng thẻ POL-APB-ENFORCE.
+# - Tự động tạo Cảnh báo vi phạm trình tự ra vào (invalid_sequence / Anti-passback) cho lượt quét thẻ 2.
+# CÁC TRƯỜNG CẬP NHẬT TRÊN ODOO:
+# - Model `t4.gate_keeper.access_log`: Tạo mới 2 bản ghi.
+# - Model `t4.gate_keeper.area_warning`:
+#   * Tạo mới 1 bản ghi cảnh báo loại `invalid_sequence` trạng thái active đối với nhân viên Kỹ Thuật.
+# ------------------------------------------------------------------------------
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_id": "CTRL-HN-LOBBY-01",
+    "logs": [
+        {
+            "device_serial": "DEV-HN-LOB-IN-01",
+            "emp_id": "1002",
+            "card_code": "RFID-HN-002",
+            "access_time": "2026-07-09 15:00:00",
+            "direction": "in",
+            "verification_type": "card"
+        },
+        {
+            "device_serial": "DEV-HN-LOB-IN-01",
+            "emp_id": "1002",
+            "card_code": "RFID-HN-002",
+            "access_time": "2026-07-09 15:05:00",
+            "direction": "in",
+            "verification_type": "card"
+        }
+    ]
+}

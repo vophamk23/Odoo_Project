@@ -1,6 +1,6 @@
 # pyrefly: ignore [missing-import]
 from odoo import api, models, fields, _
-from odoo.addons.t4_gatekeeper.utils import check_outside_working_hours
+from odoo.addons.t4_gate_keeper.utils import check_outside_working_hours
 
 SYNC_STATUS = [
     ('success', 'Success'),

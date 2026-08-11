@@ -1,5 +1,4 @@
 import logging
-from tempfile import template
 from typing import Any
 from datetime import datetime
 
@@ -187,34 +186,31 @@ class T4GateKeeperController(models.Model):
     @endpoint(name="Heartbeat")
     def controller_heartbeat(self):
         body = get_body(self.env)
-        controller_sn = body.get("controller_sn", False)
+        controller_sn = body.get("controller_sn")
+        if not controller_sn:
+            raise ValidationError(_("Missing controller_sn."))
 
         controller = self._find_controller(controller_sn)
         if not controller:
-            return self.set_response(
-                message="invalid controller",
-                status_code=400,
-                is_missing=True,
-                missing_controller_sn=controller_sn,
-                missing_device_sns=False,
-                )
+            raise ValidationError(_("Không tìm thấy Controller với serial số: %s") % controller_sn)
 
-        device_sns = body.get("device_sns", [])
+        device_sns = body.get("device_sns")
+        if device_sns is None:
+            if "devices" in body or "devices_status" in body:
+                devices_data = body.get("devices") if "devices" in body else body.get("devices_status")
+                if isinstance(devices_data, list):
+                    device_sns = [d.get("device_sn") for d in devices_data if isinstance(d, dict) and d.get("device_sn")]
+                else:
+                    device_sns = []
+            else:
+                raise ValidationError(_("Missing devices_status."))
+
         devices = self._find_devices(controller.id, device_sns)
-
         found_serials = devices.mapped('serial_number')
-
         missing_serials = set(device_sns) - set(found_serials)
 
         if missing_serials:
-            return self.set_response(
-                message="invalid controller",
-                status_code=400,
-                is_missing=True,
-                missing_controller_sn=False,
-                missing_device_sns=list(missing_serials),
-            )
-
+            raise ValidationError(_("Devices not found: %s") % list(missing_serials))
 
         heartbeat_at = fields.Datetime.now()
         vals = {
@@ -224,13 +220,9 @@ class T4GateKeeperController(models.Model):
         controller.write(vals)
         devices.write(vals)
 
-        return self.set_response(
-                message="success",
-                status_code=200,
-                is_missing=False,
-                missing_controller_sn=False,
-                missing_device_sns=False,
-        )
+        return {
+            "message": "success"
+        }
 
     # Employee Sync
     @endpoint(name="ControllerEmployeeSync")
@@ -496,7 +488,13 @@ class T4GateKeeperController(models.Model):
         if not userInfo_vals['branch_id']:
             raise ValidationError("Invalid branch_code provided")   
 
-        new_controller = self.env['t4.gate_keeper.controller'].sudo().create(userInfo_vals)
+        existing = self.env['t4.gate_keeper.controller'].sudo().search([
+            ("serial_number", "=", userInfo_vals["serial_number"])
+        ], limit=1)
+        if existing:
+            existing.write(userInfo_vals)
+        else:
+            self.env['t4.gate_keeper.controller'].sudo().create(userInfo_vals)
 
         return {
             "message": "Controller registered successfully"
@@ -536,6 +534,9 @@ class T4GateKeeperController(models.Model):
             ("branch_id", "=", False), 
             ("branch_id", "=", controller.branch_id.id)
         ], limit=1)
+
+        if not employee:
+            raise ValidationError(_("Không tìm thấy Controller hoặc Nhân viên hợp lệ"))
 
         finger_templates = []
         face_templates = None
@@ -714,9 +715,9 @@ class T4GateKeeperController(models.Model):
                 "device_model": device.device_model_id.name if device.device_model_id else "N/A",
                 "assigned_area": device.area_id.name if device.area_id else "N/A",
                 "status": device.status,
-                "connection_type": device.connection_type,
+                "connection_type": getattr(device, "connection_type", False) or getattr(controller, "connection_type", False) or "tcp_ip",
                 "port/channel": device.port_or_channel,
-                "supported_biometric_types": [biometric.name for biometric in device.algorithm_ids],
+                "supported_biometric_types": [biometric.name for biometric in device.device_model_id.algorithm_ids] if device.device_model_id else [],
             })
 
         return {
@@ -764,9 +765,11 @@ class T4GateKeeperController(models.Model):
                 _("Controller with serial number '%s' is not registered.") % controller_sn
             )
 
-        devices_data = body.get("devices") or []
+        devices_data = body.get("devices")
+        if devices_data is None:
+            raise ValidationError(_("No device data provided."))
         if not devices_data:
-            return {"message": _("No device data provided.")}
+            return {"message": _("Success")}
 
         DeviceObj = self.env["t4.gate_keeper.device"]
         EmployeeObj = self.env["t4.gate_keeper.employee"]
