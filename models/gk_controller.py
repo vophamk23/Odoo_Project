@@ -785,6 +785,7 @@ class T4GateKeeperController(models.Model):
         ALLOWED_VERIFY_TYPES = {"face", "fingerprint", "card", "password", "other"}
 
         created_count = 0
+        skipped_count = 0
         errors = []
 
         for device_data in devices_data:
@@ -838,6 +839,17 @@ class T4GateKeeperController(models.Model):
                 # Parse access time
                 access_time = self._parse_access_time(rec.get("punched_at"))
 
+                # Check duplicate
+                existing = AccessLogObj.sudo().search([
+                    ("controller_id", "=", controller.id),
+                    ("device_id", "=", device.id),
+                    ("employee_id", "=", employee.id),
+                    ("access_time", "=", access_time),
+                ], limit=1)
+                if existing:
+                    skipped_count += 1
+                    continue
+
                 log_vals_list.append({
                     "controller_id": controller.id,
                     "device_id": device.id,
@@ -853,8 +865,10 @@ class T4GateKeeperController(models.Model):
                 created_count += len(log_vals_list)
 
         result = {
-            "message": _("%d access log(s) created successfully.") % created_count,
+            "message": _("Success. %d access log(s) created successfully, %d skipped.") % (created_count, skipped_count),
             "data": {
+                "created": created_count,
+                "skipped": skipped_count,
                 "created_count": created_count,
             },
         }

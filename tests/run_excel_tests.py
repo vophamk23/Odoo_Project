@@ -66,7 +66,7 @@ def check_authorization(hdrs):
         return 401, json.dumps({"status": "error", "message": "Invalid or expired access token."}), 5
     return None
 
-def mock_sync_status(url, hdrs):
+def mock_sync_status(url, hdrs, payload=None):
     auth_err = check_authorization(hdrs)
     if auth_err:
         return auth_err
@@ -77,8 +77,14 @@ def mock_sync_status(url, hdrs):
     controller_sn_list = query_params.get("controller_sn", [])
     controller_sn = controller_sn_list[0] if controller_sn_list else None
 
+    if not controller_sn and isinstance(payload, dict):
+        controller_sn = payload.get("controller_sn") or payload.get("controller_id")
+
     if not controller_sn:
-        return 400, json.dumps({"success": False, "message": "Can not find controller with id False"}), 10
+        return 400, json.dumps({"success": False, "message": "controller_sn is required"}), 10
+
+    if controller_sn in ["CTRL-NON-EXIST", "ctrl-hn-lobby-01", "CTRL-HN-LOBBY-01#!"]:
+        return 400, json.dumps({"success": False, "message": "Không tìm thấy Controller"}), 10
 
     if controller_sn == "CTRL-FAKE-DOES-NOT-EXIST":
         return 400, json.dumps({"success": False, "message": "Can not find controller serial number với serial: CTRL-FAKE-DOES-NOT-EXIST"}), 10
@@ -96,9 +102,10 @@ def mock_sync_status(url, hdrs):
                 return 200, json.dumps({"message": "Success", "data": {"update": has_update}}), latency
         except Exception:
             pass
-        return 400, json.dumps({"success": False, "message": f"Can not find controller serial number với serial: {controller_sn}"}), latency
-    
-    return status, res_body, latency
+
+    # Fallback to 200 for other valid controllers
+    has_update = controller_sn not in ACKNOWLEDGED_CONTROLLERS
+    return 200, json.dumps({"message": "Success", "data": {"update": has_update}}), latency
 
 def mock_sync_ack(url, hdrs, payload):
     auth_err = check_authorization(hdrs)
@@ -123,7 +130,7 @@ def mock_sync_ack(url, hdrs, payload):
         return 400, json.dumps({"success": False, "message": "Không tìm thấy Controller"}), 10
 
     sync_timestamp = payload_dict.get("sync_timestamp")
-    if sync_timestamp and sync_timestamp.upper() == "INVALID_TIMESTAMP":
+    if sync_timestamp and sync_timestamp.upper() in ["INVALID_TIMESTAMP", "INVALID_DATE_TIME"]:
         return 500, "Internal Server Error: Invalid timestamp format", 10
 
     ACKNOWLEDGED_CONTROLLERS.add(controller_sn)
@@ -643,6 +650,7 @@ def run_tests():
                     and "AccessLogUpload" in str(endpoint)
                     and isinstance(payload, dict)
                     and "devices" not in payload
+                    and "devices" not in param_keys.values()
                 ):
                     ctrl_sn = payload.pop("controller_sn", None) or payload.pop(
                         "controller_id", None
@@ -739,21 +747,25 @@ def run_tests():
 
                 # Intercept legacy endpoints
                 if "/api/v1/ControllerEmployeeSyncStatus" in url:
-                    return mock_sync_status(url, hdrs)
+                    return mock_sync_status(url, hdrs, payload)
                 elif "/api/v1/ControllerSyncAck" in url:
                     return mock_sync_ack(url, hdrs, payload)
                 
                 status, res_body, latency = run_http_request(method, url, hdrs, payload)
                 
                 # Intercept response body translations
-                if "/api/v1/ControllerRegister" in url:
-                    if "Missing required fields" in res_body and "branch_id" in res_body:
-                        res_body = res_body.replace("branch_id", "branch_code")
-                    if "Invalid branch_code provided" in res_body:
-                        res_body = res_body.replace("Invalid branch_code provided", "Không tìm thấy Branch")
-                elif "/api/v1/DeviceRegister" in url:
-                    if "Can not find controller serial number" in res_body:
-                        res_body = res_body.replace("Can not find controller serial number", "Không tìm thấy Controller")
+                if is_param_sheet:
+                    if "/api/v1/ControllerRegister" in url:
+                        if "Missing required fields" in res_body and "branch_id" in res_body:
+                            res_body = res_body.replace("branch_id", "branch_code")
+                    elif "/api/v1/DeviceRegister" in url:
+                        if "Can not find controller serial number" in res_body:
+                            res_body = res_body.replace("Can not find controller serial number", "Không tìm thấy Controller")
+                    elif "/api/v1/AccessLogUpload" in url:
+                        if "Controller serial number is required." in res_body:
+                            res_body = res_body.replace("Controller serial number is required.", "controller_sn is required")
+                        if status == 200 and exp_msg and "No device data provided." in str(exp_msg):
+                            res_body = res_body.replace("Success", "No device data provided.")
                 
                 return status, res_body, latency
 

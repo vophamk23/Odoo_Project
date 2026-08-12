@@ -1248,6 +1248,162 @@ Content-Type: application/json
     ]
 }
 
+### 4.A4 200 - Upload log mix (duplicate & new mixed)
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 1}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-IN-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 12:00:00"
+                },
+                {
+                    "emp_id": "1002",
+                    "punch_type": "check_in",
+                    "verify_mode": "fingerprint",
+                    "punched_at": "2026-07-14 18:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A5 200 - Upload log mới tinh hoàn toàn
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-OUT-01",
+            "records": [
+                {
+                    "emp_id": "1002",
+                    "punch_type": "check_out",
+                    "verify_mode": "fingerprint",
+                    "punched_at": "2026-07-14 19:00:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A6 200 - HCM Kho upload log cho Lê Văn C (1003) qua thiết bị DEV-HCM-WHS-FGR-01
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HCM-WHS-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HCM-WHS-FGR-01",
+            "records": [
+                {
+                    "emp_id": "1003",
+                    "punch_type": "check_in",
+                    "verify_mode": "fingerprint",
+                    "punched_at": "2026-07-14 08:30:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A7 200 - Đà Nẵng upload log cho Phạm Văn D (1004) qua thiết bị DEV-DN-RD-IN-01
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-DN-MAIN-01",
+    "devices": [
+        {
+            "device_sn": "DEV-DN-RD-IN-01",
+            "records": [
+                {
+                    "emp_id": "1004",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 08:45:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A8 200 - HN Server Room upload log cho Trần Thị B (1002) qua thiết bị DEV-HN-SRV-FACE-01
+# KẾT QUẢ: {"message": "Success", "data": {"created": 1, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-SRV-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-SRV-FACE-01",
+            "records": [
+                {
+                    "emp_id": "1002",
+                    "punch_type": "check_in",
+                    "verify_mode": "face",
+                    "punched_at": "2026-07-14 09:15:00"
+                }
+            ]
+        }
+    ]
+}
+
+### 4.A9 200 - Batch upload nhiều thiết bị và nhiều nhân viên khác nhau cùng lúc
+# KẾT QUẢ: {"message": "Success", "data": {"created": 2, "skipped": 0}}
+POST http://localhost:8070/api/v1/AccessLogUpload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "controller_sn": "CTRL-HN-LOBBY-01",
+    "devices": [
+        {
+            "device_sn": "DEV-HN-LOB-IN-01",
+            "records": [
+                {
+                    "emp_id": "1001",
+                    "punch_type": "check_in",
+                    "verify_mode": "card",
+                    "punched_at": "2026-07-14 08:00:00"
+                }
+            ]
+        },
+        {
+            "device_sn": "DEV-HN-LOB-OUT-01",
+            "records": [
+                {
+                    "emp_id": "1002",
+                    "punch_type": "check_out",
+                    "verify_mode": "fingerprint",
+                    "punched_at": "2026-07-14 17:15:00"
+                }
+            ]
+        }
+    ]
+}
+
+
 ### 4.B 400 - Thiếu controller_sn
 # KẾT QUẢ: {"success": false, "message": "Controller serial number is required."}
 POST http://localhost:8070/api/v1/AccessLogUpload

@@ -5167,6 +5167,282 @@
                     ]
                 },
                 {
+                    "name": "4.A4 200 - Upload log mix (duplicate & new mixed)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-HN-LOB-IN-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1001\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"card\",\n                    \"punched_at\": \"2026-07-14 12:00:00\"\n                },\n                {\n                    \"emp_id\": \"1002\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"fingerprint\",\n                    \"punched_at\": \"2026-07-14 18:00:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 1, \"skipped\": 1}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "4.A5 200 - Upload log mới tinh hoàn toàn",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-HN-LOB-OUT-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1002\",\n                    \"punch_type\": \"check_out\",\n                    \"verify_mode\": \"fingerprint\",\n                    \"punched_at\": \"2026-07-14 19:00:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 1, \"skipped\": 0}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "4.A6 200 - HCM Kho upload log cho Lê Văn C (1003) qua thiết bị DEV-HCM-WHS-FGR-01",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HCM-WHS-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-HCM-WHS-FGR-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1003\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"fingerprint\",\n                    \"punched_at\": \"2026-07-14 08:30:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 1, \"skipped\": 0}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "4.A7 200 - Đà Nẵng upload log cho Phạm Văn D (1004) qua thiết bị DEV-DN-RD-IN-01",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-DN-MAIN-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-DN-RD-IN-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1004\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"card\",\n                    \"punched_at\": \"2026-07-14 08:45:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 1, \"skipped\": 0}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "4.A8 200 - HN Server Room upload log cho Trần Thị B (1002) qua thiết bị DEV-HN-SRV-FACE-01",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-SRV-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-HN-SRV-FACE-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1002\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"face\",\n                    \"punched_at\": \"2026-07-14 09:15:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 1, \"skipped\": 0}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "4.A9 200 - Batch upload nhiều thiết bị và nhiều nhân viên khác nhau cùng lúc",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/AccessLogUpload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "AccessLogUpload"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"devices\": [\n        {\n            \"device_sn\": \"DEV-HN-LOB-IN-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1001\",\n                    \"punch_type\": \"check_in\",\n                    \"verify_mode\": \"card\",\n                    \"punched_at\": \"2026-07-14 08:00:00\"\n                }\n            ]\n        },\n        {\n            \"device_sn\": \"DEV-HN-LOB-OUT-01\",\n            \"records\": [\n                {\n                    \"emp_id\": \"1002\",\n                    \"punch_type\": \"check_out\",\n                    \"verify_mode\": \"fingerprint\",\n                    \"punched_at\": \"2026-07-14 17:15:00\"\n                }\n            ]\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"created\": 2, \"skipped\": 0}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "4.B 400 - Thiếu controller_id",
                     "request": {
                         "method": "POST",

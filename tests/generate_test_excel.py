@@ -770,7 +770,7 @@ def write_to_excel(test_cases, filepath):
         ]
 
     for idx, case in enumerate(param_cases, 1):
-        row_vals = [idx] + list(case) + [""]  # Thêm cột Run? trống
+        row_vals = [idx] + list(case) + ["x"]  # Thêm cột Run? trống
         p_ws.append(row_vals)
 
     # Dinh dang du lieu va borders cho Parameter Sheet: Data. Controller Register
@@ -1074,7 +1074,7 @@ def write_to_excel(test_cases, filepath):
         ]
 
     for idx, case in enumerate(dev_cases, 1):
-        row_vals = [idx] + list(case) + [""]
+        row_vals = [idx] + list(case) + ["x"]
         d_ws.append(row_vals)
 
     # Dinh dang du lieu va borders cho Parameter Sheet: Data. Device Register
@@ -1710,7 +1710,7 @@ def write_to_excel(test_cases, filepath):
     ]
 
     for idx, case in enumerate(ss_cases, 1):
-        row_vals = [idx] + list(case) + [""]
+        row_vals = [idx] + list(case) + ["x"]
         ss_ws.append(row_vals)
 
     ss_ws.row_dimensions[1].height = 28
@@ -1866,7 +1866,7 @@ def write_to_excel(test_cases, filepath):
     ]
 
     for idx, case in enumerate(sa_cases, 1):
-        row_vals = [idx] + list(case) + [""]
+        row_vals = [idx] + list(case) + ["x"]
         sa_ws.append(row_vals)
 
     sa_ws.row_dimensions[1].height = 28
@@ -2128,12 +2128,54 @@ def write_to_excel(test_cases, filepath):
             "created successfully",
         ),
         ("AccessLogUpload - devices rỗng (200)", "CTRL-HN-LOBBY-01", "[]", 200, "No device data provided."),
+        (
+            "AccessLogUpload - Mix upload 1 log mới và 1 log trùng (200)",
+            "CTRL-HN-LOBBY-01",
+            '[{"device_sn": "DEV-HN-LOB-IN-01", "records": [{"emp_id": 1001, "punch_type": "check_in", "verify_mode": "card", "punched_at": "2026-08-05T07:30:00+07:00"}, {"emp_id": 1002, "punch_type": "check_in", "verify_mode": "fingerprint", "punched_at": "2026-08-05T12:00:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
+        (
+            "AccessLogUpload - Upload 1 log mới tinh hoàn toàn (200)",
+            "CTRL-HN-LOBBY-01",
+            '[{"device_sn": "DEV-HN-LOB-OUT-01", "records": [{"emp_id": 1002, "punch_type": "check_out", "verify_mode": "fingerprint", "punched_at": "2026-08-05T18:30:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
+        (
+            "AccessLogUpload - HCM Kho upload log cho Lê Văn C (1003) qua thiết bị DEV-HCM-WHS-FGR-01 (200)",
+            "CTRL-HCM-WHS-01",
+            '[{"device_sn": "DEV-HCM-WHS-FGR-01", "records": [{"emp_id": 1003, "punch_type": "check_in", "verify_mode": "fingerprint", "punched_at": "2026-08-05T08:30:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
+        (
+            "AccessLogUpload - Đà Nẵng upload log cho Phạm Văn D (1004) qua thiết bị DEV-DN-RD-IN-01 (200)",
+            "CTRL-DN-MAIN-01",
+            '[{"device_sn": "DEV-DN-RD-IN-01", "records": [{"emp_id": 1004, "punch_type": "check_in", "verify_mode": "card", "punched_at": "2026-08-05T08:45:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
+        (
+            "AccessLogUpload - HN Server Room upload log cho Trần Thị B (1002) qua thiết bị DEV-HN-SRV-FACE-01 (200)",
+            "CTRL-HN-SRV-01",
+            '[{"device_sn": "DEV-HN-SRV-FACE-01", "records": [{"emp_id": 1002, "punch_type": "check_in", "verify_mode": "face", "punched_at": "2026-08-05T09:15:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
+        (
+            "AccessLogUpload - Batch upload nhiều thiết bị và nhiều nhân viên khác nhau cùng lúc (200)",
+            "CTRL-HN-LOBBY-01",
+            '[{"device_sn": "DEV-HN-LOB-IN-01", "records": [{"emp_id": 1001, "punch_type": "check_in", "verify_mode": "card", "punched_at": "2026-08-05T08:00:00+07:00"}]}, {"device_sn": "DEV-HN-LOB-OUT-01", "records": [{"emp_id": 1002, "punch_type": "check_out", "verify_mode": "fingerprint", "punched_at": "2026-08-05T17:15:00+07:00"}]}]',
+            200,
+            "created successfully",
+        ),
         ("AccessLogUpload - Không có token (401)", "CTRL-HN-LOBBY-01", "[]", 401, ""),
         ("AccessLogUpload - Token sai (401)", "CTRL-HN-LOBBY-01", "[]", 401, ""),
     ]
 
     for idx, case in enumerate(al_cases, 1):
-        row_vals = [idx] + list(case) + [""]
+        row_vals = [idx] + list(case) + ["x"]
         al_ws.append(row_vals)
 
     al_ws.row_dimensions[1].height = 28
