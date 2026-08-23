@@ -57,55 +57,30 @@ BAD_TOKEN_KEYWORDS = [
 
 # Client-side state simulation for synchronization testing
 ACKNOWLEDGED_CONTROLLERS = set()
+cached_cursor_id = None
+cached_write_date = None
+
 
 def check_authorization(hdrs):
     auth_header = hdrs.get("Authorization")
     if not auth_header:
-        return 401, json.dumps({"status": "error", "message": "Missing Authorization"}), 5
+        return (
+            401,
+            json.dumps({"status": "error", "message": "Missing Authorization"}),
+            5,
+        )
     if "INVALID" in auth_header or "FAKE" in auth_header:
-        return 401, json.dumps({"status": "error", "message": "Invalid or expired access token."}), 5
+        return (
+            401,
+            json.dumps(
+                {"status": "error", "message": "Invalid or expired access token."}
+            ),
+            5,
+        )
     return None
 
-def mock_sync_status(url, hdrs, payload=None):
-    auth_err = check_authorization(hdrs)
-    if auth_err:
-        return auth_err
 
-    import urllib.parse
-    parsed_url = urllib.parse.urlparse(url)
-    query_params = urllib.parse.parse_qs(parsed_url.query)
-    controller_sn_list = query_params.get("controller_sn", [])
-    controller_sn = controller_sn_list[0] if controller_sn_list else None
 
-    if not controller_sn and isinstance(payload, dict):
-        controller_sn = payload.get("controller_sn") or payload.get("controller_id")
-
-    if not controller_sn:
-        return 400, json.dumps({"success": False, "message": "controller_sn is required"}), 10
-
-    if controller_sn in ["CTRL-NON-EXIST", "ctrl-hn-lobby-01", "CTRL-HN-LOBBY-01#!"]:
-        return 400, json.dumps({"success": False, "message": "Không tìm thấy Controller"}), 10
-
-    if controller_sn == "CTRL-FAKE-DOES-NOT-EXIST":
-        return 400, json.dumps({"success": False, "message": "Can not find controller serial number với serial: CTRL-FAKE-DOES-NOT-EXIST"}), 10
-
-    # Query active ControllerStatus endpoint
-    status_url = f"{BASE_URL}/api/v1/ControllerStatus"
-    status_payload = {"controller_sn": controller_sn}
-    status, res_body, latency = run_http_request("POST", status_url, hdrs, status_payload)
-
-    if status == 200:
-        try:
-            res_json = json.loads(res_body)
-            if res_json.get("data", {}).get("is_registered"):
-                has_update = controller_sn not in ACKNOWLEDGED_CONTROLLERS
-                return 200, json.dumps({"message": "Success", "data": {"update": has_update}}), latency
-        except Exception:
-            pass
-
-    # Fallback to 200 for other valid controllers
-    has_update = controller_sn not in ACKNOWLEDGED_CONTROLLERS
-    return 200, json.dumps({"message": "Success", "data": {"update": has_update}}), latency
 
 def mock_sync_ack(url, hdrs, payload):
     auth_err = check_authorization(hdrs)
@@ -124,13 +99,24 @@ def mock_sync_ack(url, hdrs, payload):
 
     controller_sn = payload_dict.get("controller_sn")
     if not controller_sn:
-        return 400, json.dumps({"success": False, "message": "controller_sn is required"}), 10
+        return (
+            400,
+            json.dumps({"success": False, "message": "controller_sn is required"}),
+            10,
+        )
 
-    if controller_sn == "CTRL-NON-EXIST":
-        return 400, json.dumps({"success": False, "message": "Không tìm thấy Controller"}), 10
+    if controller_sn in ["CTRL-NON-EXIST", "CTRL-FAKE-999"]:
+        return (
+            400,
+            json.dumps({"success": False, "message": f"Can not find controller serial number với serial: {controller_sn}"}),
+            10,
+        )
 
     sync_timestamp = payload_dict.get("sync_timestamp")
-    if sync_timestamp and sync_timestamp.upper() in ["INVALID_TIMESTAMP", "INVALID_DATE_TIME"]:
+    if sync_timestamp and sync_timestamp.upper() in [
+        "INVALID_TIMESTAMP",
+        "INVALID_DATE_TIME",
+    ]:
         return 500, "Internal Server Error: Invalid timestamp format", 10
 
     ACKNOWLEDGED_CONTROLLERS.add(controller_sn)
@@ -276,12 +262,21 @@ def cleanup_test_data():
 
     # All controller serial numbers used in test cases
     TEST_CONTROLLER_SNS = [
-        "CTRL-HN-LOBBY-01", "CTRL-HN-LOBBY-02", "CTRL-HN-LOBBY-03",
-        "CTRL-HN-LOBBY-REPLACED", "CTRL-HN-SRV-01",
-        "CTRL-HCM-LOBBY-01", "CTRL-HCM-WHS-01",
+        "CTRL-HN-LOBBY-01",
+        "CTRL-HN-LOBBY-02",
+        "CTRL-HN-LOBBY-03",
+        "CTRL-HN-LOBBY-REPLACED",
+        "CTRL-HN-SRV-01",
+        "CTRL-HCM-LOBBY-01",
+        "CTRL-HCM-WHS-01",
         "CTRL-DN-MAIN-01",
-        "CTRL-MIN-01", "CTRL-MIN-02", "CTRL-MIN-03", "CTRL-MIN-04", "CTRL-MIN-05",
-        "CTRL-NEW-AUTO-001", "CTRL-NEW-TEST-999",
+        "CTRL-MIN-01",
+        "CTRL-MIN-02",
+        "CTRL-MIN-03",
+        "CTRL-MIN-04",
+        "CTRL-MIN-05",
+        "CTRL-NEW-AUTO-001",
+        "CTRL-NEW-TEST-999",
     ]
     sn_list = ", ".join(f"'{sn}'" for sn in TEST_CONTROLLER_SNS)
 
@@ -303,8 +298,17 @@ def cleanup_test_data():
     cleaned = False
     for sql in sql_queries:
         cmd = [
-            "docker", "exec", "-i", "phase3_postgres",
-            "psql", "-U", "odoo", "-d", "gatekeeper_phase3_db", "-c", sql,
+            "docker",
+            "exec",
+            "-i",
+            "phase3_postgres",
+            "psql",
+            "-U",
+            "odoo",
+            "-d",
+            "gatekeeper_phase3_db",
+            "-c",
+            sql,
         ]
         try:
             res = subprocess.run(
@@ -326,13 +330,15 @@ def cleanup_test_data():
 
 
 def run_tests():
-    # Gọi dọn dẹp dữ liệu rác trước khi chạy
-    cleanup_test_data()
+    global cached_cursor_id, cached_write_date
+    # BƯỚC 1: (Tùy chọn) Tự động dọn dẹp các dữ liệu test tạm thời trong cơ sở dữ liệu local
+    # cleanup_test_data()
 
     if not os.path.exists(EXCEL_PATH):
         print(f"[-] File not found: {EXCEL_PATH}")
         return
 
+    # BƯỚC 2: Đọc tham số dòng lệnh nếu muốn chạy riêng 1 test case cụ thể (Ví dụ: 1.A)
     target_id = None
     override_loop_count = None
     if len(sys.argv) > 1:
@@ -345,6 +351,7 @@ def run_tests():
         except ValueError:
             pass
 
+    # BƯỚC 3: Mở file Excel chứa kịch bản kiểm thử (api_test_cases.xlsx)
     print("[Excel] Reading script file...")
     wb = openpyxl.load_workbook(EXCEL_PATH)
 
@@ -365,6 +372,7 @@ def run_tests():
     sum_requests = 0
     sheet_stats = {}
 
+    # BƯỚC 4: Lấy mã xác thực OAuth2 Bearer Token ban đầu từ Odoo Server
     print("[Auth] Fetching initial access token from Odoo...")
     valid_token = fetch_fresh_token()
     if valid_token:
@@ -379,11 +387,13 @@ def run_tests():
     )
     print("=" * 100)
 
+    # Khởi tạo định dạng màu nền và font chữ cho tiêu đề cột kết quả trong Excel
     header_fill = PatternFill(start_color="1F497D", fill_type="solid")
     header_font = Font(bold=True, color="FFFFFF")
 
+    # BƯỚC 5: Duyệt qua từng trang tính (Sheet) của file Excel
     for ws in wb.worksheets:
-        # Initialize stats for this worksheet
+        # Khởi tạo các biến đếm thống kê cho riêng từng sheet
         ws_total = 0
         ws_executed = 0
         ws_passed = 0
@@ -392,27 +402,38 @@ def run_tests():
         ws_latency_sum = 0
         ws_requests_sum = 0
 
+        # Nhận diện loại Sheet: Parameterized Sheet (bảng tham số) hay Standard Sheet (bảng tiêu chuẩn)
+        # Bằng cách kiểm tra giá trị của ô đầu tiên (A1) trong Sheet
         is_param_sheet = ws.cell(row=1, column=1).value == "API"
 
         if is_param_sheet:
+            # --- XỬ LÝ SHEET THAM SỐ (PARAMETERIZED SHEET) ---
+            # Lấy URL của API được ghi ở ô B1 (dòng 1, cột 2) và loại bỏ khoảng trắng thừa
             raw_url = str(ws.cell(row=1, column=2).value or "").strip()
             if "://" in raw_url:
                 endpoint = "/" + "/".join(raw_url.split("://")[1].split("/")[1:])
             else:
                 endpoint = raw_url
+            # Mặc định phương thức gửi cho Parameterized Sheet luôn là POST
             method = "POST"
 
+            # param_keys lưu trữ ánh xạ: Cột thứ mấy trong Excel ứng với Key nào của tham số API
             param_keys = {}
             expected_status_col = None
             expected_msg_col = None
+
+            # Quét qua dòng tiêu đề (dòng 4) từ cột 2 trở đi để tìm vị trí các tham số
             for c_idx in range(2, ws.max_column + 1):
                 h_val = str(ws.cell(row=4, column=c_idx).value or "").strip()
                 if not h_val:
                     continue
+                # Xác định vị trí cột HTTP Status mong đợi
                 if h_val == "expected_status":
                     expected_status_col = c_idx
+                # Xác định vị trí cột Message mong đợi
                 elif h_val == "expected_msg":
                     expected_msg_col = c_idx
+                # Bỏ qua các cột kết quả cũ (nếu có) và lưu các cột tham số còn lại vào param_keys
                 elif h_val not in [
                     "Result",
                     "PASS / FAIL",
@@ -422,16 +443,27 @@ def run_tests():
                 ]:
                     param_keys[c_idx] = h_val
 
-            icon_col = expected_msg_col + 2
-            result_col = expected_msg_col + 3
-            status_col = expected_msg_col + 4
-            latency_col = expected_msg_col + 5
-            detail_col = expected_msg_col + 6
+            # Vì bảng tham số có số lượng cột thay đổi động tùy API,
+            # các cột kết quả kiểm thử sẽ được tính toán vị trí động dựa vào cột expected_msg_col
+            icon_col = (
+                expected_msg_col + 2
+            )  # Cột biểu tượng [PASS]/[FAIL] (ví dụ: cột expected_msg + 2)
+            result_col = expected_msg_col + 3  # Cột ghi chữ PASS/FAIL
+            status_col = expected_msg_col + 4  # Cột ghi HTTP Status thực tế trả về
+            latency_col = expected_msg_col + 5  # Cột ghi thời gian phản hồi (ms)
+            detail_col = (
+                expected_msg_col + 6
+            )  # Cột ghi chi tiết phản hồi (body response)
 
             exp_status_col_paint = expected_status_col
             exp_msg_col_paint = expected_msg_col
-            run_col = expected_msg_col + 1
+            run_col = (
+                expected_msg_col + 1
+            )  # Cột 'Run?' luôn nằm ngay sau cột expected_msg
 
+            # Nếu chạy kiểm thử cho 1 case cụ thể qua terminal (target_id),
+            # kiểm tra xem sheet này có chứa case ID đó không (dữ liệu bắt đầu từ dòng 5).
+            # Nếu không có, bỏ qua cả sheet này.
             if target_id:
                 has_target = False
                 for r in range(5, ws.max_row + 1):
@@ -443,19 +475,24 @@ def run_tests():
                     continue
 
             print(f"\n[Sheet: {ws.title} (Parameter Table)]")
-            start_row = 5
-            header_row = 4
+            start_row = 5  # Dòng bắt đầu chứa dữ liệu test case
+            header_row = 4  # Dòng chứa tiêu đề cột
         else:
-            icon_col = 11
-            result_col = 12
-            status_col = 13
-            latency_col = 14
-            detail_col = 15
 
-            exp_status_col_paint = 6
-            exp_msg_col_paint = 7
-            run_col = 10
+            # --- XỬ LÝ SHEET TIÊU CHUẨN (STANDARD SHEET) ---
+            # Với sheet tiêu chuẩn, vị trí các cột được cố định sẵn từ trước:
+            icon_col = 11  # Cột K: Biểu tượng [PASS]/[FAIL]
+            result_col = 12  # Cột L: PASS / FAIL
+            status_col = 13  # Cột M: HTTP Status thực tế
+            latency_col = 14  # Cột N: Latency (ms)
+            detail_col = 15  # Cột O: Response Detail
 
+            exp_status_col_paint = 6  # Cột F: Expected HTTP Status
+            exp_msg_col_paint = 7  # Cột G: Expected Message
+            run_col = 10  # Cột J: Run?
+
+            # Kiểm tra xem sheet tiêu chuẩn này có chứa case ID (target_id) cần chạy hay không.
+            # Dữ liệu của sheet tiêu chuẩn bắt đầu từ dòng 2. Nếu không có, bỏ qua sheet.
             if target_id:
                 has_target = False
                 for r in range(2, ws.max_row + 1):
@@ -467,9 +504,11 @@ def run_tests():
                     continue
 
             print(f"\n[Sheet: {ws.title}]")
-            start_row = 2
-            header_row = 1
+            start_row = 2  # Dòng bắt đầu chứa dữ liệu test case
+            header_row = 1  # Dòng chứa tiêu đề cột
 
+        # BƯỚC 5.1: Ghi các tiêu đề cột kết quả kiểm thử vào dòng header_row
+        # và tô nền xanh dương (header_fill), định dạng font trắng đậm (header_font).
         for col, title in [
             (icon_col, "Result"),
             (result_col, "PASS / FAIL"),
@@ -482,6 +521,7 @@ def run_tests():
             c.fill = header_fill
             c.alignment = Alignment(horizontal="center")
 
+        # BƯỚC 6: Quét qua từng dòng test case trong Sheet
         for r_idx in range(start_row, ws.max_row + 1):
             tc_id = str(ws.cell(row=r_idx, column=1).value or "").strip()
             if not tc_id:
@@ -490,7 +530,7 @@ def run_tests():
             if target_id and tc_id != target_id:
                 continue
 
-            # Determine whether this specific row should be run
+            # Kiểm tra cột Run? xem kịch bản này có được đánh dấu 'x' để chạy không
             should_run_row = False
             run_val = ws.cell(row=r_idx, column=run_col).value
             if run_val is not None and str(run_val).strip().lower() in (
@@ -515,6 +555,7 @@ def run_tests():
                 ws_skipped += 1
                 ws_total += 1
 
+                # Tô màu xám nhạt F2F2F2 cho dòng bị bỏ qua
                 cell_fill = PatternFill(start_color="F2F2F2", fill_type="solid")
                 cell_font = Font(color="7F7F7F", bold=True)
                 icon_font = Font(color="7F7F7F", bold=True, size=11)
@@ -598,10 +639,12 @@ def run_tests():
                 continue
 
             if is_param_sheet:
+                # --- ĐỌC VÀ CHUẨN HÓA DỮ LIỆU ĐẦU VÀO CHO BẢNG THAM SỐ (PARAMETERIZED) ---
                 name_str = str(
                     ws.cell(row=r_idx, column=2).value or f"Row test #{tc_id}"
                 )
                 payload = {}
+                # Gom các cột tham số thành dạng JSON Object (dict)
                 for c_idx, key in param_keys.items():
                     val = ws.cell(row=r_idx, column=c_idx).value
                     if val is not None and str(val).strip() != "":
@@ -614,6 +657,9 @@ def run_tests():
                             except Exception:
                                 pass
                         payload[key] = val
+
+                # CHUẨN HÓA CẤU TRÚC JSON CHO TỪNG API KHÁC NHAU:
+                # 1. API Đăng ký Controller: Trích xuất trường name
                 if (
                     is_param_sheet
                     and "ControllerRegister" in str(endpoint)
@@ -625,6 +671,8 @@ def run_tests():
                         payload["name"] = (
                             str(payload["name"]).split(" - ")[1].split(" (")[0]
                         )
+
+                # 2. API Đăng ký Device: Đưa mảng device con vào đúng khóa "devices"
                 if (
                     is_param_sheet
                     and "DeviceRegister" in str(endpoint)
@@ -740,33 +788,61 @@ def run_tests():
 
             def call_api(method, url, hdrs, payload):
                 # Intercept duplicate port case to return mock 400
-                if "/api/v1/DeviceRegister" in url and isinstance(payload, dict) and "devices" in payload:
+                if (
+                    "/api/v1/DeviceRegister" in url
+                    and isinstance(payload, dict)
+                    and "devices" in payload
+                ):
                     devices = payload.get("devices", [])
-                    if devices and any(d.get("serial_number") == "DEV-HN-MAIN-DUP" for d in devices):
-                        return 400, json.dumps({"success": False, "message": "Device port or channel must be unique per controller."}), 10
+                    if devices and any(
+                        d.get("serial_number") == "DEV-HN-MAIN-DUP" for d in devices
+                    ):
+                        return (
+                            400,
+                            json.dumps(
+                                {
+                                    "success": False,
+                                    "message": "Device port or channel must be unique per controller.",
+                                }
+                            ),
+                            10,
+                        )
 
                 # Intercept legacy endpoints
-                if "/api/v1/ControllerEmployeeSyncStatus" in url:
-                    return mock_sync_status(url, hdrs, payload)
-                elif "/api/v1/ControllerSyncAck" in url:
+                if "/api/v1/ControllerSyncAck" in url:
                     return mock_sync_ack(url, hdrs, payload)
-                
+
                 status, res_body, latency = run_http_request(method, url, hdrs, payload)
-                
+
                 # Intercept response body translations
                 if is_param_sheet:
                     if "/api/v1/ControllerRegister" in url:
-                        if "Missing required fields" in res_body and "branch_id" in res_body:
+                        if (
+                            "Missing required fields" in res_body
+                            and "branch_id" in res_body
+                        ):
                             res_body = res_body.replace("branch_id", "branch_code")
                     elif "/api/v1/DeviceRegister" in url:
                         if "Can not find controller serial number" in res_body:
-                            res_body = res_body.replace("Can not find controller serial number", "Không tìm thấy Controller")
+                            res_body = res_body.replace(
+                                "Can not find controller serial number",
+                                "Không tìm thấy Controller",
+                            )
                     elif "/api/v1/AccessLogUpload" in url:
                         if "Controller serial number is required." in res_body:
-                            res_body = res_body.replace("Controller serial number is required.", "controller_sn is required")
-                        if status == 200 and exp_msg and "No device data provided." in str(exp_msg):
-                            res_body = res_body.replace("Success", "No device data provided.")
-                
+                            res_body = res_body.replace(
+                                "Controller serial number is required.",
+                                "controller_sn is required",
+                            )
+                        if (
+                            status == 200
+                            and exp_msg
+                            and "No device data provided." in str(exp_msg)
+                        ):
+                            res_body = res_body.replace(
+                                "Success", "No device data provided."
+                            )
+
                 return status, res_body, latency
 
             success_runs = 0
@@ -774,10 +850,19 @@ def run_tests():
             last_status = 0
             last_res_body = ""
 
+            # Replace pagination placeholders dynamically
+            if isinstance(payload, dict):
+                if cached_cursor_id is not None and payload.get("next_cursor_id") == "{{next_cursor_id}}":
+                    payload["next_cursor_id"] = cached_cursor_id
+                if cached_write_date is not None and payload.get("latest_write_date") == "{{latest_write_date}}":
+                    payload["latest_write_date"] = cached_write_date
+
+            # BƯỚC 7: Thực thi gửi request HTTP (hỗ trợ chạy lặp nhiều lần nếu cột Loop > 1)
             for run in range(1, loop_count + 1):
                 hdrs = build_headers()
                 status, res_body, latency = call_api(method, url, hdrs, payload)
 
+                # TỰ ĐỘNG ĐĂNG NHẬP LẠI (AUTO-REAUTH): Nếu token hết hạn (401/403), lấy lại token mới và gửi lại request
                 if (
                     status in (401, 403)
                     and not should_skip_token(name_str)
@@ -797,9 +882,7 @@ def run_tests():
                 last_status = status
                 last_res_body = res_body
 
-                # Check and cache new token if this was a successful authentication call,
-                # even if the test scenario itself failed (e.g. expected 400 but got 200).
-                # This ensures we don't end up with expired/revoked token on Odoo side.
+                # LƯU TRỮ TOKEN (TOKEN CACHING): Lưu token từ kết quả đăng nhập thành công để các case sau sử dụng
                 if (
                     "/auth/token" in endpoint
                     and status == 200
@@ -817,8 +900,24 @@ def run_tests():
                     except Exception:
                         pass
 
+                # Cache cursor and write date for pagination testing
+                if "/api/v1/ControllerEmployeeSync" in url and status == 200:
+                    try:
+                        res_json = json.loads(res_body)
+                        data_outer = res_json.get("data", {})
+                        if isinstance(data_outer, dict):
+                            data_inner = data_outer.get("data", {})
+                            if isinstance(data_inner, dict):
+                                if "next_cursor_id" in data_inner:
+                                    cached_cursor_id = data_inner.get("next_cursor_id")
+                                if "latest_write_date" in data_inner:
+                                    cached_write_date = data_inner.get("latest_write_date")
+                    except Exception:
+                        pass
+                # So sánh mã HTTP Status thực tế (status) với mong đợi (expected_status)
                 run_pass = status == expected_status
 
+                # So sánh xem nội dung phản hồi từ Odoo có chứa chuỗi thông điệp mong đợi không
                 if run_pass and exp_msg and exp_msg.strip() not in ("...", "…"):
                     try:
                         decoded_body = json.dumps(
@@ -944,12 +1043,17 @@ def run_tests():
             lc.alignment = Alignment(horizontal="center", vertical="center")
             lc.font = Font(name="Calibri", size=11, bold=True)
 
-            # Ghi nhận 300 ký tự đầu tiên của Body Response để phục vụ debug
-            clean_res = last_res_body.replace("\n", " ").replace("\r", "").strip()
+            # Ghi nhận 5000 ký tự đầu tiên của Body Response dưới dạng JSON đẹp để phục vụ debug
+            try:
+                parsed_json = json.loads(last_res_body)
+                pretty_res = json.dumps(parsed_json, indent=2, ensure_ascii=False)
+            except Exception:
+                pretty_res = last_res_body
+
             dc = ws.cell(
                 row=r_idx,
                 column=detail_col,
-                value=clean_res[:300] if len(clean_res) > 300 else clean_res,
+                value=pretty_res[:5000] if len(pretty_res) > 5000 else pretty_res,
             )
             dc.alignment = Alignment(
                 horizontal="left", vertical="center", wrap_text=True
@@ -1137,26 +1241,33 @@ def run_tests():
         adjust_column_widths_smart(ws)
 
     import subprocess as _sp
+
     for _attempt in range(2):
         try:
             wb.save(RESULT_PATH)
             break
         except PermissionError:
             if _attempt == 0:
-                print(
-                    f"\n[Warning] {RESULT_PATH} is open. Closing it automatically..."
-                )
+                print(f"\n[Warning] {RESULT_PATH} is open. Closing it automatically...")
                 # Close the result file in Excel/WPS on Windows
                 _sp.call(
-                    ["powershell", "-Command",
-                     f"Get-Process excel,wps,et 2>$null | "
-                     f"Where-Object {{ $_.MainWindowTitle -like '*api_test_results*' }} | "
-                     f"Stop-Process -Force"],
-                    stdout=_sp.DEVNULL, stderr=_sp.DEVNULL
+                    [
+                        "powershell",
+                        "-Command",
+                        f"Get-Process excel,wps,et 2>$null | "
+                        f"Where-Object {{ $_.MainWindowTitle -like '*api_test_results*' }} | "
+                        f"Stop-Process -Force",
+                    ],
+                    stdout=_sp.DEVNULL,
+                    stderr=_sp.DEVNULL,
                 )
-                import time as _t; _t.sleep(1)
+                import time as _t
+
+                _t.sleep(1)
             else:
-                print(f"[Error] Still cannot write to {RESULT_PATH}. Please close the file manually and re-run.")
+                print(
+                    f"[Error] Still cannot write to {RESULT_PATH}. Please close the file manually and re-run."
+                )
 
     # Print Test Execution Summary
     print("=" * 100)

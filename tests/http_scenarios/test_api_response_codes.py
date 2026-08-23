@@ -321,50 +321,7 @@ class TestApiResponseCodes(common.TransactionCase):
             with self.assertRaises(ValidationError):
                 self.controller.device_register()
 
-    # =========================================================================
-    # API 6: CONTROLLER EMPLOYEE SYNC STATUS
-    # =========================================================================
 
-    @unittest.skip("ControllerEmployeeSyncStatus endpoint removed/deprecated from production code")
-    def test_sync_status_200_needs_update(self):
-        """✅ 200 — Controller đang out_of_sync → update = True."""
-        self.controller.write({"employee_sync_status": "out_of_sync"})
-        payload = {"controller_sn": "CTRL-RESP-001"}
-        p_req, p_body = self._patch(payload)
-        with p_req, p_body:
-            res = self.controller.controller_employee_sync_status()
-
-        self.assertTrue(res["data"]["update"])
-        self.assertEqual(res.get("message"), "Success")
-
-    @unittest.skip("ControllerEmployeeSyncStatus endpoint removed/deprecated from production code")
-    def test_sync_status_200_no_update(self):
-        """✅ 200 — Controller đã synced → update = False."""
-        self.controller.write({"employee_sync_status": "synced"})
-        payload = {"controller_sn": "CTRL-RESP-001"}
-        p_req, p_body = self._patch(payload)
-        with p_req, p_body:
-            res = self.controller.controller_employee_sync_status()
-
-        self.assertFalse(res["data"]["update"])
-
-    @unittest.skip("ControllerEmployeeSyncStatus endpoint removed/deprecated from production code")
-    def test_sync_status_400_missing_sn(self):
-        """❌ 400 — Thiếu controller_sn → BadRequest."""
-        payload = {}
-        p_req, p_body = self._patch(payload)
-        with p_req, p_body:
-            with self.assertRaises(BadRequest):
-                self.controller.controller_employee_sync_status()
-
-    @unittest.skip("ControllerEmployeeSyncStatus endpoint removed/deprecated from production code")
-    def test_sync_status_400_fake_sn(self):
-        """❌ 400 — controller_sn không tồn tại → ValidationError."""
-        payload = {"controller_sn": "CTRL-FAKE-XYZ"}
-        p_req, p_body = self._patch(payload)
-        with p_req, p_body:
-            with self.assertRaises(ValidationError):
-                self.controller.controller_employee_sync_status()
 
     # =========================================================================
     # API 7: EMPLOYEE BIOMETRIC GET

@@ -3484,255 +3484,6 @@
             ]
         },
         {
-            "name": "API 6.A - Sync Status (Before Sync)",
-            "item": [
-                {
-                    "name": "6.A 200 - Controller cần sync (employee_sync_status = out_of_sync)",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ],
-                            "query": [
-                                {
-                                    "key": "controller_sn",
-                                    "value": "CTRL-HN-LOBBY-01"
-                                }
-                            ]
-                        },
-                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"update\": true}}"
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 200', function () {",
-                                    "    pm.response.to.have.status(200);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "6.C 400 - Thiếu controller_sn",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ]
-                        },
-                        "description": "KẾT QUẢ: {\"success\": false, \"message\": \"Missing required fields: controller_sn\"}"
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 400', function () {",
-                                    "    pm.response.to.have.status(400);",
-                                    "});",
-                                    "",
-                                    "pm.test('Response contains expected message', function () {",
-                                    "    let msg = \"\";",
-                                    "    try {",
-                                    "        const json = pm.response.json();",
-                                    "        msg = json.message || json.error || JSON.stringify(json);",
-                                    "    } catch(e) {",
-                                    "        msg = pm.response.text();",
-                                    "    }",
-                                    "    pm.expect(msg).to.include('controller_sn');",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "6.D 400 - Controller không tồn tại",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-FAKE-DOES-NOT-EXIST",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ],
-                            "query": [
-                                {
-                                    "key": "controller_sn",
-                                    "value": "CTRL-FAKE-DOES-NOT-EXIST"
-                                }
-                            ]
-                        },
-                        "description": "KẾT QUẢ: {\"success\": false, \"message\": \"Không tìm thấy Controller với serial: CTRL-FAKE-DOES-NOT-EXIST\"}"
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 400', function () {",
-                                    "    pm.response.to.have.status(400);",
-                                    "});",
-                                    "",
-                                    "pm.test('Response contains expected message', function () {",
-                                    "    let msg = \"\";",
-                                    "    try {",
-                                    "        const json = pm.response.json();",
-                                    "        msg = json.message || json.error || JSON.stringify(json);",
-                                    "    } catch(e) {",
-                                    "        msg = pm.response.text();",
-                                    "    }",
-                                    "    pm.expect(msg).to.include('CTRL-FAKE-DOES-NOT-EXIST');",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "6.E 401 - Không có token",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ],
-                            "query": [
-                                {
-                                    "key": "controller_sn",
-                                    "value": "CTRL-HN-LOBBY-01"
-                                }
-                            ]
-                        },
-                        "description": "KẾT QUẢ: 401 Unauthorized",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 401', function () {",
-                                    "    pm.response.to.have.status(401);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "6.F 401 - Token sai / hết hạn",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ],
-                            "query": [
-                                {
-                                    "key": "controller_sn",
-                                    "value": "CTRL-HN-LOBBY-01"
-                                }
-                            ]
-                        },
-                        "description": "KẾT QUẢ: 401 Unauthorized",
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "FAKE_TOKEN_XYZ_123",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 401', function () {",
-                                    "    pm.response.to.have.status(401);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "API 3ES - Employee Sync",
             "item": [
                 {
@@ -4069,7 +3820,7 @@
                     ]
                 },
                 {
-                    "name": "3_ES.G 200 - Phân trang trang 1 (limit = 2)",
+                    "name": "3_ES.G 200 - Phân trang trang 1 (page_size = 10)",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -4091,7 +3842,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"page_size\": 2\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"page_size\": 10\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4118,7 +3869,16 @@
                                     "        msg = pm.response.text();",
                                     "    }",
                                     "    pm.expect(msg).to.include('Employee Sync Completed');",
-                                    "});"
+                                    "});",
+                                    "",
+                                    "try {",
+                                    "    const res = pm.response.json();",
+                                    "    if (res.success && res.data && res.data.data) {",
+                                    "        const d = res.data.data;",
+                                    "        pm.collectionVariables.set(\"next_cursor_id\", d.next_cursor_id);",
+                                    "        pm.collectionVariables.set(\"latest_write_date\", d.latest_write_date);",
+                                    "    }",
+                                    "} catch(e) {}"
                                 ],
                                 "type": "text/javascript"
                             }
@@ -4126,7 +3886,7 @@
                     ]
                 },
                 {
-                    "name": "3_ES.H 200 - Phân trang trang 2 (limit = 2)",
+                    "name": "3_ES.H 200 - Phân trang trang 2 với Cursor (page_size = 10)",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -4148,7 +3908,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"page_size\": 2,\n    \"next_cursor_id\": 2,\n    \"latest_write_date\": \"2026-08-05 08:00:00\"\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"page_size\": 10,\n    \"next_cursor_id\": \"{{next_cursor_id}}\",\n    \"latest_write_date\": \"{{latest_write_date}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4156,6 +3916,72 @@
                             }
                         },
                         "description": "KẾT QUẢ: Trả về trang tiếp theo của danh sách nhân viên"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test('Response contains expected message', function () {",
+                                    "    let msg = \"\";",
+                                    "    try {",
+                                    "        const json = pm.response.json();",
+                                    "        msg = json.message || json.error || JSON.stringify(json);",
+                                    "    } catch(e) {",
+                                    "        msg = pm.response.text();",
+                                    "    }",
+                                    "    pm.expect(msg).to.include('Employee Sync Completed');",
+                                    "});",
+                                    "",
+                                    "try {",
+                                    "    const res = pm.response.json();",
+                                    "    if (res.success && res.data && res.data.data) {",
+                                    "        const d = res.data.data;",
+                                    "        pm.collectionVariables.set(\"next_cursor_id\", d.next_cursor_id);",
+                                    "        pm.collectionVariables.set(\"latest_write_date\", d.latest_write_date);",
+                                    "    }",
+                                    "} catch(e) {}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "3_ES.H2 200 - Phân trang trang 3 với Cursor (page_size = 10)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSync",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "ControllerEmployeeSync"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"page_size\": 10,\n    \"next_cursor_id\": \"{{next_cursor_id}}\",\n    \"latest_write_date\": \"{{latest_write_date}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: Trả về trang thứ 3 của danh sách nhân viên bằng con trỏ next_cursor_id"
                     },
                     "event": [
                         {
@@ -4559,54 +4385,6 @@
             ]
         },
         {
-            "name": "API 6.B - Sync Status (After Sync)",
-            "item": [
-                {
-                    "name": "6.B 200 - Controller không cần sync (employee_sync_status = synced)",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/ControllerEmployeeSyncStatus?controller_sn=CTRL-HN-LOBBY-01",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "ControllerEmployeeSyncStatus"
-                            ],
-                            "query": [
-                                {
-                                    "key": "controller_sn",
-                                    "value": "CTRL-HN-LOBBY-01"
-                                }
-                            ]
-                        },
-                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"update\": false}}"
-                    },
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is 200', function () {",
-                                    "    pm.response.to.have.status(200);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "API 7 - Employee Biometric Get",
             "item": [
                 {
@@ -4632,7 +4410,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1001\"\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1005\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4656,7 +4434,53 @@
                     ]
                 },
                 {
-                    "name": "7.B 200 - Nhân viên không có biometric phù hợp → mảng rỗng",
+                    "name": "7.B 200 - Nhân viên hợp lệ nhưng không có dữ liệu sinh trắc học",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/EmployeeBiometricGet",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "EmployeeBiometricGet"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1008\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "KẾT QUẢ: {\"message\": \"Success\", \"data\": {\"emp_id\": null, \"finger_templates\": [], \"face_template\": null, \"photo_avatar\": null}}"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code is 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "7.B2 400 - Nhân viên không tồn tại",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -4692,8 +4516,8 @@
                             "listen": "test",
                             "script": {
                                 "exec": [
-                                    "pm.test('Status code is 200', function () {",
-                                    "    pm.response.to.have.status(200);",
+                                    "pm.test('Status code is 400', function () {",
+                                    "    pm.response.to.have.status(400);",
                                     "});"
                                 ],
                                 "type": "text/javascript"
@@ -4724,7 +4548,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"emp_id\": \"1001\"\n}",
+                            "raw": "{\n    \"emp_id\": \"1005\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4838,7 +4662,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-FAKE-DOES-NOT-EXIST\",\n    \"emp_id\": \"1001\"\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-FAKE-DOES-NOT-EXIST\",\n    \"emp_id\": \"1005\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4941,7 +4765,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1001\"\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1005\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4990,7 +4814,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1001\"\n}",
+                            "raw": "{\n    \"controller_sn\": \"CTRL-HN-LOBBY-01\",\n    \"emp_id\": \"1005\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
